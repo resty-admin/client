@@ -1,0 +1,136 @@
+@import "/src/assets/scss/abstractions";
+
+@include page() {
+	.aside {
+		display: grid;
+		height: 100%;
+		position: relative;
+		background-color: var(--light);
+		padding: rem(14) rem(24);
+		grid-template-rows: auto auto 1fr;
+		border-right: rem(1) solid var(--dark-b);
+		row-gap: rem(32);
+
+		@include desktop() {
+			grid-template-rows: auto 1fr;
+		}
+
+		.user {
+			display: grid;
+			align-items: center;
+			grid-template-areas:
+				"image name"
+				"image description";
+			padding: rem(8);
+			grid-template-columns: auto 1fr;
+			column-gap: rem(17);
+			row-gap: rem(2);
+			background-color: var(--light-grey);
+			border-radius: rem(20);
+
+			@include hideOnDesktop(grid);
+
+			.image {
+				grid-area: image;
+				width: rem(56);
+				height: rem(56);
+				background: linear-gradient(180deg, var(--primary) 0%, #ff9c01 100%);
+				backdrop-filter: blur(rem(8));
+				border-radius: rem(16);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-weight: 600;
+				font-size: rem(20);
+				line-height: rem(32);
+				color: var(--dark);
+			}
+			.name {
+				grid-area: name;
+				font-weight: 500;
+				font-size: rem(16);
+				line-height: rem(24);
+				color: var(--dark);
+				align-self: end;
+			}
+			.description {
+				grid-area: description;
+				font-weight: 400;
+				font-size: rem(12);
+				line-height: rem(16);
+				color: var(--dark-t);
+				align-self: start;
+			}
+		}
+
+		.nav {
+			.pages {
+				display: grid;
+				row-gap: rem(30);
+				.page {
+					.link {
+						display: flex;
+						column-gap: rem(12);
+						.icon {
+							width: rem(24);
+							height: rem(24);
+						}
+						.label {
+							font-weight: 400;
+							font-size: rem(16);
+							line-height: rem(24);
+							color: var(--dark);
+						}
+					}
+				}
+			}
+		}
+
+		.share {
+			align-self: end;
+			.button {
+				width: 100%;
+				column-gap: rem(12);
+				.icon {
+					width: rem(18);
+					height: rem(18);
+
+					@include icon(var(--primary));
+				}
+			}
+		}
+	}
+}
+@include dark() {
+	.aside {
+		background-color: var(--dark);
+		border-color: var(--light-b);
+		.header {
+			.close {
+				background-color: var(--dark);
+				.icon {
+					@include icon(#fff, #fff);
+				}
+			}
+		}
+
+		.user {
+			background-color: var(--dark-grey);
+			.name {
+				color: var(--light);
+			}
+			.description {
+				color: var(--light-t);
+			}
+		}
+
+		.nav .pages .page .link {
+			.icon {
+				@include icon(transparent, #fff);
+			}
+			.label {
+				color: var(--light);
+			}
+		}
+	}
+}

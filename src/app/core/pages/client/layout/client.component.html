@@ -1,0 +1,23 @@
+<div class="client">
+	<app-header
+		class="header"
+		(burgerClicked)="toggleAside()"
+		[user]="user$ | async"
+		[isAsideOpen]="isAsideOpen"
+	></app-header>
+
+	<main class="main">
+		<app-aside
+			class="aside"
+			[user]="user$ | async"
+			[class.open]="isAsideOpen"
+			(closeClicked)="toggleAside()"
+		></app-aside>
+
+		<div class="pages">
+			<router-outlet></router-outlet>
+		</div>
+	</main>
+
+	<!--	<app-footer class="footer"></app-footer>-->
+</div>

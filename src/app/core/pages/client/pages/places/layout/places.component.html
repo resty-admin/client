@@ -1,0 +1,23 @@
+<div class="places-page">
+	<h1 appTypography theme="1" class="title">Выберите любимый ресторан</h1>
+
+	<ul class="places">
+		<li class="place" *ngFor="let place of places$ | async">
+			<a class="link" [routerLink]="place.id">
+				<app-image class="image" [remote]="true" [name]="place.file?.url" placeholder="place"></app-image>
+				<div class="content">
+					<span class="label">{{ place.name }}</span>
+					<span class="status">{{ place.status }}</span>
+					<div class="address">
+						<!--						<app-icon class="icon" name="location"></app-icon>-->
+						<span class="text">{{ place.address }}</span>
+					</div>
+					<div class="time">
+						<!--						<app-icon class="icon" name="time"></app-icon>-->
+						<span class="text">{{ place.time }}</span>
+					</div>
+				</div>
+			</a>
+		</li>
+	</ul>
+</div>

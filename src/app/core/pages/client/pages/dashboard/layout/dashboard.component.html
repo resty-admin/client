@@ -1,0 +1,25 @@
+<div class="dashboard">
+	<h1 appTypography theme="1" class="title">Здесь вы можете сделать заказ 😋</h1>
+
+	<ul class="order-types">
+		<li [class]="'order-type ' + orderType.image" *ngFor="let orderType of orderTypes">
+			<a class="link" [routerLink]="orderType.routerLink">
+				<app-image class="image" [name]="orderType.image"></app-image>
+				<span class="label">{{ orderType.label }}</span>
+			</a>
+		</li>
+	</ul>
+
+	<div class="links">
+		<a class="link schema" [routerLink]="schemaRouterLink">
+			<app-image class="image" name="schema-button-decoration"></app-image>
+			<app-icon class="icon" name="home-smile"></app-icon>
+			<span class="label">Схема заведения</span>
+		</a>
+		<a class="link menu" [routerLink]="menuRouterLink">
+			<app-image class="image" name="menu-button-decoration"></app-image>
+			<app-icon class="icon" name="menu"></app-icon>
+			<span class="label">Меню ресторана</span>
+		</a>
+	</div>
+</div>

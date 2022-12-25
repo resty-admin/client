@@ -1,0 +1,50 @@
+@import "/src/assets/scss/abstractions";
+
+@include page() {
+	.referral-link {
+		height: 100%;
+		display: grid;
+		grid-template-rows: auto auto auto auto 1fr auto;
+		row-gap: rem(10);
+
+		.subtitle {
+			font-weight: 600;
+			font-size: rem(20);
+			line-height: rem(32);
+			color: var(--dark);
+		}
+
+		.description {
+			font-weight: 400;
+			font-size: rem(14);
+			line-height: rem(24);
+			color: var(--dark);
+		}
+
+		.button {
+			width: 100%;
+		}
+
+		.products {
+			align-self: end;
+			font-weight: 500;
+			font-size: rem(16);
+			line-height: rem(24);
+			text-align: center;
+			color: var(--dark);
+		}
+	}
+}
+@include dark() {
+	.referral-link {
+		.subtitle {
+			color: var(--light);
+		}
+		.description {
+			color: var(--light);
+		}
+		.products {
+			color: var(--light);
+		}
+	}
+}

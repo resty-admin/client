@@ -1,0 +1,107 @@
+@import "/src/assets/scss/abstractions";
+
+@include page() {
+	.product {
+		display: grid;
+		grid-template-areas:
+			"image image image"
+			"name name name"
+			"description description description"
+			"sum cal add"
+			"first-divider first-divider first-divider"
+			"modifications modifications modifications"
+			"modifications-radio modifications-radio modifications-radio"
+			"second-divider second-divider second-divider"
+			"remove remove remove"
+			"remove-radio remove-radio remove-radio"
+			"third-divider third-divider third-divider"
+			"textarea textarea textarea";
+		grid-template-columns: auto 1fr auto;
+		align-items: center;
+		gap: rem(12);
+		padding-top: rem(158);
+
+		.image {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100%;
+			grid-area: image;
+			height: rem(200);
+		}
+		.name {
+			grid-area: name;
+			font-weight: 600;
+			font-size: rem(20);
+			line-height: rem(32);
+			color: var(--dark);
+		}
+		.description {
+			grid-area: description;
+			font-weight: 400;
+			font-size: rem(14);
+			line-height: rem(24);
+			color: var(--dark);
+		}
+		.sum {
+			grid-area: sum;
+			font-weight: 600;
+			font-size: rem(20);
+			line-height: rem(32);
+			color: var(--primary);
+		}
+		.cal {
+			grid-area: cal;
+			font-weight: 400;
+			font-size: rem(14);
+			line-height: rem(24);
+			color: var(--dark-t);
+		}
+		.add {
+			grid-area: add;
+		}
+		.first-divider {
+			grid-area: first-divider;
+		}
+		.modifications {
+			grid-area: modifications;
+			font-weight: 500;
+			font-size: rem(16);
+			line-height: rem(24);
+			color: var(--dark);
+		}
+		.modifications-radio {
+			grid-area: modifications-radio;
+		}
+		.second-divider {
+			grid-area: second-divider;
+		}
+		.remove {
+			grid-area: remove;
+			font-weight: 500;
+			font-size: rem(16);
+			line-height: rem(24);
+			color: var(--dark);
+		}
+		.remove-radio {
+			grid-area: remove-radio;
+		}
+		.third-divider {
+			grid-area: third-divider;
+		}
+		.textarea {
+			grid-area: textarea;
+		}
+	}
+}
+@include dark() {
+	.product {
+		.name,
+		.description,
+		.cal,
+		.modifications,
+		.remove {
+			color: var(--light);
+		}
+	}
+}

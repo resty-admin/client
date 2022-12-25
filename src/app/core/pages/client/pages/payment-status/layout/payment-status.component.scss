@@ -1,0 +1,32 @@
+@import "/src/assets/scss/abstractions";
+
+@include page() {
+	.payment-status {
+		height: 100%;
+		display: grid;
+		align-items: center;
+		row-gap: rem(12);
+		.container {
+			text-align: center;
+			.image {
+				width: rem(80);
+				height: rem(80);
+			}
+
+			.title {
+				font-weight: 700;
+				font-size: rem(32);
+				line-height: rem(40);
+				color: var(--dark);
+			}
+
+			.subtitle {
+				font-weight: 500;
+				font-size: rem(20);
+				line-height: rem(32);
+				text-align: center;
+				color: var(--dark);
+			}
+		}
+	}
+}

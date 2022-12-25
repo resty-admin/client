@@ -1,0 +1,9 @@
+@import "/src/assets/scss/abstractions";
+
+@include page() {
+	.footer {
+		.button {
+			width: 100%;
+		}
+	}
+}

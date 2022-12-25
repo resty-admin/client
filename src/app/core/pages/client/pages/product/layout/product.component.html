@@ -1,0 +1,25 @@
+<div class="product" *ngIf="product$ | async as product">
+	<app-image class="image" [remote]="true" [name]="product.file?.url" placeholder="product"></app-image>
+
+	<h1 class="name">{{ product.name }}</h1>
+	<h2 class="description">{{ product.description }}</h2>
+
+	<p class="sum">{{ product.price }} грн</p>
+	<p class="cal">250 гр</p>
+
+	<app-counter class="add" [formControl]="counterFormControl"></app-counter>
+
+	<hr class="first-divider" />
+
+	<p class="modifications">Модификация блюд</p>
+
+	<app-radio-button theme="2" class="modifications-radio" [options]="ingridients"></app-radio-button>
+
+	<p class="remove">Убрать</p>
+
+	<app-multiple-checkbox theme="1" class="remove-radio" [options]="ingridients"></app-multiple-checkbox>
+
+	<hr class="second-divider" />
+
+	<app-textarea class="textarea" placeholder="Введите комментарий"></app-textarea>
+</div>

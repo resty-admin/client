@@ -1,0 +1,25 @@
+<aside class="aside">
+	<div class="user" *ngIf="user">
+		<div class="image">{{ user.name | initials }}</div>
+		<p class="name">{{ user.name }}</p>
+		<p class="description">Наш любимый гость</p>
+	</div>
+
+	<nav class="nav">
+		<ul class="pages">
+			<li class="page" *ngFor="let page of pages">
+				<a class="link" (click)="emitCloseClick()" [routerLink]="page.routerLink">
+					<app-icon class="icon" [name]="page.icon"></app-icon>
+					<span class="label">{{ page.label }}</span>
+				</a>
+			</li>
+		</ul>
+	</nav>
+
+	<div class="share">
+		<button class="button" appButton theme="3">
+			<app-icon class="icon" name="share"></app-icon>
+			<span class="text">Поделиться текущем заказом</span>
+		</button>
+	</div>
+</aside>
