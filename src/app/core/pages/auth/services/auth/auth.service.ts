@@ -16,6 +16,8 @@ import { ApiService } from "src/app/shared/modules/api";
 import { CryptoService } from "src/app/shared/modules/crypto";
 import { JwtService } from "src/app/shared/modules/jwt";
 
+import { RouterService } from "../../../../../shared/modules/router";
+import { CLIENT_ROUTES } from "../../../../../shared/routes";
 import { AuthRepository } from "../../repositories";
 
 @Injectable({
@@ -28,7 +30,8 @@ export class AuthService {
 		private readonly _apiService: ApiService,
 		private readonly _cryptoService: CryptoService,
 		private readonly _authRepository: AuthRepository,
-		private readonly _jwtService: JwtService
+		private readonly _jwtService: JwtService,
+		private readonly _routerService: RouterService
 	) {}
 
 	private _encryptPassword<T extends { password: string }>(body: T) {
@@ -66,6 +69,12 @@ export class AuthService {
 		return this._apiService
 			.post<IAccessToken>(AUTH_ENDPOINTS.SIGN_UP, this._encryptPassword(body))
 			.pipe(this._updateAccessToken());
+	}
+
+	async signOut() {
+		this._authRepository.updateUser(undefined);
+		this._authRepository.updateAccessToken(undefined);
+		await this._routerService.navigateByUrl(CLIENT_ROUTES.SIGN_IN.absolutePath);
 	}
 
 	verifyCode(body: IVerifyCode) {

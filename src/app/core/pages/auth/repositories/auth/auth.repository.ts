@@ -29,11 +29,11 @@ export class AuthRepository {
 		shareReplay({ refCount: true })
 	);
 
-	updateAccessToken(accessToken: string) {
+	updateAccessToken(accessToken?: string) {
 		return this._store.update(setProp(ACCESS_TOKEN, accessToken));
 	}
 
-	updateUser(user: IUser) {
+	updateUser(user?: IUser) {
 		return this._store.update(setProp("user", user));
 	}
 }
