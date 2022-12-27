@@ -8,7 +8,7 @@ on:
 
 env:
   REGISTRY: "registry.digitalocean.com/resty-registry"
-  NGX_CLIENT: "ngx-client"
+  NGX_CLIENT: "client"
 
 jobs:
   deploy:
@@ -41,5 +41,5 @@ jobs:
             cd /home/resty/k8s
             kubectl apply -f cloudflared.yaml
             cd /home/resty/client
-            kubectl delete -f k8s/ngx-client.k8s.yaml
-            kubectl apply -f k8s/ngx-client.k8s.yaml
+            kubectl delete -f client.k8s.yaml
+            kubectl apply -f client.k8s.yaml
