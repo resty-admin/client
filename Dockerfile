@@ -8,5 +8,5 @@ RUN yarn run build:prod
 FROM nginx:latest
 WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
-COPY ./apps/ngx/client/nginx-k8s.conf /etc/nginx/nginx.conf
+COPY ./client/nginx-k8s.conf /etc/nginx/nginx.conf
 COPY --from=builder /home/dist/client/browser .
