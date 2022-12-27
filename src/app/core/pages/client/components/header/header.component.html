@@ -18,3 +18,7 @@
 		<app-icon class="icon" [name]="isAsideOpen ? 'close' : 'burger'"></app-icon>
 	</button>
 </header>
+
+<ng-template #dropdown let-hide>
+	<app-actions [actions]="actions" [additionalFunc]="hide"></app-actions>
+</ng-template>

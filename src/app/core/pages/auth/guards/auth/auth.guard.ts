@@ -18,11 +18,11 @@ export class AuthGuard implements CanActivate {
 	) {}
 
 	canActivate(activatedRouteSnapshot: IActivatedRouteSnapshot<{ roles: UserRoleEnum[] }>) {
-		const { data, fragment, queryParamMap } = activatedRouteSnapshot;
+		const { fragment, queryParamMap } = activatedRouteSnapshot;
 
 		return this._authService.getMe().pipe(
 			map((user) => {
-				if (user && user.status === UserStatusEnum.VERIFIED && (data.roles || []).includes(user.role)) {
+				if (user && user.status === UserStatusEnum.VERIFIED) {
 					return true;
 				}
 

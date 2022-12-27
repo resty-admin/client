@@ -4,6 +4,7 @@ import { RouterModule } from "@angular/router";
 
 import { CLIENT_ROUTES } from "../shared/routes";
 import { ROUTER_CONFIG } from "./configs/router.config";
+import { AuthGuard } from "./pages/auth/guards";
 
 export const CORE_ROUTES: Route[] = [
 	{
@@ -12,6 +13,7 @@ export const CORE_ROUTES: Route[] = [
 	},
 	{
 		...CLIENT_ROUTES.CLIENT,
+		canActivate: [AuthGuard],
 		loadChildren: () => import("./pages/client/client.module").then((m) => m.ClientModule)
 	},
 	{

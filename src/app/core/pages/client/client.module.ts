@@ -10,6 +10,7 @@ import { InputModule } from "src/app/shared/ui/input";
 import { LanguageSelectModule } from "src/app/shared/ui/language-select";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { ActionsModule } from "../../../shared/ui/actions";
 import { ClientRoutingModule } from "./client-routing.module";
 import { CLIENT_COMPONENTS } from "./components";
 import { ClientComponent } from "./layout/client.component";
@@ -27,7 +28,8 @@ import { ClientComponent } from "./layout/client.component";
 		ThemeModule,
 		ImageModule,
 		LanguageSelectModule,
-		PipesModule
+		PipesModule,
+		ActionsModule
 	],
 	exports: [ClientComponent]
 })
