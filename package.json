@@ -26,7 +26,7 @@
 		"docs:json": "compodoc -p ./tsconfig.json -e json -d .",
 		"storybook": "yarn docs:json && start-storybook -p 6006",
 		"build-storybook": "yarn docs:json && build-storybook",
-		"generate": "graphql-codegen"
+		"codegen": "graphql-codegen --config codegen.ts"
 	},
 	"private": true,
 	"dependencies": {
@@ -93,6 +93,8 @@
 		"@babel/core": "^7.20.5",
 		"@compodoc/compodoc": "1.1.19",
 		"@graphql-codegen/cli": "^2.16.1",
+		"@graphql-codegen/introspection": "2.2.3",
+		"@graphql-codegen/near-operation-file-preset": "^2.4.4",
 		"@graphql-codegen/typescript": "^2.8.5",
 		"@graphql-codegen/typescript-apollo-angular": "^3.5.6",
 		"@graphql-codegen/typescript-operations": "^2.5.10",
