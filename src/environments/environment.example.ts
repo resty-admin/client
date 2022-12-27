@@ -3,12 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-	baseUrl: "http://192.168.68.108:4200",
-	apiUrl: "http://192.168.68.108:3000/api",
-	graphqlUrl: "http://192.168.68.108:3000/graphql",
-	assetsUrl: "https://assets.resty.od.ua/dev/assets",
 	production: false,
-	cryptoSecret: "resty"
+	dev: false,
+	apiUrl: "",
+	graphqlUrl: "",
+	assetsUrl: "",
+	cryptoSecret: ""
 };
 
 // For easier debugging in development mode, you can import the following file
@@ -16,4 +16,4 @@ export const environment = {
 //
 // This import should be commented out in production mode because it will have a negative impact
 // on performance if an error is thrown.
-// import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
+import "zone.js/plugins/zone-error"; // Included with Angular CLI.
