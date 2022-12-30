@@ -35,8 +35,7 @@ export class PaymentTypeComponent {
 			.post("fondy/create-payment-link", { orderId: order.id })
 			.pipe(take(1))
 			.subscribe(({ link }: any) => {
-				console.log(link);
-				window.open(link, "_blank")?.focus();
+				window.location.href = link;
 			});
 	}
 }
