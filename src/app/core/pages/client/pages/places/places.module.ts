@@ -9,7 +9,6 @@ import { PlacesRoutingModule } from "./places-routing.module";
 
 @NgModule({
 	declarations: [PlacesComponent],
-	imports: [CommonModule, PlacesRoutingModule, TypographyModule, IconModule, ImageModule],
-	exports: [PlacesComponent]
+	imports: [CommonModule, PlacesRoutingModule, TypographyModule, IconModule, ImageModule]
 })
 export class PlacesModule {}

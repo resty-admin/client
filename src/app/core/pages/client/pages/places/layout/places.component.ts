@@ -1,7 +1,7 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { PlacesService } from "src/app/features/places";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
-import { PlacesService } from "src/app/shared/modules/places";
 
 @Component({
 	selector: "app-places",

@@ -1,0 +1,8 @@
+query Order($orderId: String!) {
+	order(id: $orderId) {
+		id
+		orderCode
+		type
+		status
+	}
+}

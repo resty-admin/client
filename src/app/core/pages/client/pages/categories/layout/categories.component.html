@@ -4,7 +4,7 @@
 	<ul class="categories">
 		<li class="category" *ngFor="let category of categories$ | async">
 			<a class="link" [routerLink]="category.id">
-				<app-image class="image" [remote]="true" [name]="category.file.url" placeholder="category"></app-image>
+				<!-- <app-image class="image" [remote]="true" [name]="category.file.url" placeholder="category"></app-image> -->
 				<span class="name">{{ category.name }}</span>
 			</a>
 		</li>

@@ -1,0 +1,19 @@
+query Halls($skip: Int!, $take: Int!, $filtersArgs: FiltersArgsDto) {
+	halls(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
+		page
+		totalCount
+		data {
+			tables {
+				id
+				hall {
+					id
+					file {
+						id
+						url
+					}
+					name
+				}
+			}
+		}
+	}
+}

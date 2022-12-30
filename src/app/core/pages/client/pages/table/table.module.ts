@@ -21,7 +21,6 @@ import { TableRoutingModule } from "./table-routing.module";
 		ChipModule,
 		DatepickerModule,
 		ButtonModule
-	],
-	exports: [TableComponent]
+	]
 })
 export class TableModule {}

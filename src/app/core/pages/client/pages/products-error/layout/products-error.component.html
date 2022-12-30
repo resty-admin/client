@@ -6,7 +6,7 @@
 	<ul class="products">
 		<li class="product" *ngFor="let product of products$ | async">
 			<a class="link" [routerLink]="product.id">
-				<app-image class="image" [remote]="true" [name]="product.file.url"></app-image>
+				<!-- <app-image class="image" [remote]="true" [name]="product.file.url"></app-image> -->
 
 				<div class="content">
 					<p class="name">{{ product.name }}</p>

@@ -9,7 +9,6 @@ import { HallsComponent } from "./layout/halls.component";
 
 @NgModule({
 	declarations: [HallsComponent],
-	imports: [CommonModule, HallsRoutingModule, TypographyModule, ImageModule, IconModule],
-	exports: [HallsComponent]
+	imports: [CommonModule, HallsRoutingModule, TypographyModule, ImageModule, IconModule]
 })
 export class HallsModule {}

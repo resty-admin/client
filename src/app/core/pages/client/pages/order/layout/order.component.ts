@@ -2,9 +2,9 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy } from "@ngneat/until-destroy";
 import { switchMap } from "rxjs";
+import { OrdersService } from "src/app/features/orders";
 import { DYNAMIC_ID } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
-import { OrdersService } from "src/app/shared/modules/orders";
 import { RouterService } from "src/app/shared/modules/router";
 import { CLIENT_ROUTES } from "src/app/shared/routes";
 

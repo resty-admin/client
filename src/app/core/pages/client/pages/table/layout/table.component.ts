@@ -2,10 +2,10 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { switchMap } from "rxjs";
+import { TablesService } from "src/app/features/tables";
 import { DYNAMIC_ID, HALL_ID, PLACE_ID } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
-import { TablesService } from "src/app/shared/modules/tables";
 import { CLIENT_ROUTES } from "src/app/shared/routes";
 
 @UntilDestroy()
@@ -16,7 +16,7 @@ import { CLIENT_ROUTES } from "src/app/shared/routes";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableComponent implements OnInit {
-	table$ = this._routerService
+	table$: any = this._routerService
 		.selectParams(DYNAMIC_ID.slice(1))
 		.pipe(switchMap((id) => this._tablesService.getTable(id)));
 

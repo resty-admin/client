@@ -8,7 +8,6 @@ import { CategoriesComponent } from "./layout/categories.component";
 
 @NgModule({
 	declarations: [CategoriesComponent],
-	imports: [CommonModule, CategoriesRoutingModule, TypographyModule, ImageModule],
-	exports: [CategoriesComponent]
+	imports: [CommonModule, CategoriesRoutingModule, TypographyModule, ImageModule]
 })
 export class CategoriesModule {}

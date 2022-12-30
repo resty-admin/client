@@ -10,7 +10,6 @@ import { ProductsErrorRoutingModule } from "./products-error-routing.module";
 
 @NgModule({
 	declarations: [ProductsErrorComponent],
-	imports: [CommonModule, ProductsErrorRoutingModule, IconModule, TypographyModule, ButtonModule, ImageModule],
-	exports: [ProductsErrorComponent]
+	imports: [CommonModule, ProductsErrorRoutingModule, IconModule, TypographyModule, ButtonModule, ImageModule]
 })
 export class ProductsErrorModule {}

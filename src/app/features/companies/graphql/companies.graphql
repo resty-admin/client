@@ -1,0 +1,27 @@
+query Companies {
+	companies {
+		data {
+			name
+			employees {
+				id
+			}
+			fondy {
+				id
+			}
+			id
+			logo {
+				id
+			}
+			name
+			owner {
+				id
+			}
+			places {
+				id
+			}
+			status
+		}
+		totalCount
+		page
+	}
+}

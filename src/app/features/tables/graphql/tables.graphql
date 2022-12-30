@@ -1,0 +1,14 @@
+query Tables($skip: Int!, $take: Int!, $filtersArgs: FiltersArgsDto) {
+	tables(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
+		page
+		totalCount
+		data {
+			id
+			name
+			code
+			file {
+				url
+			}
+		}
+	}
+}

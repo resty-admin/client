@@ -1,0 +1,12 @@
+query Places {
+	places {
+		data {
+			name
+			id
+			name
+			status
+		}
+		totalCount
+		page
+	}
+}

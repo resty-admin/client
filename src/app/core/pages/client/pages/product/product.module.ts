@@ -25,7 +25,6 @@ import { ProductRoutingModule } from "./product-routing.module";
 		RadioButtonModule,
 		CounterModule,
 		MultipleCheckboxModule
-	],
-	exports: [ProductComponent]
+	]
 })
 export class ProductModule {}

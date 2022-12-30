@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { ProductsService } from "src/app/shared/modules/products";
+import { ProductsService } from "src/app/features/products";
 
 @Component({
 	selector: "app-products-error",

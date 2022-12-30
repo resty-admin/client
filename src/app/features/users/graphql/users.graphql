@@ -1,0 +1,17 @@
+query Users($skip: Int!, $take: Int!, $filtersArgs: FiltersArgsDto) {
+	users(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
+		page
+		totalCount
+		data {
+			email
+			googleId
+			id
+			name
+			password
+			tel
+			telegramId
+			telegramToken
+			role
+		}
+	}
+}

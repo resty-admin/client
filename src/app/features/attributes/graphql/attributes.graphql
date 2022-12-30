@@ -1,0 +1,11 @@
+query Attributes($skip: Int!, $take: Int!, $filtersArgs: FiltersArgsDto) {
+	attributes(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
+		page
+		totalCount
+		data {
+			price
+			name
+			id
+		}
+	}
+}

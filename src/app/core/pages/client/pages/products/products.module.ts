@@ -8,7 +8,6 @@ import { ProductsRoutingModule } from "./products-routing.module";
 
 @NgModule({
 	declarations: [ProductsComponent],
-	imports: [CommonModule, ProductsRoutingModule, TypographyModule, ImageModule],
-	exports: [ProductsComponent]
+	imports: [CommonModule, ProductsRoutingModule, TypographyModule, ImageModule]
 })
 export class ProductsModule {}

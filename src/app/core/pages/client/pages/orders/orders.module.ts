@@ -8,7 +8,6 @@ import { OrdersRoutingModule } from "./orders-routing.module";
 
 @NgModule({
 	declarations: [OrdersComponent],
-	imports: [CommonModule, OrdersRoutingModule, TypographyModule, IconModule],
-	exports: [OrdersComponent]
+	imports: [CommonModule, OrdersRoutingModule, TypographyModule, IconModule]
 })
 export class OrdersModule {}
