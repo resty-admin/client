@@ -4,5 +4,18 @@ query Order($orderId: String!) {
 		orderCode
 		type
 		status
+		totalPrice
+		table {
+			name
+		}
+	}
+}
+
+mutation CreateOrder($order: CreateOrderInput!) {
+	createOrder(order: $order) {
+		id
+		orderCode
+		status
+		type
 	}
 }

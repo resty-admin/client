@@ -15,6 +15,14 @@ export interface ProductQuery {
 		name: string;
 		price: number;
 		id: string;
+		attrsGroups?:
+			| {
+					__typename?: "AttributesGroupEntity";
+					name: string;
+					isUniq?: boolean | null;
+					attributes?: { __typename?: "AttributesEntity"; id: string; name: string }[] | null;
+			  }[]
+			| null;
 		file?: { __typename?: "FileEntity"; url: string; id: string } | null;
 	};
 }
@@ -26,6 +34,14 @@ export const ProductDocument = gql`
 			name
 			price
 			id
+			attrsGroups {
+				name
+				isUniq
+				attributes {
+					id
+					name
+				}
+			}
 			file {
 				url
 				id

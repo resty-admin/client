@@ -15,7 +15,7 @@ import type { IRadioButtonOption } from "../interfaces/radio-button-option.inter
 })
 export class RadioButtonComponent extends ControlValueAccessor<boolean> {
 	@Input() theme: IRadioButtonTheme = "1";
-	@Input() options: IRadioButtonOption[] = [];
+	@Input() options?: IRadioButtonOption[] = [];
 
 	trackByFn(index: number) {
 		return index;

@@ -8,13 +8,7 @@
 			"name name name"
 			"description description description"
 			"sum cal add"
-			"first-divider first-divider first-divider"
-			"modifications modifications modifications"
-			"modifications-radio modifications-radio modifications-radio"
-			"second-divider second-divider second-divider"
-			"remove remove remove"
-			"remove-radio remove-radio remove-radio"
-			"third-divider third-divider third-divider"
+			"attrGroups attrGroups attrGroups"
 			"textarea textarea textarea";
 		grid-template-columns: auto 1fr auto;
 		align-items: center;
@@ -60,34 +54,20 @@
 		.add {
 			grid-area: add;
 		}
-		.first-divider {
-			grid-area: first-divider;
-		}
-		.modifications {
-			grid-area: modifications;
-			font-weight: 500;
-			font-size: rem(16);
-			line-height: rem(24);
-			color: var(--dark);
-		}
-		.modifications-radio {
-			grid-area: modifications-radio;
-		}
-		.second-divider {
-			grid-area: second-divider;
-		}
-		.remove {
-			grid-area: remove;
-			font-weight: 500;
-			font-size: rem(16);
-			line-height: rem(24);
-			color: var(--dark);
-		}
-		.remove-radio {
-			grid-area: remove-radio;
-		}
-		.third-divider {
-			grid-area: third-divider;
+		.attrGroups {
+			grid-area: attrGroups;
+			display: grid;
+			row-gap: rem(15);
+			.attrGroup {
+				display: grid;
+				row-gap: rem(10);
+				.label {
+					font-weight: 500;
+					font-size: rem(16);
+					line-height: rem(24);
+					color: var(--dark);
+				}
+			}
 		}
 		.textarea {
 			grid-area: textarea;

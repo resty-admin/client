@@ -1,4 +1,8 @@
-<div class="order">
+<div class="order" *ngIf="order$ | async as order">
+	<h1 appTypography>{{ order.type }}</h1>
+	<p>Цена: {{ order.totalPrice }}</p>
+
+	<a appButton theme="1" routerLink="payment-type">Оплатить</a>
 	<!--	<app-place></app-place>-->
 	<!--	<app-table></app-table>-->
 	<!--	<app-product></app-product>-->

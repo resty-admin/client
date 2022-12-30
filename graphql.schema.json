@@ -105,18 +105,6 @@
 						"deprecationReason": null
 					},
 					{
-						"name": "shift",
-						"description": null,
-						"args": [],
-						"type": {
-							"kind": "OBJECT",
-							"name": "ActiveShiftEntity",
-							"ofType": null
-						},
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
-					{
 						"name": "status",
 						"description": null,
 						"args": [],
@@ -137,11 +125,23 @@
 						"description": null,
 						"args": [],
 						"type": {
+							"kind": "OBJECT",
+							"name": "TableEntity",
+							"ofType": null
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "totalPrice",
+						"description": null,
+						"args": [],
+						"type": {
 							"kind": "NON_NULL",
 							"name": null,
 							"ofType": {
-								"kind": "OBJECT",
-								"name": "TableEntity",
+								"kind": "SCALAR",
+								"name": "Int",
 								"ofType": null
 							}
 						},
@@ -233,18 +233,6 @@
 						"deprecationReason": null
 					},
 					{
-						"name": "shift",
-						"description": null,
-						"type": {
-							"kind": "INPUT_OBJECT",
-							"name": "ActiveShiftEntityInput",
-							"ofType": null
-						},
-						"defaultValue": null,
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
-					{
 						"name": "status",
 						"description": null,
 						"type": {
@@ -264,11 +252,23 @@
 						"name": "table",
 						"description": null,
 						"type": {
+							"kind": "INPUT_OBJECT",
+							"name": "TableEntityInput",
+							"ofType": null
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "totalPrice",
+						"description": null,
+						"type": {
 							"kind": "NON_NULL",
 							"name": null,
 							"ofType": {
-								"kind": "INPUT_OBJECT",
-								"name": "TableEntityInput",
+								"kind": "SCALAR",
+								"name": "Int",
 								"ofType": null
 							}
 						},
@@ -343,26 +343,6 @@
 						"deprecationReason": null
 					},
 					{
-						"name": "orders",
-						"description": null,
-						"args": [],
-						"type": {
-							"kind": "LIST",
-							"name": null,
-							"ofType": {
-								"kind": "NON_NULL",
-								"name": null,
-								"ofType": {
-									"kind": "OBJECT",
-									"name": "ActiveOrderEntity",
-									"ofType": null
-								}
-							}
-						},
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
-					{
 						"name": "place",
 						"description": null,
 						"args": [],
@@ -426,26 +406,6 @@
 				"description": null,
 				"fields": null,
 				"inputFields": [
-					{
-						"name": "orders",
-						"description": null,
-						"type": {
-							"kind": "LIST",
-							"name": null,
-							"ofType": {
-								"kind": "NON_NULL",
-								"name": null,
-								"ofType": {
-									"kind": "INPUT_OBJECT",
-									"name": "ActiveOrderEntityInput",
-									"ofType": null
-								}
-							}
-						},
-						"defaultValue": null,
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
 					{
 						"name": "place",
 						"description": null,
@@ -513,9 +473,17 @@
 						"description": null,
 						"args": [],
 						"type": {
-							"kind": "OBJECT",
-							"name": "AttributesGroupEntity",
-							"ofType": null
+							"kind": "LIST",
+							"name": null,
+							"ofType": {
+								"kind": "NON_NULL",
+								"name": null,
+								"ofType": {
+									"kind": "OBJECT",
+									"name": "AttributesGroupEntity",
+									"ofType": null
+								}
+							}
 						},
 						"isDeprecated": false,
 						"deprecationReason": null
@@ -580,9 +548,17 @@
 						"name": "attributesGroup",
 						"description": null,
 						"type": {
-							"kind": "INPUT_OBJECT",
-							"name": "AttributesGroupEntityInput",
-							"ofType": null
+							"kind": "LIST",
+							"name": null,
+							"ofType": {
+								"kind": "NON_NULL",
+								"name": null,
+								"ofType": {
+									"kind": "INPUT_OBJECT",
+									"name": "AttributesGroupEntityInput",
+									"ofType": null
+								}
+							}
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -907,19 +883,15 @@
 						"description": null,
 						"args": [],
 						"type": {
-							"kind": "NON_NULL",
+							"kind": "LIST",
 							"name": null,
 							"ofType": {
-								"kind": "LIST",
+								"kind": "NON_NULL",
 								"name": null,
 								"ofType": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "OBJECT",
-										"name": "ProductEntity",
-										"ofType": null
-									}
+									"kind": "OBJECT",
+									"name": "ProductEntity",
+									"ofType": null
 								}
 							}
 						},
@@ -986,19 +958,15 @@
 						"name": "products",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
+							"kind": "LIST",
 							"name": null,
 							"ofType": {
-								"kind": "LIST",
+								"kind": "NON_NULL",
 								"name": null,
 								"ofType": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "INPUT_OBJECT",
-										"name": "ProductEntityInput",
-										"ofType": null
-									}
+									"kind": "INPUT_OBJECT",
+									"name": "ProductEntityInput",
+									"ofType": null
 								}
 							}
 						},
@@ -1047,10 +1015,69 @@
 						},
 						"isDeprecated": false,
 						"deprecationReason": null
+					},
+					{
+						"name": "place",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "OBJECT",
+								"name": "PlaceEntity",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
 					}
 				],
 				"inputFields": null,
 				"interfaces": [],
+				"enumValues": null,
+				"possibleTypes": null
+			},
+			{
+				"kind": "INPUT_OBJECT",
+				"name": "CommandEntityInput",
+				"description": null,
+				"fields": null,
+				"inputFields": [
+					{
+						"name": "name",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "place",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "INPUT_OBJECT",
+								"name": "PlaceEntityInput",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					}
+				],
+				"interfaces": null,
 				"enumValues": null,
 				"possibleTypes": null
 			},
@@ -1379,16 +1406,32 @@
 				"fields": null,
 				"inputFields": [
 					{
+						"name": "attributes",
+						"description": null,
+						"type": {
+							"kind": "LIST",
+							"name": null,
+							"ofType": {
+								"kind": "NON_NULL",
+								"name": null,
+								"ofType": {
+									"kind": "SCALAR",
+									"name": "String",
+									"ofType": null
+								}
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "isUniq",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "Boolean",
-								"ofType": null
-							}
+							"kind": "SCALAR",
+							"name": "Boolean",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -1485,7 +1528,7 @@
 						"description": null,
 						"type": {
 							"kind": "INPUT_OBJECT",
-							"name": "FileEntityInput",
+							"name": "FileUploadInput",
 							"ofType": null
 						},
 						"defaultValue": null,
@@ -1550,6 +1593,22 @@
 						"defaultValue": null,
 						"isDeprecated": false,
 						"deprecationReason": null
+					},
+					{
+						"name": "place",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
 					}
 				],
 				"interfaces": null,
@@ -1567,7 +1626,7 @@
 						"description": null,
 						"type": {
 							"kind": "INPUT_OBJECT",
-							"name": "FileEntityInput",
+							"name": "FileUploadInput",
 							"ofType": null
 						},
 						"defaultValue": null,
@@ -1606,7 +1665,7 @@
 						"description": null,
 						"type": {
 							"kind": "INPUT_OBJECT",
-							"name": "FileEntityInput",
+							"name": "FileUploadInput",
 							"ofType": null
 						},
 						"defaultValue": null,
@@ -1673,6 +1732,34 @@
 						"deprecationReason": null
 					},
 					{
+						"name": "table",
+						"description": null,
+						"type": {
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "totalPrice",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "Int",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "type",
 						"description": null,
 						"type": {
@@ -1682,6 +1769,26 @@
 								"kind": "ENUM",
 								"name": "OrderTypeEnum",
 								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "users",
+						"description": null,
+						"type": {
+							"kind": "LIST",
+							"name": null,
+							"ofType": {
+								"kind": "NON_NULL",
+								"name": null,
+								"ofType": {
+									"kind": "SCALAR",
+									"name": "String",
+									"ofType": null
+								}
 							}
 						},
 						"defaultValue": null,
@@ -1730,13 +1837,9 @@
 						"name": "address",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "String",
-								"ofType": null
-							}
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -1762,13 +1865,9 @@
 						"name": "file",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "INPUT_OBJECT",
-								"name": "FileEntityInput",
-								"ofType": null
-							}
+							"kind": "INPUT_OBJECT",
+							"name": "FileEntityInput",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -1778,13 +1877,9 @@
 						"name": "holidayDays",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "INPUT_OBJECT",
-								"name": "WorkingHoursInput",
-								"ofType": null
-							}
+							"kind": "INPUT_OBJECT",
+							"name": "WorkingHoursInput",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -1810,13 +1905,9 @@
 						"name": "weekDays",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "INPUT_OBJECT",
-								"name": "WorkingHoursInput",
-								"ofType": null
-							}
+							"kind": "INPUT_OBJECT",
+							"name": "WorkingHoursInput",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -1826,13 +1917,9 @@
 						"name": "weekendDays",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "INPUT_OBJECT",
-								"name": "WorkingHoursInput",
-								"ofType": null
-							}
+							"kind": "INPUT_OBJECT",
+							"name": "WorkingHoursInput",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -1889,13 +1976,9 @@
 						"name": "description",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "String",
-								"ofType": null
-							}
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -1906,7 +1989,7 @@
 						"description": null,
 						"type": {
 							"kind": "INPUT_OBJECT",
-							"name": "FileEntityInput",
+							"name": "FileUploadInput",
 							"ofType": null
 						},
 						"defaultValue": null,
@@ -1933,13 +2016,9 @@
 						"name": "price",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "Float",
-								"ofType": null
-							}
+							"kind": "SCALAR",
+							"name": "Float",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -1957,40 +2036,12 @@
 				"fields": null,
 				"inputFields": [
 					{
-						"name": "orders",
-						"description": null,
-						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "LIST",
-								"name": null,
-								"ofType": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "String",
-										"ofType": null
-									}
-								}
-							}
-						},
-						"defaultValue": null,
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
-					{
 						"name": "place",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "String",
-								"ofType": null
-							}
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -2000,19 +2051,15 @@
 						"name": "shiftDate",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
+							"kind": "LIST",
 							"name": null,
 							"ofType": {
-								"kind": "LIST",
+								"kind": "NON_NULL",
 								"name": null,
 								"ofType": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "String",
-										"ofType": null
-									}
+									"kind": "SCALAR",
+									"name": "String",
+									"ofType": null
 								}
 							}
 						},
@@ -2024,13 +2071,9 @@
 						"name": "table",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "String",
-								"ofType": null
-							}
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -2040,13 +2083,9 @@
 						"name": "waiter",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "String",
-								"ofType": null
-							}
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -2068,7 +2107,7 @@
 						"description": null,
 						"type": {
 							"kind": "INPUT_OBJECT",
-							"name": "FileEntityInput",
+							"name": "FileUploadInput",
 							"ofType": null
 						},
 						"defaultValue": null,
@@ -2170,13 +2209,9 @@
 						"name": "tel",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "String",
-								"ofType": null
-							}
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -2236,6 +2271,49 @@
 				"description": null,
 				"fields": null,
 				"inputFields": [
+					{
+						"name": "url",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					}
+				],
+				"interfaces": null,
+				"enumValues": null,
+				"possibleTypes": null
+			},
+			{
+				"kind": "INPUT_OBJECT",
+				"name": "FileUploadInput",
+				"description": null,
+				"fields": null,
+				"inputFields": [
+					{
+						"name": "id",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
 					{
 						"name": "url",
 						"description": null,
@@ -2680,18 +2758,6 @@
 						"deprecationReason": null
 					},
 					{
-						"name": "shift",
-						"description": null,
-						"args": [],
-						"type": {
-							"kind": "OBJECT",
-							"name": "ActiveShiftEntity",
-							"ofType": null
-						},
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
-					{
 						"name": "status",
 						"description": null,
 						"args": [],
@@ -2712,11 +2778,23 @@
 						"description": null,
 						"args": [],
 						"type": {
+							"kind": "OBJECT",
+							"name": "TableEntity",
+							"ofType": null
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "totalPrice",
+						"description": null,
+						"args": [],
+						"type": {
 							"kind": "NON_NULL",
 							"name": null,
 							"ofType": {
-								"kind": "OBJECT",
-								"name": "TableEntity",
+								"kind": "SCALAR",
+								"name": "Int",
 								"ofType": null
 							}
 						},
@@ -2808,18 +2886,6 @@
 						"deprecationReason": null
 					},
 					{
-						"name": "shift",
-						"description": null,
-						"type": {
-							"kind": "INPUT_OBJECT",
-							"name": "ActiveShiftEntityInput",
-							"ofType": null
-						},
-						"defaultValue": null,
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
-					{
 						"name": "status",
 						"description": null,
 						"type": {
@@ -2839,11 +2905,23 @@
 						"name": "table",
 						"description": null,
 						"type": {
+							"kind": "INPUT_OBJECT",
+							"name": "TableEntityInput",
+							"ofType": null
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "totalPrice",
+						"description": null,
+						"type": {
 							"kind": "NON_NULL",
 							"name": null,
 							"ofType": {
-								"kind": "INPUT_OBJECT",
-								"name": "TableEntityInput",
+								"kind": "SCALAR",
+								"name": "Int",
 								"ofType": null
 							}
 						},
@@ -2918,26 +2996,6 @@
 						"deprecationReason": null
 					},
 					{
-						"name": "orders",
-						"description": null,
-						"args": [],
-						"type": {
-							"kind": "LIST",
-							"name": null,
-							"ofType": {
-								"kind": "NON_NULL",
-								"name": null,
-								"ofType": {
-									"kind": "OBJECT",
-									"name": "ActiveOrderEntity",
-									"ofType": null
-								}
-							}
-						},
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
-					{
 						"name": "place",
 						"description": null,
 						"args": [],
@@ -3001,26 +3059,6 @@
 				"description": null,
 				"fields": null,
 				"inputFields": [
-					{
-						"name": "orders",
-						"description": null,
-						"type": {
-							"kind": "LIST",
-							"name": null,
-							"ofType": {
-								"kind": "NON_NULL",
-								"name": null,
-								"ofType": {
-									"kind": "INPUT_OBJECT",
-									"name": "ActiveOrderEntityInput",
-									"ofType": null
-								}
-							}
-						},
-						"defaultValue": null,
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
 					{
 						"name": "place",
 						"description": null,
@@ -5580,13 +5618,9 @@
 						"description": null,
 						"args": [],
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "String",
-								"ofType": null
-							}
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
 						},
 						"isDeprecated": false,
 						"deprecationReason": null
@@ -5620,19 +5654,35 @@
 						"description": null,
 						"args": [],
 						"type": {
-							"kind": "NON_NULL",
+							"kind": "LIST",
 							"name": null,
 							"ofType": {
-								"kind": "LIST",
+								"kind": "NON_NULL",
 								"name": null,
 								"ofType": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "OBJECT",
-										"name": "CategoryEntity",
-										"ofType": null
-									}
+									"kind": "OBJECT",
+									"name": "CategoryEntity",
+									"ofType": null
+								}
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "commands",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "LIST",
+							"name": null,
+							"ofType": {
+								"kind": "NON_NULL",
+								"name": null,
+								"ofType": {
+									"kind": "OBJECT",
+									"name": "CommandEntity",
+									"ofType": null
 								}
 							}
 						},
@@ -5839,13 +5889,9 @@
 						"name": "address",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "String",
-								"ofType": null
-							}
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -5879,19 +5925,35 @@
 						"name": "categories",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
+							"kind": "LIST",
 							"name": null,
 							"ofType": {
-								"kind": "LIST",
+								"kind": "NON_NULL",
 								"name": null,
 								"ofType": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "INPUT_OBJECT",
-										"name": "CategoryEntityInput",
-										"ofType": null
-									}
+									"kind": "INPUT_OBJECT",
+									"name": "CategoryEntityInput",
+									"ofType": null
+								}
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "commands",
+						"description": null,
+						"type": {
+							"kind": "LIST",
+							"name": null,
+							"ofType": {
+								"kind": "NON_NULL",
+								"name": null,
+								"ofType": {
+									"kind": "INPUT_OBJECT",
+									"name": "CommandEntityInput",
+									"ofType": null
 								}
 							}
 						},
@@ -7758,13 +7820,9 @@
 						"description": null,
 						"args": [],
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "OBJECT",
-								"name": "FileEntity",
-								"ofType": null
-							}
+							"kind": "OBJECT",
+							"name": "FileEntity",
+							"ofType": null
 						},
 						"isDeprecated": false,
 						"deprecationReason": null
@@ -7869,13 +7927,9 @@
 						"name": "file",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "INPUT_OBJECT",
-								"name": "FileEntityInput",
-								"ofType": null
-							}
+							"kind": "INPUT_OBJECT",
+							"name": "FileEntityInput",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -8011,6 +8065,26 @@
 				"fields": null,
 				"inputFields": [
 					{
+						"name": "attributes",
+						"description": null,
+						"type": {
+							"kind": "LIST",
+							"name": null,
+							"ofType": {
+								"kind": "NON_NULL",
+								"name": null,
+								"ofType": {
+									"kind": "SCALAR",
+									"name": "String",
+									"ofType": null
+								}
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "id",
 						"description": null,
 						"type": {
@@ -8030,13 +8104,9 @@
 						"name": "isUniq",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "Boolean",
-								"ofType": null
-							}
+							"kind": "SCALAR",
+							"name": "Boolean",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -8046,13 +8116,9 @@
 						"name": "name",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "String",
-								"ofType": null
-							}
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -8117,7 +8183,7 @@
 						"description": null,
 						"type": {
 							"kind": "INPUT_OBJECT",
-							"name": "FileEntityInput",
+							"name": "FileUploadInput",
 							"ofType": null
 						},
 						"defaultValue": null,
@@ -8195,13 +8261,21 @@
 						"name": "name",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "String",
-								"ofType": null
-							}
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "place",
+						"description": null,
+						"type": {
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -8270,13 +8344,9 @@
 						"name": "name",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "String",
-								"ofType": null
-							}
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -8298,7 +8368,7 @@
 						"description": null,
 						"type": {
 							"kind": "INPUT_OBJECT",
-							"name": "FileEntityInput",
+							"name": "FileUploadInput",
 							"ofType": null
 						},
 						"defaultValue": null,
@@ -8365,15 +8435,55 @@
 						"deprecationReason": null
 					},
 					{
+						"name": "status",
+						"description": null,
+						"type": {
+							"kind": "ENUM",
+							"name": "OrderStatusEnum",
+							"ofType": null
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "table",
+						"description": null,
+						"type": {
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "type",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
+							"kind": "ENUM",
+							"name": "OrderTypeEnum",
+							"ofType": null
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "users",
+						"description": null,
+						"type": {
+							"kind": "LIST",
 							"name": null,
 							"ofType": {
-								"kind": "ENUM",
-								"name": "OrderTypeEnum",
-								"ofType": null
+								"kind": "NON_NULL",
+								"name": null,
+								"ofType": {
+									"kind": "SCALAR",
+									"name": "String",
+									"ofType": null
+								}
 							}
 						},
 						"defaultValue": null,
@@ -8438,152 +8548,9 @@
 						"name": "address",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "String",
-								"ofType": null
-							}
-						},
-						"defaultValue": null,
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
-					{
-						"name": "file",
-						"description": null,
-						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "INPUT_OBJECT",
-								"name": "FileEntityInput",
-								"ofType": null
-							}
-						},
-						"defaultValue": null,
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
-					{
-						"name": "holidayDays",
-						"description": null,
-						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "INPUT_OBJECT",
-								"name": "WorkingHoursInput",
-								"ofType": null
-							}
-						},
-						"defaultValue": null,
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
-					{
-						"name": "id",
-						"description": null,
-						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "String",
-								"ofType": null
-							}
-						},
-						"defaultValue": null,
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
-					{
-						"name": "name",
-						"description": null,
-						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "String",
-								"ofType": null
-							}
-						},
-						"defaultValue": null,
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
-					{
-						"name": "weekDays",
-						"description": null,
-						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "INPUT_OBJECT",
-								"name": "WorkingHoursInput",
-								"ofType": null
-							}
-						},
-						"defaultValue": null,
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
-					{
-						"name": "weekendDays",
-						"description": null,
-						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "INPUT_OBJECT",
-								"name": "WorkingHoursInput",
-								"ofType": null
-							}
-						},
-						"defaultValue": null,
-						"isDeprecated": false,
-						"deprecationReason": null
-					}
-				],
-				"interfaces": null,
-				"enumValues": null,
-				"possibleTypes": null
-			},
-			{
-				"kind": "INPUT_OBJECT",
-				"name": "UpdateProductInput",
-				"description": null,
-				"fields": null,
-				"inputFields": [
-					{
-						"name": "category",
-						"description": null,
-						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "String",
-								"ofType": null
-							}
-						},
-						"defaultValue": null,
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
-					{
-						"name": "description",
-						"description": null,
-						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "String",
-								"ofType": null
-							}
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -8595,6 +8562,18 @@
 						"type": {
 							"kind": "INPUT_OBJECT",
 							"name": "FileEntityInput",
+							"ofType": null
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "holidayDays",
+						"description": null,
+						"type": {
+							"kind": "INPUT_OBJECT",
+							"name": "WorkingHoursInput",
 							"ofType": null
 						},
 						"defaultValue": null,
@@ -8621,6 +8600,109 @@
 						"name": "name",
 						"description": null,
 						"type": {
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "weekDays",
+						"description": null,
+						"type": {
+							"kind": "INPUT_OBJECT",
+							"name": "WorkingHoursInput",
+							"ofType": null
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "weekendDays",
+						"description": null,
+						"type": {
+							"kind": "INPUT_OBJECT",
+							"name": "WorkingHoursInput",
+							"ofType": null
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					}
+				],
+				"interfaces": null,
+				"enumValues": null,
+				"possibleTypes": null
+			},
+			{
+				"kind": "INPUT_OBJECT",
+				"name": "UpdateProductInput",
+				"description": null,
+				"fields": null,
+				"inputFields": [
+					{
+						"name": "attrsGroups",
+						"description": null,
+						"type": {
+							"kind": "LIST",
+							"name": null,
+							"ofType": {
+								"kind": "NON_NULL",
+								"name": null,
+								"ofType": {
+									"kind": "SCALAR",
+									"name": "String",
+									"ofType": null
+								}
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "category",
+						"description": null,
+						"type": {
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "description",
+						"description": null,
+						"type": {
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "file",
+						"description": null,
+						"type": {
+							"kind": "INPUT_OBJECT",
+							"name": "FileUploadInput",
+							"ofType": null
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "id",
+						"description": null,
+						"type": {
 							"kind": "NON_NULL",
 							"name": null,
 							"ofType": {
@@ -8634,16 +8716,24 @@
 						"deprecationReason": null
 					},
 					{
+						"name": "name",
+						"description": null,
+						"type": {
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "price",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "Float",
-								"ofType": null
-							}
+							"kind": "SCALAR",
+							"name": "Float",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -8677,40 +8767,12 @@
 						"deprecationReason": null
 					},
 					{
-						"name": "orders",
-						"description": null,
-						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "LIST",
-								"name": null,
-								"ofType": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "String",
-										"ofType": null
-									}
-								}
-							}
-						},
-						"defaultValue": null,
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
-					{
 						"name": "place",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "String",
-								"ofType": null
-							}
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -8720,19 +8782,15 @@
 						"name": "shiftDate",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
+							"kind": "LIST",
 							"name": null,
 							"ofType": {
-								"kind": "LIST",
+								"kind": "NON_NULL",
 								"name": null,
 								"ofType": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "String",
-										"ofType": null
-									}
+									"kind": "SCALAR",
+									"name": "String",
+									"ofType": null
 								}
 							}
 						},
@@ -8744,13 +8802,9 @@
 						"name": "table",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "String",
-								"ofType": null
-							}
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -8760,13 +8814,9 @@
 						"name": "waiter",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "String",
-								"ofType": null
-							}
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -8788,7 +8838,7 @@
 						"description": null,
 						"type": {
 							"kind": "INPUT_OBJECT",
-							"name": "FileEntityInput",
+							"name": "FileUploadInput",
 							"ofType": null
 						},
 						"defaultValue": null,
@@ -8842,13 +8892,9 @@
 						"name": "email",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "String",
-								"ofType": null
-							}
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -8874,13 +8920,9 @@
 						"name": "password",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "String",
-								"ofType": null
-							}
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -8890,13 +8932,9 @@
 						"name": "tel",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "String",
-								"ofType": null
-							}
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -8985,19 +9023,15 @@
 						"description": null,
 						"args": [],
 						"type": {
-							"kind": "NON_NULL",
+							"kind": "LIST",
 							"name": null,
 							"ofType": {
-								"kind": "LIST",
+								"kind": "NON_NULL",
 								"name": null,
 								"ofType": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "OBJECT",
-										"name": "ActiveOrderEntity",
-										"ofType": null
-									}
+									"kind": "OBJECT",
+									"name": "ActiveOrderEntity",
+									"ofType": null
 								}
 							}
 						},
@@ -9180,19 +9214,15 @@
 						"name": "orders",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
+							"kind": "LIST",
 							"name": null,
 							"ofType": {
-								"kind": "LIST",
+								"kind": "NON_NULL",
 								"name": null,
 								"ofType": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "INPUT_OBJECT",
-										"name": "ActiveOrderEntityInput",
-										"ofType": null
-									}
+									"kind": "INPUT_OBJECT",
+									"name": "ActiveOrderEntityInput",
+									"ofType": null
 								}
 							}
 						},

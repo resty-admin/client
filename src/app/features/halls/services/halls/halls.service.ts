@@ -5,7 +5,9 @@ import { HallsGQL } from "../../graphql/halls";
 
 @Injectable({ providedIn: "root" })
 export class HallsService {
-	readonly halls$ = this._hallsGQL.watch().valueChanges.pipe(map((result) => result.data.halls.data));
+	readonly halls$ = this._hallsGQL
+		.watch({ skip: 0, take: 5 })
+		.valueChanges.pipe(map((result) => result.data.halls.data));
 
 	constructor(private readonly _hallsGQL: HallsGQL) {}
 

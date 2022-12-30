@@ -9,17 +9,13 @@
 
 	<app-counter class="add" [formControl]="counterFormControl"></app-counter>
 
-	<hr class="first-divider" />
+	<div class="attrGroups">
+		<div class="attrGroup" *ngFor="let attrGroup of product.attrsGroups">
+			<p class="label">{{ attrGroup.name }}</p>
 
-	<p class="modifications">Модификация блюд</p>
-
-	<app-radio-button theme="2" class="modifications-radio" [options]="ingridients"></app-radio-button>
-
-	<p class="remove">Убрать</p>
-
-	<app-multiple-checkbox theme="1" class="remove-radio" [options]="ingridients"></app-multiple-checkbox>
-
-	<hr class="second-divider" />
+			<app-radio-button theme="2" class="radio" [options]="attrGroup.attributes"></app-radio-button>
+		</div>
+	</div>
 
 	<app-textarea class="textarea" placeholder="Введите комментарий"></app-textarea>
 </div>

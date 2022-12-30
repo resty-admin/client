@@ -6,14 +6,14 @@ import { ProductsGQL } from "../../graphql/products";
 
 @Injectable({ providedIn: "root" })
 export class ProductsService {
-	readonly products$ = this._productsGQL.watch().valueChanges.pipe(map((result) => result.data.products.data));
+	readonly products$ = this._productsGQL
+		.watch({ skip: 0, take: 5 })
+		.valueChanges.pipe(map((result) => result.data.products.data));
 
 	constructor(private readonly _productsGQL: ProductsGQL, private readonly _productGQL: ProductGQL) {}
 
 	getProduct(productId: string) {
-		this._productGQL.watch().setVariables({ productId });
-
-		return this._productGQL.watch().valueChanges.pipe(map((result) => result.data.product));
+		return this._productGQL.watch({ productId }).valueChanges.pipe(map((result) => result.data.product));
 	}
 
 	async refetch() {

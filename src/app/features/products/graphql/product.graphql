@@ -4,6 +4,14 @@ query Product($productId: String!) {
 		name
 		price
 		id
+		attrsGroups {
+			name
+			isUniq
+			attributes {
+				id
+				name
+			}
+		}
 		file {
 			url
 			id

@@ -16,7 +16,7 @@ import { CLIENT_ROUTES } from "src/app/shared/routes";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderComponent implements OnInit {
-	readonly table$ = this._routerService
+	readonly order$ = this._routerService
 		.selectParams(DYNAMIC_ID.slice(1))
 		.pipe(switchMap((id) => this._ordersService.getOrder(id)));
 

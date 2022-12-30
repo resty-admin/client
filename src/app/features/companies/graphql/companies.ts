@@ -3,7 +3,11 @@ import { gql } from "apollo-angular";
 import * as Apollo from "apollo-angular";
 
 import type * as Types from "../../../../graphql";
-export type CompaniesQueryVariables = Types.Exact<Record<string, never>>;
+export type CompaniesQueryVariables = Types.Exact<{
+	take: Types.Scalars["Int"];
+	skip: Types.Scalars["Int"];
+	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto>;
+}>;
 
 export interface CompaniesQuery {
 	__typename?: "Query";
@@ -11,45 +15,15 @@ export interface CompaniesQuery {
 		__typename?: "PaginatedCompany";
 		totalCount: number;
 		page: number;
-		data?:
-			| {
-					__typename?: "CompanyEntity";
-					name: string;
-					id: string;
-					status: Types.CompanyStatusEnum;
-					employees?: { __typename?: "UserEntity"; id: string }[] | null;
-					fondy?: { __typename?: "FondyEntity"; id: string } | null;
-					logo?: { __typename?: "FileEntity"; id: string } | null;
-					owner: { __typename?: "UserEntity"; id: string };
-					places?: { __typename?: "PlaceEntity"; id: string }[] | null;
-			  }[]
-			| null;
+		data?: { __typename?: "CompanyEntity"; name: string }[] | null;
 	};
 }
 
 export const CompaniesDocument = gql`
-	query Companies {
-		companies {
+	query Companies($take: Int!, $skip: Int!, $filtersArgs: FiltersArgsDto) {
+		companies(take: $take, skip: $skip, filtersArgs: $filtersArgs) {
 			data {
 				name
-				employees {
-					id
-				}
-				fondy {
-					id
-				}
-				id
-				logo {
-					id
-				}
-				name
-				owner {
-					id
-				}
-				places {
-					id
-				}
-				status
 			}
 			totalCount
 			page

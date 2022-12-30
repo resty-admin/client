@@ -1,25 +1,7 @@
-query Companies {
-	companies {
+query Companies($take: Int!, $skip: Int!, $filtersArgs: FiltersArgsDto) {
+	companies(take: $take, skip: $skip, filtersArgs: $filtersArgs) {
 		data {
 			name
-			employees {
-				id
-			}
-			fondy {
-				id
-			}
-			id
-			logo {
-				id
-			}
-			name
-			owner {
-				id
-			}
-			places {
-				id
-			}
-			status
 		}
 		totalCount
 		page

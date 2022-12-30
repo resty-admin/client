@@ -5,7 +5,9 @@ import { UsersGQL } from "../../graphql/users";
 
 @Injectable({ providedIn: "root" })
 export class UsersService {
-	readonly users$ = this._usersGQL.watch().valueChanges.pipe(map((result) => result.data.users.data));
+	readonly users$ = this._usersGQL
+		.watch({ skip: 0, take: 5 })
+		.valueChanges.pipe(map((result) => result.data.users.data));
 
 	constructor(private readonly _usersGQL: UsersGQL) {}
 
