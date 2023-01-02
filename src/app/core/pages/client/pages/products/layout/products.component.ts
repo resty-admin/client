@@ -12,7 +12,6 @@ import { CLIENT_ROUTES } from "src/app/shared/routes";
 import { OrderTypeEnum } from "../../../../../../../graphql";
 import { OrdersService } from "../../../../../../features/orders";
 import { AuthService } from "../../../../auth/services";
-import { FooterService } from "../../../services";
 
 @UntilDestroy()
 @Component({
@@ -29,8 +28,7 @@ export class ProductsComponent implements OnInit {
 		private readonly _productsService: ProductsService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _ordersService: OrdersService,
-		private readonly _authService: AuthService,
-		private readonly _footersService: FooterService
+		private readonly _authService: AuthService
 	) {}
 
 	createOrder() {
@@ -62,7 +60,5 @@ export class ProductsComponent implements OnInit {
 			.subscribe(({ placeId }) => {
 				this._breadcrumbsService.setBackUrl(CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, placeId));
 			});
-
-		// this._footersService.setAction({ label: "Создать заказ", func: () => this.createOrder() });
 	}
 }

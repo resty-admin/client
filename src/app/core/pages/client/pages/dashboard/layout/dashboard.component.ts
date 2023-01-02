@@ -60,7 +60,7 @@ export class DashboardComponent implements OnInit {
 			.createOrder({
 				type,
 				place: this.placeId,
-				totalPrice: 0
+				totalPrice: 250
 			})
 			.pipe(take(1))
 			.subscribe(async () => {

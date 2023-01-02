@@ -6,7 +6,7 @@
 		row-gap: rem(24);
 		padding-bottom: rem(24);
 
-		@include pagePadding ();
+		@include pagePadding();
 		.button {
 			position: fixed;
 			bottom: rem(15);
@@ -63,13 +63,16 @@
 						line-height: rem(16);
 						color: var(--dark-t);
 						justify-self: end;
+						align-self: start;
 					}
 					.description {
 						grid-area: description;
 						color: var(--dark-t);
+						max-width: 80%;
 					}
 					.counter {
 						grid-area: counter;
+						justify-self: end;
 					}
 				}
 			}

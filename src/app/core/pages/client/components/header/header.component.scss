@@ -68,7 +68,7 @@
 
 		.theme,
 		.language {
-			@include hideOnMobile ();
+			@include hideOnMobile();
 		}
 
 		@include desktop() {
@@ -76,6 +76,7 @@
 		}
 
 		.logo .image {
+			width: rem(29.5);
 			height: rem(40);
 
 			@include image() {

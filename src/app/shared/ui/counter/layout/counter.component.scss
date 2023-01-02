@@ -3,9 +3,19 @@
 @include component() {
 	.app-counter.theme-1 {
 		display: flex;
+		align-items: center;
 		background-color: var(--primary);
 		border-radius: rem(50);
 		height: rem(40);
+		column-gap: rem(5);
+
+		&.add {
+			.count,
+			.minus {
+				display: none;
+			}
+		}
+
 		.count,
 		.add,
 		.minus {
@@ -14,10 +24,19 @@
 			align-items: center;
 			&.add,
 			&.minus {
+				height: 100%;
 				width: rem(40);
+				font-weight: 500;
+				font-size: rem(24);
+				line-height: rem(16);
+				color: var(--dark);
 			}
 			&.count {
-				width: rem(20);
+				height: 100%;
+				font-weight: 500;
+				font-size: rem(16);
+				line-height: rem(16);
+				color: var(--dark);
 			}
 		}
 	}

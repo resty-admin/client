@@ -3,12 +3,12 @@
 		<app-icon class="icon" name="back"></app-icon>
 	</a>
 
-	<button class="action" appButton theme="1" *ngIf="action$ | async as action" (click)="action.func()">
-		{{ action.label }}
-	</button>
-
-	<button class="basket">
+	<a
+		class="basket"
+		*ngIf="activeOrder$ | async as activeOrder"
+		[routerLink]="clientRoutes.ORDER.absolutePath.replace(':id', activeOrder.id)"
+	>
 		<app-icon class="icon" name="basket"></app-icon>
-		<span class="count">5</span>
-	</button>
+		<span class="count">{{ "5" }}</span>
+	</a>
 </footer>

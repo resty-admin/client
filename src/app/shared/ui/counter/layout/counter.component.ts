@@ -21,7 +21,7 @@ export class CounterComponent extends ControlValueAccessor<number> {
 	}
 
 	get className() {
-		return `app-counter ${THEME.replace(ANY_SYMBOL, this.theme)}`;
+		return `app-counter ${THEME.replace(ANY_SYMBOL, this.theme)} ${!this.formControl.value && "add"}`;
 	}
 
 	minus() {

@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 
+import { OrdersService } from "../../../../../features/orders";
 import { BreadcrumbsService } from "../../../../../shared/modules/breadcrumbs";
-import { FooterService } from "../../services";
+import { CLIENT_ROUTES } from "../../../../../shared/routes";
 
 @Component({
 	selector: "app-footer",
@@ -10,10 +11,11 @@ import { FooterService } from "../../services";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FooterComponent {
+	readonly clientRoutes = CLIENT_ROUTES;
 	readonly backUrl$ = this._breadcrumbsService.backUrl$;
-	readonly action$ = this._footerService.action$;
+	readonly activeOrder$ = this._ordersService.activeOrder$;
 	constructor(
-		private readonly _footerService: FooterService,
+		private readonly _ordersService: OrdersService,
 		private readonly _breadcrumbsService: BreadcrumbsService
 	) {}
 }
