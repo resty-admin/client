@@ -3,8 +3,8 @@ import { map, take, tap } from "rxjs";
 
 import type { CreateOrderInput } from "../../../../../graphql";
 import { ToastrService } from "../../../../shared/ui/toastr";
-import { CreateOrderGQL, OrderGQL } from "../../graphql/order";
-import { OrdersGQL } from "../../graphql/orders";
+import { CreateOrderGQL, OrderGQL, OrdersGQL } from "../../graphql/orders";
+import { OrdersRepository } from "../../repositories";
 
 @Injectable({ providedIn: "root" })
 export class OrdersService {
@@ -12,7 +12,10 @@ export class OrdersService {
 		.watch({ skip: 0, take: 5 })
 		.valueChanges.pipe(map((result) => result.data.orders.data));
 
+	readonly activeOrder$ = this._ordersRepository.activeOrder$;
+
 	constructor(
+		private readonly _ordersRepository: OrdersRepository,
 		private readonly _ordersGQL: OrdersGQL,
 		private readonly _orderGQL: OrderGQL,
 		private readonly _createOrderGQL: CreateOrderGQL,
@@ -30,7 +33,10 @@ export class OrdersService {
 			tap(async () => {
 				await this.refetch();
 			}),
-			map((result) => result.data?.createOrder)
+			map((result) => result.data?.createOrder),
+			tap((order) => {
+				this._ordersRepository.updateActiveOrder(order);
+			})
 		);
 	}
 

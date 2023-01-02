@@ -1,7 +1,0 @@
-query Table($tableId: String!) {
-	table(id: $tableId) {
-		code
-		id
-		name
-	}
-}

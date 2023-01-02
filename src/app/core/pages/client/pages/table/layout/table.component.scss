@@ -4,6 +4,8 @@
 	.table-page {
 		height: 100%;
 		padding-top: rem(141);
+
+		@include pagePadding ();
 		.image {
 			position: absolute;
 			left: 0;

@@ -1,8 +1,7 @@
 import { Injectable } from "@angular/core";
 import { map } from "rxjs";
 
-import { ProductGQL } from "../../graphql/product";
-import { ProductsGQL } from "../../graphql/products";
+import { ProductGQL, ProductsGQL } from "../../graphql/products";
 
 @Injectable({ providedIn: "root" })
 export class ProductsService {

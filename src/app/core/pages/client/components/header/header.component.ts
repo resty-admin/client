@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import type { IUser } from "src/app/shared/interfaces";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 
+import { OrdersService } from "../../../../../features/orders";
 import { RouterService } from "../../../../../shared/modules/router";
 import { CLIENT_ROUTES } from "../../../../../shared/routes";
 import type { IAction } from "../../../../../shared/ui/actions";
@@ -14,12 +15,15 @@ import { AuthService } from "../../../auth/services";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent {
+	readonly clientRoutes = CLIENT_ROUTES;
 	@Output() burgerClicked = new EventEmitter();
 
 	@Input() isAsideOpen = false;
 	@Input() user?: IUser | null = null;
 
 	readonly backUrl$ = this._breadcrumbsService.backUrl$;
+
+	readonly activeOrder$ = this._ordersService.activeOrder$;
 
 	readonly actions: IAction<IUser>[] = [
 		{
@@ -41,7 +45,8 @@ export class HeaderComponent {
 	constructor(
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _routerService: RouterService,
-		private readonly _authService: AuthService
+		private readonly _authService: AuthService,
+		private readonly _ordersService: OrdersService
 	) {}
 
 	emitBurgerClick() {

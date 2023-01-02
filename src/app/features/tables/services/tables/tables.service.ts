@@ -1,8 +1,7 @@
 import { Injectable } from "@angular/core";
 import { map } from "rxjs";
 
-import { TableGQL } from "../../graphql/table";
-import { TablesGQL } from "../../graphql/tables";
+import { TableGQL, TablesGQL } from "../../graphql/tables";
 
 @Injectable({ providedIn: "root" })
 export class TablesService {

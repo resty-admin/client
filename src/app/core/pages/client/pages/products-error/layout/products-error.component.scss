@@ -3,6 +3,8 @@
 @include page() {
 	display: grid;
 	row-gap: rem(12);
+
+	@include pagePadding ();
 	.subtitle {
 		font-weight: 400;
 		font-size: rem(14);

@@ -12,6 +12,11 @@ export interface Scalars {
 	Float: number;
 }
 
+export interface AccessToken {
+	__typename?: "AccessToken";
+	accessToken: Scalars["String"];
+}
+
 export interface AccountingSystemEntity {
 	__typename?: "AccountingSystemEntity";
 	id: Scalars["String"];
@@ -56,6 +61,12 @@ export interface ActiveShiftEntityInput {
 	waiter?: InputMaybe<UserEntityInput>;
 }
 
+export enum AttributeGroupTypeEnum {
+	Add = "ADD",
+	AddUniq = "ADD_UNIQ",
+	Remove = "REMOVE"
+}
+
 export interface AttributesEntity {
 	__typename?: "AttributesEntity";
 	attributesGroup?: Maybe<AttributesGroupEntity[]>;
@@ -74,18 +85,20 @@ export interface AttributesGroupEntity {
 	__typename?: "AttributesGroupEntity";
 	attributes?: Maybe<AttributesEntity[]>;
 	id: Scalars["String"];
-	isUniq?: Maybe<Scalars["Boolean"]>;
+	maxItemsForPick: Scalars["Int"];
 	name: Scalars["String"];
 	place: PlaceEntity;
 	products?: Maybe<ProductEntity[]>;
+	type: AttributeGroupTypeEnum;
 }
 
 export interface AttributesGroupEntityInput {
 	attributes?: InputMaybe<AttributesEntityInput[]>;
-	isUniq?: InputMaybe<Scalars["Boolean"]>;
+	maxItemsForPick: Scalars["Int"];
 	name: Scalars["String"];
 	place: PlaceEntityInput;
 	products?: InputMaybe<ProductEntityInput[]>;
+	type: AttributeGroupTypeEnum;
 }
 
 export interface CategoryEntity {
@@ -106,12 +119,14 @@ export interface CategoryEntityInput {
 
 export interface CommandEntity {
 	__typename?: "CommandEntity";
+	description: Scalars["String"];
 	id: Scalars["String"];
 	name: Scalars["String"];
 	place: PlaceEntity;
 }
 
 export interface CommandEntityInput {
+	description: Scalars["String"];
 	name: Scalars["String"];
 	place: PlaceEntityInput;
 }
@@ -150,9 +165,10 @@ export interface CreateAccountingSystemInput {
 
 export interface CreateAttributeGroupInput {
 	attributes?: InputMaybe<Scalars["String"][]>;
-	isUniq?: InputMaybe<Scalars["Boolean"]>;
+	maxItemsForPick: Scalars["Int"];
 	name: Scalars["String"];
 	place: Scalars["String"];
+	type: AttributeGroupTypeEnum;
 }
 
 export interface CreateAttributeInput {
@@ -167,6 +183,7 @@ export interface CreateCategoryInput {
 }
 
 export interface CreateCommandInput {
+	description: Scalars["String"];
 	name: Scalars["String"];
 	place: Scalars["String"];
 }
@@ -738,6 +755,7 @@ export interface Query {
 	commands: PaginatedCommand;
 	companies: PaginatedCompany;
 	company: CompanyEntity;
+	getMe: AccessToken;
 	hall: HallEntity;
 	halls: PaginatedHall;
 	language: LanguageEntity;
@@ -940,7 +958,9 @@ export interface UpdateAttributeGroupInput {
 	attributes?: InputMaybe<Scalars["String"][]>;
 	id: Scalars["String"];
 	isUniq?: InputMaybe<Scalars["Boolean"]>;
+	maxItemsForPick?: InputMaybe<Scalars["Int"]>;
 	name?: InputMaybe<Scalars["String"]>;
+	type?: InputMaybe<AttributeGroupTypeEnum>;
 }
 
 export interface UpdateAttributeInput {
@@ -956,6 +976,7 @@ export interface UpdateCategoryInput {
 }
 
 export interface UpdateCommandInput {
+	description?: InputMaybe<Scalars["String"]>;
 	id: Scalars["String"];
 	name?: InputMaybe<Scalars["String"]>;
 	place?: InputMaybe<Scalars["String"]>;

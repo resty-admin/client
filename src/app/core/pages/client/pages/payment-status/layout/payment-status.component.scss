@@ -6,6 +6,8 @@
 		display: grid;
 		align-items: center;
 		row-gap: rem(12);
+
+		@include pagePadding ();
 		.container {
 			text-align: center;
 			.image {

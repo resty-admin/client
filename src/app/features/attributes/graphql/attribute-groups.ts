@@ -15,7 +15,16 @@ export interface AttributeGroupsQuery {
 		__typename?: "PaginatedAttributeGroups";
 		page: number;
 		totalCount: number;
-		data?: { __typename?: "AttributesGroupEntity"; id: string; isUniq?: boolean | null; name: string }[] | null;
+		data?:
+			| {
+					__typename?: "AttributesGroupEntity";
+					id: string;
+					type: Types.AttributeGroupTypeEnum;
+					maxItemsForPick: number;
+					name: string;
+					attributes?: { __typename?: "AttributesEntity"; name: string }[] | null;
+			  }[]
+			| null;
 	};
 }
 
@@ -26,8 +35,12 @@ export const AttributeGroupsDocument = gql`
 			totalCount
 			data {
 				id
-				isUniq
+				type
+				maxItemsForPick
 				name
+				attributes {
+					name
+				}
 			}
 		}
 	}

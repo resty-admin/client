@@ -8,3 +8,30 @@ query Orders($take: Int!, $skip: Int!, $filtersArgs: FiltersArgsDto) {
 		}
 	}
 }
+
+query Order($orderId: String!) {
+	order(id: $orderId) {
+		id
+		orderCode
+		type
+		status
+		totalPrice
+		table {
+			name
+		}
+	}
+}
+
+mutation CreateOrder($order: CreateOrderInput!) {
+	createOrder(order: $order) {
+		id
+		orderCode
+		type
+		status
+		totalPrice
+		table {
+			id
+			name
+		}
+	}
+}

@@ -27,7 +27,7 @@
 	<ul class="history-orders">
 		<li class="history-order" *ngFor="let order of orders$ | async">
 			<a class="link" [routerLink]="order.id">
-				<!-- <span class="name">Заказ {{ order.name }}</span> -->
+				<span class="name">Заказ {{ order.orderCode }}</span>
 				<!--				<span class="sum">{{ order.sum }}</span>-->
 				<div class="type">
 					<app-icon class="icon" name="to-go"></app-icon>

@@ -3,10 +3,10 @@
 
 	<ul class="order-types">
 		<li [class]="'order-type ' + orderType.image" *ngFor="let orderType of orderTypes">
-			<a class="link" [routerLink]="orderType.routerLink">
+			<button class="link" (click)="createOrder(orderType)">
 				<app-image class="image" [name]="orderType.image"></app-image>
 				<span class="label">{{ orderType.label }}</span>
-			</a>
+			</button>
 		</li>
 	</ul>
 

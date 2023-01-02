@@ -14,3 +14,23 @@ query Products($take: Int!, $filtersArgs: FiltersArgsDto, $skip: Int!) {
 		}
 	}
 }
+
+query Product($productId: String!) {
+	product(id: $productId) {
+		description
+		name
+		price
+		id
+		attrsGroups {
+			name
+			attributes {
+				id
+				name
+			}
+		}
+		file {
+			url
+			id
+		}
+	}
+}

@@ -6,6 +6,12 @@
 		row-gap: rem(24);
 		padding-bottom: rem(24);
 
+		@include pagePadding ();
+		.button {
+			position: fixed;
+			bottom: rem(15);
+		}
+
 		.products {
 			display: grid;
 			grid-gap: rem(10);
@@ -33,7 +39,8 @@
 					padding: rem(16);
 					grid-template-areas:
 						"name price"
-						"description cal";
+						"description cal"
+						". counter";
 					.name {
 						grid-area: name;
 						font-weight: 500;
@@ -55,10 +62,14 @@
 						font-size: rem(12);
 						line-height: rem(16);
 						color: var(--dark-t);
+						justify-self: end;
 					}
 					.description {
 						grid-area: description;
 						color: var(--dark-t);
+					}
+					.counter {
+						grid-area: counter;
 					}
 				}
 			}

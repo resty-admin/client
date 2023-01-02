@@ -3,7 +3,7 @@
 @include component() {
 	.app-counter.theme-1 {
 		display: flex;
-		background-color: var(--light-grey);
+		background-color: var(--primary);
 		border-radius: rem(50);
 		height: rem(40);
 		.count,

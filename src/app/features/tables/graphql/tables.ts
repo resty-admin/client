@@ -27,6 +27,15 @@ export interface TablesQuery {
 	};
 }
 
+export type TableQueryVariables = Types.Exact<{
+	tableId: Types.Scalars["String"];
+}>;
+
+export interface TableQuery {
+	__typename?: "Query";
+	table: { __typename?: "TableEntity"; code: number; id: string; name: string };
+}
+
 export const TablesDocument = gql`
 	query Tables($skip: Int!, $take: Int!, $filtersArgs: FiltersArgsDto) {
 		tables(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
@@ -49,6 +58,26 @@ export const TablesDocument = gql`
 })
 export class TablesGQL extends Apollo.Query<TablesQuery, TablesQueryVariables> {
 	override document = TablesDocument;
+
+	constructor(apollo: Apollo.Apollo) {
+		super(apollo);
+	}
+}
+export const TableDocument = gql`
+	query Table($tableId: String!) {
+		table(id: $tableId) {
+			code
+			id
+			name
+		}
+	}
+`;
+
+@Injectable({
+	providedIn: "root"
+})
+export class TableGQL extends Apollo.Query<TableQuery, TableQueryVariables> {
+	override document = TableDocument;
 
 	constructor(apollo: Apollo.Apollo) {
 		super(apollo);

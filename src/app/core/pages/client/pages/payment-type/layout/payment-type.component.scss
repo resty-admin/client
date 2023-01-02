@@ -12,6 +12,8 @@
 		grid-template-columns: 1fr 1fr;
 		row-gap: rem(24);
 
+		@include pagePadding ();
+
 		.title {
 			grid-area: title;
 			font-weight: 700;

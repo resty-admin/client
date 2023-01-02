@@ -1,10 +1,14 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy } from "@ngneat/until-destroy";
+import { take } from "rxjs";
 import { PLACE_ID } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
 import { CLIENT_ROUTES } from "src/app/shared/routes";
+
+import { OrderTypeEnum } from "../../../../../../../graphql";
+import { OrdersService } from "../../../../../../features/orders";
 
 @UntilDestroy()
 @Component({
@@ -14,38 +18,54 @@ import { CLIENT_ROUTES } from "src/app/shared/routes";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent implements OnInit {
+	readonly orderTypes = [
+		{
+			label: "Заказать в заведении",
+			type: OrderTypeEnum.InPlace,
+			link: CLIENT_ROUTES.CODE.absolutePath,
+			image: "in-place"
+		},
+		{
+			label: "На вынос",
+			type: OrderTypeEnum.Pickup,
+			link: CLIENT_ROUTES.CATEGORIES.absolutePath,
+			image: "to-go"
+		},
+		{
+			label: "Доставка",
+			type: OrderTypeEnum.Delivery,
+			link: CLIENT_ROUTES.CATEGORIES.absolutePath,
+			image: "delivery"
+		},
+		{
+			label: "Бронировать",
+			type: OrderTypeEnum.Reserve,
+			link: CLIENT_ROUTES.HALLS.absolutePath,
+			image: "booking"
+		}
+	];
+
 	constructor(
 		private readonly _routerService: RouterService,
-		private readonly _breadcrumbsService: BreadcrumbsService
+		private readonly _breadcrumbsService: BreadcrumbsService,
+		private readonly _ordersService: OrdersService
 	) {}
 
 	ngOnInit() {
 		this._breadcrumbsService.setBackUrl(CLIENT_ROUTES.PLACES.absolutePath);
 	}
 
-	get orderTypes() {
-		return [
-			{
-				label: "Заказать в заведении",
-				routerLink: CLIENT_ROUTES.CODE.absolutePath,
-				image: "in-place"
-			},
-			{
-				label: "На вынос",
-				routerLink: CLIENT_ROUTES.CATEGORIES.absolutePath,
-				image: "to-go"
-			},
-			{
-				label: "Доставка",
-				routerLink: CLIENT_ROUTES.CATEGORIES.absolutePath,
-				image: "delivery"
-			},
-			{
-				label: "Бронировать",
-				routerLink: CLIENT_ROUTES.HALLS.absolutePath,
-				image: "booking"
-			}
-		].map((orderType) => ({ ...orderType, routerLink: orderType.routerLink.replace(PLACE_ID, this.placeId) }));
+	createOrder({ type, link }: any) {
+		this._ordersService
+			.createOrder({
+				type,
+				place: this.placeId,
+				totalPrice: 0
+			})
+			.pipe(take(1))
+			.subscribe(async () => {
+				await this._routerService.navigateByUrl(link.replace(PLACE_ID, this.placeId));
+			});
 	}
 
 	get placeId() {

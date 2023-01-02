@@ -15,6 +15,7 @@
 		gap: rem(12);
 		padding-top: rem(158);
 
+		@include pagePadding ();
 		.image {
 			position: absolute;
 			left: 0;

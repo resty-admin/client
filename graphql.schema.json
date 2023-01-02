@@ -10,6 +10,33 @@
 		"types": [
 			{
 				"kind": "OBJECT",
+				"name": "AccessToken",
+				"description": null,
+				"fields": [
+					{
+						"name": "accessToken",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					}
+				],
+				"inputFields": null,
+				"interfaces": [],
+				"enumValues": null,
+				"possibleTypes": null
+			},
+			{
+				"kind": "OBJECT",
 				"name": "AccountingSystemEntity",
 				"description": null,
 				"fields": [
@@ -464,6 +491,35 @@
 				"possibleTypes": null
 			},
 			{
+				"kind": "ENUM",
+				"name": "AttributeGroupTypeEnum",
+				"description": null,
+				"fields": null,
+				"inputFields": null,
+				"interfaces": null,
+				"enumValues": [
+					{
+						"name": "ADD",
+						"description": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "ADD_UNIQ",
+						"description": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "REMOVE",
+						"description": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					}
+				],
+				"possibleTypes": null
+			},
+			{
 				"kind": "OBJECT",
 				"name": "AttributesEntity",
 				"description": null,
@@ -639,13 +695,17 @@
 						"deprecationReason": null
 					},
 					{
-						"name": "isUniq",
+						"name": "maxItemsForPick",
 						"description": null,
 						"args": [],
 						"type": {
-							"kind": "SCALAR",
-							"name": "Boolean",
-							"ofType": null
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "Int",
+								"ofType": null
+							}
 						},
 						"isDeprecated": false,
 						"deprecationReason": null
@@ -701,6 +761,22 @@
 						},
 						"isDeprecated": false,
 						"deprecationReason": null
+					},
+					{
+						"name": "type",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "ENUM",
+								"name": "AttributeGroupTypeEnum",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
 					}
 				],
 				"inputFields": null,
@@ -735,14 +811,18 @@
 						"deprecationReason": null
 					},
 					{
-						"name": "isUniq",
+						"name": "maxItemsForPick",
 						"description": null,
 						"type": {
-							"kind": "SCALAR",
-							"name": "Boolean",
-							"ofType": null
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "Int",
+								"ofType": null
+							}
 						},
-						"defaultValue": "false",
+						"defaultValue": null,
 						"isDeprecated": false,
 						"deprecationReason": null
 					},
@@ -792,6 +872,22 @@
 									"name": "ProductEntityInput",
 									"ofType": null
 								}
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "type",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "ENUM",
+								"name": "AttributeGroupTypeEnum",
+								"ofType": null
 							}
 						},
 						"defaultValue": null,
@@ -985,6 +1081,22 @@
 				"description": null,
 				"fields": [
 					{
+						"name": "description",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "id",
 						"description": null,
 						"args": [],
@@ -1044,6 +1156,22 @@
 				"description": null,
 				"fields": null,
 				"inputFields": [
+					{
+						"name": "description",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
 					{
 						"name": "name",
 						"description": null,
@@ -1426,12 +1554,16 @@
 						"deprecationReason": null
 					},
 					{
-						"name": "isUniq",
+						"name": "maxItemsForPick",
 						"description": null,
 						"type": {
-							"kind": "SCALAR",
-							"name": "Boolean",
-							"ofType": null
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "Int",
+								"ofType": null
+							}
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -1462,6 +1594,22 @@
 							"ofType": {
 								"kind": "SCALAR",
 								"name": "String",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "type",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "ENUM",
+								"name": "AttributeGroupTypeEnum",
 								"ofType": null
 							}
 						},
@@ -1578,6 +1726,22 @@
 				"description": null,
 				"fields": null,
 				"inputFields": [
+					{
+						"name": "description",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
 					{
 						"name": "name",
 						"description": null,
@@ -6933,6 +7097,22 @@
 						"deprecationReason": null
 					},
 					{
+						"name": "getMe",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "OBJECT",
+								"name": "AccessToken",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "hall",
 						"description": null,
 						"args": [
@@ -8113,11 +8293,35 @@
 						"deprecationReason": null
 					},
 					{
+						"name": "maxItemsForPick",
+						"description": null,
+						"type": {
+							"kind": "SCALAR",
+							"name": "Int",
+							"ofType": null
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "name",
 						"description": null,
 						"type": {
 							"kind": "SCALAR",
 							"name": "String",
+							"ofType": null
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "type",
+						"description": null,
+						"type": {
+							"kind": "ENUM",
+							"name": "AttributeGroupTypeEnum",
 							"ofType": null
 						},
 						"defaultValue": null,
@@ -8241,6 +8445,18 @@
 				"description": null,
 				"fields": null,
 				"inputFields": [
+					{
+						"name": "description",
+						"description": null,
+						"type": {
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
 					{
 						"name": "id",
 						"description": null,

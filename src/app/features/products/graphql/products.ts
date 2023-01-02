@@ -28,6 +28,29 @@ export interface ProductsQuery {
 	};
 }
 
+export type ProductQueryVariables = Types.Exact<{
+	productId: Types.Scalars["String"];
+}>;
+
+export interface ProductQuery {
+	__typename?: "Query";
+	product: {
+		__typename?: "ProductEntity";
+		description?: string | null;
+		name: string;
+		price: number;
+		id: string;
+		attrsGroups?:
+			| {
+					__typename?: "AttributesGroupEntity";
+					name: string;
+					attributes?: { __typename?: "AttributesEntity"; id: string; name: string }[] | null;
+			  }[]
+			| null;
+		file?: { __typename?: "FileEntity"; url: string; id: string } | null;
+	};
+}
+
 export const ProductsDocument = gql`
 	query Products($take: Int!, $filtersArgs: FiltersArgsDto, $skip: Int!) {
 		products(take: $take, filtersArgs: $filtersArgs, skip: $skip) {
@@ -52,6 +75,38 @@ export const ProductsDocument = gql`
 })
 export class ProductsGQL extends Apollo.Query<ProductsQuery, ProductsQueryVariables> {
 	override document = ProductsDocument;
+
+	constructor(apollo: Apollo.Apollo) {
+		super(apollo);
+	}
+}
+export const ProductDocument = gql`
+	query Product($productId: String!) {
+		product(id: $productId) {
+			description
+			name
+			price
+			id
+			attrsGroups {
+				name
+				attributes {
+					id
+					name
+				}
+			}
+			file {
+				url
+				id
+			}
+		}
+	}
+`;
+
+@Injectable({
+	providedIn: "root"
+})
+export class ProductGQL extends Apollo.Query<ProductQuery, ProductQueryVariables> {
+	override document = ProductDocument;
 
 	constructor(apollo: Apollo.Apollo) {
 		super(apollo);

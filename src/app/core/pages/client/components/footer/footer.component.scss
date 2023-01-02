@@ -2,8 +2,46 @@
 
 @include page() {
 	.footer {
-		.button {
-			width: 100%;
+		padding: rem(15);
+		display: flex;
+		justify-content: space-between;
+		column-gap: rem(15);
+		.basket,
+		.back {
+			width: rem(50);
+			height: rem(50);
+			border-radius: rem(12);
+			background-color: var(--primary);
+			display: grid;
+			align-items: center;
+			justify-content: center;
+			.icon {
+				width: rem(35);
+				height: rem(35);
+			}
+			&.basket {
+				position: relative;
+				.count {
+					position: absolute;
+					right: rem(-10);
+					top: rem(-10);
+					width: rem(30);
+					height: rem(30);
+					border-radius: 50%;
+					background-color: var(--dark);
+					color: var(--light-grey);
+					display: grid;
+					align-items: center;
+					justify-content: center;
+				}
+			}
+			&.back {
+				@include icon(null, var(--dark));
+			}
+		}
+
+		.action {
+			flex: 1;
 		}
 	}
 }

@@ -5,6 +5,8 @@
 		display: grid;
 		justify-content: center;
 		row-gap: rem(24);
+
+		@include pagePadding ();
 		.subtitle {
 			font-weight: 500;
 			font-size: rem(16);

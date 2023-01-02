@@ -4,8 +4,12 @@ query AttributeGroups($skip: Int!, $take: Int!, $filtersArgs: FiltersArgsDto) {
 		totalCount
 		data {
 			id
-			isUniq
+			type
+			maxItemsForPick
 			name
+			attributes {
+				name
+			}
 		}
 	}
 }
