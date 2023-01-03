@@ -15,7 +15,16 @@ export interface OrdersQuery {
 		__typename?: "PaginatedActiveOrder";
 		page: number;
 		totalCount: number;
-		data?: { __typename?: "ActiveOrderEntity"; orderCode: string; id: string }[] | null;
+		data?:
+			| {
+					__typename?: "ActiveOrderEntity";
+					orderCode: string;
+					id: string;
+					totalPrice: number;
+					type: Types.OrderTypeEnum;
+					place: { __typename?: "PlaceEntity"; id: string; name: string };
+			  }[]
+			| null;
 	};
 }
 
@@ -32,7 +41,32 @@ export interface OrderQuery {
 		type: Types.OrderTypeEnum;
 		status: Types.OrderStatusEnum;
 		totalPrice: number;
-		table?: { __typename?: "TableEntity"; name: string } | null;
+		usersToOrders?:
+			| {
+					__typename?: "UserToOrderEntity";
+					id: string;
+					count: number;
+					product: { __typename?: "ProductEntity"; id: string; name: string };
+					user: { __typename?: "UserEntity"; id: string; name: string };
+			  }[]
+			| null;
+		place: { __typename?: "PlaceEntity"; id: string; name: string };
+		table?: { __typename?: "TableEntity"; id: string; name: string } | null;
+	};
+}
+
+export type UpdateOrderMutationVariables = Types.Exact<{
+	order: Types.UpdateOrderInput;
+}>;
+
+export interface UpdateOrderMutation {
+	__typename?: "Mutation";
+	updateOrder: {
+		__typename?: "ActiveOrderEntity";
+		id: string;
+		orderCode: string;
+		status: Types.OrderStatusEnum;
+		type: Types.OrderTypeEnum;
 	};
 }
 
@@ -50,6 +84,7 @@ export interface CreateOrderMutation {
 		status: Types.OrderStatusEnum;
 		totalPrice: number;
 		table?: { __typename?: "TableEntity"; id: string; name: string } | null;
+		place: { __typename?: "PlaceEntity"; id: string; name: string };
 	};
 }
 
@@ -61,6 +96,12 @@ export const OrdersDocument = gql`
 			data {
 				orderCode
 				id
+				totalPrice
+				type
+				place {
+					id
+					name
+				}
 			}
 		}
 	}
@@ -84,7 +125,28 @@ export const OrderDocument = gql`
 			type
 			status
 			totalPrice
+			usersToOrders {
+				id
+				count
+				product {
+					id
+					name
+				}
+				user {
+					id
+					name
+				}
+			}
+			place {
+				id
+				name
+			}
 			table {
+				id
+				name
+			}
+			place {
+				id
 				name
 			}
 		}
@@ -101,6 +163,27 @@ export class OrderGQL extends Apollo.Query<OrderQuery, OrderQueryVariables> {
 		super(apollo);
 	}
 }
+export const UpdateOrderDocument = gql`
+	mutation UpdateOrder($order: UpdateOrderInput!) {
+		updateOrder(order: $order) {
+			id
+			orderCode
+			status
+			type
+		}
+	}
+`;
+
+@Injectable({
+	providedIn: "root"
+})
+export class UpdateOrderGQL extends Apollo.Mutation<UpdateOrderMutation, UpdateOrderMutationVariables> {
+	override document = UpdateOrderDocument;
+
+	constructor(apollo: Apollo.Apollo) {
+		super(apollo);
+	}
+}
 export const CreateOrderDocument = gql`
 	mutation CreateOrder($order: CreateOrderInput!) {
 		createOrder(order: $order) {
@@ -112,6 +195,13 @@ export const CreateOrderDocument = gql`
 			table {
 				id
 				name
+			}
+			place {
+				id
+				name
+			}
+			place {
+				id
 			}
 		}
 	}

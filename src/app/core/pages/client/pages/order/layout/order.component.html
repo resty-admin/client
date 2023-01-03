@@ -1,9 +1,48 @@
 <div class="order" *ngIf="order$ | async as order">
-	<h1 appTypography>{{ order.type }}</h1>
-	<p>Цена: {{ order.totalPrice }}</p>
+	<div class="place">
+		<h2 class="subtitle" appTypography theme="2">Заведение</h2>
 
-	<a appButton theme="1" routerLink="payment-type">Оплатить</a>
-	<!--	<app-place></app-place>-->
-	<!--	<app-table></app-table>-->
-	<!--	<app-product></app-product>-->
+		<app-place [place]="order.place"></app-place>
+	</div>
+
+	<div class="table">
+		<h2 class="subtitle" appTypography theme="2">Стол</h2>
+
+		<app-table [table]="order.table" *ngIf="order.table; else addTable"></app-table>
+
+		<ng-template #addTable>
+			<a appButton theme="1" [routerLink]="clientRoutes.HALLS.absolutePath.replace(':placeId', order.place.id)"
+				>Выбрать стол</a
+			>
+		</ng-template>
+	</div>
+
+	<div class="users" *ngIf="order.usersToOrders?.length">
+		<h2 class="subtitle" appTypography theme="2">Гости</h2>
+
+		<ul class="users-list">
+			<li class="user">
+				<button class="button selected">Все</button>
+			</li>
+			<li class="user" *ngFor="let userToOrder of order.usersToOrders; let i = index">
+				<button class="button">Гость {{ i + 1 }}</button>
+			</li>
+		</ul>
+	</div>
+
+	<div class="products">
+		<h2 class="subtitle" appTypography theme="2">Блюда</h2>
+
+		<ul class="products-list" *ngIf="order.usersToOrders?.length; else addProduct">
+			<li class="product" *ngFor="let userToOrder of order.usersToOrders">
+				<app-product [product]="userToOrder.product"></app-product>
+			</li>
+		</ul>
+
+		<ng-template #addProduct>
+			<a appButton theme="1" [routerLink]="clientRoutes.CATEGORIES.absolutePath.replace(':placeId', order.place.id)"
+				>Выбрать блюда</a
+			>
+		</ng-template>
+	</div>
 </div>

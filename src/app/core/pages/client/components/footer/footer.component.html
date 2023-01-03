@@ -3,6 +3,10 @@
 		<app-icon class="icon" name="back"></app-icon>
 	</a>
 
+	<button appButton theme="1" class="action" *ngIf="action$ | async as action" (click)="action.action()">
+		{{ action.label }}
+	</button>
+
 	<a
 		class="basket"
 		*ngIf="activeOrder$ | async as activeOrder"

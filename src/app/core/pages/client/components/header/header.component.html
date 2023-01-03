@@ -5,12 +5,13 @@
 	<app-language-select class="language"></app-language-select>
 	<app-theme class="theme"></app-theme>
 
+	<span class="space"></span>
 	<a
 		[class]="'active-order' + ' ' + activeOrder.type"
 		*ngIf="activeOrder$ | async as activeOrder"
 		[routerLink]="clientRoutes.ORDER.absolutePath.replace(':id', activeOrder.id)"
 	>
-		<p class="code">{{ activeOrder.orderCode }}</p>
+		<p class="code">Заказ №{{ activeOrder.orderCode }}</p>
 		<hr class="divider" />
 		<p class="type">{{ activeOrder.type }}</p>
 	</a>

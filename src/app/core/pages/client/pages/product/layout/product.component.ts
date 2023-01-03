@@ -1,13 +1,16 @@
-import type { OnInit } from "@angular/core";
+import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { map, switchMap } from "rxjs";
+import { map, switchMap, take } from "rxjs";
 import { ProductsService } from "src/app/features/products";
 import { CATEGORY_ID, DYNAMIC_ID, PLACE_ID } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
 import { CLIENT_ROUTES } from "src/app/shared/routes";
+
+import { ActionsService } from "../../../../../../features/actions";
 
 @UntilDestroy()
 @Component({
@@ -16,7 +19,7 @@ import { CLIENT_ROUTES } from "src/app/shared/routes";
 	styleUrls: ["./product.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductComponent implements OnInit {
+export class ProductComponent implements OnInit, OnDestroy {
 	readonly counterFormControl = new FormControl(0);
 
 	readonly product$ = this._routerService.selectParams(DYNAMIC_ID.slice(1)).pipe(
@@ -34,16 +37,12 @@ export class ProductComponent implements OnInit {
 		}))
 	);
 
-	readonly ingridients = [
-		{ value: "empty", label: "Ничего" },
-		{ value: "chicken", label: "Курица (40г) + 30 грн" },
-		{ value: "pepper", label: "Перец острыйс колумбийской морковкой (30г) + 17 грн" }
-	];
-
 	constructor(
 		private readonly _productsService: ProductsService,
 		private readonly _routerService: RouterService,
-		private readonly _breadcrumbsService: BreadcrumbsService
+		private readonly _breadcrumbsService: BreadcrumbsService,
+		private readonly _actionsService: ActionsService,
+		private readonly _activatedRoute: ActivatedRoute
 	) {}
 
 	ngOnInit() {
@@ -56,8 +55,19 @@ export class ProductComponent implements OnInit {
 				);
 			});
 
-		this.counterFormControl.value$.pipe(untilDestroyed(this)).subscribe((count) => {
-			console.log("count", count);
+		this._actionsService.setAction({
+			label: "Подтвердить",
+			action: () =>
+				this.product$.pipe(take(1)).subscribe(async () => {
+					const { categoryId, placeId } = this._activatedRoute.snapshot.params;
+					await this._routerService.navigateByUrl(
+						CLIENT_ROUTES.PRODUCTS.absolutePath.replace(PLACE_ID, placeId).replace(CATEGORY_ID, categoryId)
+					);
+				})
 		});
+	}
+
+	ngOnDestroy() {
+		this._actionsService.setAction(null);
 	}
 }

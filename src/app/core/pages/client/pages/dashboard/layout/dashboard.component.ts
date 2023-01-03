@@ -1,7 +1,6 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { UntilDestroy } from "@ngneat/until-destroy";
-import { take } from "rxjs";
+import { switchMap, take } from "rxjs";
 import { PLACE_ID } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
@@ -9,8 +8,8 @@ import { CLIENT_ROUTES } from "src/app/shared/routes";
 
 import { OrderTypeEnum } from "../../../../../../../graphql";
 import { OrdersService } from "../../../../../../features/orders";
+import { AuthService } from "../../../../auth/services";
 
-@UntilDestroy()
 @Component({
 	selector: "app-dashboard",
 	templateUrl: "./dashboard.component.html",
@@ -48,7 +47,8 @@ export class DashboardComponent implements OnInit {
 	constructor(
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
-		private readonly _ordersService: OrdersService
+		private readonly _ordersService: OrdersService,
+		private readonly _authService: AuthService
 	) {}
 
 	ngOnInit() {
@@ -56,13 +56,13 @@ export class DashboardComponent implements OnInit {
 	}
 
 	createOrder({ type, link }: any) {
-		this._ordersService
-			.createOrder({
-				type,
-				place: this.placeId,
-				totalPrice: 250
-			})
-			.pipe(take(1))
+		this._authService
+			.getMe()
+			.pipe(
+				take(1),
+				switchMap(() => this._ordersService.createOrder({ type, place: this.placeId, totalPrice: 250 })),
+				take(1)
+			)
 			.subscribe(async () => {
 				await this._routerService.navigateByUrl(link.replace(PLACE_ID, this.placeId));
 			});

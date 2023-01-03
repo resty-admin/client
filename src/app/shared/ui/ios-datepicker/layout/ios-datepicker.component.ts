@@ -24,6 +24,8 @@ export class IosDatepickerComponent extends ControlValueAccessor<Dayjs> implemen
 	@ViewChild("hoursContainer") hoursContainer!: ElementRef;
 	@ViewChild("minutesContainer") minutesContainer!: ElementRef;
 
+	isDropdownOpen = false;
+
 	readonly height = 50;
 
 	readonly monthFormControl = new FormControl<number>(dayjs().month());
@@ -55,6 +57,10 @@ export class IosDatepickerComponent extends ControlValueAccessor<Dayjs> implemen
 
 	constructor(private readonly _changeDetectorReference: ChangeDetectorRef) {
 		super(dayjs());
+	}
+
+	toggleDropdown() {
+		this.isDropdownOpen = !this.isDropdownOpen;
 	}
 
 	private _handleScroll({ nativeElement }: ElementRef, formControl: FormControl<any>) {

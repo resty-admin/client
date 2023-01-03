@@ -5,97 +5,13 @@
 		display: grid;
 		row-gap: rem(24);
 
-		@include pagePadding ();
+		@include pagePadding();
 		.halls {
 			display: grid;
 			grid-gap: rem(10);
 
 			@include desktop() {
 				grid-template-columns: 1fr 1fr 1fr;
-			}
-			.hall {
-				.link {
-					display: block;
-					background-color: var(--light-grey);
-					border-radius: rem(12);
-					.image {
-						width: 100%;
-						height: rem(160);
-
-						@include image() {
-							border-radius: rem(12) rem(12) 0 0;
-						}
-					}
-					.icon {
-						width: rem(15);
-						height: rem(15);
-					}
-					.content {
-						display: grid;
-						row-gap: rem(8);
-						justify-content: space-between;
-						align-items: center;
-						padding: rem(16);
-						grid-template-areas:
-							"label status"
-							"address time";
-						.label {
-							grid-area: label;
-							font-weight: 500;
-							font-size: rem(20);
-							line-height: rem(32);
-							color: var(--dark);
-						}
-						.status {
-							display: flex;
-							column-gap: rem(8);
-							grid-area: status;
-							font-weight: 400;
-							font-size: rem(12);
-							line-height: rem(16);
-							text-align: right;
-							color: #009007;
-						}
-						.time,
-						.address {
-							display: flex;
-							align-items: center;
-							column-gap: rem(8);
-							.icon {
-								width: rem(15);
-								height: rem(15);
-							}
-							.text {
-								font-weight: 400;
-								font-size: rem(14);
-								line-height: rem(24);
-								color: var(--dark);
-							}
-							&.time {
-								grid-area: time;
-							}
-							&.address {
-								grid-area: address;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-}
-@include dark() {
-	.halls-page .halls .hall .link {
-		background-color: var(--dark-grey);
-		.content {
-			.label {
-				color: white;
-			}
-			.time,
-			.address {
-				.text {
-					color: white;
-				}
 			}
 		}
 	}

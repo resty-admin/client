@@ -2,33 +2,29 @@
 
 @include page() {
 	.payment-status {
-		height: 100%;
 		display: grid;
-		align-items: center;
-		row-gap: rem(12);
+		row-gap: rem(24);
+		text-align: center;
 
-		@include pagePadding ();
-		.container {
-			text-align: center;
-			.image {
-				width: rem(80);
-				height: rem(80);
-			}
+		@include pagePadding();
+		.image {
+			width: rem(80);
+			height: rem(80);
+			margin: 0 auto;
+		}
 
-			.title {
-				font-weight: 700;
-				font-size: rem(32);
-				line-height: rem(40);
-				color: var(--dark);
-			}
+		.title {
+			font-weight: 700;
+			font-size: rem(32);
+			line-height: rem(40);
+			color: var(--dark);
+		}
 
-			.subtitle {
-				font-weight: 500;
-				font-size: rem(20);
-				line-height: rem(32);
-				text-align: center;
-				color: var(--dark);
-			}
+		.subtitle {
+			font-weight: 500;
+			font-size: rem(20);
+			line-height: rem(32);
+			color: var(--dark);
 		}
 	}
 }

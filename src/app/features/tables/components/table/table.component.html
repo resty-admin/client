@@ -1,0 +1,15 @@
+<div class="table" *ngIf="table">
+	<app-image class="image" [remote]="true" [name]="table.file?.url" placeholder="table"></app-image>
+	<div class="content">
+		<span class="label">{{ table.name }}</span>
+		<span class="status">{{ table.status }}</span>
+		<ul class="chips">
+			<li class="chip">
+				<app-chip theme="1">На 5 человек</app-chip>
+			</li>
+			<li class="chip">
+				<app-chip theme="1">Вид на море</app-chip>
+			</li>
+		</ul>
+	</div>
+</div>

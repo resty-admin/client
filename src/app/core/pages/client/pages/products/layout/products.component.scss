@@ -4,93 +4,14 @@
 	.products-page {
 		display: grid;
 		row-gap: rem(24);
-		padding-bottom: rem(24);
 
 		@include pagePadding();
-		.button {
-			position: fixed;
-			bottom: rem(15);
-		}
-
 		.products {
 			display: grid;
 			grid-gap: rem(10);
 
 			@include desktop() {
 				grid-template-columns: 1fr 1fr;
-			}
-			.product .link {
-				display: grid;
-				background-color: var(--light-grey);
-				border-radius: rem(12);
-				.image {
-					width: 100%;
-					height: rem(160);
-
-					@include image() {
-						border-radius: rem(12) rem(12) 0 0;
-					}
-				}
-				.content {
-					display: grid;
-					row-gap: rem(8);
-					justify-content: space-between;
-					align-items: center;
-					padding: rem(16);
-					grid-template-areas:
-						"name price"
-						"description cal"
-						". counter";
-					.name {
-						grid-area: name;
-						font-weight: 500;
-						font-size: rem(20);
-						line-height: rem(32);
-						color: var(--dark);
-					}
-					.price {
-						grid-area: price;
-						font-weight: 400;
-						font-size: rem(12);
-						line-height: rem(16);
-						text-align: right;
-						color: #009007;
-					}
-					.cal {
-						grid-area: cal;
-						font-weight: 400;
-						font-size: rem(12);
-						line-height: rem(16);
-						color: var(--dark-t);
-						justify-self: end;
-						align-self: start;
-					}
-					.description {
-						grid-area: description;
-						color: var(--dark-t);
-						max-width: 80%;
-					}
-					.counter {
-						grid-area: counter;
-						justify-self: end;
-					}
-				}
-			}
-		}
-	}
-}
-@include dark() {
-	.products-page .products .product .link {
-		background-color: var(--dark-grey);
-		.content {
-			.description {
-				color: var(--light-t);
-			}
-			.name {
-				color: var(--light);
-			}
-			.cal {
-				color: var(--light-t);
 			}
 		}
 	}

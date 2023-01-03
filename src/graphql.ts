@@ -32,7 +32,7 @@ export interface ActiveOrderEntity {
 	table?: Maybe<TableEntity>;
 	totalPrice: Scalars["Int"];
 	type: OrderTypeEnum;
-	users: UserEntity[];
+	usersToOrders?: Maybe<UserToOrderEntity[]>;
 }
 
 export interface ActiveOrderEntityInput {
@@ -42,7 +42,7 @@ export interface ActiveOrderEntityInput {
 	table?: InputMaybe<TableEntityInput>;
 	totalPrice: Scalars["Int"];
 	type: OrderTypeEnum;
-	users: UserEntityInput[];
+	usersToOrders?: InputMaybe<UserToOrderEntityInput[]>;
 }
 
 export interface ActiveShiftEntity {
@@ -204,7 +204,7 @@ export interface CreateOrderInput {
 	table?: InputMaybe<Scalars["String"]>;
 	totalPrice: Scalars["Int"];
 	type: OrderTypeEnum;
-	users?: InputMaybe<Scalars["String"][]>;
+	usersToOrders?: InputMaybe<CreateUserToOrderInput[]>;
 }
 
 export interface CreatePaymentSystemInput {
@@ -248,6 +248,13 @@ export interface CreateUserInput {
 	password: Scalars["String"];
 	role: UserRoleEnum;
 	tel?: InputMaybe<Scalars["String"]>;
+}
+
+export interface CreateUserToOrderInput {
+	attributes?: InputMaybe<Scalars["String"][]>;
+	count: Scalars["Int"];
+	product: Scalars["String"];
+	user: Scalars["String"];
 }
 
 export interface FileEntity {
@@ -310,7 +317,7 @@ export interface HistoryOrderEntity {
 	table?: Maybe<TableEntity>;
 	totalPrice: Scalars["Int"];
 	type: OrderTypeEnum;
-	users: UserEntity[];
+	usersToOrders?: Maybe<UserToOrderEntity[]>;
 }
 
 export interface HistoryOrderEntityInput {
@@ -320,7 +327,7 @@ export interface HistoryOrderEntityInput {
 	table?: InputMaybe<TableEntityInput>;
 	totalPrice: Scalars["Int"];
 	type: OrderTypeEnum;
-	users: UserEntityInput[];
+	usersToOrders?: InputMaybe<UserToOrderEntityInput[]>;
 }
 
 export interface HistoryShiftEntity {
@@ -999,8 +1006,9 @@ export interface UpdateOrderInput {
 	id: Scalars["String"];
 	status?: InputMaybe<OrderStatusEnum>;
 	table?: InputMaybe<Scalars["String"]>;
+	totalPrice?: InputMaybe<Scalars["Int"]>;
 	type?: InputMaybe<OrderTypeEnum>;
-	users?: InputMaybe<Scalars["String"][]>;
+	usersToOrders?: InputMaybe<CreateUserToOrderInput[]>;
 }
 
 export interface UpdatePaymentSystemInput {
@@ -1056,7 +1064,6 @@ export interface UserEntity {
 	googleId?: Maybe<Scalars["String"]>;
 	id: Scalars["String"];
 	name: Scalars["String"];
-	orders?: Maybe<ActiveOrderEntity[]>;
 	password?: Maybe<Scalars["String"]>;
 	role: UserRoleEnum;
 	status: UserStatusEnum;
@@ -1072,7 +1079,6 @@ export interface UserEntityInput {
 	email?: InputMaybe<Scalars["String"]>;
 	googleId?: InputMaybe<Scalars["String"]>;
 	name: Scalars["String"];
-	orders?: InputMaybe<ActiveOrderEntityInput[]>;
 	password?: InputMaybe<Scalars["String"]>;
 	role: UserRoleEnum;
 	status: UserStatusEnum;
@@ -1095,6 +1101,24 @@ export enum UserRoleEnum {
 export enum UserStatusEnum {
 	NotVerified = "NOT_VERIFIED",
 	Verified = "VERIFIED"
+}
+
+export interface UserToOrderEntity {
+	__typename?: "UserToOrderEntity";
+	attributes?: Maybe<AttributesEntity[]>;
+	count: Scalars["Int"];
+	id: Scalars["String"];
+	order: ActiveOrderEntity;
+	product: ProductEntity;
+	user: UserEntity;
+}
+
+export interface UserToOrderEntityInput {
+	attributes?: InputMaybe<AttributesEntityInput[]>;
+	count: Scalars["Int"];
+	order: ActiveOrderEntityInput;
+	product: ProductEntityInput;
+	user: UserEntityInput;
 }
 
 export interface WorkingHoursInput {

@@ -18,18 +18,10 @@ export interface HallsQuery {
 		data?:
 			| {
 					__typename?: "HallEntity";
-					tables?:
-						| {
-								__typename?: "TableEntity";
-								id: string;
-								hall: {
-									__typename?: "HallEntity";
-									id: string;
-									name: string;
-									file?: { __typename?: "FileEntity"; id: string; url: string } | null;
-								};
-						  }[]
-						| null;
+					id: string;
+					name: string;
+					file?: { __typename?: "FileEntity"; id: string; url: string } | null;
+					tables?: { __typename?: "TableEntity"; id: string; name: string }[] | null;
 			  }[]
 			| null;
 	};
@@ -41,16 +33,15 @@ export const HallsDocument = gql`
 			page
 			totalCount
 			data {
+				id
+				name
+				file {
+					id
+					url
+				}
 				tables {
 					id
-					hall {
-						id
-						file {
-							id
-							url
-						}
-						name
-					}
+					name
 				}
 			}
 		}

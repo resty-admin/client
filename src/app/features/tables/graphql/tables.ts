@@ -21,7 +21,7 @@ export interface TablesQuery {
 					id: string;
 					name: string;
 					code: number;
-					file?: { __typename?: "FileEntity"; url: string } | null;
+					file?: { __typename?: "FileEntity"; id: string; url: string } | null;
 			  }[]
 			| null;
 	};
@@ -33,7 +33,13 @@ export type TableQueryVariables = Types.Exact<{
 
 export interface TableQuery {
 	__typename?: "Query";
-	table: { __typename?: "TableEntity"; code: number; id: string; name: string };
+	table: {
+		__typename?: "TableEntity";
+		code: number;
+		id: string;
+		name: string;
+		file?: { __typename?: "FileEntity"; id: string; url: string } | null;
+	};
 }
 
 export const TablesDocument = gql`
@@ -46,6 +52,7 @@ export const TablesDocument = gql`
 				name
 				code
 				file {
+					id
 					url
 				}
 			}
@@ -69,6 +76,10 @@ export const TableDocument = gql`
 			code
 			id
 			name
+			file {
+				id
+				url
+			}
 		}
 	}
 `;

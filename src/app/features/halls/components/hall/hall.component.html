@@ -1,0 +1,10 @@
+<div class="hall" *ngIf="hall">
+	<app-image class="image" [remote]="true" [name]="hall.file?.url" placeholder="hall"></app-image>
+	<div class="content">
+		<span class="label">{{ hall.name }}</span>
+		<div class="status">
+			<app-icon class="icon" name="smoking"></app-icon>
+			<span class="text">Для курящих</span>
+		</div>
+	</div>
+</div>

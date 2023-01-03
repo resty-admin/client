@@ -1,64 +1,94 @@
 @import "src/assets/scss/abstractions";
 
-@include component () {
+@include component() {
 	.ios-datepicker {
-		display: grid;
-		grid-auto-flow: column;
-		grid-template-columns: auto auto auto min-content auto;
-		position: relative;
-		width: 100%;
-		background-color: var(--dark-t);
-
-		.active-item {
-			position: absolute;
-			width: 100%;
-			background-color: var(--primary);
-		}
-
-		.container {
-			overflow: hidden;
-		}
-
-		.list {
-			position: relative;
+		.backdrop {
+			position: fixed;
+			left: 0;
+			top: 0;
+			width: 100vw;
+			height: 100vh;
+			background-color: var(--dark-t);
 			z-index: 1;
-			height: 100%;
-			overflow: auto;
-			-ms-overflow-style: none; /* IE and Edge */
-			scrollbar-width: none; /* Firefox */
-			box-sizing: border-box;
-			&::-webkit-scrollbar {
-				display: none;
-			}
-			.list-item {
-				.button {
-					width: 100%;
-					height: 100%;
-					display: flex;
-					align-items: center;
-					justify-content: center;
-					color: var(--secondary-hover);
-					font-size: rem(24);
-					text-align: left;
-				}
+			display: none;
+			&.open {
+				display: block;
 			}
 
-			&.months {
-				.list-item {
-					.button {
-						justify-content: flex-start;
+			.dropdown {
+				position: fixed;
+				bottom: 0;
+				left: 0;
+				width: 100%;
+				background-color: var(--light);
+				padding: rem(15);
+				display: grid;
+				row-gap: rem(15);
+
+				.datepicker {
+					display: grid;
+					position: relative;
+					grid-auto-flow: column;
+					grid-template-columns: auto auto auto min-content auto;
+					width: 100%;
+
+					.active-item {
+						position: absolute;
+						width: 100%;
+						background-color: var(--primary);
+					}
+
+					.container {
+						overflow: hidden;
+					}
+
+					.list {
+						position: relative;
+						z-index: 1;
+						height: 100%;
+						overflow: auto;
+						-ms-overflow-style: none; /* IE and Edge */
+						scrollbar-width: none; /* Firefox */
+						box-sizing: border-box;
+						&::-webkit-scrollbar {
+							display: none;
+						}
+						.list-item {
+							.button {
+								width: 100%;
+								height: 100%;
+								display: flex;
+								align-items: center;
+								justify-content: center;
+								color: var(--secondary-hover);
+								font-size: rem(24);
+								text-align: left;
+							}
+						}
+
+						&.months {
+							.list-item {
+								.button {
+									justify-content: flex-start;
+								}
+							}
+						}
+					}
+
+					.time-splitter {
+						display: grid;
+						align-items: center;
+						z-index: 1;
+						font-size: rem(24);
+						color: var(--secondary-hover);
+						transform: translateY(-(rem(2)));
 					}
 				}
-			}
-		}
 
-		.time-splitter {
-			display: grid;
-			align-items: center;
-			z-index: 1;
-			font-size: rem(24);
-			color: var(--secondary-hover);
-			transform: translateY(-rem(2));
+				.button {
+					width: 100%;
+				}
+			}
 		}
 	}
 }

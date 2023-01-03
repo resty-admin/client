@@ -2,14 +2,13 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import type { Observable } from "rxjs";
-import { switchMap } from "rxjs";
+import { switchMap, take } from "rxjs";
 import { ProductsService } from "src/app/features/products";
-import { DYNAMIC_ID, PLACE_ID } from "src/app/shared/constants";
+import { PLACE_ID } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
 import { CLIENT_ROUTES } from "src/app/shared/routes";
 
-import { OrderTypeEnum } from "../../../../../../../graphql";
 import { OrdersService } from "../../../../../../features/orders";
 import { AuthService } from "../../../../auth/services";
 
@@ -31,26 +30,32 @@ export class ProductsComponent implements OnInit {
 		private readonly _authService: AuthService
 	) {}
 
-	createOrder() {
+	updateOrder(count: number, product: any) {
 		this._authService
 			.getMe()
 			.pipe(
+				take(1),
 				switchMap((user: any) =>
-					this._ordersService.createOrder({
-						place: this._routerService.getParams(PLACE_ID.slice(1))!,
-						totalPrice: 500,
-						type: OrderTypeEnum.Delivery,
-						users: [user?.id]
-					})
-				)
+					this._ordersService.updateActiveOrder((order) => ({
+						id: order.id,
+						usersToOrders: [
+							// ...(order.usersToOrders?.map((userToOrder: any) => ({
+							// 	id: userToOrder.id,
+							// 	count: userToOrder.count,
+							// 	user: userToOrder.user.id,
+							// 	product: userToOrder.product.id
+							// })) || []),
+							{
+								product: product.id,
+								user: user.id,
+								count
+							}
+						]
+					}))
+				),
+				take(1)
 			)
-			.subscribe(async (order) => {
-				if (!order) {
-					return;
-				}
-
-				await this._routerService.navigateByUrl(CLIENT_ROUTES.ORDER.absolutePath.replace(DYNAMIC_ID, order.id));
-			});
+			.subscribe();
 	}
 
 	ngOnInit() {

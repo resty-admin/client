@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
-import { map, take, tap } from "rxjs";
+import { map, switchMap, take, tap } from "rxjs";
 
-import type { CreateOrderInput } from "../../../../../graphql";
+import type { CreateOrderInput, UpdateOrderInput } from "../../../../../graphql";
 import { ToastrService } from "../../../../shared/ui/toastr";
-import { CreateOrderGQL, OrderGQL, OrdersGQL } from "../../graphql/orders";
+import { CreateOrderGQL, OrderGQL, OrdersGQL, UpdateOrderGQL } from "../../graphql/orders";
 import { OrdersRepository } from "../../repositories";
 
 @Injectable({ providedIn: "root" })
@@ -19,8 +19,13 @@ export class OrdersService {
 		private readonly _ordersGQL: OrdersGQL,
 		private readonly _orderGQL: OrderGQL,
 		private readonly _createOrderGQL: CreateOrderGQL,
+		private readonly _updateOrderGQL: UpdateOrderGQL,
 		private readonly _toastrService: ToastrService
 	) {}
+
+	setActiveOrder(order: any) {
+		this._ordersRepository.updateActiveOrder(order);
+	}
 
 	async refetch() {
 		await this._ordersGQL.watch({ skip: 0, take: 5 }).refetch();
@@ -37,6 +42,23 @@ export class OrdersService {
 			tap((order) => {
 				this._ordersRepository.updateActiveOrder(order);
 			})
+		);
+	}
+
+	updateOrder(order: UpdateOrderInput) {
+		return this._updateOrderGQL.mutate({ order }).pipe(
+			take(1),
+			this._toastrService.observe("Заказ"),
+			tap(async () => {
+				await this.refetch();
+			})
+		);
+	}
+
+	updateActiveOrder(func: (order: any) => any) {
+		return this.activeOrder$.pipe(
+			take(1),
+			switchMap((activeOrder: any) => this.updateOrder(func(activeOrder)))
 		);
 	}
 

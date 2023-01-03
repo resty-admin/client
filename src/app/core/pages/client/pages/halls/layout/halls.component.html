@@ -3,16 +3,8 @@
 
 	<ul class="halls">
 		<li class="hall" *ngFor="let hall of halls$ | async">
-			<a>
-				<!-- <a class="link" [routerLink]="hall.id"> -->
-				<!-- <app-image class="image" [remote]="true" [name]="hall.file?.url" placeholder="hall"></app-image> -->
-				<div class="content">
-					<!-- <span class="label">{{ hall.name }}</span> -->
-					<div class="status">
-						<app-icon class="icon" name="smoking"></app-icon>
-						<!-- <span class="text">{{ hall.address }} Для курящих</span> -->
-					</div>
-				</div>
+			<a class="link" [routerLink]="hall.id">
+				<app-hall [hall]="hall"></app-hall>
 			</a>
 		</li>
 	</ul>

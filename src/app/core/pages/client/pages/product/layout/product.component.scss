@@ -3,26 +3,29 @@
 @include page() {
 	.product {
 		display: grid;
+		align-items: center;
 		grid-template-areas:
+			"title title title"
 			"image image image"
-			"name name name"
-			"description description description"
-			"sum cal add"
+			"name cal price"
+			"description description counter"
 			"attrGroups attrGroups attrGroups"
 			"textarea textarea textarea";
-		grid-template-columns: auto 1fr auto;
-		align-items: center;
-		gap: rem(12);
-		padding-top: rem(158);
+		row-gap: rem(12);
+		column-gap: rem(12);
+		grid-template-columns: auto 1fr 1fr;
 
-		@include pagePadding ();
+		@include pagePadding();
+		.title {
+			grid-area: title;
+		}
 		.image {
-			position: absolute;
-			left: 0;
-			top: 0;
-			width: 100%;
 			grid-area: image;
 			height: rem(200);
+
+			@include image () {
+				border-radius: rem(12);
+			}
 		}
 		.name {
 			grid-area: name;
@@ -36,24 +39,23 @@
 			font-weight: 400;
 			font-size: rem(14);
 			line-height: rem(24);
-			color: var(--dark);
+			color: var(--dark-t);
 		}
-		.sum {
-			grid-area: sum;
+		.price {
+			grid-area: price;
 			font-weight: 600;
 			font-size: rem(20);
 			line-height: rem(32);
 			color: var(--primary);
+			justify-self: end;
 		}
 		.cal {
+			justify-self: start;
 			grid-area: cal;
 			font-weight: 400;
 			font-size: rem(14);
 			line-height: rem(24);
 			color: var(--dark-t);
-		}
-		.add {
-			grid-area: add;
 		}
 		.attrGroups {
 			grid-area: attrGroups;
@@ -69,6 +71,10 @@
 					color: var(--dark);
 				}
 			}
+		}
+		.counter {
+			grid-area: counter;
+			justify-self: end;
 		}
 		.textarea {
 			grid-area: textarea;

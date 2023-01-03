@@ -14,6 +14,7 @@ import { ProductRoutingModule } from "./product-routing.module";
 
 @NgModule({
 	declarations: [ProductComponent],
+	exports: [ProductComponent],
 	imports: [
 		CommonModule,
 		ProductRoutingModule,

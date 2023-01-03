@@ -4,19 +4,7 @@
 	<ul class="tables">
 		<li class="table" *ngFor="let table of tables$ | async">
 			<a class="link" [routerLink]="table.id">
-				<app-image class="image" [remote]="true" [name]="table.file.url" placeholder="table"></app-image>
-				<div class="content">
-					<span class="label">{{ table.name }}</span>
-					<span class="status">{{ table.status }}</span>
-					<ul class="chips">
-						<li class="chip">
-							<app-chip theme="1">На 5 человек</app-chip>
-						</li>
-						<li class="chip">
-							<app-chip theme="1">Вид на море</app-chip>
-						</li>
-					</ul>
-				</div>
+				<app-table [table]="table"></app-table>
 			</a>
 		</li>
 	</ul>

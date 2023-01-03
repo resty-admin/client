@@ -5,19 +5,19 @@
 		<li class="active-order" *ngFor="let order of orders$ | async">
 			<a class="link" [routerLink]="order.id">
 				<span class="name">Заказ {{ order.orderCode }}</span>
-				<!--				<span class="sum">{{ order.sum }}</span>-->
+				<span class="sum">{{ order.totalPrice }}</span>
 				<div class="type">
 					<app-icon class="icon" name="to-go"></app-icon>
-					<!-- <span class="text">{{ order.type }}</span> -->
+					<span class="text">{{ order.type }}</span>
 				</div>
-				<!--				<div class="time">-->
-				<!--					<app-icon class="icon" name="bell"></app-icon>-->
-				<!--					<span class="text">{{ order.time }}</span>-->
-				<!--				</div>-->
-				<!--				<div class="place">-->
-				<!--					<app-icon class="icon" name="location"></app-icon>-->
-				<!--					<span class="text">{{ order.place }}</span>-->
-				<!--				</div>-->
+				<div class="time">
+					<app-icon class="icon" name="bell"></app-icon>
+					<span class="text">{{ "12:00" }}</span>
+				</div>
+				<div class="place">
+					<app-icon class="icon" name="location"></app-icon>
+					<span class="text">{{ order.place.name }}</span>
+				</div>
 			</a>
 		</li>
 	</ul>
@@ -28,19 +28,19 @@
 		<li class="history-order" *ngFor="let order of orders$ | async">
 			<a class="link" [routerLink]="order.id">
 				<span class="name">Заказ {{ order.orderCode }}</span>
-				<!--				<span class="sum">{{ order.sum }}</span>-->
+				<span class="sum">{{ order.totalPrice }}</span>
 				<div class="type">
 					<app-icon class="icon" name="to-go"></app-icon>
-					<!-- <span class="text">{{ order.type }}</span> -->
+					<span class="text">{{ order.type }}</span>
 				</div>
-				<!--				<div class="time">-->
-				<!--					<app-icon class="icon" name="bell"></app-icon>-->
-				<!--					<span class="text">{{ order.time }}</span>-->
-				<!--				</div>-->
-				<!--				<div class="place">-->
-				<!--					<app-icon class="icon" name="location"></app-icon>-->
-				<!--					<span class="text">{{ order.place }}</span>-->
-				<!--				</div>-->
+				<div class="time">
+					<app-icon class="icon" name="bell"></app-icon>
+					<span class="text">{{ "12:00" }}</span>
+				</div>
+				<div class="place">
+					<app-icon class="icon" name="location"></app-icon>
+					<span class="text">{{ order.place }}</span>
+				</div>
 			</a>
 		</li>
 	</ul>

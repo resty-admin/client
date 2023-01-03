@@ -3,16 +3,15 @@ query Halls($skip: Int!, $take: Int!, $filtersArgs: FiltersArgsDto) {
 		page
 		totalCount
 		data {
+			id
+			name
+			file {
+				id
+				url
+			}
 			tables {
 				id
-				hall {
-					id
-					file {
-						id
-						url
-					}
-					name
-				}
+				name
 			}
 		}
 	}

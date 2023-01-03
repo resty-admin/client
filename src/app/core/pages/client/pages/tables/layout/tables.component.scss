@@ -5,63 +5,13 @@
 		display: grid;
 		row-gap: rem(24);
 
-		@include pagePadding ();
+		@include pagePadding();
 		.tables {
 			display: grid;
 			grid-gap: rem(10);
 
 			@include desktop() {
 				grid-template-columns: 1fr 1fr;
-			}
-			.link {
-				display: grid;
-				background-color: var(--light-grey);
-				border-radius: rem(12);
-
-				.image {
-					width: 100%;
-					height: rem(160);
-
-					@include image() {
-						border-radius: rem(12) rem(12) 0 0;
-					}
-				}
-				.content {
-					display: flex;
-					flex-wrap: wrap;
-					justify-content: space-between;
-					padding: rem(10) rem(15);
-					row-gap: rem(16);
-					.label {
-						font-weight: bold;
-						font-size: rem(14);
-						line-height: rem(24);
-						color: var(--dark);
-					}
-
-					.status {
-						font-weight: 400;
-						font-size: rem(14);
-						line-height: rem(24);
-						color: #009007;
-					}
-
-					.chips {
-						width: 100%;
-						display: flex;
-						gap: rem(5);
-					}
-				}
-			}
-		}
-	}
-}
-@include dark() {
-	.tables-page .tables .link {
-		background-color: var(--dark-grey);
-		.content {
-			.label {
-				color: var(--light);
 			}
 		}
 	}

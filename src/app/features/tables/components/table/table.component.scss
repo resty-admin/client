@@ -1,0 +1,52 @@
+@import "/src/assets/scss/abstractions";
+
+@include component () {
+	.table {
+		display: grid;
+		background-color: var(--light-grey);
+		border-radius: rem(12);
+
+		.image {
+			width: 100%;
+			height: rem(160);
+
+			@include image() {
+				border-radius: rem(12) rem(12) 0 0;
+			}
+		}
+		.content {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			padding: rem(10) rem(15);
+			row-gap: rem(16);
+			.label {
+				font-weight: 500;
+				font-size: rem(20);
+				line-height: rem(32);
+				color: var(--dark);
+			}
+
+			.status {
+				font-weight: 400;
+				font-size: rem(14);
+				line-height: rem(24);
+				color: #009007;
+			}
+
+			.chips {
+				width: 100%;
+				display: flex;
+				gap: rem(5);
+			}
+		}
+	}
+}
+@include dark () {
+	.table {
+		background-color: var(--dark-grey);
+		.content .label {
+			color: var(--light);
+		}
+	}
+}

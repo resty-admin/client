@@ -2,76 +2,75 @@
 
 @include page() {
 	.table-page {
-		height: 100%;
-		padding-top: rem(141);
+		display: grid;
+		align-self: start;
+		row-gap: rem(24);
+		grid-template-areas:
+			"title title"
+			"image image"
+			"label status"
+			"chips chips"
+			"datepicker datepicker"
+			"description description"
+			"submit submit";
 
 		@include pagePadding ();
-		.image {
-			position: absolute;
-			left: 0;
-			top: 0;
-			width: 100%;
-			height: rem(183);
+
+		.title {
+			grid-area: title;
 		}
 
-		.info {
-			padding-top: rem(18);
-			display: grid;
-			grid-template-areas:
-				"label status"
-				"chips chips"
-				"datepicker datepicker"
-				"description description"
-				"submit submit";
-			grid-template-rows: auto auto auto auto 1fr;
-			row-gap: rem(12);
+		.image {
+			grid-area: image;
+			height: rem(183);
 
-			.label {
-				grid-area: label;
-				font-weight: 500;
-				font-size: rem(20);
-				line-height: rem(32);
-				color: var(--dark);
+			@include image () {
+				border-radius: rem(12);
 			}
+		}
 
-			.status {
-				grid-area: status;
-				font-weight: 400;
-				font-size: rem(14);
-				line-height: rem(24);
-				text-align: right;
-				color: var(--green);
-			}
+		.label {
+			grid-area: label;
+			font-weight: 500;
+			font-size: rem(20);
+			line-height: rem(32);
+			color: var(--dark);
+		}
 
-			.chips {
-				grid-area: chips;
-				display: flex;
-				gap: rem(5);
-			}
+		.status {
+			grid-area: status;
+			font-weight: 400;
+			font-size: rem(14);
+			line-height: rem(24);
+			text-align: right;
+			color: var(--green);
+		}
 
-			.datepicker {
-				grid-area: datepicker;
-				height: rem(50);
-				margin-top: rem(36);
-			}
+		.chips {
+			grid-area: chips;
+			display: flex;
+			gap: rem(5);
+		}
 
-			.description {
-				grid-area: description;
-				color: var(--dark);
-				margin-top: rem(36);
-				font-weight: 400;
-				font-size: 14px;
-				line-height: 24px;
-			}
+		.datepicker {
+			grid-area: datepicker;
+		}
 
-			.submit {
-				grid-area: submit;
-				align-self: end;
+		.description {
+			grid-area: description;
+			color: var(--dark);
+			font-weight: 400;
+			font-size: 14px;
+			line-height: 24px;
+		}
+
+		.submit {
+			grid-area: submit;
+			align-self: end;
+			width: 100%;
+			bottom: rem(15);
+			&::ng-deep .app-button {
 				width: 100%;
-				bottom: rem(15);
-				&::ng-deep .app-button {
-					width: 100%;
-				}
 			}
 		}
 	}
