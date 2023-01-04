@@ -11,7 +11,7 @@
 		*ngIf="activeOrder$ | async as activeOrder"
 		[routerLink]="clientRoutes.ORDER.absolutePath.replace(':id', activeOrder.id)"
 	>
-		<p class="code">Заказ №{{ activeOrder.orderCode }}</p>
+		<p class="code">Заказ №{{ activeOrder.code }}</p>
 		<hr class="divider" />
 		<p class="type">{{ activeOrder.type }}</p>
 	</a>

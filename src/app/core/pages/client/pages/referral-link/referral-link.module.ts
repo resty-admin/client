@@ -1,3 +1,4 @@
+import { ClipboardModule } from "@angular/cdk/clipboard";
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ButtonModule } from "src/app/shared/ui/button";
@@ -18,7 +19,8 @@ import { ReferralLinkRoutingModule } from "./referral-link-routing.module";
 		InputModule,
 		ImageModule,
 		IconModule,
-		ButtonModule
+		ButtonModule,
+		ClipboardModule
 	],
 	exports: [ReferralLinkComponent]
 })

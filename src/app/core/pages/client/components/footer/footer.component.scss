@@ -42,6 +42,8 @@
 
 		.action {
 			flex: 1;
+
+			@include noWrap ();
 		}
 	}
 }

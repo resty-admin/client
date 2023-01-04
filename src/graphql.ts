@@ -25,23 +25,25 @@ export interface AccountingSystemEntity {
 
 export interface ActiveOrderEntity {
 	__typename?: "ActiveOrderEntity";
+	code: Scalars["Int"];
 	id: Scalars["String"];
-	orderCode: Scalars["String"];
 	place: PlaceEntity;
 	status: OrderStatusEnum;
 	table?: Maybe<TableEntity>;
-	totalPrice: Scalars["Int"];
+	totalPrice?: Maybe<Scalars["Int"]>;
 	type: OrderTypeEnum;
+	users?: Maybe<UserEntity[]>;
 	usersToOrders?: Maybe<UserToOrderEntity[]>;
 }
 
 export interface ActiveOrderEntityInput {
-	orderCode: Scalars["String"];
+	code: Scalars["Int"];
 	place: PlaceEntityInput;
 	status: OrderStatusEnum;
 	table?: InputMaybe<TableEntityInput>;
-	totalPrice: Scalars["Int"];
+	totalPrice?: InputMaybe<Scalars["Int"]>;
 	type: OrderTypeEnum;
+	users?: InputMaybe<UserEntityInput[]>;
 	usersToOrders?: InputMaybe<UserToOrderEntityInput[]>;
 }
 
@@ -177,7 +179,7 @@ export interface CreateAttributeInput {
 }
 
 export interface CreateCategoryInput {
-	file?: InputMaybe<FileUploadInput>;
+	file?: InputMaybe<Scalars["String"]>;
 	name: Scalars["String"];
 	place: Scalars["String"];
 }
@@ -189,12 +191,12 @@ export interface CreateCommandInput {
 }
 
 export interface CreateCompanyInput {
-	logo?: InputMaybe<FileUploadInput>;
+	logo?: InputMaybe<Scalars["String"]>;
 	name: Scalars["String"];
 }
 
 export interface CreateHallInput {
-	file?: InputMaybe<FileUploadInput>;
+	file?: InputMaybe<Scalars["String"]>;
 	name: Scalars["String"];
 	place: Scalars["String"];
 }
@@ -202,9 +204,8 @@ export interface CreateHallInput {
 export interface CreateOrderInput {
 	place: Scalars["String"];
 	table?: InputMaybe<Scalars["String"]>;
-	totalPrice: Scalars["Int"];
 	type: OrderTypeEnum;
-	usersToOrders?: InputMaybe<CreateUserToOrderInput[]>;
+	users?: InputMaybe<Scalars["String"][]>;
 }
 
 export interface CreatePaymentSystemInput {
@@ -214,7 +215,7 @@ export interface CreatePaymentSystemInput {
 export interface CreatePlaceInput {
 	address?: InputMaybe<Scalars["String"]>;
 	company: Scalars["String"];
-	file?: InputMaybe<FileEntityInput>;
+	file?: InputMaybe<Scalars["String"]>;
 	holidayDays?: InputMaybe<WorkingHoursInput>;
 	name: Scalars["String"];
 	weekDays?: InputMaybe<WorkingHoursInput>;
@@ -225,7 +226,7 @@ export interface CreateProductInput {
 	attrsGroups?: InputMaybe<Scalars["String"][]>;
 	category: Scalars["String"];
 	description?: InputMaybe<Scalars["String"]>;
-	file?: InputMaybe<FileUploadInput>;
+	file?: InputMaybe<Scalars["String"]>;
 	name: Scalars["String"];
 	price?: InputMaybe<Scalars["Float"]>;
 }
@@ -238,14 +239,16 @@ export interface CreateShitInput {
 }
 
 export interface CreateTableInput {
-	file?: InputMaybe<FileUploadInput>;
+	code?: InputMaybe<Scalars["Int"]>;
+	file?: InputMaybe<Scalars["String"]>;
 	hall: Scalars["String"];
 	name: Scalars["String"];
 }
 
 export interface CreateUserInput {
 	email: Scalars["String"];
-	password: Scalars["String"];
+	name?: InputMaybe<Scalars["String"]>;
+	password?: InputMaybe<Scalars["String"]>;
 	role: UserRoleEnum;
 	tel?: InputMaybe<Scalars["String"]>;
 }
@@ -264,11 +267,6 @@ export interface FileEntity {
 }
 
 export interface FileEntityInput {
-	url: Scalars["String"];
-}
-
-export interface FileUploadInput {
-	id: Scalars["String"];
 	url: Scalars["String"];
 }
 
@@ -310,23 +308,25 @@ export interface HallEntityInput {
 
 export interface HistoryOrderEntity {
 	__typename?: "HistoryOrderEntity";
+	code: Scalars["Int"];
 	id: Scalars["String"];
-	orderCode: Scalars["String"];
 	place: PlaceEntity;
 	status: OrderStatusEnum;
 	table?: Maybe<TableEntity>;
-	totalPrice: Scalars["Int"];
+	totalPrice?: Maybe<Scalars["Int"]>;
 	type: OrderTypeEnum;
+	users?: Maybe<UserEntity[]>;
 	usersToOrders?: Maybe<UserToOrderEntity[]>;
 }
 
 export interface HistoryOrderEntityInput {
-	orderCode: Scalars["String"];
+	code: Scalars["Int"];
 	place: PlaceEntityInput;
 	status: OrderStatusEnum;
 	table?: InputMaybe<TableEntityInput>;
-	totalPrice: Scalars["Int"];
+	totalPrice?: InputMaybe<Scalars["Int"]>;
 	type: OrderTypeEnum;
+	users?: InputMaybe<UserEntityInput[]>;
 	usersToOrders?: InputMaybe<UserToOrderEntityInput[]>;
 }
 
@@ -355,6 +355,8 @@ export interface LanguageEntity {
 
 export interface Mutation {
 	__typename?: "Mutation";
+	addProductToOrder: ActiveOrderEntity;
+	addUserToOrder: ActiveOrderEntity;
 	createAccountingSystem: AccountingSystemEntity;
 	createAttr: AttributesEntity;
 	createAttrGroup: AttributesGroupEntity;
@@ -383,6 +385,7 @@ export interface Mutation {
 	deleteShift: Scalars["String"];
 	deleteTable: Scalars["String"];
 	deleteUser: Scalars["String"];
+	removeUserProductInOrder: Scalars["String"];
 	updateAccountingSystem: AccountingSystemEntity;
 	updateAttr: AttributesEntity;
 	updateAttrGroup: AttributesGroupEntity;
@@ -397,6 +400,17 @@ export interface Mutation {
 	updateShift: ActiveShiftEntity;
 	updateTable: TableEntity;
 	updateUser: UserEntity;
+	updateUserProductInOrder: ActiveOrderEntity;
+}
+
+export interface MutationAddProductToOrderArgs {
+	orderId: Scalars["String"];
+	product: CreateUserToOrderInput;
+}
+
+export interface MutationAddUserToOrderArgs {
+	code: Scalars["Int"];
+	placeId: Scalars["String"];
 }
 
 export interface MutationCreateAccountingSystemArgs {
@@ -511,6 +525,10 @@ export interface MutationDeleteUserArgs {
 	userId: Scalars["String"];
 }
 
+export interface MutationRemoveUserProductInOrderArgs {
+	userToOrderId: Scalars["String"];
+}
+
 export interface MutationUpdateAccountingSystemArgs {
 	accountingSystem: UpdateAccountingSystemInput;
 }
@@ -567,9 +585,15 @@ export interface MutationUpdateUserArgs {
 	user: UpdateUserInput;
 }
 
+export interface MutationUpdateUserProductInOrderArgs {
+	userToOrder: UpdateUserToOrderInput;
+}
+
 export enum OrderStatusEnum {
 	Closed = "CLOSED",
-	Opened = "OPENED"
+	Opened = "OPENED",
+	Paid = "PAID",
+	Unpaid = "UNPAID"
 }
 
 export enum OrderTypeEnum {
@@ -746,6 +770,14 @@ export interface ProductEntityInput {
 	file?: InputMaybe<FileEntityInput>;
 	name: Scalars["String"];
 	price: Scalars["Int"];
+}
+
+export enum ProductToOrderStatusEnum {
+	Added = "ADDED",
+	Confirmed = "CONFIRMED",
+	Paid = "PAID",
+	RequestedToConfirm = "REQUESTED_TO_CONFIRM",
+	RequestedToPay = "REQUESTED_TO_PAY"
 }
 
 export interface Query {
@@ -973,10 +1005,11 @@ export interface UpdateAttributeGroupInput {
 export interface UpdateAttributeInput {
 	id: Scalars["String"];
 	name: Scalars["String"];
+	price?: InputMaybe<Scalars["Int"]>;
 }
 
 export interface UpdateCategoryInput {
-	file?: InputMaybe<FileUploadInput>;
+	file?: InputMaybe<Scalars["String"]>;
 	id: Scalars["String"];
 	name?: InputMaybe<Scalars["String"]>;
 	place?: InputMaybe<Scalars["String"]>;
@@ -992,12 +1025,12 @@ export interface UpdateCommandInput {
 export interface UpdateCompanyInput {
 	employees?: InputMaybe<Scalars["String"][]>;
 	id: Scalars["String"];
-	logo?: InputMaybe<FileEntityInput>;
+	logo?: InputMaybe<Scalars["String"]>;
 	name?: InputMaybe<Scalars["String"]>;
 }
 
 export interface UpdateHallInput {
-	file?: InputMaybe<FileUploadInput>;
+	file?: InputMaybe<Scalars["String"]>;
 	id: Scalars["String"];
 	name: Scalars["String"];
 }
@@ -1006,9 +1039,8 @@ export interface UpdateOrderInput {
 	id: Scalars["String"];
 	status?: InputMaybe<OrderStatusEnum>;
 	table?: InputMaybe<Scalars["String"]>;
-	totalPrice?: InputMaybe<Scalars["Int"]>;
 	type?: InputMaybe<OrderTypeEnum>;
-	usersToOrders?: InputMaybe<CreateUserToOrderInput[]>;
+	users?: InputMaybe<Scalars["String"][]>;
 }
 
 export interface UpdatePaymentSystemInput {
@@ -1018,7 +1050,7 @@ export interface UpdatePaymentSystemInput {
 
 export interface UpdatePlaceInput {
 	address?: InputMaybe<Scalars["String"]>;
-	file?: InputMaybe<FileEntityInput>;
+	file?: InputMaybe<Scalars["String"]>;
 	holidayDays?: InputMaybe<WorkingHoursInput>;
 	id: Scalars["String"];
 	name?: InputMaybe<Scalars["String"]>;
@@ -1030,7 +1062,7 @@ export interface UpdateProductInput {
 	attrsGroups?: InputMaybe<Scalars["String"][]>;
 	category?: InputMaybe<Scalars["String"]>;
 	description?: InputMaybe<Scalars["String"]>;
-	file?: InputMaybe<FileUploadInput>;
+	file?: InputMaybe<Scalars["String"]>;
 	id: Scalars["String"];
 	name?: InputMaybe<Scalars["String"]>;
 	price?: InputMaybe<Scalars["Float"]>;
@@ -1045,7 +1077,8 @@ export interface UpdateShitInput {
 }
 
 export interface UpdateTableInput {
-	file?: InputMaybe<FileUploadInput>;
+	code?: InputMaybe<Scalars["Int"]>;
+	file?: InputMaybe<Scalars["String"]>;
 	id: Scalars["String"];
 	name: Scalars["String"];
 }
@@ -1053,8 +1086,16 @@ export interface UpdateTableInput {
 export interface UpdateUserInput {
 	email?: InputMaybe<Scalars["String"]>;
 	id: Scalars["String"];
-	password?: InputMaybe<Scalars["String"]>;
+	name?: InputMaybe<Scalars["String"]>;
 	tel?: InputMaybe<Scalars["String"]>;
+}
+
+export interface UpdateUserToOrderInput {
+	attributes?: InputMaybe<Scalars["String"][]>;
+	count?: InputMaybe<Scalars["Int"]>;
+	id: Scalars["String"];
+	product?: InputMaybe<Scalars["String"]>;
+	user?: InputMaybe<Scalars["String"]>;
 }
 
 export interface UserEntity {
@@ -1064,6 +1105,7 @@ export interface UserEntity {
 	googleId?: Maybe<Scalars["String"]>;
 	id: Scalars["String"];
 	name: Scalars["String"];
+	orders?: Maybe<ActiveOrderEntity[]>;
 	password?: Maybe<Scalars["String"]>;
 	role: UserRoleEnum;
 	status: UserStatusEnum;
@@ -1079,6 +1121,7 @@ export interface UserEntityInput {
 	email?: InputMaybe<Scalars["String"]>;
 	googleId?: InputMaybe<Scalars["String"]>;
 	name: Scalars["String"];
+	orders?: InputMaybe<ActiveOrderEntityInput[]>;
 	password?: InputMaybe<Scalars["String"]>;
 	role: UserRoleEnum;
 	status: UserStatusEnum;
@@ -1109,7 +1152,9 @@ export interface UserToOrderEntity {
 	count: Scalars["Int"];
 	id: Scalars["String"];
 	order: ActiveOrderEntity;
+	paymentLink?: Maybe<Scalars["String"]>;
 	product: ProductEntity;
+	status: ProductToOrderStatusEnum;
 	user: UserEntity;
 }
 
@@ -1117,7 +1162,9 @@ export interface UserToOrderEntityInput {
 	attributes?: InputMaybe<AttributesEntityInput[]>;
 	count: Scalars["Int"];
 	order: ActiveOrderEntityInput;
+	paymentLink?: InputMaybe<Scalars["String"]>;
 	product: ProductEntityInput;
+	status: ProductToOrderStatusEnum;
 	user: UserEntityInput;
 }
 

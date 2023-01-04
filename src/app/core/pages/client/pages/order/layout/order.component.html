@@ -17,15 +17,15 @@
 		</ng-template>
 	</div>
 
-	<div class="users" *ngIf="order.usersToOrders?.length">
+	<div class="users" *ngIf="order.users?.length">
 		<h2 class="subtitle" appTypography theme="2">Гости</h2>
 
 		<ul class="users-list">
 			<li class="user">
 				<button class="button selected">Все</button>
 			</li>
-			<li class="user" *ngFor="let userToOrder of order.usersToOrders; let i = index">
-				<button class="button">Гость {{ i + 1 }}</button>
+			<li class="user" *ngFor="let user of order.users; let i = index">
+				<button class="button">{{ user.name || "Гость " + i }}</button>
 			</li>
 		</ul>
 	</div>

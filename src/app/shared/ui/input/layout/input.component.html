@@ -3,6 +3,17 @@
 		<ng-content></ng-content>
 		{{ label }}
 	</label>
-	<input class="input" [id]="id" [type]="type" [formControl]="formControl" [placeholder]="placeholder" />
+	<input
+		class="input"
+		[id]="id"
+		[type]="type"
+		[formControl]="formControl"
+		[placeholder]="placeholder"
+		[readonly]="readonly"
+	/>
 	<span class="error" *ngIf="errors">{{ errors | json }}</span>
+
+	<div class="icon-template">
+		<ng-content select="[icon]"></ng-content>
+	</div>
 </div>

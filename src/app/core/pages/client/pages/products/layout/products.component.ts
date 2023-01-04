@@ -36,22 +36,11 @@ export class ProductsComponent implements OnInit {
 			.pipe(
 				take(1),
 				switchMap((user: any) =>
-					this._ordersService.updateActiveOrder((order) => ({
-						id: order.id,
-						usersToOrders: [
-							// ...(order.usersToOrders?.map((userToOrder: any) => ({
-							// 	id: userToOrder.id,
-							// 	count: userToOrder.count,
-							// 	user: userToOrder.user.id,
-							// 	product: userToOrder.product.id
-							// })) || []),
-							{
-								product: product.id,
-								user: user.id,
-								count
-							}
-						]
-					}))
+					this._ordersService.addProductToOrder({
+						count,
+						product: product.id,
+						user: user.id
+					})
 				),
 				take(1)
 			)

@@ -60,7 +60,13 @@ export class DashboardComponent implements OnInit {
 			.getMe()
 			.pipe(
 				take(1),
-				switchMap(() => this._ordersService.createOrder({ type, place: this.placeId, totalPrice: 250 })),
+				switchMap((user: any) =>
+					this._ordersService.createOrder({
+						users: [user.id],
+						type,
+						place: this.placeId
+					})
+				),
 				take(1)
 			)
 			.subscribe(async () => {

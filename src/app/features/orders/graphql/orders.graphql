@@ -3,7 +3,7 @@ query Orders($take: Int!, $skip: Int!, $filtersArgs: FiltersArgsDto) {
 		page
 		totalCount
 		data {
-			orderCode
+			code
 			id
 			totalPrice
 			type
@@ -18,16 +18,22 @@ query Orders($take: Int!, $skip: Int!, $filtersArgs: FiltersArgsDto) {
 query Order($orderId: String!) {
 	order(id: $orderId) {
 		id
-		orderCode
+		code
 		type
 		status
 		totalPrice
+		users {
+			id
+			name
+		}
 		usersToOrders {
 			id
 			count
 			product {
 				id
 				name
+				price
+				description
 			}
 			user {
 				id
@@ -49,10 +55,23 @@ query Order($orderId: String!) {
 	}
 }
 
+mutation AddProductToOrder($orderId: String!, $product: CreateUserToOrderInput!) {
+	addProductToOrder(orderId: $orderId, product: $product) {
+		id
+	}
+}
+
+mutation AddUserToOrder($placeId: String!, $code: Int!) {
+	addUserToOrder(placeId: $placeId, code: $code) {
+		code
+		id
+	}
+}
+
 mutation UpdateOrder($order: UpdateOrderInput!) {
 	updateOrder(order: $order) {
 		id
-		orderCode
+		code
 		status
 		type
 	}
@@ -61,7 +80,7 @@ mutation UpdateOrder($order: UpdateOrderInput!) {
 mutation CreateOrder($order: CreateOrderInput!) {
 	createOrder(order: $order) {
 		id
-		orderCode
+		code
 		type
 		status
 		totalPrice

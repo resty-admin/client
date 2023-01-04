@@ -11,6 +11,7 @@ import { BreadcrumbsService } from "../../../../../../shared/modules/breadcrumbs
 import { RouterService } from "../../../../../../shared/modules/router";
 import { CLIENT_ROUTES } from "../../../../../../shared/routes";
 import { ToastrService } from "../../../../../../shared/ui/toastr";
+import { AuthService } from "../../../../auth/services";
 
 export enum PaymentType {
 	CASH,
@@ -43,7 +44,8 @@ export class PaymentTypeComponent implements OnInit, OnDestroy {
 		private readonly _routerService: RouterService,
 		private readonly _actionsService: ActionsService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
-		private readonly _toastrService: ToastrService
+		private readonly _toastrService: ToastrService,
+		private readonly _authService: AuthService
 	) {}
 
 	ngOnInit() {
@@ -55,9 +57,15 @@ export class PaymentTypeComponent implements OnInit, OnDestroy {
 				action: () =>
 					({
 						[PaymentType.CARD]: (order: any) => {
-							this._apiService
-								.post("fondy/create-payment-link", { orderId: order.id })
-								.pipe(take(1))
+							this._authService
+								.getMe()
+								.pipe(
+									take(1),
+									switchMap((user: any) =>
+										this._apiService.post("fondy/create-payment-link", { orderId: order.id, userId: user.id })
+									),
+									take(1)
+								)
 								.subscribe(({ link }: any) => {
 									window.location.href = link;
 								});

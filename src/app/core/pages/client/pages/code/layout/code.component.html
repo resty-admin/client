@@ -2,7 +2,7 @@
 	<h1 appTypography theme="1" class="title">Сканируйте QR-код или введите код активного заказа</h1>
 	<h2 class="subtitle">Это нужно для того, чтобы официант знал куда принести заказ</h2>
 
-	<app-input class="input" placeholder="Код заказа"></app-input>
+	<app-input class="input" placeholder="Код заказа" [formControl]="codeControl"></app-input>
 	<p class="or">Или</p>
 	<app-input class="input" placeholder="QR код"></app-input>
 

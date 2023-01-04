@@ -3,7 +3,14 @@ import { map, switchMap, take, tap } from "rxjs";
 
 import type { CreateOrderInput, UpdateOrderInput } from "../../../../../graphql";
 import { ToastrService } from "../../../../shared/ui/toastr";
-import { CreateOrderGQL, OrderGQL, OrdersGQL, UpdateOrderGQL } from "../../graphql/orders";
+import {
+	AddProductToOrderGQL,
+	AddUserToOrderGQL,
+	CreateOrderGQL,
+	OrderGQL,
+	OrdersGQL,
+	UpdateOrderGQL
+} from "../../graphql/orders";
 import { OrdersRepository } from "../../repositories";
 
 @Injectable({ providedIn: "root" })
@@ -15,12 +22,14 @@ export class OrdersService {
 	readonly activeOrder$ = this._ordersRepository.activeOrder$;
 
 	constructor(
+		private readonly _toastrService: ToastrService,
 		private readonly _ordersRepository: OrdersRepository,
 		private readonly _ordersGQL: OrdersGQL,
 		private readonly _orderGQL: OrderGQL,
 		private readonly _createOrderGQL: CreateOrderGQL,
 		private readonly _updateOrderGQL: UpdateOrderGQL,
-		private readonly _toastrService: ToastrService
+		private readonly _addProductToOrderGQL: AddProductToOrderGQL,
+		private readonly _addUserToOrderGQL: AddUserToOrderGQL
 	) {}
 
 	setActiveOrder(order: any) {
@@ -55,10 +64,25 @@ export class OrdersService {
 		);
 	}
 
-	updateActiveOrder(func: (order: any) => any) {
+	addProductToOrder(product: any) {
 		return this.activeOrder$.pipe(
 			take(1),
-			switchMap((activeOrder: any) => this.updateOrder(func(activeOrder)))
+			switchMap((order: any) => this._addProductToOrderGQL.mutate({ orderId: order.id, product })),
+			take(1)
+		);
+	}
+
+	addUserToOrder(placeId: string, code: number) {
+		return this._addUserToOrderGQL.mutate({ placeId, code }).pipe(
+			take(1),
+			map((result) => result.data?.addUserToOrder)
+		);
+	}
+
+	updateActiveOrder(order: any) {
+		return this.activeOrder$.pipe(
+			take(1),
+			switchMap(({ id }: any) => this.updateOrder({ id, ...order }))
 		);
 	}
 

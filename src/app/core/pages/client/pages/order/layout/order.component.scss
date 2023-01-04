@@ -5,7 +5,7 @@
 		display: grid;
 		row-gap: rem(24);
 
-		@include pagePadding ();
+		@include pagePadding();
 		grid-template-areas:
 			"place place"
 			"table table"
@@ -38,6 +38,10 @@
 			grid-area: products;
 			display: grid;
 			row-gap: rem(12);
+			.products-list {
+				display: grid;
+				row-gap: rem(12);
+			}
 		}
 		.users {
 			grid-area: users;

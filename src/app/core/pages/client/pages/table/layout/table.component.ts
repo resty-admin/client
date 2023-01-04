@@ -47,12 +47,7 @@ export class TableComponent implements OnInit, OnDestroy {
 				this.table$
 					.pipe(
 						take(1),
-						switchMap((table) =>
-							this._ordersService.updateActiveOrder((order) => ({
-								...order,
-								table: table?.id
-							}))
-						)
+						switchMap((table) => this._ordersService.updateActiveOrder({ table: table.id }))
 					)
 					.subscribe()
 		});

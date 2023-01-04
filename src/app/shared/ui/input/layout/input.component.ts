@@ -27,6 +27,9 @@ export class InputComponent extends ControlValueAccessor<string> {
 	@Input() label = "";
 	@Input() theme: IInputTheme = "1";
 	@Input() type: IInputType = "input";
+	@Input() readonly = false;
+
+	@Input() icon?: string;
 
 	get className() {
 		return `app-input ${THEME.replace(ANY_SYMBOL, this.theme)}`;
