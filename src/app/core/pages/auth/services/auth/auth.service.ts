@@ -18,7 +18,7 @@ import { JwtService } from "src/app/shared/modules/jwt";
 
 import { RouterService } from "../../../../../shared/modules/router";
 import { CLIENT_ROUTES } from "../../../../../shared/routes";
-import { GetMeGQL } from "../../pages/graphql/auth";
+import { GetMeGQL } from "../../graphql/auth";
 import { AuthRepository } from "../../repositories";
 
 @Injectable({

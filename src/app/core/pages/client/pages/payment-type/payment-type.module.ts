@@ -6,6 +6,7 @@ import { ImageModule } from "src/app/shared/ui/image";
 import { RadioButtonModule } from "src/app/shared/ui/radio-button";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { I18nModule } from "../../../../../shared/modules/i18n";
 import { ButtonModule } from "../../../../../shared/ui/button";
 import { PaymentTypeComponent } from "./layout/payment-type.component";
 import { PaymentTypeRoutingModule } from "./payment-type-routing.module";
@@ -20,7 +21,8 @@ import { PaymentTypeRoutingModule } from "./payment-type-routing.module";
 		ImageModule,
 		IconModule,
 		ButtonModule,
-		ReactiveFormsModule
+		ReactiveFormsModule,
+		I18nModule
 	],
 	exports: [PaymentTypeComponent]
 })

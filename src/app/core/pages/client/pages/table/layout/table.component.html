@@ -1,21 +1,14 @@
-<div class="table-page" *ngIf="table$ | async as table">
-	<h1 appTypography theme="1" class="title">Выберите свободное время</h1>
+<ng-container *transloco="let t">
+	<div class="table-page" *ngIf="table$ | async as table">
+		<h1 appTypography theme="1" class="title">{{ t("TABLE.TITLE") }}</h1>
 
-	<app-image class="image" [remote]="true" [name]="table.file?.url" placeholder="table"></app-image>
+		<app-image class="image" [remote]="true" [name]="table.file?.url" placeholder="table"></app-image>
 
-	<p class="label">Столик {{ table.code }}</p>
-	<p class="status">Доступен</p>
+		<p class="label">{{ t("TABLE.CODE") }} {{ table.code }}</p>
+		<p class="status">{{ t("TABLE.STATUS") }}</p>
 
-	<ul class="chips">
-		<li class="chip">
-			<app-chip>На 5 человек</app-chip>
-		</li>
-		<li class="chip">
-			<app-chip>Вид на море</app-chip>
-		</li>
-	</ul>
+		<app-ios-datepicker class="datepicker"></app-ios-datepicker>
 
-	<app-ios-datepicker class="datepicker"></app-ios-datepicker>
-
-	<p class="description">Вам будет необходимо закрыть заказ к окончанию даты бронирования</p>
-</div>
+		<p class="description">{{ t("TABLE.INFO") }}</p>
+	</div>
+</ng-container>

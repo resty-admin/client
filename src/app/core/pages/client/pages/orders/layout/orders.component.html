@@ -1,5 +1,5 @@
-<div class="orders-page">
-	<h1 appTypography theme="1" class="title">Активные заказы</h1>
+<div class="orders-page" *transloco="let t">
+	<h1 appTypography theme="1" class="title">{{ t("ORDERS.TITLE") }}</h1>
 
 	<ul class="active-orders">
 		<li class="active-order" *ngFor="let order of orders$ | async">
@@ -22,12 +22,12 @@
 		</li>
 	</ul>
 
-	<h2 appTypography theme="3" class="subtitle">История</h2>
+	<h2 appTypography theme="3" class="subtitle">{{ t("ORDERS.HISTORY") }}</h2>
 
 	<ul class="history-orders">
 		<li class="history-order" *ngFor="let order of orders$ | async">
 			<a class="link" [routerLink]="order.id">
-				<span class="name">Заказ {{ order.code }}</span>
+				<span class="name">{{ t("ORDERS.CODE") }} {{ order.code }}</span>
 				<span class="sum">{{ order.totalPrice }}</span>
 				<div class="type">
 					<app-icon class="icon" name="to-go"></app-icon>

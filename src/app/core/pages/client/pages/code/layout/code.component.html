@@ -1,9 +1,9 @@
-<div class="code">
-	<h1 appTypography theme="1" class="title">Сканируйте QR-код или введите код активного заказа</h1>
-	<h2 class="subtitle">Это нужно для того, чтобы официант знал куда принести заказ</h2>
+<div class="code" *transloco="let t">
+	<h1 appTypography theme="1" class="title">{{ t("CODE.TITLE") }}</h1>
+	<h2 class="subtitle">{{ t("CODE.DESCRIPTION") }}</h2>
 
 	<app-input class="input" placeholder="Код заказа" [formControl]="codeControl"></app-input>
-	<p class="or">Или</p>
+	<p class="or">{{ t("CODE.OR") }}</p>
 	<app-input class="input" placeholder="QR код"></app-input>
 
 	<app-image class="image" name="code"></app-image>

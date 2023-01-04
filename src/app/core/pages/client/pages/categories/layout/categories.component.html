@@ -1,5 +1,5 @@
-<div class="categories-page">
-	<h1 appTypography theme="1" class="title">Выберите категорию</h1>
+<div class="categories-page" *transloco="let t">
+	<h1 appTypography theme="1" class="title">{{ t("CATEGORIES.TITLE") }}</h1>
 
 	<ul class="categories">
 		<li class="category" *ngFor="let category of categories$ | async">

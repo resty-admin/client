@@ -1,6 +1,6 @@
-<div class="products-error">
-	<h1 appTypography theme="1" class="title">К сожелению, данные позиции недоступны</h1>
-	<h2 class="subtitle">Вы можете удалить данные блюда или заменить их</h2>
+<div class="products-error" *transloco="let t">
+	<h1 appTypography theme="1" class="title">{{ t("PRODUCTS_ERROR.TITLE") }}</h1>
+	<h2 class="subtitle">{{ t("PRODUCTS_ERROR.DESCRIPTION") }}</h2>
 
 	<ul class="products">
 		<li class="product" *ngFor="let product of products$ | async">

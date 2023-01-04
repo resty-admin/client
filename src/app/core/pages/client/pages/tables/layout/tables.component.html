@@ -1,5 +1,5 @@
-<div class="tables-page">
-	<h1 appTypography theme="1" class="title">Выберите стол</h1>
+<div class="tables-page" *transloco="let t">
+	<h1 appTypography theme="1" class="title">{{ t("TABLES.TITLE") }}</h1>
 
 	<ul class="tables">
 		<li class="table" *ngFor="let table of tables$ | async">

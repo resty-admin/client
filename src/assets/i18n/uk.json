@@ -1,1 +1,97 @@
-{}
+{
+	"FORM": {
+		"EMAIL_LABEL": "Почта",
+		"EMAIL_PLACEHOLDER": "Введите почту",
+		"TEL_LABEL": "Телефон",
+		"TEL_PLACEHOLDER": "Введите телефон",
+		"PASSWORD_LABEL": "Пароль",
+		"PASSWORD_PLACEHOLDER": "Введите телефон"
+	},
+	"AUTH": {
+		"FORGOT_PASSWORD": "Забыли пароль?",
+		"SIGN_IN": "Войти",
+		"SIGN_UP": "Зарегестрироваться",
+		"RESET_PASSWORD": "Сбросить пароль",
+		"OR": "Или войти:",
+		"GOOGLE": "Google",
+		"TELEGRAM": "Telegram",
+		"PRIVACY_POLICY_DESCRIPTION": "Политика Безопасности"
+	},
+	"ASIDE": {
+		"DESCRIPTION": "Наш любимы гость",
+		"SHARE_ORDER": "Поделиться заказом",
+		"MY_ORDERS": "Мои заказы",
+		"PLACES": "Заведения",
+		"CALL_WAITER": "Позвать официанта",
+		"CALL_HOOKAH": "Позвать кальянщика"
+	},
+	"HEADER": {
+		"ORDER": "Заказ"
+	},
+	"CATEGORIES": {
+		"TITLE": "Категории"
+	},
+	"CODE": {
+		"TITLE": "Введите номер заказа или стола",
+		"DESCRIPTION": "Мы можете найти номер стола над QR кодом",
+		"OR": "Или"
+	},
+	"DASHBOARD": {
+		"TITLE": "Выберите тип заказа",
+		"SCHEMA": "Схема",
+		"MENU": "Меню",
+		"IN_PLACE": "В заведении",
+		"PICKUP": "С собой",
+		"DELIVERY": "Доставка",
+		"RESERVE": "Бронь"
+	},
+	"HALLS": {
+		"TITLE": "Залы"
+	},
+	"ORDER": {
+		"TABLE": "Стол",
+		"PRODUCTS": "Продукты"
+	},
+	"ORDERS": {
+		"TITLE": "Заказы",
+		"HISTORY": "История",
+		"CODE": "Код"
+	},
+	"PAYMENT_STATUS": {
+		"SUCCESS": "Успешная оплата"
+	},
+	"PAYMENT_TYPE": {
+		"TITLE": "Тип оплаты",
+		"SUBTITLE": "Выберите тип оплаты",
+		"TIPS": "Не забудьте чаевые"
+	},
+	"PLACES": {
+		"TITLE": "Заведения"
+	},
+	"PRODUCT": {
+		"MODIFICATIONS": "Модификации"
+	},
+	"PRODUCTS_ERROR": {
+		"TITLE": "К сожалению, этих блюд нет в наличии",
+		"DESCRIPTION": "Вы можете либо удалить либо заменить их"
+	},
+	"PRODUCTS": {
+		"TITLE": "Продукты"
+	},
+	"REFERRAL_LINK": {
+		"TITLE": "Ваш заказ создан",
+		"ORDER_CODE": "Код заказа",
+		"DESCRIPTION": "Вы можете поделиться с другом",
+		"SEND_LINK": "Поделиться",
+		"PRODUCTS": "Можете добавлять продукты"
+	},
+	"TABLE": {
+		"TITLE": "Стол",
+		"CODE": "Код",
+		"STATUS": "Статус",
+		"INFO": "Инфо"
+	},
+	"TABLES": {
+		"TITLE": "Столы"
+	}
+}

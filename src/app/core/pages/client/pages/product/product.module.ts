@@ -9,6 +9,7 @@ import { RadioButtonModule } from "src/app/shared/ui/radio-button";
 import { TextareaModule } from "src/app/shared/ui/textarea";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { I18nModule } from "../../../../../shared/modules/i18n";
 import { ProductComponent } from "./layout/product.component";
 import { ProductRoutingModule } from "./product-routing.module";
 
@@ -25,7 +26,8 @@ import { ProductRoutingModule } from "./product-routing.module";
 		TextareaModule,
 		RadioButtonModule,
 		CounterModule,
-		MultipleCheckboxModule
+		MultipleCheckboxModule,
+		I18nModule
 	]
 })
 export class ProductModule {}

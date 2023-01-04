@@ -6,9 +6,9 @@ import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
 import { CLIENT_ROUTES } from "src/app/shared/routes";
 
-import { OrderTypeEnum } from "../../../../../../../graphql";
 import { OrdersService } from "../../../../../../features/orders";
 import { AuthService } from "../../../../auth/services";
+import { ORDER_TYPES } from "../data";
 
 @Component({
 	selector: "app-dashboard",
@@ -17,32 +17,7 @@ import { AuthService } from "../../../../auth/services";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent implements OnInit {
-	readonly orderTypes = [
-		{
-			label: "Заказать в заведении",
-			type: OrderTypeEnum.InPlace,
-			link: CLIENT_ROUTES.CODE.absolutePath,
-			image: "in-place"
-		},
-		{
-			label: "На вынос",
-			type: OrderTypeEnum.Pickup,
-			link: CLIENT_ROUTES.CATEGORIES.absolutePath,
-			image: "to-go"
-		},
-		{
-			label: "Доставка",
-			type: OrderTypeEnum.Delivery,
-			link: CLIENT_ROUTES.CATEGORIES.absolutePath,
-			image: "delivery"
-		},
-		{
-			label: "Бронировать",
-			type: OrderTypeEnum.Reserve,
-			link: CLIENT_ROUTES.HALLS.absolutePath,
-			image: "booking"
-		}
-	];
+	readonly orderTypes = ORDER_TYPES;
 
 	constructor(
 		private readonly _routerService: RouterService,

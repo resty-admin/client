@@ -1,8 +1,8 @@
-<aside class="aside">
+<aside class="aside" *transloco="let t">
 	<div class="user" *ngIf="user">
 		<div class="image">{{ user.name | initials }}</div>
 		<p class="name">{{ user.name }}</p>
-		<p class="description">Наш любимый гость</p>
+		<p class="description">{{ t("ASIDE.DESCRIPTION") }}</p>
 	</div>
 
 	<nav class="nav">
@@ -10,7 +10,7 @@
 			<li class="page" *ngFor="let page of pages">
 				<a class="link" (click)="emitCloseClick()" [routerLink]="page.routerLink">
 					<app-icon class="icon" [name]="page.icon"></app-icon>
-					<span class="label">{{ page.label }}</span>
+					<span class="label">{{ t("ASIDE." + page.label) }}</span>
 				</a>
 			</li>
 		</ul>
@@ -19,7 +19,7 @@
 	<div class="share">
 		<button class="button" appButton theme="3">
 			<app-icon class="icon" name="share"></app-icon>
-			<span class="text">Поделиться текущем заказом</span>
+			<span class="text">{{ t("ASIDE.SHARE_ORDER") }}</span>
 		</button>
 	</div>
 </aside>

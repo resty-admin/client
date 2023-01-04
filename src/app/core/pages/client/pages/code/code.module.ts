@@ -6,6 +6,7 @@ import { ImageModule } from "src/app/shared/ui/image";
 import { InputModule } from "src/app/shared/ui/input";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { I18nModule } from "../../../../../shared/modules/i18n";
 import { CodeRoutingModule } from "./code-routing.module";
 import { CodeComponent } from "./layout/code.component";
 
@@ -18,7 +19,8 @@ import { CodeComponent } from "./layout/code.component";
 		TypographyModule,
 		IconModule,
 		ImageModule,
-		ReactiveFormsModule
+		ReactiveFormsModule,
+		I18nModule
 	],
 	exports: [CodeComponent]
 })

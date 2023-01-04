@@ -1,48 +1,52 @@
-<div class="order" *ngIf="order$ | async as order">
-	<div class="place">
-		<h2 class="subtitle" appTypography theme="2">Заведение</h2>
+<ng-container *transloco="let t">
+	<div class="order" *ngIf="order$ | async as order">
+		<div class="place">
+			<app-place [place]="order.place"></app-place>
+		</div>
 
-		<app-place [place]="order.place"></app-place>
+		<div class="content">
+			<div class="table">
+				<div class="header">
+					<h2 class="subtitle" appTypography theme="3">{{ t("ORDER.TABLE") }}</h2>
+					<a
+						appIconButton
+						class="button"
+						[routerLink]="clientRoutes.HALLS.absolutePath.replace(':placeId', order.place.id)"
+					>
+						<app-icon class="icon" name="add"></app-icon>
+					</a>
+				</div>
+
+				<app-table *ngIf="order.table" [table]="order.table"></app-table>
+			</div>
+
+			<div class="products">
+				<div class="header">
+					<h2 class="subtitle" appTypography theme="3">{{ t("ORDER.PRODUCTS") }}</h2>
+					<a
+						appIconButton
+						class="button"
+						[routerLink]="clientRoutes.CATEGORIES.absolutePath.replace(':placeId', order.place.id)"
+					>
+						<app-icon class="icon" name="add"></app-icon>
+					</a>
+				</div>
+
+				<ul class="users-list">
+					<li class="user">
+						<button class="button selected">Все</button>
+					</li>
+					<li class="user" *ngFor="let user of order.users; let i = index">
+						<button class="button">{{ user.name || "Гость " + i }}</button>
+					</li>
+				</ul>
+
+				<ul class="products-list">
+					<li class="product" *ngFor="let userToOrder of order.usersToOrders">
+						<app-product [product]="userToOrder.product"></app-product>
+					</li>
+				</ul>
+			</div>
+		</div>
 	</div>
-
-	<div class="table">
-		<h2 class="subtitle" appTypography theme="2">Стол</h2>
-
-		<app-table [table]="order.table" *ngIf="order.table; else addTable"></app-table>
-
-		<ng-template #addTable>
-			<a appButton theme="1" [routerLink]="clientRoutes.HALLS.absolutePath.replace(':placeId', order.place.id)"
-				>Выбрать стол</a
-			>
-		</ng-template>
-	</div>
-
-	<div class="users" *ngIf="order.users?.length">
-		<h2 class="subtitle" appTypography theme="2">Гости</h2>
-
-		<ul class="users-list">
-			<li class="user">
-				<button class="button selected">Все</button>
-			</li>
-			<li class="user" *ngFor="let user of order.users; let i = index">
-				<button class="button">{{ user.name || "Гость " + i }}</button>
-			</li>
-		</ul>
-	</div>
-
-	<div class="products">
-		<h2 class="subtitle" appTypography theme="2">Блюда</h2>
-
-		<ul class="products-list" *ngIf="order.usersToOrders?.length; else addProduct">
-			<li class="product" *ngFor="let userToOrder of order.usersToOrders">
-				<app-product [product]="userToOrder.product"></app-product>
-			</li>
-		</ul>
-
-		<ng-template #addProduct>
-			<a appButton theme="1" [routerLink]="clientRoutes.CATEGORIES.absolutePath.replace(':placeId', order.place.id)"
-				>Выбрать блюда</a
-			>
-		</ng-template>
-	</div>
-</div>
+</ng-container>

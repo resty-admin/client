@@ -3,11 +3,12 @@ import { NgModule } from "@angular/core";
 import { IconModule } from "src/app/shared/ui/icon";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { I18nModule } from "../../../../../shared/modules/i18n";
 import { OrdersComponent } from "./layout/orders.component";
 import { OrdersRoutingModule } from "./orders-routing.module";
 
 @NgModule({
 	declarations: [OrdersComponent],
-	imports: [CommonModule, OrdersRoutingModule, TypographyModule, IconModule]
+	imports: [CommonModule, OrdersRoutingModule, TypographyModule, IconModule, I18nModule]
 })
 export class OrdersModule {}

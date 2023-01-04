@@ -6,6 +6,7 @@ import { IconModule } from "src/app/shared/ui/icon";
 import { ImageModule } from "src/app/shared/ui/image";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { I18nModule } from "../../../../../shared/modules/i18n";
 import { IosDatepickerModule } from "../../../../../shared/ui/ios-datepicker";
 import { TableComponent } from "./layout/table.component";
 import { TableRoutingModule } from "./table-routing.module";
@@ -20,7 +21,8 @@ import { TableRoutingModule } from "./table-routing.module";
 		TypographyModule,
 		ChipModule,
 		IosDatepickerModule,
-		ButtonModule
+		ButtonModule,
+		I18nModule
 	]
 })
 export class TableModule {}

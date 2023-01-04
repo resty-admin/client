@@ -1,5 +1,5 @@
-<div class="halls-page">
-	<h1 appTypography theme="1" class="title">Выберите зал</h1>
+<div class="halls-page" *transloco="let t">
+	<h1 appTypography theme="1" class="title">{{ t("HALLS.TITLE") }}</h1>
 
 	<ul class="halls">
 		<li class="hall" *ngFor="let hall of halls$ | async">

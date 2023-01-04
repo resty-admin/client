@@ -1,5 +1,5 @@
-<div class="products-page">
-	<h1 appTypography theme="1">Выберите блюда</h1>
+<div class="products-page" *transloco="let t">
+	<h1 appTypography theme="1" class="title">{{ t("PRODUCTS.TITLE") }}</h1>
 	<ul class="products">
 		<li class="product" *ngFor="let product of products$ | async">
 			<a class="link" [routerLink]="product.id">

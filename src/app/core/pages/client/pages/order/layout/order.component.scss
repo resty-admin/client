@@ -2,67 +2,56 @@
 
 @include page() {
 	.order {
-		display: grid;
-		row-gap: rem(24);
-
-		@include pagePadding();
-		grid-template-areas:
-			"place place"
-			"table table"
-			"users users"
-			"products products";
-		grid-template-columns: 1fr 1fr;
-		align-items: center;
-
-		.title {
-			grid-area: title;
-		}
-		.price {
-			grid-area: price;
-			font-size: rem(20);
-			line-height: rem(32);
-			color: var(--primary);
-			justify-self: end;
-		}
-		.place {
-			grid-area: place;
+		.content {
+			@include pagePadding();
 			display: grid;
-			row-gap: rem(12);
-		}
-		.table {
-			grid-area: table;
-			display: grid;
-			row-gap: rem(12);
-		}
-		.products {
-			grid-area: products;
-			display: grid;
-			row-gap: rem(12);
-			.products-list {
+			row-gap: rem(24);
+			.price {
+				font-size: rem(20);
+				line-height: rem(32);
+				color: var(--primary);
+				justify-self: end;
+			}
+			.place {
 				display: grid;
 				row-gap: rem(12);
 			}
-		}
-		.users {
-			grid-area: users;
-			display: grid;
-			row-gap: rem(12);
-			.users-list {
-				display: flex;
-				.user {
-					.button {
-						border: rem(1) solid transparent;
-						padding: rem(5) rem(24);
-						border-radius: rem(12);
-						color: var(--dark);
-						font-weight: 600;
-						font-size: rem(14);
-						line-height: rem(24);
-						&.selected {
-							border-color: var(--primary);
-							color: var(--primary);
+			.table {
+				display: grid;
+				row-gap: rem(12);
+				.header {
+					display: flex;
+					justify-content: space-between;
+				}
+			}
+			.products {
+				display: grid;
+				row-gap: rem(12);
+				.header {
+					display: flex;
+					justify-content: space-between;
+				}
+				.users-list {
+					display: flex;
+					.user {
+						.button {
+							border: rem(1) solid transparent;
+							padding: rem(5) rem(24);
+							border-radius: rem(12);
+							color: var(--dark);
+							font-weight: 600;
+							font-size: rem(14);
+							line-height: rem(24);
+							&.selected {
+								border-color: var(--primary);
+								color: var(--primary);
+							}
 						}
 					}
+				}
+				.products-list {
+					display: grid;
+					row-gap: rem(12);
 				}
 			}
 		}

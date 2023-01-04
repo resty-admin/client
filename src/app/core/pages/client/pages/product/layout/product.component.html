@@ -1,23 +1,25 @@
-<div class="product" *ngIf="product$ | async as product">
-	<h1 appTypography theme="1" class="title">Выберите модификации</h1>
+<ng-container *transloco="let t">
+	<div class="product" *ngIf="product$ | async as product">
+		<h1 appTypography theme="1" class="title">{{ t("PRODUCT.MODIFICATIONS") }}</h1>
 
-	<app-image class="image" [remote]="true" [name]="product.file?.url" placeholder="product"></app-image>
+		<app-image class="image" [remote]="true" [name]="product.file?.url" placeholder="product"></app-image>
 
-	<h1 class="name">{{ product.name }}</h1>
-	<h2 class="description">{{ product.description }} asdasdasd sad ads ads adas</h2>
+		<h1 class="name">{{ product.name }}</h1>
+		<h2 class="description">{{ product.description }}</h2>
 
-	<p class="price">{{ product.price }} грн</p>
-	<p class="cal">250 гр</p>
+		<p class="price">{{ product.price }} грн</p>
+		<p class="cal">250 гр</p>
 
-	<app-counter class="counter" [formControl]="counterFormControl"></app-counter>
+		<app-counter class="counter" [formControl]="counterFormControl"></app-counter>
 
-	<div class="attrGroups">
-		<div class="attrGroup" *ngFor="let attrGroup of product.attrsGroups">
-			<p class="label">{{ attrGroup.name }}</p>
+		<div class="attrGroups">
+			<div class="attrGroup" *ngFor="let attrGroup of product.attrsGroups">
+				<p class="label">{{ attrGroup.name }}</p>
 
-			<app-radio-button theme="2" class="radio" [options]="attrGroup.attributes"></app-radio-button>
+				<app-radio-button theme="2" class="radio" [options]="attrGroup.attributes"></app-radio-button>
+			</div>
 		</div>
-	</div>
 
-	<app-textarea class="textarea" placeholder="Введите комментарий"></app-textarea>
-</div>
+		<app-textarea class="textarea" placeholder="Введите комментарий"></app-textarea>
+	</div>
+</ng-container>
