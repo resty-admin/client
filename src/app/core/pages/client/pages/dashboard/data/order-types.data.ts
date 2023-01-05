@@ -5,7 +5,7 @@ export const ORDER_TYPES = [
 	{
 		label: "IN_PLACE",
 		type: OrderTypeEnum.InPlace,
-		link: CLIENT_ROUTES.CODE.absolutePath,
+		link: CLIENT_ROUTES.CONNECT_TO_TABLE.absolutePath,
 		image: "in-place"
 	},
 	{

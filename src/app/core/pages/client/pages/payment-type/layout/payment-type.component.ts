@@ -50,7 +50,7 @@ export class PaymentTypeComponent implements OnInit, OnDestroy {
 
 	ngOnInit() {
 		this.order$.pipe(take(1)).subscribe((order) => {
-			this._breadcrumbsService.setBackUrl(CLIENT_ROUTES.ORDER.absolutePath.replace(DYNAMIC_ID, order.id));
+			this._breadcrumbsService.setBackUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(DYNAMIC_ID, order.id));
 
 			this._actionsService.setAction({
 				label: "Оплатить",

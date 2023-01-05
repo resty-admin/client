@@ -41,13 +41,17 @@ export const CLIENT_ROUTES = {
 		path: `profile`,
 		absolutePath: `/profile`
 	},
-	ORDERS: {
-		path: `orders`,
-		absolutePath: `/orders`
+	ALL_ORDERS: {
+		path: `all-orders`,
+		absolutePath: `/all-orders`
 	},
-	ORDER: {
-		path: `orders/${DYNAMIC_ID}`,
-		absolutePath: `/orders/${DYNAMIC_ID}`
+	ACTIVE_ORDER: {
+		path: `active-orders/${DYNAMIC_ID}`,
+		absolutePath: `/active-orders/${DYNAMIC_ID}`
+	},
+	HISTORY_ORDER: {
+		path: `history-orders/${DYNAMIC_ID}`,
+		absolutePath: `/history-orders/${DYNAMIC_ID}`
 	},
 	REFERRAL_LINK: {
 		path: `orders/${DYNAMIC_ID}/referral-link`,
@@ -73,9 +77,13 @@ export const CLIENT_ROUTES = {
 		path: `places/${PLACE_ID}`,
 		absolutePath: `/places/${PLACE_ID}`
 	},
-	CODE: {
-		path: `places/${PLACE_ID}/code`,
-		absolutePath: `/places/${PLACE_ID}/code`
+	CONNECT_TO_TABLE: {
+		path: `places/${PLACE_ID}/connect-to-table`,
+		absolutePath: `/places/${PLACE_ID}/connect-to-table`
+	},
+	CONNECT_TO_ORDER: {
+		path: `places/${PLACE_ID}/connect-to-order`,
+		absolutePath: `/places/${PLACE_ID}/connect-to-order`
 	},
 	DASHBOARD: {
 		path: `places/${PLACE_ID}/dashboard`,

@@ -5,7 +5,11 @@
 		"TEL_LABEL": "Телефон",
 		"TEL_PLACEHOLDER": "Введите телефон",
 		"PASSWORD_LABEL": "Пароль",
-		"PASSWORD_PLACEHOLDER": "Введите телефон"
+		"PASSWORD_PLACEHOLDER": "Введите телефон",
+		"NAME_LABEL": "Missing value for 'FORM.NAME_LABEL'",
+		"NAME_PLACEHOLDER": "Missing value for 'FORM.NAME_PLACEHOLDER'",
+		"ROLE_LABEL": "Missing value for 'FORM.ROLE_LABEL'",
+		"ROLE_PLACEHOLDER": "Missing value for 'FORM.ROLE_PLACEHOLDER'"
 	},
 	"AUTH": {
 		"FORGOT_PASSWORD": "Забыли пароль?",
@@ -19,6 +23,7 @@
 	},
 	"ASIDE": {
 		"DESCRIPTION": "Наш любимы гость",
+		"SUPPORT": "Missing value for 'ASIDE.SUPPORT'",
 		"SHARE_ORDER": "Поделиться заказом",
 		"MY_ORDERS": "Мои заказы",
 		"PLACES": "Заведения",
@@ -28,18 +33,27 @@
 	"HEADER": {
 		"ORDER": "Заказ"
 	},
+	"ORDERS": {
+		"TITLE": "Заказы",
+		"HISTORY": "История",
+		"CODE": "Код"
+	},
 	"CATEGORIES": {
 		"TITLE": "Категории"
 	},
-	"CODE": {
-		"TITLE": "Введите номер заказа или стола",
-		"DESCRIPTION": "Мы можете найти номер стола над QR кодом",
-		"OR": "Или"
+	"CONNECT_TO_ORDER": {
+		"TITLE": "Введите номер заказа",
+		"DESCRIPTION": "Вы можете узнать номер заказа у того, кто его создал"
+	},
+	"CONNECT_TO_TABLE": {
+		"TITLE": "Введите номер стола",
+		"DESCRIPTION": "Вы можете найти номер стола над QR кодом"
 	},
 	"DASHBOARD": {
 		"TITLE": "Выберите тип заказа",
 		"SCHEMA": "Схема",
 		"MENU": "Меню",
+		"CONNECT_TO_ORDER": "Подключиться к заказу",
 		"IN_PLACE": "В заведении",
 		"PICKUP": "С собой",
 		"DELIVERY": "Доставка",
@@ -51,11 +65,6 @@
 	"ORDER": {
 		"TABLE": "Стол",
 		"PRODUCTS": "Продукты"
-	},
-	"ORDERS": {
-		"TITLE": "Заказы",
-		"HISTORY": "История",
-		"CODE": "Код"
 	},
 	"PAYMENT_STATUS": {
 		"SUCCESS": "Успешная оплата"
@@ -77,6 +86,13 @@
 	},
 	"PRODUCTS": {
 		"TITLE": "Продукты"
+	},
+	"PROFILE": {
+		"TITLE": "Missing value for 'PROFILE.TITLE'",
+		"DELETE_PROFILE": "Missing value for 'PROFILE.DELETE_PROFILE'"
+	},
+	"BUTTON": {
+		"SUBMIT": "Missing value for 'BUTTON.SUBMIT'"
 	},
 	"REFERRAL_LINK": {
 		"TITLE": "Ваш заказ создан",

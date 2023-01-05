@@ -2,21 +2,18 @@
 	<a class="logo" routerLink="/">
 		<app-image class="image" name="logo"></app-image>
 	</a>
-	<app-language-select class="language"></app-language-select>
-	<app-theme class="theme"></app-theme>
 
-	<span class="space"></span>
 	<a
 		[class]="'active-order' + ' ' + activeOrder.type"
 		*ngIf="activeOrder$ | async as activeOrder"
-		[routerLink]="clientRoutes.ORDER.absolutePath.replace(':id', activeOrder.id)"
+		[routerLink]="clientRoutes.ACTIVE_ORDER.absolutePath.replace(':id', activeOrder.id)"
 	>
 		<p class="code">{{ t("HEADER.ORDER") }} №{{ activeOrder.code }}</p>
 		<hr class="divider" />
 		<p class="type">{{ activeOrder.type }}</p>
 	</a>
 
-	<div class="profile" *ngIf="user">
+	<div class="profile" *ngIf="user" [tippy]="dropdown" placement="bottom-end" variation="popper">
 		<p class="name">{{ user.name }}</p>
 		<p class="role">{{ user.role }}</p>
 

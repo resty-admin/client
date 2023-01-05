@@ -4,7 +4,7 @@ export const PAGES = [
 	{
 		label: "MY_ORDERS",
 		icon: "layers",
-		routerLink: CLIENT_ROUTES.ORDERS.absolutePath
+		routerLink: CLIENT_ROUTES.ALL_ORDERS.absolutePath
 	},
 	{
 		label: "PLACES",
@@ -14,11 +14,11 @@ export const PAGES = [
 	{
 		label: "CALL_WAITER",
 		icon: "waiter",
-		routerLink: CLIENT_ROUTES.PLACES.absolutePath
+		routerLink: "call-waiter"
 	},
 	{
 		label: "CALL_HOOKAH",
 		icon: "hookah",
-		routerLink: CLIENT_ROUTES.PLACES.absolutePath
+		routerLink: "call-hookah"
 	}
 ];

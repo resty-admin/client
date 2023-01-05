@@ -29,11 +29,16 @@ query Order($orderId: String!) {
 		usersToOrders {
 			id
 			count
+			status
 			product {
 				id
 				name
 				price
 				description
+				file {
+					id
+					url
+				}
 			}
 			user {
 				id

@@ -1,0 +1,8 @@
+<div class="connect-to-order" *transloco="let t">
+	<h1 appTypography theme="1" class="title">{{ t("CONNECT_TO_ORDER.TITLE") }}</h1>
+	<h2 class="subtitle">{{ t("CONNECT_TO_ORDER.DESCRIPTION") }}</h2>
+
+	<app-code-input class="code-input" [formControl]="codeControl"></app-code-input>
+
+	<app-image class="image" name="code"></app-image>
+</div>

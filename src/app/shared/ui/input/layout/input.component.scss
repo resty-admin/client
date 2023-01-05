@@ -2,7 +2,6 @@
 
 @include component() {
 	.app-input {
-		position: relative;
 		&.theme-1 {
 			.input {
 				width: 100%;
@@ -35,12 +34,6 @@
 				@include desktop() {
 					font-size: 13px;
 				}
-			}
-
-			.icon-template {
-				position: absolute;
-				right: rem(6);
-				bottom: rem(6);
 			}
 
 			@include desktop() {
@@ -104,10 +97,10 @@
 				&:focus {
 					border-color: var(--primary);
 				}
+			}
 
-				.label {
-					color: var(--light-t);
-				}
+			.label {
+				color: var(--light-t);
 			}
 		}
 		&.theme-2 {

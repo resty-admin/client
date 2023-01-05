@@ -1,11 +1,12 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { switchMap, take } from "rxjs";
+import { of, switchMap, take } from "rxjs";
 import { PLACE_ID } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
 import { CLIENT_ROUTES } from "src/app/shared/routes";
 
+import { OrderTypeEnum } from "../../../../../../../graphql";
 import { OrdersService } from "../../../../../../features/orders";
 import { AuthService } from "../../../../auth/services";
 import { ORDER_TYPES } from "../data";
@@ -36,11 +37,13 @@ export class DashboardComponent implements OnInit {
 			.pipe(
 				take(1),
 				switchMap((user: any) =>
-					this._ordersService.createOrder({
-						users: [user.id],
-						type,
-						place: this.placeId
-					})
+					type !== OrderTypeEnum.InPlace
+						? this._ordersService.createOrder({
+								users: [user.id],
+								type,
+								place: this.placeId
+						  })
+						: of({})
 				),
 				take(1)
 			)
@@ -59,5 +62,9 @@ export class DashboardComponent implements OnInit {
 
 	get menuRouterLink() {
 		return CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, this.placeId);
+	}
+
+	get connectToOrderRouterLink() {
+		return CLIENT_ROUTES.CONNECT_TO_ORDER.absolutePath.replace(PLACE_ID, this.placeId);
 	}
 }

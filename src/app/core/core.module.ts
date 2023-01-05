@@ -24,9 +24,12 @@ import { TooltipModule } from "../shared/ui/tooltip";
 import {
 	API_CONFIG,
 	APOLLO_CONFIG,
+	BROWSER_MODULE_CONFIG,
+	CODE_INPUT_CONFIG,
 	CRYPTO_CONFIG,
 	DATATABLE_CONFIG,
 	ERRORS_CONFIG,
+	FILE_CONFIG,
 	I18N_CONFIG,
 	ICON_CONFIG,
 	IMAGE_CONFIG,
@@ -41,12 +44,12 @@ import { CoreComponent } from "./layout/core.component";
 @NgModule({
 	declarations: [CoreComponent],
 	imports: [
-		BrowserModule.withServerTransition({ appId: "serverApp" }),
+		BrowserModule.withServerTransition(BROWSER_MODULE_CONFIG),
 		CoreRoutingModule,
 		ProgressBarModule.forRoot(),
 		StoreModule,
 		FilesModule.forRoot(),
-		FileModule.forRoot({ assetsUrl: "" }),
+		FileModule.forRoot(FILE_CONFIG),
 		ApolloModule.forRoot(APOLLO_CONFIG),
 		ApiModule.forRoot(API_CONFIG),
 		I18nModule.forRoot(I18N_CONFIG),
@@ -61,7 +64,7 @@ import { CoreComponent } from "./layout/core.component";
 		DatatableModule.forRoot(DATATABLE_CONFIG),
 		SelectModule.forRoot(SELECT_CONFIG),
 		TooltipModule.forRoot(),
-		CodeInputModule.forRoot({ codeLength: 4, isCharsCode: false }),
+		CodeInputModule.forRoot(CODE_INPUT_CONFIG),
 		CookiesModule
 	],
 	exports: [CoreComponent]

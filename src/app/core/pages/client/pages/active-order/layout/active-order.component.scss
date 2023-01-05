@@ -1,0 +1,49 @@
+@import "/src/assets/scss/abstractions";
+
+@include page() {
+	.active-order {
+		@include pagePadding();
+		display: grid;
+		row-gap: rem(24);
+		.products {
+			display: grid;
+			row-gap: rem(12);
+			.users-list {
+				display: flex;
+				.user {
+					.button {
+						border: rem(1) solid transparent;
+						padding: rem(5) rem(24);
+						border-radius: rem(12);
+						color: var(--dark);
+						font-weight: 600;
+						font-size: rem(14);
+						line-height: rem(24);
+						&.selected {
+							border-color: var(--primary);
+							color: var(--primary);
+						}
+					}
+				}
+			}
+			.users-to-orders-by-type {
+				display: grid;
+				row-gap: rem(12);
+				.user-to-order-by-type {
+					display: grid;
+					row-gap: rem(12);
+					.status {
+						font-weight: 500;
+						font-size: rem(16);
+						line-height: rem(24);
+						color: var(--dark);
+					}
+					.users-to-orders {
+						display: grid;
+						row-gap: rem(12);
+					}
+				}
+			}
+		}
+	}
+}

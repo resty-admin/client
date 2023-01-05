@@ -47,12 +47,14 @@ export interface OrderQuery {
 					__typename?: "UserToOrderEntity";
 					id: string;
 					count: number;
+					status: Types.ProductToOrderStatusEnum;
 					product: {
 						__typename?: "ProductEntity";
 						id: string;
 						name: string;
 						price: number;
 						description?: string | null;
+						file?: { __typename?: "FileEntity"; id: string; url: string } | null;
 					};
 					user: { __typename?: "UserEntity"; id: string; name: string };
 			  }[]
@@ -159,11 +161,16 @@ export const OrderDocument = gql`
 			usersToOrders {
 				id
 				count
+				status
 				product {
 					id
 					name
 					price
 					description
+					file {
+						id
+						url
+					}
 				}
 				user {
 					id

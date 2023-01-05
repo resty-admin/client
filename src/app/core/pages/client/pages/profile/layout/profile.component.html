@@ -1,0 +1,49 @@
+<div class="profile-page" *ngIf="user$ | async as user">
+	<ng-container *transloco="let t">
+		<div class="header">
+			<h1 appTypography theme="1" class="title">{{ t("PROFILE.TITLE") }}</h1>
+
+			<div class="tools">
+				<app-language-select class="language"></app-language-select>
+				<app-theme class="theme"></app-theme>
+			</div>
+		</div>
+		<div class="info">
+			<p class="name">{{ user.name }}</p>
+			<p class="role">{{ user.role }}</p>
+		</div>
+
+		<form class="form">
+			<app-input
+				class="input name"
+				theme="2"
+				[label]="t('FORM.NAME_LABEL')"
+				[placeholder]="t('FORM.NAME_PLACEHOLDER')"
+			></app-input>
+			<app-input
+				class="input tel"
+				theme="2"
+				[label]="t('FORM.TEL_LABEL')"
+				[placeholder]="t('FORM.TEL_PLACEHOLDER')"
+			></app-input>
+			<app-input
+				class="input email"
+				theme="2"
+				[label]="t('FORM.EMAIL_LABEL')"
+				[placeholder]="t('FORM.EMAIL_PLACEHOLDER')"
+			></app-input>
+			<app-input
+				class="input role"
+				theme="2"
+				[label]="t('FORM.ROLE_LABEL')"
+				[placeholder]="t('FORM.ROLE_PLACEHOLDER')"
+			></app-input>
+
+			<button class="submit">{{ t("BUTTON.SUBMIT") }}</button>
+
+			<app-image class="image" name="profile"></app-image>
+		</form>
+
+		<button class="delete">{{ t("PROFILE.DELETE_PROFILE") }}</button>
+	</ng-container>
+</div>

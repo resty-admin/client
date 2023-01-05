@@ -1,0 +1,34 @@
+<ng-container *transloco="let t">
+	<div class="history-order" *ngIf="order$ | async as order">
+		<div class="place">
+			<app-place [place]="order.place"></app-place>
+		</div>
+
+		<div class="content">
+			<div class="table">
+				<h2 class="subtitle" appTypography theme="3">{{ t("ORDER.TABLE") }}</h2>
+
+				<app-table *ngIf="order.table" [table]="order.table"></app-table>
+			</div>
+
+			<div class="products">
+				<h2 class="subtitle" appTypography theme="3">{{ t("ORDER.PRODUCTS") }}</h2>
+
+				<ul class="users-list">
+					<li class="user">
+						<button class="button selected">Все</button>
+					</li>
+					<li class="user" *ngFor="let user of order.users; let i = index">
+						<button class="button">{{ user.name || "Гость " + i }}</button>
+					</li>
+				</ul>
+
+				<ul class="products-list">
+					<li class="product" *ngFor="let userToOrder of order.usersToOrders">
+						<app-product [product]="userToOrder.product"></app-product>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</ng-container>

@@ -11,12 +11,20 @@ export const CLIENT_ROUTES: Route[] = [
 		component: ClientComponent,
 		children: [
 			{
-				..._SHARED_CLIENT_ROUTES.ORDERS,
-				loadChildren: () => import("./pages/orders/orders.module").then((m) => m.OrdersModule)
+				..._SHARED_CLIENT_ROUTES.PROFILE,
+				loadChildren: () => import("./pages/profile/profile.module").then((m) => m.ProfileModule)
 			},
 			{
-				..._SHARED_CLIENT_ROUTES.ORDER,
-				loadChildren: () => import("./pages/order/order.module").then((m) => m.OrderModule)
+				..._SHARED_CLIENT_ROUTES.ALL_ORDERS,
+				loadChildren: () => import("./pages/all-orders/all-orders.module").then((m) => m.AllOrdersModule)
+			},
+			{
+				..._SHARED_CLIENT_ROUTES.ACTIVE_ORDER,
+				loadChildren: () => import("./pages/active-order/active-order.module").then((m) => m.ActiveOrderModule)
+			},
+			{
+				..._SHARED_CLIENT_ROUTES.HISTORY_ORDER,
+				loadChildren: () => import("./pages/history-order/history-order.module").then((m) => m.HistoryOrderModule)
 			},
 			{
 				..._SHARED_CLIENT_ROUTES.REFERRAL_LINK,
@@ -48,8 +56,14 @@ export const CLIENT_ROUTES: Route[] = [
 				loadChildren: () => import("./pages/dashboard/dashboard.module").then((m) => m.DashboardModule)
 			},
 			{
-				..._SHARED_CLIENT_ROUTES.CODE,
-				loadChildren: () => import("./pages/code/code.module").then((m) => m.CodeModule)
+				..._SHARED_CLIENT_ROUTES.CONNECT_TO_TABLE,
+				loadChildren: () =>
+					import("./pages/connect-to-table/connect-to-table.module").then((m) => m.ConnectToTableModule)
+			},
+			{
+				..._SHARED_CLIENT_ROUTES.CONNECT_TO_ORDER,
+				loadChildren: () =>
+					import("./pages/connect-to-order/connect-to-order.module").then((m) => m.ConnectToOrderModule)
 			},
 			{
 				..._SHARED_CLIENT_ROUTES.CATEGORIES,

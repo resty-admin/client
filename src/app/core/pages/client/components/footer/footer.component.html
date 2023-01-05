@@ -10,7 +10,7 @@
 	<a
 		class="basket"
 		*ngIf="activeOrder$ | async as activeOrder"
-		[routerLink]="clientRoutes.ORDER.absolutePath.replace(':id', activeOrder.id)"
+		[routerLink]="clientRoutes.ACTIVE_ORDER.absolutePath.replace(':id', activeOrder.id)"
 	>
 		<app-icon class="icon" name="basket"></app-icon>
 		<span class="count">{{ "5" }}</span>
