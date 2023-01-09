@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
+import { ReactiveFormsModule } from "@angular/forms";
 import { ImageModule } from "src/app/shared/ui/image";
 import { InputModule } from "src/app/shared/ui/input";
 import { LinkModule } from "src/app/shared/ui/link";
@@ -22,7 +23,8 @@ import { ProfileRoutingModule } from "./profile-routing.module";
 		ImageModule,
 		I18nModule,
 		LanguageSelectModule,
-		ThemeModule
+		ThemeModule,
+		ReactiveFormsModule
 	],
 	exports: [ProfileComponent]
 })

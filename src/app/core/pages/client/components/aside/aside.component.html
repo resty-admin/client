@@ -1,5 +1,5 @@
 <aside class="aside" *transloco="let t">
-	<div class="user" *ngIf="user">
+	<a class="user" [routerLink]="clientRoutes.PROFILE.absolutePath" (click)="emitCloseClick()" *ngIf="user">
 		<div class="image">{{ user.name | initials }}</div>
 		<p class="name">{{ user.name }}</p>
 		<p class="description">{{ t("ASIDE.DESCRIPTION") }}</p>
@@ -7,19 +7,17 @@
 		<button appStopPropagation class="sign-out" (click)="signOut()">
 			<app-icon class="icon" name="exit"></app-icon>
 		</button>
-	</div>
+	</a>
 
-	<div class="order">
-		<a
-			[class]="'active-order' + ' ' + activeOrder.type"
-			*ngIf="activeOrder$ | async as activeOrder"
-			[routerLink]="clientRoutes.ACTIVE_ORDER.absolutePath.replace(':id', activeOrder.id)"
-		>
-			<p class="code">{{ t("HEADER.ORDER") }} №{{ activeOrder.code }}</p>
-			<hr class="divider" />
-			<p class="type">{{ activeOrder.type }}</p>
-		</a>
-	</div>
+	<a
+		[class]="'active-order' + ' ' + activeOrder.type"
+		*ngIf="activeOrder$ | async as activeOrder"
+		[routerLink]="clientRoutes.ACTIVE_ORDER.absolutePath.replace(':id', activeOrder.id)"
+	>
+		<p class="code">{{ t("HEADER.ORDER") }} №{{ activeOrder.code }}</p>
+		<hr class="divider" />
+		<p class="type">{{ activeOrder.type }}</p>
+	</a>
 
 	<nav class="nav">
 		<ul class="pages">

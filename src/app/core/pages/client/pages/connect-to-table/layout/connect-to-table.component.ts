@@ -1,4 +1,4 @@
-import type { OnInit } from "@angular/core";
+import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
@@ -17,7 +17,7 @@ import { OrdersService } from "../../../../../../features/orders";
 	styleUrls: ["./connect-to-table.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ConnectToTableComponent implements OnInit {
+export class ConnectToTableComponent implements OnInit, OnDestroy {
 	codeControl = new FormControl();
 
 	constructor(
@@ -38,7 +38,7 @@ export class ConnectToTableComponent implements OnInit {
 					label: "Отправить",
 					action: () => {
 						this._ordersService
-							.addUserToOrder(placeId, Number.parseInt(`${this.codeControl.value}`))
+							.addUserToOrder(Number.parseInt(`${this.codeControl.value}`))
 							.subscribe(async (order: any) => {
 								await this._routerService.navigateByUrl(
 									CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(DYNAMIC_ID, order.id)
@@ -47,5 +47,9 @@ export class ConnectToTableComponent implements OnInit {
 					}
 				});
 			});
+	}
+
+	ngOnDestroy() {
+		this._actionsService.setAction(null);
 	}
 }

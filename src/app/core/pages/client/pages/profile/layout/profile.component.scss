@@ -49,14 +49,13 @@
 				"name"
 				"email"
 				"tel"
-				"role"
 				"submit"
 				"image";
 
 			@include desktop() {
 				grid-template-areas:
-					"name email image"
-					"tel role image"
+					"name name image"
+					"email tel image"
 					"submit . image";
 				grid-template-columns: 1fr 1fr auto;
 				padding-right: 0;
@@ -81,7 +80,7 @@
 				justify-self: start;
 				width: 100%;
 
-				@include desktop () {
+				@include desktop() {
 					width: auto;
 				}
 			}

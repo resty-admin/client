@@ -36,6 +36,7 @@
 						position: absolute;
 						width: 100%;
 						background-color: var(--primary);
+						border-radius: rem(12);
 					}
 
 					.container {
@@ -60,7 +61,7 @@
 								display: flex;
 								align-items: center;
 								justify-content: center;
-								color: var(--secondary-hover);
+								color: var(--dark);
 								font-size: rem(24);
 								text-align: left;
 							}
@@ -80,13 +81,30 @@
 						align-items: center;
 						z-index: 1;
 						font-size: rem(24);
-						color: var(--secondary-hover);
+						color: var(--dark);
 						transform: translateY(-(rem(2)));
 					}
 				}
 
 				.button {
 					width: 100%;
+				}
+			}
+		}
+	}
+}
+@include dark () {
+	.ios-datepicker {
+		.backdrop {
+			.dropdown {
+				background-color: var(--dark);
+				.datepicker {
+					.list .list-item .button {
+						color: var(--light);
+					}
+					.time-splitter {
+						color: var(--light);
+					}
 				}
 			}
 		}

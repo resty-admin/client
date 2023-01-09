@@ -12,15 +12,8 @@
 		grid-template-columns: 1fr 1fr;
 		row-gap: rem(24);
 
-		@include pagePadding ();
+		@include pagePadding();
 
-		.title {
-			grid-area: title;
-			font-weight: 700;
-			font-size: rem(32);
-			line-height: rem(40);
-			color: var(--dark);
-		}
 		.sum {
 			grid-area: sum;
 			font-weight: 700;
@@ -56,6 +49,14 @@
 			line-height: rem(32);
 			text-align: center;
 			color: var(--dark-t);
+		}
+	}
+}
+@include dark () {
+	.payment-type {
+		.tips,
+		.subtitle {
+			color: var(--light);
 		}
 	}
 }

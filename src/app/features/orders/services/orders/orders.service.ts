@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { map, switchMap, take, tap } from "rxjs";
 
-import type { CreateOrderInput, UpdateOrderInput } from "../../../../../graphql";
+import type { CreateOrderInput, UpdateOrderInput, UpdateUserToOrderInput } from "../../../../../graphql";
 import { ToastrService } from "../../../../shared/ui/toastr";
 import {
 	AddProductToOrderGQL,
@@ -9,15 +9,17 @@ import {
 	CreateOrderGQL,
 	OrderGQL,
 	OrdersGQL,
-	UpdateOrderGQL
+	RemoveUserProductInOrderGQL,
+	UpdateOrderGQL,
+	UpdateUserProductInOrderGQL
 } from "../../graphql/orders";
 import { OrdersRepository } from "../../repositories";
 
 @Injectable({ providedIn: "root" })
 export class OrdersService {
-	readonly orders$ = this._ordersGQL
-		.watch({ skip: 0, take: 5 })
-		.valueChanges.pipe(map((result) => result.data.orders.data));
+	private readonly _ordersQuery = this._ordersGQL.watch({ skip: 0, take: 5 });
+
+	readonly orders$ = this._ordersQuery.valueChanges.pipe(map((result) => result.data.orders.data));
 
 	readonly activeOrder$ = this._ordersRepository.activeOrder$;
 
@@ -29,6 +31,8 @@ export class OrdersService {
 		private readonly _createOrderGQL: CreateOrderGQL,
 		private readonly _updateOrderGQL: UpdateOrderGQL,
 		private readonly _addProductToOrderGQL: AddProductToOrderGQL,
+		private readonly _removeUserProdcutInOrder: RemoveUserProductInOrderGQL,
+		private readonly _updateUserProdcutInOrder: UpdateUserProductInOrderGQL,
 		private readonly _addUserToOrderGQL: AddUserToOrderGQL
 	) {}
 
@@ -36,16 +40,12 @@ export class OrdersService {
 		this._ordersRepository.updateActiveOrder(order);
 	}
 
-	async refetch() {
-		await this._ordersGQL.watch({ skip: 0, take: 5 }).refetch();
-	}
-
 	createOrder(order: CreateOrderInput) {
 		return this._createOrderGQL.mutate({ order }).pipe(
 			take(1),
 			this._toastrService.observe("Заказ"),
 			tap(async () => {
-				await this.refetch();
+				await this._ordersQuery.refetch();
 			}),
 			map((result) => result.data?.createOrder),
 			tap((order) => {
@@ -59,7 +59,7 @@ export class OrdersService {
 			take(1),
 			this._toastrService.observe("Заказ"),
 			tap(async () => {
-				await this.refetch();
+				await this._ordersQuery.refetch();
 			})
 		);
 	}
@@ -72,8 +72,16 @@ export class OrdersService {
 		);
 	}
 
-	addUserToOrder(placeId: string, code: number) {
-		return this._addUserToOrderGQL.mutate({ placeId, code }).pipe(
+	removeUserProductInOrder(userToOrderId: string) {
+		return this._removeUserProdcutInOrder.mutate({ userToOrderId }).pipe(take(1));
+	}
+
+	updateUserProductInOrder(userToOrder: UpdateUserToOrderInput) {
+		return this._updateUserProdcutInOrder.mutate({ userToOrder }).pipe(take(1));
+	}
+
+	addUserToOrder(code: number) {
+		return this._addUserToOrderGQL.mutate({ code }).pipe(
 			take(1),
 			map((result) => result.data?.addUserToOrder)
 		);

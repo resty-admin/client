@@ -1,0 +1,12 @@
+<div class="welcome-page" *transloco="let t">
+	<h1 appTypography theme="1" class="title">{{ t("WELCOME.TITLE") }}</h1>
+
+	<h2 appTypography theme="3" class="subtitle">{{ t("WELCOME.SUBTITLE") }}</h2>
+
+	<app-input
+		class="input"
+		[label]="t('FORM.NAME_LABEL')"
+		[placeholder]="t('FORM.NAME_PLACEHOLDER')"
+		[formControl]="nameControl"
+	></app-input>
+</div>

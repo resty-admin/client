@@ -5,13 +5,9 @@ import { CompaniesGQL } from "../../graphql/companies";
 
 @Injectable({ providedIn: "root" })
 export class CompaniesService {
-	readonly companies$ = this._companiesGQL
-		.watch({ skip: 0, take: 5 })
-		.valueChanges.pipe(map((result) => result.data.companies.data));
+	private readonly _companiesQuery = this._companiesGQL.watch({ skip: 0, take: 5 });
+
+	readonly companies$ = this._companiesQuery.valueChanges.pipe(map((result) => result.data.companies.data));
 
 	constructor(private readonly _companiesGQL: CompaniesGQL) {}
-
-	async refetch() {
-		await this._companiesGQL.watch().refetch();
-	}
 }

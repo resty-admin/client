@@ -1,9 +1,11 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, Inject, Input, Optional } from "@angular/core";
-import { BehaviorSubject, map, of, switchMap } from "rxjs";
+import { BehaviorSubject, map, of, switchMap, take, tap } from "rxjs";
 import { ANY_SYMBOL, THEME } from "src/app/shared/constants";
 import type { ISimpleChanges } from "src/app/shared/interfaces";
 
+import { DialogService } from "../../dialog";
+import { ImageDialogComponent } from "../components/image-dialog/image-dialog.component";
 import { IMAGE_CONFIG } from "../injection-tokens";
 import { IImageConfig, IImageTheme } from "../interfaces";
 
@@ -19,6 +21,10 @@ export class ImageComponent implements OnChanges {
 	@Input() format: "png" | "svg" = "png";
 	@Input() remote = false;
 	@Input() placeholder = "";
+	@Input() fullMode = false;
+
+	private _src = "";
+	private _placeholder = "";
 
 	private readonly remoteSubject = new BehaviorSubject(false);
 	private readonly remote$ = this.remoteSubject.asObservable();
@@ -30,14 +36,36 @@ export class ImageComponent implements OnChanges {
 				: this._imageConfig.theme$.pipe(
 						map((theme) => `${this._imageConfig.localAssetsUrl}/${theme}/${this.name}.${this.format}`)
 				  )
-		)
+		),
+		tap((src) => {
+			this._src = src;
+		})
 	);
 
 	readonly placeholderSrc$ = this._imageConfig.theme$.pipe(
-		map((theme) => `${this._imageConfig.localAssetsUrl}/${theme}/${this.placeholder}.${this.format}`)
+		map((theme) => `${this._imageConfig.localAssetsUrl}/${theme}/${this.placeholder}.${this.format}`),
+		tap((placeholder) => {
+			this._placeholder = placeholder;
+		})
 	);
 
-	constructor(@Optional() @Inject(IMAGE_CONFIG) private readonly _imageConfig: IImageConfig) {}
+	constructor(
+		@Optional() @Inject(IMAGE_CONFIG) private readonly _imageConfig: IImageConfig,
+		private readonly _dialogService: DialogService
+	) {}
+
+	openImage() {
+		this._dialogService
+			.open(ImageDialogComponent, {
+				data: {
+					placeholder: this._placeholder,
+					src: this._src,
+					name: this.name
+				}
+			})
+			.afterClosed$.pipe(take(1))
+			.subscribe();
+	}
 
 	ngOnChanges(changes: ISimpleChanges<ImageComponent>) {
 		if (!changes.remote) {

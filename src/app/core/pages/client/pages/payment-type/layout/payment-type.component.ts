@@ -49,6 +49,8 @@ export class PaymentTypeComponent implements OnInit, OnDestroy {
 	) {}
 
 	ngOnInit() {
+		console.log();
+
 		this.order$.pipe(take(1)).subscribe((order) => {
 			this._breadcrumbsService.setBackUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(DYNAMIC_ID, order.id));
 
@@ -57,15 +59,11 @@ export class PaymentTypeComponent implements OnInit, OnDestroy {
 				action: () =>
 					({
 						[PaymentType.CARD]: (order: any) => {
-							this._authService
-								.getMe()
-								.pipe(
-									take(1),
-									switchMap((user: any) =>
-										this._apiService.post("fondy/create-payment-link", { orderId: order.id, userId: user.id })
-									),
-									take(1)
-								)
+							const users = JSON.parse(this._routerService.getQueryParams("users") || "");
+
+							this._apiService
+								.post("fondy/create-payment-link", { orderId: order.id, userId: users[0] })
+								.pipe(take(1))
 								.subscribe(({ link }: any) => {
 									window.location.href = link;
 								});

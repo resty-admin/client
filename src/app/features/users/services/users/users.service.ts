@@ -1,17 +1,29 @@
 import { Injectable } from "@angular/core";
-import { map } from "rxjs";
+import { map, take, tap } from "rxjs";
 
-import { UsersGQL } from "../../graphql/users";
+import type { UpdateUserInput } from "../../../../../graphql";
+import { ToastrService } from "../../../../shared/ui/toastr";
+import { UpdateUserGQL, UsersGQL } from "../../graphql/users";
 
 @Injectable({ providedIn: "root" })
 export class UsersService {
-	readonly users$ = this._usersGQL
-		.watch({ skip: 0, take: 5 })
-		.valueChanges.pipe(map((result) => result.data.users.data));
+	private readonly _usersQuery = this._usersGQL.watch({ skip: 0, take: 5 });
 
-	constructor(private readonly _usersGQL: UsersGQL) {}
+	readonly users$ = this._usersQuery.valueChanges.pipe(map((result) => result.data.users.data));
 
-	async refetch() {
-		await this._usersGQL.watch().refetch();
+	constructor(
+		private readonly _usersGQL: UsersGQL,
+		private readonly _updateUserGQL: UpdateUserGQL,
+		private readonly _toastrService: ToastrService
+	) {}
+
+	updateUser(user: UpdateUserInput) {
+		return this._updateUserGQL.mutate({ user }).pipe(
+			take(1),
+			this._toastrService.observe("Пользователи"),
+			tap(async () => {
+				await this._usersQuery.refetch();
+			})
+		);
 	}
 }

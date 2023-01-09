@@ -1,5 +1,9 @@
 <div [class]="className">
-	<button class="minus" (click)="minus()">-</button>
-	<span class="count">{{ formControl.value }}</span>
-	<button class="add" (click)="add()">+</button>
+	<button appStopPropagation class="button minus" (click)="minus()">
+		<app-icon class="icon" name="minus"></app-icon>
+	</button>
+	<span class="count">{{ count }}</span>
+	<button appStopPropagation class="button add" (click)="add()">
+		<app-icon class="icon" name="add"></app-icon>
+	</button>
 </div>

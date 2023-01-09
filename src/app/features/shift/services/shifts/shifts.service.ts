@@ -5,13 +5,9 @@ import { ShiftsGQL } from "../../graphql/shift";
 
 @Injectable({ providedIn: "root" })
 export class ShiftsService {
-	readonly shifts$ = this._shiftsGQL
-		.watch({ skip: 0, take: 5 })
-		.valueChanges.pipe(map((result) => result.data.shifts.data));
+	private readonly _shiftsQuery = this._shiftsGQL.watch({ skip: 0, take: 5 });
+
+	readonly shifts$ = this._shiftsQuery.valueChanges.pipe(map((result) => result.data.shifts.data));
 
 	constructor(private readonly _shiftsGQL: ShiftsGQL) {}
-
-	async refetch() {
-		await this._shiftsGQL.watch().refetch();
-	}
 }

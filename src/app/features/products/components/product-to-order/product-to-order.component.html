@@ -1,4 +1,4 @@
-<div class="product-to-order" *ngIf="userToOrder">
+<div class="product-to-order" [class.active]="isActive" *ngIf="userToOrder">
 	<app-image class="image" placeholder="product" [remote]="true" [name]="userToOrder.product.file?.url"></app-image>
 	<p class="title">{{ userToOrder.product.name }}</p>
 	<p class="description">{{ userToOrder.product.description }}</p>

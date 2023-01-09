@@ -1,48 +1,44 @@
 @import "/src/assets/scss/abstractions";
 
-@include component () {
+@include component() {
 	.table {
 		display: grid;
 		background-color: var(--light-grey);
 		border-radius: rem(12);
+		padding: rem(8);
+		row-gap: rem(8);
+		grid-template-areas:
+			"image name"
+			"image status";
+		column-gap: rem(16);
+		grid-template-columns: auto 1fr;
 
 		.image {
-			width: 100%;
-			height: rem(160);
+			grid-area: image;
+			width: rem(72);
+			height: rem(72);
 
 			@include image() {
-				border-radius: rem(12) rem(12) 0 0;
+				border-radius: rem(12);
 			}
 		}
-		.content {
-			display: flex;
-			flex-wrap: wrap;
-			justify-content: space-between;
-			padding: rem(10) rem(15);
-			row-gap: rem(16);
-			.label {
-				font-weight: 500;
-				font-size: rem(20);
-				line-height: rem(32);
-				color: var(--dark);
-			}
-
-			.status {
-				font-weight: 400;
-				font-size: rem(14);
-				line-height: rem(24);
-				color: #009007;
-			}
-
-			.chips {
-				width: 100%;
-				display: flex;
-				gap: rem(5);
-			}
+		.name {
+			grid-area: name;
+			font-weight: 600;
+			font-size: rem(14);
+			line-height: rem(24);
+			color: var(--dark);
+		}
+		.status {
+			grid-area: status;
+			font-weight: 400;
+			font-size: rem(14);
+			line-height: rem(24);
+			color: var(--dark);
 		}
 	}
 }
-@include dark () {
+@include dark() {
 	.table {
 		background-color: var(--dark-grey);
 		.content .label {

@@ -6,10 +6,10 @@
 		"TEL_PLACEHOLDER": "Введите телефон",
 		"PASSWORD_LABEL": "Пароль",
 		"PASSWORD_PLACEHOLDER": "Введите телефон",
-		"NAME_LABEL": "Missing value for 'FORM.NAME_LABEL'",
-		"NAME_PLACEHOLDER": "Missing value for 'FORM.NAME_PLACEHOLDER'",
-		"ROLE_LABEL": "Missing value for 'FORM.ROLE_LABEL'",
-		"ROLE_PLACEHOLDER": "Missing value for 'FORM.ROLE_PLACEHOLDER'"
+		"NAME_LABEL": "Имя",
+		"NAME_PLACEHOLDER": "Введите имя",
+		"ROLE_LABEL": "Роль",
+		"ROLE_PLACEHOLDER": "Выберите роль"
 	},
 	"AUTH": {
 		"FORGOT_PASSWORD": "Забыли пароль?",
@@ -23,7 +23,7 @@
 	},
 	"ASIDE": {
 		"DESCRIPTION": "Наш любимы гость",
-		"SUPPORT": "Missing value for 'ASIDE.SUPPORT'",
+		"SUPPORT": "Поддержка",
 		"SHARE_ORDER": "Поделиться заказом",
 		"MY_ORDERS": "Мои заказы",
 		"PLACES": "Заведения",
@@ -88,11 +88,11 @@
 		"TITLE": "Продукты"
 	},
 	"PROFILE": {
-		"TITLE": "Missing value for 'PROFILE.TITLE'",
-		"DELETE_PROFILE": "Missing value for 'PROFILE.DELETE_PROFILE'"
+		"TITLE": "Профиль",
+		"DELETE_PROFILE": "Удалить профиль"
 	},
 	"BUTTON": {
-		"SUBMIT": "Missing value for 'BUTTON.SUBMIT'"
+		"SUBMIT": "Подтвердить"
 	},
 	"REFERRAL_LINK": {
 		"TITLE": "Ваш заказ создан",
@@ -109,5 +109,9 @@
 	},
 	"TABLES": {
 		"TITLE": "Столы"
+	},
+	"WELCOME": {
+		"TITLE": "Добро пожаловать",
+		"SUBTITLE": "Как к Вам обращаться?"
 	}
 }

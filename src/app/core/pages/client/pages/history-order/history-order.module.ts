@@ -7,6 +7,7 @@ import { TablesFeatureModule } from "../../../../../features/tables";
 import { TranslocoModule } from "../../../../../shared/modules/i18n";
 import { ButtonModule } from "../../../../../shared/ui/button";
 import { IconModule } from "../../../../../shared/ui/icon";
+import { ImageModule } from "../../../../../shared/ui/image";
 import { TypographyModule } from "../../../../../shared/ui/typography";
 import { HistoryOrderRoutingModule } from "./history-order-routing.module";
 import { HistoryOrderComponent } from "./layout/history-order.component";
@@ -22,7 +23,8 @@ import { HistoryOrderComponent } from "./layout/history-order.component";
 		TablesFeatureModule,
 		ProductsFeatureModule,
 		IconModule,
-		TranslocoModule
+		TranslocoModule,
+		ImageModule
 	]
 })
 export class HistoryOrderModule {}

@@ -22,7 +22,12 @@ export interface OrdersQuery {
 					id: string;
 					totalPrice?: number | null;
 					type: Types.OrderTypeEnum;
-					place: { __typename?: "PlaceEntity"; id: string; name: string };
+					place: {
+						__typename?: "PlaceEntity";
+						id: string;
+						name: string;
+						file?: { __typename?: "FileEntity"; url: string } | null;
+					};
 			  }[]
 			| null;
 	};
@@ -59,7 +64,12 @@ export interface OrderQuery {
 					user: { __typename?: "UserEntity"; id: string; name: string };
 			  }[]
 			| null;
-		place: { __typename?: "PlaceEntity"; id: string; name: string };
+		place: {
+			__typename?: "PlaceEntity";
+			id: string;
+			name: string;
+			file?: { __typename?: "FileEntity"; url: string } | null;
+		};
 		table?: { __typename?: "TableEntity"; id: string; name: string } | null;
 	};
 }
@@ -74,8 +84,25 @@ export interface AddProductToOrderMutation {
 	addProductToOrder: { __typename?: "ActiveOrderEntity"; id: string };
 }
 
+export type RemoveUserProductInOrderMutationVariables = Types.Exact<{
+	userToOrderId: Types.Scalars["String"];
+}>;
+
+export interface RemoveUserProductInOrderMutation {
+	__typename?: "Mutation";
+	removeUserProductInOrder: string;
+}
+
+export type UpdateUserProductInOrderMutationVariables = Types.Exact<{
+	userToOrder: Types.UpdateUserToOrderInput;
+}>;
+
+export interface UpdateUserProductInOrderMutation {
+	__typename?: "Mutation";
+	updateUserProductInOrder: { __typename?: "ActiveOrderEntity"; id: string };
+}
+
 export type AddUserToOrderMutationVariables = Types.Exact<{
-	placeId: Types.Scalars["String"];
 	code: Types.Scalars["Int"];
 }>;
 
@@ -130,6 +157,9 @@ export const OrdersDocument = gql`
 				place {
 					id
 					name
+					file {
+						url
+					}
 				}
 			}
 		}
@@ -180,12 +210,11 @@ export const OrderDocument = gql`
 			place {
 				id
 				name
+				file {
+					url
+				}
 			}
 			table {
-				id
-				name
-			}
-			place {
 				id
 				name
 			}
@@ -224,9 +253,49 @@ export class AddProductToOrderGQL extends Apollo.Mutation<
 		super(apollo);
 	}
 }
+export const RemoveUserProductInOrderDocument = gql`
+	mutation RemoveUserProductInOrder($userToOrderId: String!) {
+		removeUserProductInOrder(userToOrderId: $userToOrderId)
+	}
+`;
+
+@Injectable({
+	providedIn: "root"
+})
+export class RemoveUserProductInOrderGQL extends Apollo.Mutation<
+	RemoveUserProductInOrderMutation,
+	RemoveUserProductInOrderMutationVariables
+> {
+	override document = RemoveUserProductInOrderDocument;
+
+	constructor(apollo: Apollo.Apollo) {
+		super(apollo);
+	}
+}
+export const UpdateUserProductInOrderDocument = gql`
+	mutation UpdateUserProductInOrder($userToOrder: UpdateUserToOrderInput!) {
+		updateUserProductInOrder(userToOrder: $userToOrder) {
+			id
+		}
+	}
+`;
+
+@Injectable({
+	providedIn: "root"
+})
+export class UpdateUserProductInOrderGQL extends Apollo.Mutation<
+	UpdateUserProductInOrderMutation,
+	UpdateUserProductInOrderMutationVariables
+> {
+	override document = UpdateUserProductInOrderDocument;
+
+	constructor(apollo: Apollo.Apollo) {
+		super(apollo);
+	}
+}
 export const AddUserToOrderDocument = gql`
-	mutation AddUserToOrder($placeId: String!, $code: Int!) {
-		addUserToOrder(placeId: $placeId, code: $code) {
+	mutation AddUserToOrder($code: Int!) {
+		addUserToOrder(code: $code) {
 			code
 			id
 		}

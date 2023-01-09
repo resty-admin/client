@@ -32,6 +32,15 @@ export interface UsersQuery {
 	};
 }
 
+export type UpdateUserMutationVariables = Types.Exact<{
+	user: Types.UpdateUserInput;
+}>;
+
+export interface UpdateUserMutation {
+	__typename?: "Mutation";
+	updateUser: { __typename?: "UserEntity"; id: string };
+}
+
 export const UsersDocument = gql`
 	query Users($skip: Int!, $take: Int!, $filtersArgs: FiltersArgsDto) {
 		users(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
@@ -57,6 +66,24 @@ export const UsersDocument = gql`
 })
 export class UsersGQL extends Apollo.Query<UsersQuery, UsersQueryVariables> {
 	override document = UsersDocument;
+
+	constructor(apollo: Apollo.Apollo) {
+		super(apollo);
+	}
+}
+export const UpdateUserDocument = gql`
+	mutation UpdateUser($user: UpdateUserInput!) {
+		updateUser(user: $user) {
+			id
+		}
+	}
+`;
+
+@Injectable({
+	providedIn: "root"
+})
+export class UpdateUserGQL extends Apollo.Mutation<UpdateUserMutation, UpdateUserMutationVariables> {
+	override document = UpdateUserDocument;
 
 	constructor(apollo: Apollo.Apollo) {
 		super(apollo);

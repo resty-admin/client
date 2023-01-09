@@ -1,7 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
-import { ControlValueAccessor } from "src/app/shared/classes";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import { ANY_SYMBOL, THEME } from "src/app/shared/constants";
-import { getControlValueAccessorProviders } from "src/app/shared/functions";
 
 import { ICounterTheme } from "../interfaces";
 
@@ -9,26 +7,24 @@ import { ICounterTheme } from "../interfaces";
 	selector: "app-counter",
 	templateUrl: "./counter.component.html",
 	styleUrls: ["./counter.component.scss"],
-	providers: getControlValueAccessorProviders(CounterComponent),
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CounterComponent extends ControlValueAccessor<number> {
+export class CounterComponent {
+	@Output() plusClicked = new EventEmitter();
+	@Output() minusClicked = new EventEmitter();
 	@Input() label = "";
+	@Input() count = 0;
 	@Input() theme: ICounterTheme = "1";
 
-	constructor() {
-		super(0);
-	}
-
 	get className() {
-		return `app-counter ${THEME.replace(ANY_SYMBOL, this.theme)} ${!this.formControl.value && "add"}`;
+		return `app-counter ${THEME.replace(ANY_SYMBOL, this.theme)} ${!this.count && "add"}`;
 	}
 
 	minus() {
-		this.formControl.setValue(this.formControl.value - 1);
+		this.plusClicked.emit();
 	}
 
 	add() {
-		this.formControl.setValue(this.formControl.value + 1);
+		this.minusClicked.emit();
 	}
 }

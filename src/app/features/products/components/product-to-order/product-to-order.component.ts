@@ -9,6 +9,8 @@ import { ProductToOrderStatusEnum } from "../../../../../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductToOrderComponent {
-	readonly productToOrderStatus = ProductToOrderStatusEnum;
 	@Input() userToOrder?: any;
+	@Input() isActive = false;
+
+	readonly productToOrderStatus = ProductToOrderStatusEnum;
 }

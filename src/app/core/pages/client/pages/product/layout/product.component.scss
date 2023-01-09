@@ -2,92 +2,88 @@
 
 @include page() {
 	.product {
-		display: grid;
-		align-items: center;
-		grid-template-areas:
-			"title title title"
-			"image image image"
-			"name cal price"
-			"description description counter"
-			"attrGroups attrGroups attrGroups"
-			"textarea textarea textarea";
-		row-gap: rem(12);
-		column-gap: rem(12);
-		grid-template-columns: auto 1fr 1fr;
-
-		@include pagePadding();
-		.title {
-			grid-area: title;
-		}
 		.image {
-			grid-area: image;
 			height: rem(200);
-
-			@include image () {
-				border-radius: rem(12);
-			}
 		}
-		.name {
-			grid-area: name;
-			font-weight: 600;
-			font-size: rem(20);
-			line-height: rem(32);
-			color: var(--dark);
-		}
-		.description {
-			grid-area: description;
-			font-weight: 400;
-			font-size: rem(14);
-			line-height: rem(24);
-			color: var(--dark-t);
-		}
-		.price {
-			grid-area: price;
-			font-weight: 600;
-			font-size: rem(20);
-			line-height: rem(32);
-			color: var(--primary);
-			justify-self: end;
-		}
-		.cal {
-			justify-self: start;
-			grid-area: cal;
-			font-weight: 400;
-			font-size: rem(14);
-			line-height: rem(24);
-			color: var(--dark-t);
-		}
-		.attrGroups {
-			grid-area: attrGroups;
+		.content {
 			display: grid;
-			row-gap: rem(15);
-			.attrGroup {
+			align-items: center;
+			grid-template-areas:
+				"name cal price"
+				"description description counter"
+				"attrGroups attrGroups attrGroups"
+				"textarea textarea textarea";
+			row-gap: rem(12);
+			column-gap: rem(12);
+			grid-template-columns: auto 1fr 1fr;
+
+			@include pagePadding();
+			.name {
+				grid-area: name;
+				font-weight: 600;
+				font-size: rem(20);
+				line-height: rem(32);
+				color: var(--dark);
+			}
+			.description {
+				grid-area: description;
+				font-weight: 400;
+				font-size: rem(14);
+				line-height: rem(24);
+				color: var(--dark-t);
+			}
+			.price {
+				grid-area: price;
+				font-weight: 600;
+				font-size: rem(20);
+				line-height: rem(32);
+				color: var(--primary);
+				justify-self: end;
+			}
+			.cal {
+				justify-self: start;
+				grid-area: cal;
+				font-weight: 400;
+				font-size: rem(14);
+				line-height: rem(24);
+				color: var(--dark-t);
+			}
+			.attrGroups {
+				grid-area: attrGroups;
 				display: grid;
-				row-gap: rem(10);
-				.label {
-					font-weight: 500;
-					font-size: rem(16);
-					line-height: rem(24);
-					color: var(--dark);
+				row-gap: rem(15);
+				.attrGroup {
+					display: grid;
+					row-gap: rem(10);
+					.label {
+						font-weight: 500;
+						font-size: rem(16);
+						line-height: rem(24);
+						color: var(--dark);
+					}
 				}
 			}
-		}
-		.counter {
-			grid-area: counter;
-			justify-self: end;
-		}
-		.textarea {
-			grid-area: textarea;
+			.counter {
+				grid-area: counter;
+				justify-self: end;
+			}
+			.textarea {
+				grid-area: textarea;
+			}
 		}
 	}
 }
 @include dark() {
-	.product {
+	.product .content {
 		.name,
 		.description,
 		.cal,
 		.modifications,
 		.remove {
+			color: var(--light);
+		}
+
+		.attrGroups .attrGroup .label {
 			color: var(--light);
 		}
 	}

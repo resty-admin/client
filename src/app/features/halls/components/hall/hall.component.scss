@@ -1,86 +1,51 @@
 @import "/src/assets/scss/abstractions";
 
-@include component () {
+@include component() {
 	.hall {
-		display: block;
+		display: grid;
+		align-items: center;
+		padding: rem(8);
+		row-gap: rem(8);
+		grid-template-areas:
+			"image name"
+			"image status";
 		background-color: var(--light-grey);
 		border-radius: rem(12);
+		column-gap: rem(16);
+		grid-template-columns: auto 1fr;
 		.image {
-			width: 100%;
-			height: rem(160);
+			grid-area: image;
+			width: rem(72);
+			height: rem(96);
 
 			@include image() {
-				border-radius: rem(12) rem(12) 0 0;
+				border-radius: rem(12);
 			}
 		}
-		.icon {
-			width: rem(15);
-			height: rem(15);
+		.name {
+			grid-area: name;
+			font-weight: 600;
+			font-size: rem(14);
+			line-height: rem(24);
+			color: var(--dark);
 		}
-		.content {
-			display: grid;
-			row-gap: rem(8);
-			justify-content: space-between;
-			align-items: center;
-			padding: rem(16);
-			grid-template-areas:
-				"label status"
-				"address time";
-			.label {
-				grid-area: label;
-				font-weight: 500;
-				font-size: rem(20);
-				line-height: rem(32);
-				color: var(--dark);
-			}
-			.status {
-				display: flex;
-				column-gap: rem(8);
-				grid-area: status;
+		.status {
+			grid-area: status;
+			align-self: start;
+			.text {
 				font-weight: 400;
-				font-size: rem(12);
-				line-height: rem(16);
-				text-align: right;
-				color: #009007;
-			}
-			.time,
-			.address {
-				display: flex;
-				align-items: center;
-				column-gap: rem(8);
-				.icon {
-					width: rem(15);
-					height: rem(15);
-				}
-				.text {
-					font-weight: 400;
-					font-size: rem(14);
-					line-height: rem(24);
-					color: var(--dark);
-				}
-				&.time {
-					grid-area: time;
-				}
-				&.address {
-					grid-area: address;
-				}
+				font-size: rem(14);
+				line-height: rem(24);
+				color: var(--dark);
 			}
 		}
 	}
 }
-@include dark () {
+@include dark() {
 	.hall {
 		background-color: var(--dark-grey);
-		.content {
-			.label {
-				color: white;
-			}
-			.time,
-			.address {
-				.text {
-					color: white;
-				}
-			}
+		.label {
+			color: white;
 		}
 	}
 }

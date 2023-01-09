@@ -3,6 +3,7 @@
 @include component() {
 	.app-input {
 		&.theme-1 {
+			position: relative;
 			.input {
 				width: 100%;
 				border-radius: rem(12);
@@ -20,6 +21,10 @@
 				&:hover {
 					border-color: var(--primary);
 				}
+
+				@include desktop () {
+					font-size: rem(16);
+				}
 			}
 
 			.label {
@@ -36,10 +41,10 @@
 				}
 			}
 
-			@include desktop() {
-				.input {
-					font-size: rem(16);
-				}
+			.icon-template {
+				position: absolute;
+				right: rem(6);
+				bottom: rem(6);
 			}
 		}
 		&.theme-2 {

@@ -15,12 +15,16 @@
 		gap: rem(8);
 		grid-template-columns: auto 1fr auto;
 
+		&.active {
+			border-color: var(--primary);
+		}
+
 		.image {
 			grid-area: image;
 			width: rem(56);
 			height: rem(56);
 
-			@include image () {
+			@include image() {
 				border-radius: rem(12);
 			}
 		}

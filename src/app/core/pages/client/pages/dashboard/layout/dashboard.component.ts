@@ -1,7 +1,7 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { of, switchMap, take } from "rxjs";
-import { PLACE_ID } from "src/app/shared/constants";
+import { DYNAMIC_ID, PLACE_ID } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
 import { CLIENT_ROUTES } from "src/app/shared/routes";
@@ -31,7 +31,7 @@ export class DashboardComponent implements OnInit {
 		this._breadcrumbsService.setBackUrl(CLIENT_ROUTES.PLACES.absolutePath);
 	}
 
-	createOrder({ type, link }: any) {
+	createOrder({ type }: any) {
 		this._authService
 			.getMe()
 			.pipe(
@@ -47,8 +47,11 @@ export class DashboardComponent implements OnInit {
 				),
 				take(1)
 			)
-			.subscribe(async () => {
-				await this._routerService.navigateByUrl(link.replace(PLACE_ID, this.placeId));
+			.subscribe(async (order: any) => {
+				const navigateUrl = order?.id
+					? CLIENT_ROUTES.REFERRAL_LINK.absolutePath.replace(DYNAMIC_ID, order.id)
+					: CLIENT_ROUTES.CONNECT_TO_ORDER.absolutePath;
+				await this._routerService.navigateByUrl(navigateUrl);
 			});
 	}
 

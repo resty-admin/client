@@ -1,7 +1,6 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { map, switchMap, take } from "rxjs";
 import { ProductsService } from "src/app/features/products";
@@ -20,8 +19,6 @@ import { ActionsService } from "../../../../../../features/actions";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductComponent implements OnInit, OnDestroy {
-	readonly counterFormControl = new FormControl(0);
-
 	readonly product$ = this._routerService.selectParams(DYNAMIC_ID.slice(1)).pipe(
 		switchMap((id) => this._productsService.getProduct(id)),
 		map((product) => ({

@@ -1,19 +1,15 @@
 <ng-container *transloco="let t">
 	<div class="history-order" *ngIf="order$ | async as order">
-		<div class="place">
-			<app-place [place]="order.place"></app-place>
-		</div>
+		<app-image class="image" [remote]="true" [name]="order.place.file?.url"></app-image>
 
 		<div class="content">
-			<div class="table">
+			<div class="table" *ngIf="order.table">
 				<h2 class="subtitle" appTypography theme="3">{{ t("ORDER.TABLE") }}</h2>
 
 				<app-table *ngIf="order.table" [table]="order.table"></app-table>
 			</div>
 
-			<div class="products">
-				<h2 class="subtitle" appTypography theme="3">{{ t("ORDER.PRODUCTS") }}</h2>
-
+			<div class="products" *ngIf="order.usersToOrders?.length">
 				<ul class="users-list">
 					<li class="user">
 						<button class="button selected">Все</button>
@@ -25,7 +21,7 @@
 
 				<ul class="products-list">
 					<li class="product" *ngFor="let userToOrder of order.usersToOrders">
-						<app-product [product]="userToOrder.product"></app-product>
+						<app-product-to-order [userToOrder]="userToOrder"></app-product-to-order>
 					</li>
 				</ul>
 			</div>

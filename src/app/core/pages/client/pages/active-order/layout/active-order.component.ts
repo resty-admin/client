@@ -1,5 +1,6 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { FormControl } from "@ngneat/reactive-forms";
 import { map, switchMap, take, tap } from "rxjs";
 import { OrdersService } from "src/app/features/orders";
 import { DYNAMIC_ID } from "src/app/shared/constants";
@@ -18,6 +19,9 @@ import { ActionsService } from "../../../../../../features/actions";
 })
 export class ActiveOrderComponent implements OnInit, OnDestroy {
 	readonly clientRoutes = CLIENT_ROUTES;
+
+	readonly usersControl = new FormControl();
+
 	readonly order$ = this._routerService.selectParams(DYNAMIC_ID.slice(1)).pipe(
 		switchMap((id) => this._ordersService.getOrder(id)),
 		tap((order) => {
@@ -51,12 +55,16 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 		this._actionsService.setAction({
 			label: "Выбрать тип оплаты",
 			action: () =>
-				this.order$
-					.pipe(take(1))
-					.subscribe(async (order) =>
-						this._routerService.navigateByUrl(CLIENT_ROUTES.PAYMENT_TYPE.absolutePath.replace(DYNAMIC_ID, order.id))
-					)
+				this.order$.pipe(take(1)).subscribe(async (order) => {
+					await this._routerService.navigate([CLIENT_ROUTES.PAYMENT_TYPE.absolutePath.replace(DYNAMIC_ID, order.id)], {
+						queryParams: { users: JSON.stringify(this.usersControl.value) }
+					});
+				})
 		});
+	}
+
+	get users(): any {
+		return this.usersControl.value;
 	}
 
 	ngOnDestroy() {

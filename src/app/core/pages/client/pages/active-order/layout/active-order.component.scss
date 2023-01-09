@@ -8,24 +8,6 @@
 		.products {
 			display: grid;
 			row-gap: rem(12);
-			.users-list {
-				display: flex;
-				.user {
-					.button {
-						border: rem(1) solid transparent;
-						padding: rem(5) rem(24);
-						border-radius: rem(12);
-						color: var(--dark);
-						font-weight: 600;
-						font-size: rem(14);
-						line-height: rem(24);
-						&.selected {
-							border-color: var(--primary);
-							color: var(--primary);
-						}
-					}
-				}
-			}
 			.users-to-orders-by-type {
 				display: grid;
 				row-gap: rem(12);
@@ -45,5 +27,10 @@
 				}
 			}
 		}
+	}
+}
+@include dark () {
+	.active-order .products .users-to-orders-by-type .user-to-order-by-type .status {
+		color: var(--light);
 	}
 }

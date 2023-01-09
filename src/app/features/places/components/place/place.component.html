@@ -1,15 +1,13 @@
 <div class="place" *ngIf="place">
-	<app-image class="image" [remote]="true" [name]="place.file?.url" placeholder="place"></app-image>
-	<div class="content">
-		<span class="label">{{ place.name }}</span>
-		<span class="status">{{ place.status }}</span>
-		<div class="address">
-			<app-icon class="icon" name="location"></app-icon>
-			<span class="text">{{ place.address }}</span>
-		</div>
-		<div class="time">
-			<app-icon class="icon" name="time"></app-icon>
-			<span class="text">{{ "12:00 - 14:00" }}</span>
-		</div>
+	<app-image class="image" [fullMode]="true" [remote]="true" [name]="place.file?.url" placeholder="place"></app-image>
+	<span class="label">{{ place.name }}</span>
+	<span class="status">{{ place.status }}</span>
+	<div class="address">
+		<!--		<app-icon class="icon" name="location"></app-icon>-->
+		<span class="text">{{ place.address }}</span>
+	</div>
+	<div class="time">
+		<!--		<app-icon class="icon" name="time"></app-icon>-->
+		<span class="text">{{ "12:00 - 14:00" }}</span>
 	</div>
 </div>

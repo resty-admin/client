@@ -41,6 +41,10 @@ export const CLIENT_ROUTES = {
 		path: `profile`,
 		absolutePath: `/profile`
 	},
+	WELCOME: {
+		path: "welcome",
+		absolutePath: "/welcome"
+	},
 	ALL_ORDERS: {
 		path: `all-orders`,
 		absolutePath: `/all-orders`

@@ -2,18 +2,15 @@
 
 @include page() {
 	.aside {
-		display: grid;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
 		height: 100%;
 		position: relative;
 		background-color: var(--light);
 		padding: rem(14) rem(24);
-		grid-template-rows: auto auto 1fr;
 		border-right: rem(1) solid var(--dark-b);
-		row-gap: rem(12);
-
-		@include desktop() {
-			grid-template-rows: auto 1fr;
-		}
+		gap: rem(12);
 
 		.user {
 			display: grid;
@@ -238,6 +235,12 @@
 			}
 			.description {
 				color: var(--light-t);
+			}
+			.sign-out {
+				background-color: var(--dark);
+				.icon {
+					@include icon(null, var(--light));
+				}
 			}
 		}
 		.nav {

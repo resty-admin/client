@@ -1,14 +1,7 @@
 <ng-container *transloco="let t">
 	<div class="active-order" *ngIf="order$ | async as order">
 		<div class="products">
-			<ul class="users-list">
-				<li class="user">
-					<button class="button selected">Все</button>
-				</li>
-				<li class="user" *ngFor="let user of order.users; let i = index">
-					<button class="button">{{ user.name || "Гость " + i }}</button>
-				</li>
-			</ul>
+			<app-users-select [users]="order.users" [formControl]="usersControl"></app-users-select>
 
 			<ul class="users-to-orders-by-type">
 				<li class="user-to-order-by-type" *ngFor="let userToOrderByType of order.usersToOrdersByType">
@@ -16,7 +9,10 @@
 						<p class="status">{{ userToOrderByType.status }}</p>
 						<ul class="users-to-orders">
 							<li class="user-to-order" *ngFor="let userToOrder of userToOrderByType.usersToOrders">
-								<app-product-to-order [userToOrder]="userToOrder"></app-product-to-order>
+								<app-product-to-order
+									[userToOrder]="userToOrder"
+									[isActive]="userToOrderByType.status !== 'PAID' && users?.includes(userToOrder.user.id)"
+								></app-product-to-order>
 							</li>
 						</ul>
 					</ng-container>

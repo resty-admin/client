@@ -17,19 +17,19 @@
 		}
 
 		.count,
-		.add,
-		.minus {
+		.button {
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			&.add,
-			&.minus {
+			&.button {
 				height: 100%;
 				width: rem(40);
-				font-weight: 500;
-				font-size: rem(24);
-				line-height: rem(16);
-				color: var(--dark);
+				.icon {
+					width: rem(20);
+					height: rem(20);
+
+					@include icon(var(--dark), var(--dark));
+				}
 			}
 			&.count {
 				height: 100%;
@@ -43,6 +43,5 @@
 }
 @include dark() {
 	.app-counter.theme-1 {
-		background-color: var(--dark-grey);
 	}
 }

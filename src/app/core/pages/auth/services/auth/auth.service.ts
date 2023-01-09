@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import type { Observable } from "rxjs";
-import { catchError, map, of, tap } from "rxjs";
+import { catchError, map, of, take, tap } from "rxjs";
 import { AUTH_ENDPOINTS } from "src/app/shared/endpoints";
 import type {
 	IAccessToken,
@@ -16,9 +16,11 @@ import { ApiService } from "src/app/shared/modules/api";
 import { CryptoService } from "src/app/shared/modules/crypto";
 import { JwtService } from "src/app/shared/modules/jwt";
 
+import type { UpdateMeInput } from "../../../../../../graphql";
 import { RouterService } from "../../../../../shared/modules/router";
 import { CLIENT_ROUTES } from "../../../../../shared/routes";
-import { GetMeGQL } from "../../graphql/auth";
+import { ToastrService } from "../../../../../shared/ui/toastr";
+import { DeleteMeGQL, GetMeGQL, UpdateMeGQL } from "../../graphql/auth";
 import { AuthRepository } from "../../repositories";
 
 @Injectable({
@@ -33,7 +35,10 @@ export class AuthService {
 		private readonly _authRepository: AuthRepository,
 		private readonly _jwtService: JwtService,
 		private readonly _routerService: RouterService,
-		private readonly _getMeGQL: GetMeGQL
+		private readonly _getMeGQL: GetMeGQL,
+		private readonly _updateMeGQL: UpdateMeGQL,
+		private readonly _deleteMeGQL: DeleteMeGQL,
+		private readonly _toastrService: ToastrService
 	) {}
 
 	private _encryptPassword<T extends { password: string }>(body: T) {
@@ -58,6 +63,14 @@ export class AuthService {
 			map((result) => this._jwtService.decodeToken<IUser>(result.data.getMe.accessToken)),
 			catchError(() => of(undefined))
 		);
+	}
+
+	updateMe(user: UpdateMeInput) {
+		return this._updateMeGQL.mutate({ user }).pipe(take(1), this._toastrService.observe("Пользователь"));
+	}
+
+	deleteMe() {
+		return this._deleteMeGQL.mutate().pipe(take(1), this._toastrService.observe("Пользователь"));
 	}
 
 	signIn(body: ISignIn) {

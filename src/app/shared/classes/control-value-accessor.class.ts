@@ -34,6 +34,7 @@ export abstract class ControlValueAccessor<T> implements _ControlValueAccessor, 
 			if (this.onChange) {
 				this.onChange(value);
 			}
+
 			this.valueChange.emit(value);
 		});
 	}

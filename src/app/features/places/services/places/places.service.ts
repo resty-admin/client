@@ -5,13 +5,9 @@ import { PlacesGQL } from "../../graphql/places";
 
 @Injectable({ providedIn: "root" })
 export class PlacesService {
-	readonly places$ = this._placesGQL
-		.watch({ skip: 0, take: 5 })
-		.valueChanges.pipe(map((result) => result.data.places.data));
+	private readonly _placesQuery = this._placesGQL.watch({ skip: 0, take: 5 });
+
+	readonly places$ = this._placesQuery.valueChanges.pipe(map((result) => result.data.places.data));
 
 	constructor(private readonly _placesGQL: PlacesGQL) {}
-
-	async refetch() {
-		await this._placesGQL.watch().refetch();
-	}
 }

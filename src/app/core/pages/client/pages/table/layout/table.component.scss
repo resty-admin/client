@@ -2,88 +2,74 @@
 
 @include page() {
 	.table-page {
-		display: grid;
-		align-self: start;
-		row-gap: rem(24);
-		grid-template-areas:
-			"title title"
-			"image image"
-			"label status"
-			"chips chips"
-			"datepicker datepicker"
-			"description description"
-			"submit submit";
-
-		@include pagePadding ();
-
-		.title {
-			grid-area: title;
-		}
-
 		.image {
-			grid-area: image;
 			height: rem(183);
+		}
+		.content {
+			display: grid;
+			align-self: start;
+			row-gap: rem(24);
+			grid-template-areas:
+				"label status"
+				"datepicker datepicker"
+				"description description"
+				"submit submit";
 
-			@include image () {
-				border-radius: rem(12);
+			@include pagePadding();
+
+			.label {
+				grid-area: label;
+				font-weight: 500;
+				font-size: rem(20);
+				line-height: rem(32);
+				color: var(--dark);
 			}
-		}
 
-		.label {
-			grid-area: label;
-			font-weight: 500;
-			font-size: rem(20);
-			line-height: rem(32);
-			color: var(--dark);
-		}
+			.status {
+				grid-area: status;
+				font-weight: 400;
+				font-size: rem(14);
+				line-height: rem(24);
+				text-align: right;
+				color: var(--success);
+			}
 
-		.status {
-			grid-area: status;
-			font-weight: 400;
-			font-size: rem(14);
-			line-height: rem(24);
-			text-align: right;
-			color: var(--green);
-		}
+			.chips {
+				grid-area: chips;
+				display: flex;
+				gap: rem(5);
+			}
 
-		.chips {
-			grid-area: chips;
-			display: flex;
-			gap: rem(5);
-		}
+			.datepicker {
+				grid-area: datepicker;
+			}
 
-		.datepicker {
-			grid-area: datepicker;
-		}
+			.description {
+				grid-area: description;
+				color: var(--dark);
+				font-weight: 400;
+				font-size: 14px;
+				line-height: 24px;
+			}
 
-		.description {
-			grid-area: description;
-			color: var(--dark);
-			font-weight: 400;
-			font-size: 14px;
-			line-height: 24px;
-		}
-
-		.submit {
-			grid-area: submit;
-			align-self: end;
-			width: 100%;
-			bottom: rem(15);
-			&::ng-deep .app-button {
+			.submit {
+				grid-area: submit;
+				align-self: end;
 				width: 100%;
+				bottom: rem(15);
+				&::ng-deep .app-button {
+					width: 100%;
+				}
 			}
 		}
 	}
 }
 @include dark() {
-	.table {
-		.info {
-			.label {
-				color: white;
-			}
-			.description {
-				color: var(--light);
-			}
+	.table-page .content {
+		.description,
+		.code,
+		.label {
+			color: var(--light);
 		}
 	}
 }

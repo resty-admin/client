@@ -1,7 +1,6 @@
 <ng-container *transloco="let t">
 	<div class="referral-link" *ngIf="activeOrder$ | async as activeOrder">
 		<h1 appTypography theme="1" class="title">{{ t("REFERRAL_LINK.TITLE") }}</h1>
-		<h2 class="subtitle">{{ t("REFERRAL_LINK.ORDER_CODE") }} {{ activeOrder.code }}</h2>
 
 		<p class="description">{{ t("REFERRAL_LINK.DESCRIPTION") }}</p>
 

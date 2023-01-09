@@ -20,6 +20,10 @@ export class RouterService {
 		return this._routerRepository.getParams<T>(name);
 	}
 
+	getQueryParams<T = any>(name?: string) {
+		return this._routerRepository.getQueryParams<T>(name);
+	}
+
 	selectParams<T extends string>(names: string[]): Observable<T[]>;
 	selectParams<T extends string>(names: string): Observable<T>;
 	selectParams<T extends Record<string, string>>(): Observable<T>;

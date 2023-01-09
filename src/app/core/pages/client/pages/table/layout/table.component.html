@@ -1,14 +1,14 @@
 <ng-container *transloco="let t">
 	<div class="table-page" *ngIf="table$ | async as table">
-		<h1 appTypography theme="1" class="title">{{ t("TABLE.TITLE") }}</h1>
-
 		<app-image class="image" [remote]="true" [name]="table.file?.url" placeholder="table"></app-image>
 
-		<p class="label">{{ t("TABLE.CODE") }} {{ table.code }}</p>
-		<p class="status">{{ t("TABLE.STATUS") }}</p>
+		<div class="content">
+			<p class="label">{{ t("TABLE.CODE") }} {{ table.code }}</p>
+			<p class="status">{{ t("TABLE.STATUS") }}</p>
 
-		<app-ios-datepicker class="datepicker"></app-ios-datepicker>
+			<app-ios-datepicker class="datepicker"></app-ios-datepicker>
 
-		<p class="description">{{ t("TABLE.INFO") }}</p>
+			<p class="description">{{ t("TABLE.INFO") }}</p>
+		</div>
 	</div>
 </ng-container>

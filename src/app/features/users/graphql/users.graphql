@@ -15,3 +15,9 @@ query Users($skip: Int!, $take: Int!, $filtersArgs: FiltersArgsDto) {
 		}
 	}
 }
+
+mutation UpdateUser($user: UpdateUserInput!) {
+	updateUser(user: $user) {
+		id
+	}
+}

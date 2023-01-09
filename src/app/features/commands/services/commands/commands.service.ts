@@ -5,13 +5,9 @@ import { CommandsGQL } from "../../graphql/commands";
 
 @Injectable({ providedIn: "root" })
 export class CommandsService {
-	readonly commands$ = this._commandsGQL
-		.watch({ skip: 0, take: 5 })
-		.valueChanges.pipe(map((result) => result.data.commands.data));
+	private readonly _commandsQuery = this._commandsGQL.watch({ skip: 0, take: 5 });
+
+	readonly commands$ = this._commandsQuery.valueChanges.pipe(map((result) => result.data.commands.data));
 
 	constructor(private readonly _commandsGQL: CommandsGQL) {}
-
-	async refetch() {
-		await this._commandsGQL.watch().refetch();
-	}
 }

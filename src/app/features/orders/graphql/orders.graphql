@@ -10,6 +10,9 @@ query Orders($take: Int!, $skip: Int!, $filtersArgs: FiltersArgsDto) {
 			place {
 				id
 				name
+				file {
+					url
+				}
 			}
 		}
 	}
@@ -48,12 +51,11 @@ query Order($orderId: String!) {
 		place {
 			id
 			name
+			file {
+				url
+			}
 		}
 		table {
-			id
-			name
-		}
-		place {
 			id
 			name
 		}
@@ -66,8 +68,18 @@ mutation AddProductToOrder($orderId: String!, $product: CreateUserToOrderInput!)
 	}
 }
 
-mutation AddUserToOrder($placeId: String!, $code: Int!) {
-	addUserToOrder(placeId: $placeId, code: $code) {
+mutation RemoveUserProductInOrder($userToOrderId: String!) {
+	removeUserProductInOrder(userToOrderId: $userToOrderId)
+}
+
+mutation UpdateUserProductInOrder($userToOrder: UpdateUserToOrderInput!) {
+	updateUserProductInOrder(userToOrder: $userToOrder) {
+		id
+	}
+}
+
+mutation AddUserToOrder($code: Int!) {
+	addUserToOrder(code: $code) {
 		code
 		id
 	}

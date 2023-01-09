@@ -3,7 +3,11 @@
 	<ul class="products">
 		<li class="product" *ngFor="let product of products$ | async">
 			<a class="link" [routerLink]="product.id">
-				<app-product [product]="product" (countChanged)="updateOrder($event, product)"></app-product>
+				<app-product
+					[product]="product"
+					(minusClicked)="removeProductFromOrder(product)"
+					(plusClicked)="addProductToOrder(product)"
+				></app-product>
 			</a>
 		</li>
 	</ul>

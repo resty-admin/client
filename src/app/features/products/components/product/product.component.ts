@@ -1,8 +1,5 @@
-import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
-import { FormControl } from "@ngneat/reactive-forms";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { skip } from "rxjs";
+import { UntilDestroy } from "@ngneat/until-destroy";
 
 @UntilDestroy()
 @Component({
@@ -11,15 +8,16 @@ import { skip } from "rxjs";
 	styleUrls: ["./product.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductComponent implements OnInit {
-	@Output() countChanged = new EventEmitter();
+export class ProductComponent {
+	@Output() minusClicked = new EventEmitter();
+	@Output() plusClicked = new EventEmitter();
 	@Input() product: any;
 
-	readonly counterFormControl = new FormControl();
+	emitMinusClick() {
+		this.minusClicked.emit();
+	}
 
-	ngOnInit() {
-		this.counterFormControl.valueChanges.pipe(skip(1), untilDestroyed(this)).subscribe((count) => {
-			this.countChanged.emit(count);
-		});
+	emitPlusClick() {
+		this.plusClicked.emit();
 	}
 }

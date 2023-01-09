@@ -3,6 +3,8 @@
 		<app-image class="image" name="logo"></app-image>
 	</a>
 
+	<div class="space"></div>
+
 	<a
 		[class]="'active-order' + ' ' + activeOrder.type"
 		*ngIf="activeOrder$ | async as activeOrder"

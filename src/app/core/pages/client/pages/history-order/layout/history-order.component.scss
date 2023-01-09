@@ -2,10 +2,14 @@
 
 @include page() {
 	.history-order {
+		.image {
+			height: rem(200);
+		}
 		.content {
-			@include pagePadding();
 			display: grid;
 			row-gap: rem(24);
+
+			@include pagePadding();
 			.price {
 				font-size: rem(20);
 				line-height: rem(32);

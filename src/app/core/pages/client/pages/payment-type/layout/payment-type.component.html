@@ -1,6 +1,6 @@
 <ng-container *transloco="let t">
 	<div class="payment-type" *ngIf="order$ | async as order">
-		<h1 class="title">{{ t("PAYMENT_TYPE.TITLE") }}</h1>
+		<h1 appTypography theme="1" class="title">{{ t("PAYMENT_TYPE.TITLE") }}</h1>
 		<p class="sum">{{ order.totalPrice }} грн</p>
 
 		<p class="subtitle">{{ t("PAYMENT_TYPE.SUBTITLE") }}</p>

@@ -10,6 +10,7 @@ export interface Scalars {
 	Boolean: boolean;
 	Int: number;
 	Float: number;
+	DateTime: any;
 }
 
 export interface AccessToken {
@@ -27,6 +28,7 @@ export interface ActiveOrderEntity {
 	__typename?: "ActiveOrderEntity";
 	code: Scalars["Int"];
 	id: Scalars["String"];
+	orderNumber: Scalars["Int"];
 	place: PlaceEntity;
 	status: OrderStatusEnum;
 	table?: Maybe<TableEntity>;
@@ -38,6 +40,7 @@ export interface ActiveOrderEntity {
 
 export interface ActiveOrderEntityInput {
 	code: Scalars["Int"];
+	orderNumber: Scalars["Int"];
 	place: PlaceEntityInput;
 	status: OrderStatusEnum;
 	table?: InputMaybe<TableEntityInput>;
@@ -51,15 +54,15 @@ export interface ActiveShiftEntity {
 	__typename?: "ActiveShiftEntity";
 	id: Scalars["String"];
 	place?: Maybe<PlaceEntity>;
-	shiftDate: Scalars["String"];
-	table?: Maybe<TableEntity>;
+	shiftDate: Scalars["DateTime"];
+	tables?: Maybe<TableEntity[]>;
 	waiter?: Maybe<UserEntity>;
 }
 
 export interface ActiveShiftEntityInput {
 	place?: InputMaybe<PlaceEntityInput>;
-	shiftDate: Scalars["String"];
-	table?: InputMaybe<TableEntityInput>;
+	shiftDate: Scalars["DateTime"];
+	tables?: InputMaybe<TableEntityInput[]>;
 	waiter?: InputMaybe<UserEntityInput>;
 }
 
@@ -107,6 +110,7 @@ export interface CategoryEntity {
 	__typename?: "CategoryEntity";
 	file?: Maybe<FileEntity>;
 	id: Scalars["String"];
+	isHide: Scalars["Boolean"];
 	name: Scalars["String"];
 	place: PlaceEntity;
 	products?: Maybe<ProductEntity[]>;
@@ -114,6 +118,7 @@ export interface CategoryEntity {
 
 export interface CategoryEntityInput {
 	file?: InputMaybe<FileEntityInput>;
+	isHide: Scalars["Boolean"];
 	name: Scalars["String"];
 	place: PlaceEntityInput;
 	products?: InputMaybe<ProductEntityInput[]>;
@@ -138,6 +143,7 @@ export interface CompanyEntity {
 	employees?: Maybe<UserEntity[]>;
 	fondy?: Maybe<FondyEntity>;
 	id: Scalars["String"];
+	isHide: Scalars["Boolean"];
 	logo?: Maybe<FileEntity>;
 	name: Scalars["String"];
 	owner: UserEntity;
@@ -148,6 +154,7 @@ export interface CompanyEntity {
 export interface CompanyEntityInput {
 	employees?: InputMaybe<UserEntityInput[]>;
 	fondy?: InputMaybe<FondyEntityInput>;
+	isHide: Scalars["Boolean"];
 	logo?: InputMaybe<FileEntityInput>;
 	name: Scalars["String"];
 	owner: UserEntityInput;
@@ -231,11 +238,9 @@ export interface CreateProductInput {
 	price?: InputMaybe<Scalars["Float"]>;
 }
 
-export interface CreateShitInput {
+export interface CreateShiftInput {
 	place?: InputMaybe<Scalars["String"]>;
-	shiftDate?: InputMaybe<Scalars["String"][]>;
-	table?: InputMaybe<Scalars["String"]>;
-	waiter?: InputMaybe<Scalars["String"]>;
+	tables: Scalars["String"][];
 }
 
 export interface CreateTableInput {
@@ -294,6 +299,7 @@ export interface HallEntity {
 	__typename?: "HallEntity";
 	file?: Maybe<FileEntity>;
 	id: Scalars["String"];
+	isHide: Scalars["Boolean"];
 	name: Scalars["String"];
 	place: PlaceEntity;
 	tables?: Maybe<TableEntity[]>;
@@ -301,49 +307,10 @@ export interface HallEntity {
 
 export interface HallEntityInput {
 	file?: InputMaybe<FileEntityInput>;
+	isHide: Scalars["Boolean"];
 	name: Scalars["String"];
 	place: PlaceEntityInput;
 	tables?: InputMaybe<TableEntityInput[]>;
-}
-
-export interface HistoryOrderEntity {
-	__typename?: "HistoryOrderEntity";
-	code: Scalars["Int"];
-	id: Scalars["String"];
-	place: PlaceEntity;
-	status: OrderStatusEnum;
-	table?: Maybe<TableEntity>;
-	totalPrice?: Maybe<Scalars["Int"]>;
-	type: OrderTypeEnum;
-	users?: Maybe<UserEntity[]>;
-	usersToOrders?: Maybe<UserToOrderEntity[]>;
-}
-
-export interface HistoryOrderEntityInput {
-	code: Scalars["Int"];
-	place: PlaceEntityInput;
-	status: OrderStatusEnum;
-	table?: InputMaybe<TableEntityInput>;
-	totalPrice?: InputMaybe<Scalars["Int"]>;
-	type: OrderTypeEnum;
-	users?: InputMaybe<UserEntityInput[]>;
-	usersToOrders?: InputMaybe<UserToOrderEntityInput[]>;
-}
-
-export interface HistoryShiftEntity {
-	__typename?: "HistoryShiftEntity";
-	id: Scalars["String"];
-	place?: Maybe<PlaceEntity>;
-	shiftDate: Scalars["String"];
-	table?: Maybe<TableEntity>;
-	waiter?: Maybe<UserEntity>;
-}
-
-export interface HistoryShiftEntityInput {
-	place?: InputMaybe<PlaceEntityInput>;
-	shiftDate: Scalars["String"];
-	table?: InputMaybe<TableEntityInput>;
-	waiter?: InputMaybe<UserEntityInput>;
 }
 
 export interface LanguageEntity {
@@ -357,6 +324,8 @@ export interface Mutation {
 	__typename?: "Mutation";
 	addProductToOrder: ActiveOrderEntity;
 	addUserToOrder: ActiveOrderEntity;
+	closeOrder: Scalars["String"];
+	closeShift: Scalars["String"];
 	createAccountingSystem: AccountingSystemEntity;
 	createAttr: AttributesEntity;
 	createAttrGroup: AttributesGroupEntity;
@@ -378,6 +347,7 @@ export interface Mutation {
 	deleteCommand: Scalars["String"];
 	deleteCompany: Scalars["String"];
 	deleteHall: Scalars["String"];
+	deleteMe: Scalars["String"];
 	deleteOrder: Scalars["String"];
 	deletePaymentSystem: Scalars["String"];
 	deletePlace: Scalars["String"];
@@ -393,6 +363,7 @@ export interface Mutation {
 	updateCommand: CommandEntity;
 	updateCompany: CompanyEntity;
 	updateHall: HallEntity;
+	updateMe: UserEntity;
 	updateOrder: ActiveOrderEntity;
 	updatePaymentSystem: PaymentSystemEntity;
 	updatePlace: PlaceEntity;
@@ -410,7 +381,14 @@ export interface MutationAddProductToOrderArgs {
 
 export interface MutationAddUserToOrderArgs {
 	code: Scalars["Int"];
-	placeId: Scalars["String"];
+}
+
+export interface MutationCloseOrderArgs {
+	orderId: Scalars["String"];
+}
+
+export interface MutationCloseShiftArgs {
+	shiftId: Scalars["String"];
 }
 
 export interface MutationCreateAccountingSystemArgs {
@@ -458,7 +436,7 @@ export interface MutationCreateProductArgs {
 }
 
 export interface MutationCreateShiftArgs {
-	shift: CreateShitInput;
+	shift: CreateShiftInput;
 }
 
 export interface MutationCreateTableArgs {
@@ -557,6 +535,10 @@ export interface MutationUpdateHallArgs {
 	hall: UpdateHallInput;
 }
 
+export interface MutationUpdateMeArgs {
+	user: UpdateMeInput;
+}
+
 export interface MutationUpdateOrderArgs {
 	order: UpdateOrderInput;
 }
@@ -574,7 +556,7 @@ export interface MutationUpdateProductArgs {
 }
 
 export interface MutationUpdateShiftArgs {
-	shift: UpdateShitInput;
+	shift: UpdateShiftInput;
 }
 
 export interface MutationUpdateTableArgs {
@@ -723,6 +705,7 @@ export interface PlaceEntity {
 	halls: HallEntity[];
 	holidayDays: Scalars["String"];
 	id: Scalars["String"];
+	isHide: Scalars["Boolean"];
 	name: Scalars["String"];
 	orders?: Maybe<ActiveOrderEntity[]>;
 	status: PlaceStatusEnum;
@@ -740,6 +723,7 @@ export interface PlaceEntityInput {
 	file?: InputMaybe<FileEntityInput>;
 	halls: HallEntityInput[];
 	holidayDays: Scalars["String"];
+	isHide: Scalars["Boolean"];
 	name: Scalars["String"];
 	orders?: InputMaybe<ActiveOrderEntityInput[]>;
 	status: PlaceStatusEnum;
@@ -755,19 +739,21 @@ export enum PlaceStatusEnum {
 export interface ProductEntity {
 	__typename?: "ProductEntity";
 	attrsGroups?: Maybe<AttributesGroupEntity[]>;
-	category: CategoryEntity;
+	category?: Maybe<CategoryEntity>;
 	description?: Maybe<Scalars["String"]>;
 	file?: Maybe<FileEntity>;
 	id: Scalars["String"];
+	isHide: Scalars["Boolean"];
 	name: Scalars["String"];
 	price: Scalars["Int"];
 }
 
 export interface ProductEntityInput {
 	attrsGroups?: InputMaybe<AttributesGroupEntityInput[]>;
-	category: CategoryEntityInput;
+	category?: InputMaybe<CategoryEntityInput>;
 	description?: InputMaybe<Scalars["String"]>;
 	file?: InputMaybe<FileEntityInput>;
+	isHide: Scalars["Boolean"];
 	name: Scalars["String"];
 	price: Scalars["Int"];
 }
@@ -784,6 +770,7 @@ export interface Query {
 	__typename?: "Query";
 	accountingSystem: AccountingSystemEntity;
 	accountingSystems: PaginatedAccountingSystem;
+	activeShift?: Maybe<ActiveShiftEntity>;
 	attribute: AttributesEntity;
 	attributeGroup: AttributesGroupEntity;
 	attributeGroups: PaginatedAttributeGroups;
@@ -971,6 +958,7 @@ export interface TableEntity {
 	file?: Maybe<FileEntity>;
 	hall: HallEntity;
 	id: Scalars["String"];
+	isHide: Scalars["Boolean"];
 	name: Scalars["String"];
 	orders?: Maybe<ActiveOrderEntity[]>;
 }
@@ -979,6 +967,7 @@ export interface TableEntityInput {
 	code: Scalars["Int"];
 	file?: InputMaybe<FileEntityInput>;
 	hall: HallEntityInput;
+	isHide: Scalars["Boolean"];
 	name: Scalars["String"];
 	orders?: InputMaybe<ActiveOrderEntityInput[]>;
 }
@@ -1035,6 +1024,12 @@ export interface UpdateHallInput {
 	name: Scalars["String"];
 }
 
+export interface UpdateMeInput {
+	email?: InputMaybe<Scalars["String"]>;
+	name?: InputMaybe<Scalars["String"]>;
+	tel?: InputMaybe<Scalars["String"]>;
+}
+
 export interface UpdateOrderInput {
 	id: Scalars["String"];
 	status?: InputMaybe<OrderStatusEnum>;
@@ -1068,12 +1063,9 @@ export interface UpdateProductInput {
 	price?: InputMaybe<Scalars["Float"]>;
 }
 
-export interface UpdateShitInput {
+export interface UpdateShiftInput {
 	id: Scalars["String"];
-	place?: InputMaybe<Scalars["String"]>;
-	shiftDate?: InputMaybe<Scalars["String"][]>;
-	table?: InputMaybe<Scalars["String"]>;
-	waiter?: InputMaybe<Scalars["String"]>;
+	tables?: InputMaybe<Scalars["String"][]>;
 }
 
 export interface UpdateTableInput {
@@ -1100,7 +1092,7 @@ export interface UpdateUserToOrderInput {
 
 export interface UserEntity {
 	__typename?: "UserEntity";
-	company?: Maybe<CompanyEntity>;
+	companies?: Maybe<CompanyEntity>;
 	email?: Maybe<Scalars["String"]>;
 	googleId?: Maybe<Scalars["String"]>;
 	id: Scalars["String"];
@@ -1117,7 +1109,7 @@ export interface UserEntity {
 }
 
 export interface UserEntityInput {
-	company?: InputMaybe<CompanyEntityInput>;
+	companies?: InputMaybe<CompanyEntityInput>;
 	email?: InputMaybe<Scalars["String"]>;
 	googleId?: InputMaybe<Scalars["String"]>;
 	name: Scalars["String"];
