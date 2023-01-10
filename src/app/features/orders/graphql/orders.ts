@@ -15,21 +15,19 @@ export interface OrdersQuery {
 		__typename?: "PaginatedActiveOrder";
 		page: number;
 		totalCount: number;
-		data?:
-			| {
-					__typename?: "ActiveOrderEntity";
-					code: number;
-					id: string;
-					totalPrice?: number | null;
-					type: Types.OrderTypeEnum;
-					place: {
-						__typename?: "PlaceEntity";
-						id: string;
-						name: string;
-						file?: { __typename?: "FileEntity"; url: string } | null;
-					};
-			  }[]
-			| null;
+		data?: {
+			__typename?: "ActiveOrderEntity";
+			code: number;
+			id: string;
+			totalPrice?: number | null;
+			type: Types.OrderTypeEnum;
+			place: {
+				__typename?: "PlaceEntity";
+				id: string;
+				name: string;
+				file?: { __typename?: "FileEntity"; url: string } | null;
+			};
+		}[] | null;
 	};
 }
 
@@ -47,23 +45,21 @@ export interface OrderQuery {
 		status: Types.OrderStatusEnum;
 		totalPrice?: number | null;
 		users?: { __typename?: "UserEntity"; id: string; name: string }[] | null;
-		usersToOrders?:
-			| {
-					__typename?: "UserToOrderEntity";
-					id: string;
-					count: number;
-					status: Types.ProductToOrderStatusEnum;
-					product: {
-						__typename?: "ProductEntity";
-						id: string;
-						name: string;
-						price: number;
-						description?: string | null;
-						file?: { __typename?: "FileEntity"; id: string; url: string } | null;
-					};
-					user: { __typename?: "UserEntity"; id: string; name: string };
-			  }[]
-			| null;
+		usersToOrders?: {
+			__typename?: "UserToOrderEntity";
+			id: string;
+			count: number;
+			status: Types.ProductToOrderStatusEnum;
+			product: {
+				__typename?: "ProductEntity";
+				id: string;
+				name: string;
+				price: number;
+				description?: string | null;
+				file?: { __typename?: "FileEntity"; id: string; url: string } | null;
+			};
+			user: { __typename?: "UserEntity"; id: string; name: string };
+		}[] | null;
 		place: {
 			__typename?: "PlaceEntity";
 			id: string;
@@ -88,10 +84,7 @@ export type RemoveUserProductInOrderMutationVariables = Types.Exact<{
 	userToOrderId: Types.Scalars["String"];
 }>;
 
-export interface RemoveUserProductInOrderMutation {
-	__typename?: "Mutation";
-	removeUserProductInOrder: string;
-}
+export interface RemoveUserProductInOrderMutation { __typename?: "Mutation"; removeUserProductInOrder: string }
 
 export type UpdateUserProductInOrderMutationVariables = Types.Exact<{
 	userToOrder: Types.UpdateUserToOrderInput;

@@ -5,10 +5,7 @@ import * as Apollo from "apollo-angular";
 import type * as Types from "../../../../../graphql";
 export type GetMeQueryVariables = Types.Exact<Record<string, never>>;
 
-export interface GetMeQuery {
-	__typename?: "Query";
-	getMe: { __typename?: "AccessToken"; accessToken: string };
-}
+export interface GetMeQuery { __typename?: "Query"; getMe: { __typename?: "AccessToken"; accessToken: string } }
 
 export type UpdateMeMutationVariables = Types.Exact<{
 	user: Types.UpdateMeInput;
@@ -21,10 +18,7 @@ export interface UpdateMeMutation {
 
 export type DeleteMeMutationVariables = Types.Exact<Record<string, never>>;
 
-export interface DeleteMeMutation {
-	__typename?: "Mutation";
-	deleteMe: string;
-}
+export interface DeleteMeMutation { __typename?: "Mutation"; deleteMe: string }
 
 export const GetMeDocument = gql`
 	query GetMe {

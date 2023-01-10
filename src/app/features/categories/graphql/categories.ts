@@ -15,14 +15,12 @@ export interface CategoriesQuery {
 		__typename?: "PaginatedCategory";
 		page: number;
 		totalCount: number;
-		data?:
-			| {
-					__typename?: "CategoryEntity";
-					id: string;
-					name: string;
-					file?: { __typename?: "FileEntity"; id: string; url: string } | null;
-			  }[]
-			| null;
+		data?: {
+			__typename?: "CategoryEntity";
+			id: string;
+			name: string;
+			file?: { __typename?: "FileEntity"; id: string; url: string } | null;
+		}[] | null;
 	};
 }
 

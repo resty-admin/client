@@ -15,16 +15,14 @@ export interface AttributeGroupsQuery {
 		__typename?: "PaginatedAttributeGroups";
 		page: number;
 		totalCount: number;
-		data?:
-			| {
-					__typename?: "AttributesGroupEntity";
-					id: string;
-					type: Types.AttributeGroupTypeEnum;
-					maxItemsForPick: number;
-					name: string;
-					attributes?: { __typename?: "AttributesEntity"; name: string }[] | null;
-			  }[]
-			| null;
+		data?: {
+			__typename?: "AttributesGroupEntity";
+			id: string;
+			type: Types.AttributeGroupTypeEnum;
+			maxItemsForPick: number;
+			name: string;
+			attributes?: { __typename?: "AttributesEntity"; name: string }[] | null;
+		}[] | null;
 	};
 }
 

@@ -31,6 +31,8 @@ export class SignInComponent implements OnInit {
 		password: ""
 	});
 
+	readonly user$ = this._authService.getMe();
+
 	constructor(
 		private readonly _routerService: RouterService,
 		private readonly _formBuilder: FormBuilder,

@@ -15,16 +15,14 @@ export interface PlacesQuery {
 		__typename?: "PaginatedPlace";
 		totalCount: number;
 		page: number;
-		data?:
-			| {
-					__typename?: "PlaceEntity";
-					name: string;
-					id: string;
-					status: Types.PlaceStatusEnum;
-					address?: string | null;
-					file?: { __typename?: "FileEntity"; id: string; url: string } | null;
-			  }[]
-			| null;
+		data?: {
+			__typename?: "PlaceEntity";
+			name: string;
+			id: string;
+			status: Types.PlaceStatusEnum;
+			address?: string | null;
+			file?: { __typename?: "FileEntity"; id: string; url: string } | null;
+		}[] | null;
 	};
 }
 

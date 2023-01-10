@@ -15,15 +15,13 @@ export interface HallsQuery {
 		__typename?: "PaginatedHall";
 		page: number;
 		totalCount: number;
-		data?:
-			| {
-					__typename?: "HallEntity";
-					id: string;
-					name: string;
-					file?: { __typename?: "FileEntity"; id: string; url: string } | null;
-					tables?: { __typename?: "TableEntity"; id: string; name: string }[] | null;
-			  }[]
-			| null;
+		data?: {
+			__typename?: "HallEntity";
+			id: string;
+			name: string;
+			file?: { __typename?: "FileEntity"; id: string; url: string } | null;
+			tables?: { __typename?: "TableEntity"; id: string; name: string }[] | null;
+		}[] | null;
 	};
 }
 

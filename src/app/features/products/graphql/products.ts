@@ -15,16 +15,14 @@ export interface ProductsQuery {
 		__typename?: "PaginatedProduct";
 		page: number;
 		totalCount: number;
-		data?:
-			| {
-					__typename?: "ProductEntity";
-					price: number;
-					name: string;
-					id: string;
-					description?: string | null;
-					file?: { __typename?: "FileEntity"; url: string; id: string } | null;
-			  }[]
-			| null;
+		data?: {
+			__typename?: "ProductEntity";
+			price: number;
+			name: string;
+			id: string;
+			description?: string | null;
+			file?: { __typename?: "FileEntity"; url: string; id: string } | null;
+		}[] | null;
 	};
 }
 
@@ -40,13 +38,11 @@ export interface ProductQuery {
 		name: string;
 		price: number;
 		id: string;
-		attrsGroups?:
-			| {
-					__typename?: "AttributesGroupEntity";
-					name: string;
-					attributes?: { __typename?: "AttributesEntity"; id: string; name: string }[] | null;
-			  }[]
-			| null;
+		attrsGroups?: {
+			__typename?: "AttributesGroupEntity";
+			name: string;
+			attributes?: { __typename?: "AttributesEntity"; id: string; name: string }[] | null;
+		}[] | null;
 		file?: { __typename?: "FileEntity"; url: string; id: string } | null;
 	};
 }

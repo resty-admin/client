@@ -7,10 +7,7 @@ export type SignUpMutationVariables = Types.Exact<{
 	body: Types.SignUpInput;
 }>;
 
-export interface SignUpMutation {
-	__typename?: "Mutation";
-	signUp: { __typename?: "AccessToken"; accessToken: string };
-}
+export interface SignUpMutation { __typename?: "Mutation"; signUp: { __typename?: "AccessToken"; accessToken: string } }
 
 export const SignUpDocument = gql`
 	mutation SignUp($body: SignUpInput!) {

@@ -15,15 +15,13 @@ export interface TablesQuery {
 		__typename?: "PaginatedTable";
 		page: number;
 		totalCount: number;
-		data?:
-			| {
-					__typename?: "TableEntity";
-					id: string;
-					name: string;
-					code: number;
-					file?: { __typename?: "FileEntity"; id: string; url: string } | null;
-			  }[]
-			| null;
+		data?: {
+			__typename?: "TableEntity";
+			id: string;
+			name: string;
+			code: number;
+			file?: { __typename?: "FileEntity"; id: string; url: string } | null;
+		}[] | null;
 	};
 }
 
