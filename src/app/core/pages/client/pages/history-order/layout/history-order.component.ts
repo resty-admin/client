@@ -3,9 +3,9 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { map, switchMap, take, tap } from "rxjs";
 import { OrdersService } from "src/app/features/orders";
 import { DYNAMIC_ID } from "src/app/shared/constants";
+import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
-import { CLIENT_ROUTES } from "src/app/shared/routes";
 
 import { ProductToOrderStatusEnum } from "../../../../../../../graphql";
 import { ActionsService } from "../../../../../../features/actions";

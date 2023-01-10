@@ -6,7 +6,7 @@ import type * as Types from "../../../../graphql";
 export type ShiftsQueryVariables = Types.Exact<{
 	skip: Types.Scalars["Int"];
 	take: Types.Scalars["Int"];
-	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto>;
+	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
 }>;
 
 export interface ShiftsQuery {
@@ -20,7 +20,7 @@ export interface ShiftsQuery {
 }
 
 export const ShiftsDocument = gql`
-	query Shifts($skip: Int!, $take: Int!, $filtersArgs: FiltersArgsDto) {
+	query Shifts($skip: Int!, $take: Int!, $filtersArgs: [FiltersArgsDto!]) {
 		shifts(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
 			page
 			totalCount

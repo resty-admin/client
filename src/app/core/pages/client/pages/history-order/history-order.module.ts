@@ -4,6 +4,7 @@ import { NgModule } from "@angular/core";
 import { PlacesFeatureModule } from "../../../../../features/places";
 import { ProductsFeatureModule } from "../../../../../features/products";
 import { TablesFeatureModule } from "../../../../../features/tables";
+import { getI18nProvider } from "../../../../../shared/i18n";
 import { TranslocoModule } from "../../../../../shared/modules/i18n";
 import { ButtonModule } from "../../../../../shared/ui/button";
 import { IconModule } from "../../../../../shared/ui/icon";
@@ -25,6 +26,7 @@ import { HistoryOrderComponent } from "./layout/history-order.component";
 		IconModule,
 		TranslocoModule,
 		ImageModule
-	]
+	],
+	providers: [getI18nProvider("historyOrderPage", (lang) => import(`./i18n/${lang}.json`))]
 })
 export class HistoryOrderModule {}

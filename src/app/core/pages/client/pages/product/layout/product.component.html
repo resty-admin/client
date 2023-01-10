@@ -1,4 +1,4 @@
-<ng-container *transloco="let t">
+<ng-container *transloco="let t; read: 'productPage'">
 	<div class="product" *ngIf="product$ | async as product">
 		<app-image class="image" [remote]="true" [name]="product.file?.url" placeholder="product"></app-image>
 

@@ -1,4 +1,4 @@
-query Shifts($skip: Int!, $take: Int!, $filtersArgs: FiltersArgsDto) {
+query Shifts($skip: Int!, $take: Int!, $filtersArgs: [FiltersArgsDto!]) {
 	shifts(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
 		page
 		totalCount

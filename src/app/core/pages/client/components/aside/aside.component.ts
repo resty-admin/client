@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
-import type { IUser } from "src/app/shared/interfaces";
 
 import { OrdersService } from "../../../../../features/orders";
-import { CLIENT_ROUTES } from "../../../../../shared/routes";
+import { CLIENT_ROUTES } from "../../../../../shared/constants";
 import { AuthService } from "../../../auth/services";
 import { PAGES } from "../../data";
 
@@ -15,7 +14,7 @@ import { PAGES } from "../../data";
 export class AsideComponent {
 	@Output() closeClicked = new EventEmitter();
 
-	@Input() user?: IUser | null = null;
+	@Input() user?: any | null = null;
 
 	readonly clientRoutes = CLIENT_ROUTES;
 

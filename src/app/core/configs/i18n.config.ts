@@ -1,17 +1,17 @@
-import { environment } from "../../../environments/environment";
+import { isDevMode } from "@angular/core";
 
 export const I18N_CONFIG = {
-	prodMode: environment.production,
+	prodMode: !isDevMode(),
 	// url: `${environment.assetsUrl}/i18n/`,
 	url: `assets/i18n/`,
 	availableLangs: ["uk", "ru", "en"],
+	defaultLang: "uk",
 	fallbackLang: ["ru", "en"],
-	defaultLang: "ru",
 	reRenderOnLangChange: true,
 	// storage: LocalforageService.storage,
-	failedRetries: 0,
+	failedRetries: 3,
 	missingHandler: {
-		logMissingKey: !environment.production,
+		logMissingKey: isDevMode(),
 		useFallbackTranslation: true
 	}
 };

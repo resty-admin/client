@@ -1,6 +1,6 @@
-<div class="connect-to-table" *transloco="let t">
-	<h1 appTypography theme="1" class="title">{{ t("CONNECT_TO_TABLE.TITLE") }}</h1>
-	<h2 class="subtitle">{{ t("CONNECT_TO_TABLE.DESCRIPTION") }}</h2>
+<div class="connect-to-table" *transloco="let t; read: 'connectToTablePage'">
+	<h1 appTypography theme="1" class="title">{{ t("connectToTablePage.title") }}</h1>
+	<h2 class="subtitle">{{ t("connectToTablePage.description") }}</h2>
 
 	<app-code-input class="code-input" [formControl]="codeControl"></app-code-input>
 

@@ -4,9 +4,9 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import type { Observable } from "rxjs";
 import { TablesService } from "src/app/features/tables";
 import { PLACE_ID } from "src/app/shared/constants";
+import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
-import { CLIENT_ROUTES } from "src/app/shared/routes";
 
 @UntilDestroy()
 @Component({

@@ -1,14 +1,14 @@
-<ng-container *transloco="let t">
+<ng-container *transloco="let t; read: 'tablePage'">
 	<div class="table-page" *ngIf="table$ | async as table">
 		<app-image class="image" [remote]="true" [name]="table.file?.url" placeholder="table"></app-image>
 
 		<div class="content">
-			<p class="label">{{ t("TABLE.CODE") }} {{ table.code }}</p>
-			<p class="status">{{ t("TABLE.STATUS") }}</p>
+			<p class="label">{{ t("code") }} {{ table.code }}</p>
+			<p class="status">{{ t("status") }}</p>
 
 			<app-ios-datepicker class="datepicker"></app-ios-datepicker>
 
-			<p class="description">{{ t("TABLE.INFO") }}</p>
+			<p class="description">{{ t("info") }}</p>
 		</div>
 	</div>
 </ng-container>

@@ -6,7 +6,7 @@ import type * as Types from "../../../../graphql";
 export type PlacesQueryVariables = Types.Exact<{
 	take: Types.Scalars["Int"];
 	skip: Types.Scalars["Int"];
-	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto>;
+	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
 }>;
 
 export interface PlacesQuery {
@@ -29,7 +29,7 @@ export interface PlacesQuery {
 }
 
 export const PlacesDocument = gql`
-	query Places($take: Int!, $skip: Int!, $filtersArgs: FiltersArgsDto) {
+	query Places($take: Int!, $skip: Int!, $filtersArgs: [FiltersArgsDto!]) {
 		places(take: $take, skip: $skip, filtersArgs: $filtersArgs) {
 			data {
 				name

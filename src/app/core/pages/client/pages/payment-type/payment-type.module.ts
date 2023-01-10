@@ -6,6 +6,7 @@ import { ImageModule } from "src/app/shared/ui/image";
 import { RadioButtonModule } from "src/app/shared/ui/radio-button";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { getI18nProvider } from "../../../../../shared/i18n";
 import { I18nModule } from "../../../../../shared/modules/i18n";
 import { ButtonModule } from "../../../../../shared/ui/button";
 import { PaymentTypeComponent } from "./layout/payment-type.component";
@@ -24,6 +25,6 @@ import { PaymentTypeRoutingModule } from "./payment-type-routing.module";
 		ReactiveFormsModule,
 		I18nModule
 	],
-	exports: [PaymentTypeComponent]
+	providers: [getI18nProvider("paymentTypePage", (lang) => import(`./i18n/${lang}.json`))]
 })
 export class PaymentTypeModule {}

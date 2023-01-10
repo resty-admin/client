@@ -563,6 +563,49 @@
 				"possibleTypes": null
 			},
 			{
+				"kind": "INPUT_OBJECT",
+				"name": "AddEmployeeInput",
+				"description": null,
+				"fields": null,
+				"inputFields": [
+					{
+						"name": "placeId",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "userId",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					}
+				],
+				"interfaces": null,
+				"enumValues": null,
+				"possibleTypes": null
+			},
+			{
 				"kind": "ENUM",
 				"name": "AttributeGroupTypeEnum",
 				"description": null,
@@ -2869,6 +2912,49 @@
 				"possibleTypes": null
 			},
 			{
+				"kind": "INPUT_OBJECT",
+				"name": "ForgotPasswordInput",
+				"description": null,
+				"fields": null,
+				"inputFields": [
+					{
+						"name": "email",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "tel",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					}
+				],
+				"interfaces": null,
+				"enumValues": null,
+				"possibleTypes": null
+			},
+			{
 				"kind": "OBJECT",
 				"name": "HallEntity",
 				"description": null,
@@ -3067,9 +3153,182 @@
 				"possibleTypes": null
 			},
 			{
+				"kind": "OBJECT",
+				"name": "HistoryOrderEntity",
+				"description": null,
+				"fields": [
+					{
+						"name": "id",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "orderNumber",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "Int",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "place",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "JSONObject",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "status",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "ENUM",
+								"name": "OrderStatusEnum",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "table",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "SCALAR",
+							"name": "JSONObject",
+							"ofType": null
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "totalPrice",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "SCALAR",
+							"name": "Int",
+							"ofType": null
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "type",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "ENUM",
+								"name": "OrderTypeEnum",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "users",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "LIST",
+								"name": null,
+								"ofType": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "SCALAR",
+										"name": "JSONObject",
+										"ofType": null
+									}
+								}
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "usersToOrders",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "LIST",
+								"name": null,
+								"ofType": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "SCALAR",
+										"name": "JSONObject",
+										"ofType": null
+									}
+								}
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					}
+				],
+				"inputFields": null,
+				"interfaces": [],
+				"enumValues": null,
+				"possibleTypes": null
+			},
+			{
 				"kind": "SCALAR",
 				"name": "Int",
 				"description": "The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.",
+				"fields": null,
+				"inputFields": null,
+				"interfaces": null,
+				"enumValues": null,
+				"possibleTypes": null
+			},
+			{
+				"kind": "SCALAR",
+				"name": "JSONObject",
+				"description": "The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).",
 				"fields": null,
 				"inputFields": null,
 				"interfaces": null,
@@ -3141,6 +3400,39 @@
 				"description": null,
 				"fields": [
 					{
+						"name": "addEmployeeToPlace",
+						"description": null,
+						"args": [
+							{
+								"name": "employeeData",
+								"description": null,
+								"type": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "INPUT_OBJECT",
+										"name": "AddEmployeeInput",
+										"ofType": null
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							}
+						],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "OBJECT",
+								"name": "PlaceEntity",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "addProductToOrder",
 						"description": null,
 						"args": [
@@ -3169,6 +3461,55 @@
 									"ofType": {
 										"kind": "INPUT_OBJECT",
 										"name": "CreateUserToOrderInput",
+										"ofType": null
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							}
+						],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "OBJECT",
+								"name": "ActiveOrderEntity",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "addTableToOrder",
+						"description": null,
+						"args": [
+							{
+								"name": "orderId",
+								"description": null,
+								"type": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "SCALAR",
+										"name": "String",
+										"ofType": null
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
+								"name": "tableId",
+								"description": null,
+								"type": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "SCALAR",
+										"name": "String",
 										"ofType": null
 									}
 								},
@@ -4229,6 +4570,105 @@
 						"deprecationReason": null
 					},
 					{
+						"name": "forgotPassword",
+						"description": null,
+						"args": [
+							{
+								"name": "body",
+								"description": null,
+								"type": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "INPUT_OBJECT",
+										"name": "ForgotPasswordInput",
+										"ofType": null
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							}
+						],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "removeEmployeeFromPlace",
+						"description": null,
+						"args": [
+							{
+								"name": "employeeData",
+								"description": null,
+								"type": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "INPUT_OBJECT",
+										"name": "AddEmployeeInput",
+										"ofType": null
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							}
+						],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "OBJECT",
+								"name": "PlaceEntity",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "removeTableFromOrder",
+						"description": null,
+						"args": [
+							{
+								"name": "orderId",
+								"description": null,
+								"type": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "SCALAR",
+										"name": "String",
+										"ofType": null
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							}
+						],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "OBJECT",
+								"name": "ActiveOrderEntity",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "removeUserProductInOrder",
 						"description": null,
 						"args": [
@@ -4255,6 +4695,138 @@
 							"ofType": {
 								"kind": "SCALAR",
 								"name": "String",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "resetPassword",
+						"description": null,
+						"args": [
+							{
+								"name": "body",
+								"description": null,
+								"type": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "INPUT_OBJECT",
+										"name": "ResetPasswordInput",
+										"ofType": null
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							}
+						],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "OBJECT",
+								"name": "AccessToken",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "signIn",
+						"description": null,
+						"args": [
+							{
+								"name": "body",
+								"description": null,
+								"type": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "INPUT_OBJECT",
+										"name": "SignInInput",
+										"ofType": null
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							}
+						],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "OBJECT",
+								"name": "AccessToken",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "signUp",
+						"description": null,
+						"args": [
+							{
+								"name": "body",
+								"description": null,
+								"type": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "INPUT_OBJECT",
+										"name": "SignUpInput",
+										"ofType": null
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							}
+						],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "OBJECT",
+								"name": "AccessToken",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "telegram",
+						"description": null,
+						"args": [
+							{
+								"name": "telegramUser",
+								"description": null,
+								"type": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "INPUT_OBJECT",
+										"name": "TelegramUserInput",
+										"ofType": null
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							}
+						],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "OBJECT",
+								"name": "AccessToken",
 								"ofType": null
 							}
 						},
@@ -4783,6 +5355,39 @@
 							"ofType": {
 								"kind": "OBJECT",
 								"name": "ActiveOrderEntity",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "verifyCode",
+						"description": null,
+						"args": [
+							{
+								"name": "code",
+								"description": null,
+								"type": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "INPUT_OBJECT",
+										"name": "VerifyCodeInput",
+										"ofType": null
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							}
+						],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "OBJECT",
+								"name": "AccessToken",
 								"ofType": null
 							}
 						},
@@ -5434,6 +6039,69 @@
 			},
 			{
 				"kind": "OBJECT",
+				"name": "PaginatedHistoryOrder",
+				"description": null,
+				"fields": [
+					{
+						"name": "data",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "LIST",
+							"name": null,
+							"ofType": {
+								"kind": "NON_NULL",
+								"name": null,
+								"ofType": {
+									"kind": "OBJECT",
+									"name": "HistoryOrderEntity",
+									"ofType": null
+								}
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "page",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "Int",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "totalCount",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "Int",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					}
+				],
+				"inputFields": null,
+				"interfaces": [],
+				"enumValues": null,
+				"possibleTypes": null
+			},
+			{
+				"kind": "OBJECT",
 				"name": "PaginatedPaymentSystem",
 				"description": null,
 				"fields": [
@@ -5931,6 +6599,26 @@
 						"deprecationReason": null
 					},
 					{
+						"name": "employees",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "LIST",
+							"name": null,
+							"ofType": {
+								"kind": "NON_NULL",
+								"name": null,
+								"ofType": {
+									"kind": "OBJECT",
+									"name": "UserEntity",
+									"ofType": null
+								}
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "file",
 						"description": null,
 						"args": [],
@@ -6212,6 +6900,26 @@
 								"kind": "INPUT_OBJECT",
 								"name": "CompanyEntityInput",
 								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "employees",
+						"description": null,
+						"type": {
+							"kind": "LIST",
+							"name": null,
+							"ofType": {
+								"kind": "NON_NULL",
+								"name": null,
+								"ofType": {
+									"kind": "INPUT_OBJECT",
+									"name": "UserEntityInput",
+									"ofType": null
+								}
 							}
 						},
 						"defaultValue": null,
@@ -6731,9 +7439,17 @@
 								"name": "filtersArgs",
 								"description": null,
 								"type": {
-									"kind": "INPUT_OBJECT",
-									"name": "FiltersArgsDto",
-									"ofType": null
+									"kind": "LIST",
+									"name": null,
+									"ofType": {
+										"kind": "NON_NULL",
+										"name": null,
+										"ofType": {
+											"kind": "INPUT_OBJECT",
+											"name": "FiltersArgsDto",
+											"ofType": null
+										}
+									}
 								},
 								"defaultValue": null,
 								"isDeprecated": false,
@@ -6743,13 +7459,9 @@
 								"name": "skip",
 								"description": null,
 								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "Int",
-										"ofType": null
-									}
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
 								},
 								"defaultValue": "0",
 								"isDeprecated": false,
@@ -6759,15 +7471,11 @@
 								"name": "take",
 								"description": null,
 								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "Int",
-										"ofType": null
-									}
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
 								},
-								"defaultValue": "25",
+								"defaultValue": "10",
 								"isDeprecated": false,
 								"deprecationReason": null
 							}
@@ -6870,9 +7578,17 @@
 								"name": "filtersArgs",
 								"description": null,
 								"type": {
-									"kind": "INPUT_OBJECT",
-									"name": "FiltersArgsDto",
-									"ofType": null
+									"kind": "LIST",
+									"name": null,
+									"ofType": {
+										"kind": "NON_NULL",
+										"name": null,
+										"ofType": {
+											"kind": "INPUT_OBJECT",
+											"name": "FiltersArgsDto",
+											"ofType": null
+										}
+									}
 								},
 								"defaultValue": null,
 								"isDeprecated": false,
@@ -6882,13 +7598,9 @@
 								"name": "skip",
 								"description": null,
 								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "Int",
-										"ofType": null
-									}
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
 								},
 								"defaultValue": "0",
 								"isDeprecated": false,
@@ -6898,15 +7610,11 @@
 								"name": "take",
 								"description": null,
 								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "Int",
-										"ofType": null
-									}
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
 								},
-								"defaultValue": "25",
+								"defaultValue": "10",
 								"isDeprecated": false,
 								"deprecationReason": null
 							}
@@ -6931,9 +7639,17 @@
 								"name": "filtersArgs",
 								"description": null,
 								"type": {
-									"kind": "INPUT_OBJECT",
-									"name": "FiltersArgsDto",
-									"ofType": null
+									"kind": "LIST",
+									"name": null,
+									"ofType": {
+										"kind": "NON_NULL",
+										"name": null,
+										"ofType": {
+											"kind": "INPUT_OBJECT",
+											"name": "FiltersArgsDto",
+											"ofType": null
+										}
+									}
 								},
 								"defaultValue": null,
 								"isDeprecated": false,
@@ -6943,13 +7659,9 @@
 								"name": "skip",
 								"description": null,
 								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "Int",
-										"ofType": null
-									}
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
 								},
 								"defaultValue": "0",
 								"isDeprecated": false,
@@ -6959,15 +7671,11 @@
 								"name": "take",
 								"description": null,
 								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "Int",
-										"ofType": null
-									}
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
 								},
-								"defaultValue": "25",
+								"defaultValue": "10",
 								"isDeprecated": false,
 								"deprecationReason": null
 							}
@@ -6992,9 +7700,17 @@
 								"name": "filtersArgs",
 								"description": null,
 								"type": {
-									"kind": "INPUT_OBJECT",
-									"name": "FiltersArgsDto",
-									"ofType": null
+									"kind": "LIST",
+									"name": null,
+									"ofType": {
+										"kind": "NON_NULL",
+										"name": null,
+										"ofType": {
+											"kind": "INPUT_OBJECT",
+											"name": "FiltersArgsDto",
+											"ofType": null
+										}
+									}
 								},
 								"defaultValue": null,
 								"isDeprecated": false,
@@ -7004,13 +7720,9 @@
 								"name": "skip",
 								"description": null,
 								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "Int",
-										"ofType": null
-									}
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
 								},
 								"defaultValue": "0",
 								"isDeprecated": false,
@@ -7020,15 +7732,11 @@
 								"name": "take",
 								"description": null,
 								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "Int",
-										"ofType": null
-									}
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
 								},
-								"defaultValue": "25",
+								"defaultValue": "10",
 								"isDeprecated": false,
 								"deprecationReason": null
 							}
@@ -7119,9 +7827,17 @@
 								"name": "filtersArgs",
 								"description": null,
 								"type": {
-									"kind": "INPUT_OBJECT",
-									"name": "FiltersArgsDto",
-									"ofType": null
+									"kind": "LIST",
+									"name": null,
+									"ofType": {
+										"kind": "NON_NULL",
+										"name": null,
+										"ofType": {
+											"kind": "INPUT_OBJECT",
+											"name": "FiltersArgsDto",
+											"ofType": null
+										}
+									}
 								},
 								"defaultValue": null,
 								"isDeprecated": false,
@@ -7131,13 +7847,9 @@
 								"name": "skip",
 								"description": null,
 								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "Int",
-										"ofType": null
-									}
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
 								},
 								"defaultValue": "0",
 								"isDeprecated": false,
@@ -7147,15 +7859,11 @@
 								"name": "take",
 								"description": null,
 								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "Int",
-										"ofType": null
-									}
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
 								},
-								"defaultValue": "25",
+								"defaultValue": "10",
 								"isDeprecated": false,
 								"deprecationReason": null
 							}
@@ -7180,9 +7888,17 @@
 								"name": "filtersArgs",
 								"description": null,
 								"type": {
-									"kind": "INPUT_OBJECT",
-									"name": "FiltersArgsDto",
-									"ofType": null
+									"kind": "LIST",
+									"name": null,
+									"ofType": {
+										"kind": "NON_NULL",
+										"name": null,
+										"ofType": {
+											"kind": "INPUT_OBJECT",
+											"name": "FiltersArgsDto",
+											"ofType": null
+										}
+									}
 								},
 								"defaultValue": null,
 								"isDeprecated": false,
@@ -7192,13 +7908,9 @@
 								"name": "skip",
 								"description": null,
 								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "Int",
-										"ofType": null
-									}
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
 								},
 								"defaultValue": "0",
 								"isDeprecated": false,
@@ -7208,15 +7920,11 @@
 								"name": "take",
 								"description": null,
 								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "Int",
-										"ofType": null
-									}
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
 								},
-								"defaultValue": "25",
+								"defaultValue": "10",
 								"isDeprecated": false,
 								"deprecationReason": null
 							}
@@ -7260,6 +7968,55 @@
 							"ofType": {
 								"kind": "OBJECT",
 								"name": "CompanyEntity",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "emitCommand",
+						"description": null,
+						"args": [
+							{
+								"name": "commandId",
+								"description": null,
+								"type": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "SCALAR",
+										"name": "String",
+										"ofType": null
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
+								"name": "tableId",
+								"description": null,
+								"type": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "SCALAR",
+										"name": "String",
+										"ofType": null
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							}
+						],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
 								"ofType": null
 							}
 						},
@@ -7323,9 +8080,17 @@
 								"name": "filtersArgs",
 								"description": null,
 								"type": {
-									"kind": "INPUT_OBJECT",
-									"name": "FiltersArgsDto",
-									"ofType": null
+									"kind": "LIST",
+									"name": null,
+									"ofType": {
+										"kind": "NON_NULL",
+										"name": null,
+										"ofType": {
+											"kind": "INPUT_OBJECT",
+											"name": "FiltersArgsDto",
+											"ofType": null
+										}
+									}
 								},
 								"defaultValue": null,
 								"isDeprecated": false,
@@ -7335,13 +8100,9 @@
 								"name": "skip",
 								"description": null,
 								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "Int",
-										"ofType": null
-									}
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
 								},
 								"defaultValue": "0",
 								"isDeprecated": false,
@@ -7351,15 +8112,11 @@
 								"name": "take",
 								"description": null,
 								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "Int",
-										"ofType": null
-									}
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
 								},
-								"defaultValue": "25",
+								"defaultValue": "10",
 								"isDeprecated": false,
 								"deprecationReason": null
 							}
@@ -7370,6 +8127,67 @@
 							"ofType": {
 								"kind": "OBJECT",
 								"name": "PaginatedHall",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "historyOrders",
+						"description": null,
+						"args": [
+							{
+								"name": "filtersArgs",
+								"description": null,
+								"type": {
+									"kind": "LIST",
+									"name": null,
+									"ofType": {
+										"kind": "NON_NULL",
+										"name": null,
+										"ofType": {
+											"kind": "INPUT_OBJECT",
+											"name": "FiltersArgsDto",
+											"ofType": null
+										}
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
+								"name": "skip",
+								"description": null,
+								"type": {
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
+								},
+								"defaultValue": "0",
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
+								"name": "take",
+								"description": null,
+								"type": {
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
+								},
+								"defaultValue": "10",
+								"isDeprecated": false,
+								"deprecationReason": null
+							}
+						],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "OBJECT",
+								"name": "PaginatedHistoryOrder",
 								"ofType": null
 							}
 						},
@@ -7417,9 +8235,17 @@
 								"name": "filtersArgs",
 								"description": null,
 								"type": {
-									"kind": "INPUT_OBJECT",
-									"name": "FiltersArgsDto",
-									"ofType": null
+									"kind": "LIST",
+									"name": null,
+									"ofType": {
+										"kind": "NON_NULL",
+										"name": null,
+										"ofType": {
+											"kind": "INPUT_OBJECT",
+											"name": "FiltersArgsDto",
+											"ofType": null
+										}
+									}
 								},
 								"defaultValue": null,
 								"isDeprecated": false,
@@ -7429,13 +8255,9 @@
 								"name": "skip",
 								"description": null,
 								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "Int",
-										"ofType": null
-									}
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
 								},
 								"defaultValue": "0",
 								"isDeprecated": false,
@@ -7445,15 +8267,11 @@
 								"name": "take",
 								"description": null,
 								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "Int",
-										"ofType": null
-									}
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
 								},
-								"defaultValue": "25",
+								"defaultValue": "10",
 								"isDeprecated": false,
 								"deprecationReason": null
 							}
@@ -7511,9 +8329,17 @@
 								"name": "filtersArgs",
 								"description": null,
 								"type": {
-									"kind": "INPUT_OBJECT",
-									"name": "FiltersArgsDto",
-									"ofType": null
+									"kind": "LIST",
+									"name": null,
+									"ofType": {
+										"kind": "NON_NULL",
+										"name": null,
+										"ofType": {
+											"kind": "INPUT_OBJECT",
+											"name": "FiltersArgsDto",
+											"ofType": null
+										}
+									}
 								},
 								"defaultValue": null,
 								"isDeprecated": false,
@@ -7523,13 +8349,9 @@
 								"name": "skip",
 								"description": null,
 								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "Int",
-										"ofType": null
-									}
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
 								},
 								"defaultValue": "0",
 								"isDeprecated": false,
@@ -7539,15 +8361,11 @@
 								"name": "take",
 								"description": null,
 								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "Int",
-										"ofType": null
-									}
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
 								},
-								"defaultValue": "25",
+								"defaultValue": "10",
 								"isDeprecated": false,
 								"deprecationReason": null
 							}
@@ -7605,9 +8423,17 @@
 								"name": "filtersArgs",
 								"description": null,
 								"type": {
-									"kind": "INPUT_OBJECT",
-									"name": "FiltersArgsDto",
-									"ofType": null
+									"kind": "LIST",
+									"name": null,
+									"ofType": {
+										"kind": "NON_NULL",
+										"name": null,
+										"ofType": {
+											"kind": "INPUT_OBJECT",
+											"name": "FiltersArgsDto",
+											"ofType": null
+										}
+									}
 								},
 								"defaultValue": null,
 								"isDeprecated": false,
@@ -7617,13 +8443,9 @@
 								"name": "skip",
 								"description": null,
 								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "Int",
-										"ofType": null
-									}
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
 								},
 								"defaultValue": "0",
 								"isDeprecated": false,
@@ -7633,15 +8455,11 @@
 								"name": "take",
 								"description": null,
 								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "Int",
-										"ofType": null
-									}
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
 								},
-								"defaultValue": "25",
+								"defaultValue": "10",
 								"isDeprecated": false,
 								"deprecationReason": null
 							}
@@ -7699,9 +8517,17 @@
 								"name": "filtersArgs",
 								"description": null,
 								"type": {
-									"kind": "INPUT_OBJECT",
-									"name": "FiltersArgsDto",
-									"ofType": null
+									"kind": "LIST",
+									"name": null,
+									"ofType": {
+										"kind": "NON_NULL",
+										"name": null,
+										"ofType": {
+											"kind": "INPUT_OBJECT",
+											"name": "FiltersArgsDto",
+											"ofType": null
+										}
+									}
 								},
 								"defaultValue": null,
 								"isDeprecated": false,
@@ -7711,13 +8537,9 @@
 								"name": "skip",
 								"description": null,
 								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "Int",
-										"ofType": null
-									}
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
 								},
 								"defaultValue": "0",
 								"isDeprecated": false,
@@ -7727,15 +8549,11 @@
 								"name": "take",
 								"description": null,
 								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "Int",
-										"ofType": null
-									}
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
 								},
-								"defaultValue": "25",
+								"defaultValue": "10",
 								"isDeprecated": false,
 								"deprecationReason": null
 							}
@@ -7793,9 +8611,17 @@
 								"name": "filtersArgs",
 								"description": null,
 								"type": {
-									"kind": "INPUT_OBJECT",
-									"name": "FiltersArgsDto",
-									"ofType": null
+									"kind": "LIST",
+									"name": null,
+									"ofType": {
+										"kind": "NON_NULL",
+										"name": null,
+										"ofType": {
+											"kind": "INPUT_OBJECT",
+											"name": "FiltersArgsDto",
+											"ofType": null
+										}
+									}
 								},
 								"defaultValue": null,
 								"isDeprecated": false,
@@ -7805,13 +8631,9 @@
 								"name": "skip",
 								"description": null,
 								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "Int",
-										"ofType": null
-									}
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
 								},
 								"defaultValue": "0",
 								"isDeprecated": false,
@@ -7821,15 +8643,11 @@
 								"name": "take",
 								"description": null,
 								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "Int",
-										"ofType": null
-									}
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
 								},
-								"defaultValue": "25",
+								"defaultValue": "10",
 								"isDeprecated": false,
 								"deprecationReason": null
 							}
@@ -7887,9 +8705,17 @@
 								"name": "filtersArgs",
 								"description": null,
 								"type": {
-									"kind": "INPUT_OBJECT",
-									"name": "FiltersArgsDto",
-									"ofType": null
+									"kind": "LIST",
+									"name": null,
+									"ofType": {
+										"kind": "NON_NULL",
+										"name": null,
+										"ofType": {
+											"kind": "INPUT_OBJECT",
+											"name": "FiltersArgsDto",
+											"ofType": null
+										}
+									}
 								},
 								"defaultValue": null,
 								"isDeprecated": false,
@@ -7899,13 +8725,9 @@
 								"name": "skip",
 								"description": null,
 								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "Int",
-										"ofType": null
-									}
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
 								},
 								"defaultValue": "0",
 								"isDeprecated": false,
@@ -7915,15 +8737,11 @@
 								"name": "take",
 								"description": null,
 								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "Int",
-										"ofType": null
-									}
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
 								},
-								"defaultValue": "25",
+								"defaultValue": "10",
 								"isDeprecated": false,
 								"deprecationReason": null
 							}
@@ -7981,9 +8799,17 @@
 								"name": "filtersArgs",
 								"description": null,
 								"type": {
-									"kind": "INPUT_OBJECT",
-									"name": "FiltersArgsDto",
-									"ofType": null
+									"kind": "LIST",
+									"name": null,
+									"ofType": {
+										"kind": "NON_NULL",
+										"name": null,
+										"ofType": {
+											"kind": "INPUT_OBJECT",
+											"name": "FiltersArgsDto",
+											"ofType": null
+										}
+									}
 								},
 								"defaultValue": null,
 								"isDeprecated": false,
@@ -7993,13 +8819,9 @@
 								"name": "skip",
 								"description": null,
 								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "Int",
-										"ofType": null
-									}
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
 								},
 								"defaultValue": "0",
 								"isDeprecated": false,
@@ -8009,15 +8831,11 @@
 								"name": "take",
 								"description": null,
 								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "Int",
-										"ofType": null
-									}
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
 								},
-								"defaultValue": "25",
+								"defaultValue": "10",
 								"isDeprecated": false,
 								"deprecationReason": null
 							}
@@ -8075,9 +8893,17 @@
 								"name": "filtersArgs",
 								"description": null,
 								"type": {
-									"kind": "INPUT_OBJECT",
-									"name": "FiltersArgsDto",
-									"ofType": null
+									"kind": "LIST",
+									"name": null,
+									"ofType": {
+										"kind": "NON_NULL",
+										"name": null,
+										"ofType": {
+											"kind": "INPUT_OBJECT",
+											"name": "FiltersArgsDto",
+											"ofType": null
+										}
+									}
 								},
 								"defaultValue": null,
 								"isDeprecated": false,
@@ -8087,13 +8913,9 @@
 								"name": "skip",
 								"description": null,
 								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "Int",
-										"ofType": null
-									}
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
 								},
 								"defaultValue": "0",
 								"isDeprecated": false,
@@ -8103,15 +8925,11 @@
 								"name": "take",
 								"description": null,
 								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "Int",
-										"ofType": null
-									}
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
 								},
-								"defaultValue": "25",
+								"defaultValue": "10",
 								"isDeprecated": false,
 								"deprecationReason": null
 							}
@@ -8131,6 +8949,167 @@
 				],
 				"inputFields": null,
 				"interfaces": [],
+				"enumValues": null,
+				"possibleTypes": null
+			},
+			{
+				"kind": "INPUT_OBJECT",
+				"name": "ResetPasswordInput",
+				"description": null,
+				"fields": null,
+				"inputFields": [
+					{
+						"name": "password",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					}
+				],
+				"interfaces": null,
+				"enumValues": null,
+				"possibleTypes": null
+			},
+			{
+				"kind": "INPUT_OBJECT",
+				"name": "SignInInput",
+				"description": null,
+				"fields": null,
+				"inputFields": [
+					{
+						"name": "email",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "password",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "tel",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					}
+				],
+				"interfaces": null,
+				"enumValues": null,
+				"possibleTypes": null
+			},
+			{
+				"kind": "INPUT_OBJECT",
+				"name": "SignUpInput",
+				"description": null,
+				"fields": null,
+				"inputFields": [
+					{
+						"name": "email",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "password",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "role",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "ENUM",
+								"name": "UserRoleEnum",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "tel",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					}
+				],
+				"interfaces": null,
 				"enumValues": null,
 				"possibleTypes": null
 			},
@@ -8364,6 +9343,125 @@
 									"ofType": null
 								}
 							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					}
+				],
+				"interfaces": null,
+				"enumValues": null,
+				"possibleTypes": null
+			},
+			{
+				"kind": "INPUT_OBJECT",
+				"name": "TelegramUserInput",
+				"description": null,
+				"fields": null,
+				"inputFields": [
+					{
+						"name": "added_to_attachment_menu",
+						"description": null,
+						"type": {
+							"kind": "SCALAR",
+							"name": "Boolean",
+							"ofType": null
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "first_name",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "id",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "is_bot",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "Boolean",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "is_premium",
+						"description": null,
+						"type": {
+							"kind": "SCALAR",
+							"name": "Boolean",
+							"ofType": null
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "language_code",
+						"description": null,
+						"type": {
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "last_name",
+						"description": null,
+						"type": {
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "username",
+						"description": null,
+						"type": {
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -9587,6 +10685,18 @@
 						"deprecationReason": null
 					},
 					{
+						"name": "place",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "OBJECT",
+							"name": "PlaceEntity",
+							"ofType": null
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "role",
 						"description": null,
 						"args": [],
@@ -9772,6 +10882,18 @@
 						"type": {
 							"kind": "SCALAR",
 							"name": "String",
+							"ofType": null
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "place",
+						"description": null,
+						"type": {
+							"kind": "INPUT_OBJECT",
+							"name": "PlaceEntityInput",
 							"ofType": null
 						},
 						"defaultValue": null,
@@ -10199,6 +11321,33 @@
 							"ofType": {
 								"kind": "INPUT_OBJECT",
 								"name": "UserEntityInput",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					}
+				],
+				"interfaces": null,
+				"enumValues": null,
+				"possibleTypes": null
+			},
+			{
+				"kind": "INPUT_OBJECT",
+				"name": "VerifyCodeInput",
+				"description": null,
+				"fields": null,
+				"inputFields": [
+					{
+						"name": "verificationCode",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "Int",
 								"ofType": null
 							}
 						},

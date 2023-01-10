@@ -1,10 +1,10 @@
-<ng-container *transloco="let t">
+<ng-container *transloco="let t; read: 'historyOrderPage'">
 	<div class="history-order" *ngIf="order$ | async as order">
 		<app-image class="image" [remote]="true" [name]="order.place.file?.url"></app-image>
 
 		<div class="content">
 			<div class="table" *ngIf="order.table">
-				<h2 class="subtitle" appTypography theme="3">{{ t("ORDER.TABLE") }}</h2>
+				<h2 class="subtitle" appTypography theme="3">{{ t("table") }}</h2>
 
 				<app-table *ngIf="order.table" [table]="order.table"></app-table>
 			</div>

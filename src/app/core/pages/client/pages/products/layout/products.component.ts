@@ -5,9 +5,9 @@ import type { Observable } from "rxjs";
 import { map, switchMap, take } from "rxjs";
 import { ProductsService } from "src/app/features/products";
 import { PLACE_ID } from "src/app/shared/constants";
+import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
-import { CLIENT_ROUTES } from "src/app/shared/routes";
 
 import { OrdersService } from "../../../../../../features/orders";
 import { AuthService } from "../../../../auth/services";

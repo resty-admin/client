@@ -1,57 +1,61 @@
-<div class="sign-up" *transloco="let t">
+<div class="sign-up" *transloco="let t; read: 'signUp'">
 	<app-image class="image" name="sign-in"></app-image>
 
 	<app-card theme="1" class="card">
 		<app-image class="logo" name="logo"></app-image>
-		<form class="form" [formGroup]="form" [ngSwitch]="typeControl.value" (ngSubmit)="signUp(form.value)">
+		<form
+			*transloco="let f; read: 'form'"
+			class="form"
+			[formGroup]="form"
+			[ngSwitch]="typeControl.value"
+			(ngSubmit)="signUp(form.value)"
+		>
 			<app-radio-button class="radio-button" theme="1" [options]="types" [formControl]="typeControl"></app-radio-button>
 
 			<app-input
 				class="input"
-				*ngSwitchCase="'email'"
 				type="email"
-				[label]="t('FORM.EMAIL_LABEL')"
-				[placeholder]="t('FORM.EMAIL_PLACEHOLDER')"
 				formControlName="email"
+				*ngSwitchCase="'email'"
+				[label]="f('email_label')"
+				[placeholder]="f('email_placeholder')"
 			></app-input>
 			<app-input
 				class="input"
-				*ngSwitchCase="'tel'"
 				type="tel"
-				[label]="t('FORM.TEL_LABEL')"
-				[placeholder]="t('FORM.TEL_PLACEHOLDER')"
 				formControlName="tel"
+				*ngSwitchCase="'tel'"
+				[label]="f('tel_label')"
+				[placeholder]="f('tel_placeholder')"
 			></app-input>
 			<app-input
 				class="input"
 				type="password"
-				[label]="t('FORM.PASSWORD_LABEL')"
-				[placeholder]="t('FORM.PASSWORD_PLACEHOLDER')"
+				[label]="f('password_label')"
+				[placeholder]="f('password_placeholder')"
 				formControlName="password"
 			></app-input>
 
 			<div class="social-medias">
-				<p class="label">{{ t("AUTH.OR") }}</p>
+				<p class="label">{{ t("or") }}</p>
 				<button appButton theme="2" class="button" type="button">
 					<app-icon class="icon" name="google"></app-icon>
-					<span class="text">{{ t("AUTH.GOOGLE") }}</span>
+					<span class="text">{{ t("google") }}</span>
 				</button>
 				<button appButton theme="2" class="button" type="button">
 					<app-icon class="icon" name="telegram"></app-icon>
-					<span class="text">{{ t("AUTH.TELEGRAM") }}</span>
+					<span class="text">{{ t("telegram") }}</span>
 				</button>
 			</div>
 
-			<button appButton class="submit">{{ t("AUTH.SIGN_UP") }}</button>
+			<button appButton class="submit">{{ t("sign-up") }}</button>
 		</form>
 
 		<div class="links">
-			<a appLink [routerLink]="clientRoutes.SIGN_IN.absolutePath" class="link">{{ t("AUTH.SIGN_IN") }}</a>
-			<a appLink [routerLink]="clientRoutes.FORGOT_PASSWORD.absolutePath" class="link">{{
-				t("AUTH.FORGOT_PASSWORD")
-			}}</a>
+			<a appLink [routerLink]="clientRoutes.SIGN_UP.absolutePath" class="link">{{ t("sign-in") }}</a>
+			<a appLink [routerLink]="clientRoutes.FORGOT_PASSWORD.absolutePath" class="link">{{ t("forgot-password") }}</a>
 		</div>
 
-		<p class="privacy-policy">{{ t("AUTH.PRIVACY_POLICY_DESCRIPTION") }}</p>
+		<p class="privacy-policy">{{ t("privacy-policy") }}</p>
 	</app-card>
 </div>

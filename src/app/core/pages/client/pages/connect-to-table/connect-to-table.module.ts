@@ -6,6 +6,7 @@ import { ImageModule } from "src/app/shared/ui/image";
 import { InputModule } from "src/app/shared/ui/input";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { getI18nProvider } from "../../../../../shared/i18n";
 import { I18nModule } from "../../../../../shared/modules/i18n";
 import { CodeInputModule } from "../../../../../shared/ui/code-input";
 import { ConnectToTableRoutingModule } from "./connect-to-table-routing.module";
@@ -24,6 +25,6 @@ import { ConnectToTableComponent } from "./layout/connect-to-table.component";
 		I18nModule,
 		CodeInputModule
 	],
-	exports: [ConnectToTableComponent]
+	providers: [getI18nProvider("connectToTablePage", (lang) => import(`./i18n/${lang}.json`))]
 })
 export class ConnectToTableModule {}

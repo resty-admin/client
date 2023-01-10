@@ -8,9 +8,9 @@ import { shareReplay } from "rxjs";
 import { ActionsService } from "../../../../../../features/actions";
 import { OrdersService } from "../../../../../../features/orders";
 import { PLACE_ID } from "../../../../../../shared/constants";
+import { CLIENT_ROUTES } from "../../../../../../shared/constants";
 import { BreadcrumbsService } from "../../../../../../shared/modules/breadcrumbs";
 import { RouterService } from "../../../../../../shared/modules/router";
-import { CLIENT_ROUTES } from "../../../../../../shared/routes";
 import { ToastrService } from "../../../../../../shared/ui/toastr";
 
 @UntilDestroy()

@@ -6,6 +6,7 @@ import { IconModule } from "src/app/shared/ui/icon";
 import { ImageModule } from "src/app/shared/ui/image";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { getI18nProvider } from "../../../../../shared/i18n";
 import { I18nModule } from "../../../../../shared/modules/i18n";
 import { IosDatepickerModule } from "../../../../../shared/ui/ios-datepicker";
 import { TableComponent } from "./layout/table.component";
@@ -23,6 +24,7 @@ import { TableRoutingModule } from "./table-routing.module";
 		IosDatepickerModule,
 		ButtonModule,
 		I18nModule
-	]
+	],
+	providers: [getI18nProvider("tablePage", (lang) => import(`./i18n/${lang}.json`))]
 })
 export class TableModule {}

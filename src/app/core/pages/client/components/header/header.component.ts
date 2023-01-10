@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
-import type { IUser } from "src/app/shared/interfaces";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 
 import { OrdersService } from "../../../../../features/orders";
+import { CLIENT_ROUTES } from "../../../../../shared/constants";
 import { RouterService } from "../../../../../shared/modules/router";
-import { CLIENT_ROUTES } from "../../../../../shared/routes";
 import type { IAction } from "../../../../../shared/ui/actions";
 import { AuthService } from "../../../auth/services";
 
@@ -19,13 +18,13 @@ export class HeaderComponent {
 	@Output() burgerClicked = new EventEmitter();
 
 	@Input() isAsideOpen = false;
-	@Input() user?: IUser | null = null;
+	@Input() user?: any | null = null;
 
 	readonly backUrl$ = this._breadcrumbsService.backUrl$;
 
 	readonly activeOrder$ = this._ordersService.activeOrder$;
 
-	readonly actions: IAction<IUser>[] = [
+	readonly actions: IAction<any>[] = [
 		{
 			label: "Профиль",
 			icon: "profile",

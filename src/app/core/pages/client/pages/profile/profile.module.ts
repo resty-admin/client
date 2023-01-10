@@ -6,6 +6,7 @@ import { InputModule } from "src/app/shared/ui/input";
 import { LinkModule } from "src/app/shared/ui/link";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { getI18nProvider } from "../../../../../shared/i18n";
 import { I18nModule } from "../../../../../shared/modules/i18n";
 import { ThemeModule } from "../../../../../shared/modules/theme";
 import { LanguageSelectModule } from "../../../../../shared/ui/language-select";
@@ -26,6 +27,6 @@ import { ProfileRoutingModule } from "./profile-routing.module";
 		ThemeModule,
 		ReactiveFormsModule
 	],
-	exports: [ProfileComponent]
+	providers: [getI18nProvider("profilePage", (lang) => import(`./i18n/${lang}.json`))]
 })
 export class ProfileModule {}

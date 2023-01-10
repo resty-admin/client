@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
 import { ACCESS_TOKEN } from "src/app/shared/constants";
-import { CLIENT_ROUTES } from "src/app/shared/routes";
+import { CLIENT_ROUTES } from "src/app/shared/constants";
 
 import { GoogleComponent } from "./layout/google.component";
 

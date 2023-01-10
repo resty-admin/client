@@ -1,11 +1,11 @@
-<div class="dashboard" *transloco="let t">
-	<h1 appTypography theme="1" class="title">{{ t("DASHBOARD.TITLE") }}</h1>
+<div class="dashboard" *transloco="let t; read: 'dashboard'">
+	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 
 	<ul class="order-types">
 		<li [class]="'order-type ' + orderType.image" *ngFor="let orderType of orderTypes">
 			<button class="link" (click)="createOrder(orderType)">
 				<app-image class="image" [name]="orderType.image"></app-image>
-				<span class="label">{{ t("DASHBOARD." + orderType.label) }}</span>
+				<span class="label">{{ t(orderType.label) }}</span>
 			</button>
 		</li>
 	</ul>
@@ -14,17 +14,17 @@
 		<a class="link schema" [routerLink]="schemaRouterLink">
 			<app-image class="image" name="schema-button-decoration"></app-image>
 			<app-icon class="icon" name="home-smile"></app-icon>
-			<span class="label">{{ t("DASHBOARD.SCHEMA") }}</span>
+			<span class="label">{{ t("schema") }}</span>
 		</a>
 		<a class="link menu" [routerLink]="menuRouterLink">
 			<app-image class="image" name="menu-button-decoration"></app-image>
 			<app-icon class="icon" name="menu"></app-icon>
-			<span class="label">{{ t("DASHBOARD.MENU") }}</span>
+			<span class="label">{{ t("menu") }}</span>
 		</a>
 		<a class="link schema" [routerLink]="connectToOrderRouterLink">
 			<app-image class="image" name="schema-button-decoration"></app-image>
 			<app-icon class="icon" name="user"></app-icon>
-			<span class="label">{{ t("DASHBOARD.CONNECT_TO_ORDER") }}</span>
+			<span class="label">{{ t("connect-to-order") }}</span>
 		</a>
 	</div>
 </div>

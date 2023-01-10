@@ -1,15 +1,14 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { Router } from "@angular/router";
-import { RouterRepository } from "@ngneat/elf-ng-router-store";
 import { FormBuilder } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { take } from "rxjs";
+import { map, take } from "rxjs";
 import { DYNAMIC_TOKEN } from "src/app/shared/constants";
-import type { IVerifyCode } from "src/app/shared/interfaces";
-import { CLIENT_ROUTES } from "src/app/shared/routes";
+import { CLIENT_ROUTES } from "src/app/shared/constants";
+import { RouterService } from "src/app/shared/modules/router";
 
 import { AuthService } from "../../../services";
+import { VerifyCodeGQL } from "../graphql/verify-code";
 
 @UntilDestroy()
 @Component({
@@ -19,19 +18,19 @@ import { AuthService } from "../../../services";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VerificationCodeComponent implements OnInit {
-	readonly form = this._formBuilder.group<IVerifyCode>({
+	readonly form = this._formBuilder.group<any>({
 		verificationCode: 0
 	});
 
 	constructor(
 		private readonly _formBuilder: FormBuilder,
 		private readonly _authService: AuthService,
-		private readonly _router: Router,
-		private readonly _routerRepository: RouterRepository
+		private readonly _routerService: RouterService,
+		private readonly _verifyCodeGQL: VerifyCodeGQL
 	) {}
 
 	ngOnInit() {
-		this._routerRepository
+		this._routerService
 			.selectParams(DYNAMIC_TOKEN)
 			.pipe(untilDestroyed(this))
 			.subscribe((accessToken) => {
@@ -39,12 +38,20 @@ export class VerificationCodeComponent implements OnInit {
 			});
 	}
 
-	verifyCode(formValue: IVerifyCode) {
-		this._authService
-			.verifyCode(formValue)
-			.pipe(take(1))
-			.subscribe(async () => {
-				await this._router.navigateByUrl(CLIENT_ROUTES.CLIENT.absolutePath);
+	verifyCode({ verificationCode }: any) {
+		this._verifyCodeGQL
+			.mutate({ code: verificationCode })
+			.pipe(
+				take(1),
+				map((result) => result.data?.verifyCode.accessToken)
+			)
+			.subscribe(async (accessToken) => {
+				if (!accessToken) {
+					return;
+				}
+
+				this._authService.updateAccessToken(accessToken);
+				await this._routerService.navigateByUrl(CLIENT_ROUTES.CLIENT.absolutePath);
 			});
 	}
 }

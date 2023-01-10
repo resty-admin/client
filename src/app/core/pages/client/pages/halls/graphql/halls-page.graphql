@@ -1,0 +1,10 @@
+query HallsPage($take: Int, $skip: Int, $filtersArgs: [FiltersArgsDto!]) {
+	halls(take: $take, skip: $skip, filtersArgs: $filtersArgs) {
+		data {
+			id
+			name
+		}
+		page
+		totalCount
+	}
+}

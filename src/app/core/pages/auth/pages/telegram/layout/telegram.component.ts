@@ -1,12 +1,11 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { Router } from "@angular/router";
-import { RouterRepository } from "@ngneat/elf-ng-router-store";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { map, switchMap, take } from "rxjs";
-import { CLIENT_ROUTES } from "src/app/shared/routes";
+import { CLIENT_ROUTES } from "src/app/shared/constants";
+import { RouterService } from "src/app/shared/modules/router";
 
-import { AuthService } from "../../../services";
+import { TelegramGQL } from "../graphql/telegram";
 
 @UntilDestroy()
 @Component({
@@ -16,22 +15,18 @@ import { AuthService } from "../../../services";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TelegramComponent implements OnInit {
-	constructor(
-		private readonly _router: Router,
-		private readonly _routerRepository: RouterRepository,
-		private readonly _authService: AuthService
-	) {}
+	constructor(private readonly _routerService: RouterService, private readonly _telegramGQL: TelegramGQL) {}
 
 	ngOnInit() {
-		this._routerRepository
+		this._routerService
 			.selectFragment()
 			.pipe(
 				untilDestroyed(this),
 				map((value) => JSON.parse(new URLSearchParams(value).get("user") || "")),
-				switchMap((telegramUser) => this._authService.telegram(telegramUser).pipe(take(1)))
+				switchMap((telegramUser) => this._telegramGQL.mutate({ telegramUser }).pipe(take(1)))
 			)
 			.subscribe(async () => {
-				await this._router.navigateByUrl(CLIENT_ROUTES.CLIENT.absolutePath);
+				await this._routerService.navigateByUrl(CLIENT_ROUTES.CLIENT.absolutePath);
 			});
 	}
 }

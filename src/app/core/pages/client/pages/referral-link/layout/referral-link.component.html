@@ -1,8 +1,8 @@
-<ng-container *transloco="let t">
+<ng-container *transloco="let t; read: 'referralLinkPage'">
 	<div class="referral-link" *ngIf="activeOrder$ | async as activeOrder">
-		<h1 appTypography theme="1" class="title">{{ t("REFERRAL_LINK.TITLE") }}</h1>
+		<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 
-		<p class="description">{{ t("REFERRAL_LINK.DESCRIPTION") }}</p>
+		<p class="description">{{ t("description") }}</p>
 
 		<app-input class="input" [value]="activeOrder.code" [readonly]="true">
 			<button appIconButton class="copy-button" (click)="copyCode(activeOrder.code)" icon>
@@ -10,8 +10,8 @@
 			</button>
 		</app-input>
 
-		<app-button class="button" theme="3">{{ t("REFERRAL_LINK.SEND_LINK") }}</app-button>
+		<app-button class="button" theme="3">{{ t("send_link") }}</app-button>
 
-		<p class="products">{{ t("REFERRAL_LINK.PRODUCTS") }}</p>
+		<p class="products">{{ t("products") }}</p>
 	</div>
 </ng-container>

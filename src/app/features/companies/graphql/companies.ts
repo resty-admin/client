@@ -6,7 +6,7 @@ import type * as Types from "../../../../graphql";
 export type CompaniesQueryVariables = Types.Exact<{
 	take: Types.Scalars["Int"];
 	skip: Types.Scalars["Int"];
-	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto>;
+	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
 }>;
 
 export interface CompaniesQuery {
@@ -20,7 +20,7 @@ export interface CompaniesQuery {
 }
 
 export const CompaniesDocument = gql`
-	query Companies($take: Int!, $skip: Int!, $filtersArgs: FiltersArgsDto) {
+	query Companies($take: Int!, $skip: Int!, $filtersArgs: [FiltersArgsDto!]) {
 		companies(take: $take, skip: $skip, filtersArgs: $filtersArgs) {
 			data {
 				name

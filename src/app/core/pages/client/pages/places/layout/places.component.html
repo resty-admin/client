@@ -1,5 +1,5 @@
-<div class="places-page" *transloco="let t">
-	<h1 appTypography theme="1" class="title">{{ t("PLACES.TITLE") }}</h1>
+<div class="places-page" *transloco="let t; read: 'placesPage'">
+	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 
 	<ul class="places">
 		<li class="place" *ngFor="let place of places$ | async">

@@ -2,8 +2,8 @@ import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { switchMap, take } from "rxjs";
 import { DYNAMIC_ID } from "src/app/shared/constants";
+import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { RouterService } from "src/app/shared/modules/router";
-import { CLIENT_ROUTES } from "src/app/shared/routes";
 
 import { ActionsService } from "../../../../../../features/actions";
 import { OrdersService } from "../../../../../../features/orders";

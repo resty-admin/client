@@ -3,7 +3,6 @@ export * from "./apollo.config";
 export * from "./browser-module.config";
 export * from "./code-input.config";
 export * from "./crypto.config";
-export * from "./datatable.config";
 export * from "./errors.config";
 export * from "./file.config";
 export * from "./i18n.config";

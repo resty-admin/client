@@ -1,6 +1,6 @@
-<div class="connect-to-order" *transloco="let t">
-	<h1 appTypography theme="1" class="title">{{ t("CONNECT_TO_ORDER.TITLE") }}</h1>
-	<h2 class="subtitle">{{ t("CONNECT_TO_ORDER.DESCRIPTION") }}</h2>
+<div class="connect-to-order" *transloco="let t; read: 'connectToOrderPage'">
+	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
+	<h2 class="subtitle">{{ t("description") }}</h2>
 
 	<app-code-input class="code-input" [formControl]="codeControl"></app-code-input>
 

@@ -7,12 +7,11 @@ import { ApolloModule } from "../shared/modules/apollo";
 import { CookiesModule } from "../shared/modules/cookies";
 import { CryptoModule } from "../shared/modules/crypto";
 import { ErrorsModule } from "../shared/modules/errors";
-import { FilesModule } from "../shared/modules/file";
+import { FilesModule } from "../shared/modules/files";
 import { I18nModule } from "../shared/modules/i18n";
 import { StoreModule } from "../shared/modules/store";
 import { ThemeModule } from "../shared/modules/theme";
 import { CodeInputModule } from "../shared/ui/code-input";
-import { DatatableModule } from "../shared/ui/datatable";
 import { DialogModule } from "../shared/ui/dialog";
 import { FileModule } from "../shared/ui/file";
 import { IconModule } from "../shared/ui/icon";
@@ -27,7 +26,6 @@ import {
 	BROWSER_MODULE_CONFIG,
 	CODE_INPUT_CONFIG,
 	CRYPTO_CONFIG,
-	DATATABLE_CONFIG,
 	ERRORS_CONFIG,
 	FILE_CONFIG,
 	I18N_CONFIG,
@@ -61,7 +59,6 @@ import { CoreComponent } from "./layout/core.component";
 		ToastrModule.forRoot(TOASTR_CONFIG),
 		ErrorsModule.forRoot(ERRORS_CONFIG),
 		DialogModule,
-		DatatableModule.forRoot(DATATABLE_CONFIG),
 		SelectModule.forRoot(SELECT_CONFIG),
 		TooltipModule.forRoot(),
 		CodeInputModule.forRoot(CODE_INPUT_CONFIG),

@@ -4,9 +4,9 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { switchMap, take } from "rxjs";
 import { TablesService } from "src/app/features/tables";
 import { DYNAMIC_ID, HALL_ID, PLACE_ID } from "src/app/shared/constants";
+import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
-import { CLIENT_ROUTES } from "src/app/shared/routes";
 
 import { ActionsService } from "../../../../../../features/actions";
 import { OrdersService } from "../../../../../../features/orders";
