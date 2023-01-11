@@ -3,6 +3,8 @@
 	"create": "Create",
 	"add": "Add",
 	"submit": "Submit",
+	"name_label": "Name",
+	"name_placeholder": "Enter name",
 	"code_label": "Code",
 	"code_placeholder": "Enter code",
 	"email_label": "Email",

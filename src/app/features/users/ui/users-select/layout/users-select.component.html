@@ -1,0 +1,12 @@
+<form class="users-select" [formGroup]="usersGroup" *transloco="let t; read: 'usersSelect'">
+	<ul class="users">
+		<li class="user">
+			<input class="checkbox" type="checkbox" id="users_all" formControlName="all" />
+			<label class="label" for="users_all">{{ t("all") }}</label>
+		</li>
+		<li class="user" *ngFor="let user of users; let i = index">
+			<input class="checkbox" type="checkbox" [id]="'users_' + i" [formControlName]="user.id" />
+			<label class="label" [for]="'users_' + i">{{ user.name }}</label>
+		</li>
+	</ul>
+</form>

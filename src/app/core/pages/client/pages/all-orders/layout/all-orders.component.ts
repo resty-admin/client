@@ -23,6 +23,6 @@ export class AllOrdersComponent implements OnInit {
 	) {}
 
 	ngOnInit() {
-		this._breadcrumbsService.setBackUrl(CLIENT_ROUTES.DASHBOARD.absolutePath);
+		this._breadcrumbsService.setBackUrl(CLIENT_ROUTES.PLACES.absolutePath);
 	}
 }

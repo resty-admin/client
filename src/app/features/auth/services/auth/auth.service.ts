@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
-import { catchError, map, of, shareReplay, take, tap } from "rxjs";
+import type { Observable } from "rxjs";
+import { catchError, map, of, shareReplay, tap } from "rxjs";
 import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { CryptoService } from "src/app/shared/modules/crypto";
 import { JwtService } from "src/app/shared/modules/jwt";
@@ -45,34 +46,36 @@ export class AuthService {
 		private readonly _toastrService: ToastrService
 	) {}
 
+	private _getBodyWithEncryptedPassword(body: any) {
+		return { body: { ...body, password: this._cryptoService.encrypt(body.password) } };
+	}
+
+	private _updateAccessToken(source$: Observable<string | undefined>): Observable<string | undefined> {
+		return source$.pipe(tap((accessToken) => this.updateAccessToken(accessToken)));
+	}
+
 	updateAccessToken(accessToken?: string) {
 		return this._authRepository.updateAccessToken(accessToken);
 	}
 
 	signIn(body: any) {
-		return this._signInGQL.mutate({ body: { ...body, password: this._cryptoService.encrypt(body.password) } }).pipe(
+		return this._signInGQL.mutate(this._getBodyWithEncryptedPassword(body)).pipe(
 			map((result) => result.data?.signIn.accessToken),
-			tap((accessToken) => {
-				this.updateAccessToken(accessToken);
-			})
+			this._updateAccessToken
 		);
 	}
 
 	signUp(body: any) {
-		return this._signUpGQL.mutate({ body: { ...body, password: this._cryptoService.encrypt(body.password) } }).pipe(
+		return this._signUpGQL.mutate(this._getBodyWithEncryptedPassword(body)).pipe(
 			map((result) => result.data?.signUp.accessToken),
-			tap((accessToken) => {
-				this.updateAccessToken(accessToken);
-			})
+			this._updateAccessToken
 		);
 	}
 
 	resetPassword(body: any) {
 		return this._resetPasswordGQL.mutate({ body }).pipe(
 			map((result) => result.data?.resetPassword.accessToken),
-			tap((accessToken) => {
-				this.updateAccessToken(accessToken);
-			})
+			this._updateAccessToken
 		);
 	}
 
@@ -83,27 +86,21 @@ export class AuthService {
 	verifyCode(code: number) {
 		return this._verifyCodeGQL.mutate({ code }).pipe(
 			map((result) => result.data?.verifyCode.accessToken),
-			tap((accessToken) => {
-				this.updateAccessToken(accessToken);
-			})
+			this._updateAccessToken
 		);
 	}
 
 	telegram(telegramUser: any) {
 		return this._telegramGQL.mutate({ telegramUser }).pipe(
 			map((result) => result.data?.telegram.accessToken),
-			tap((accessToken) => {
-				this.updateAccessToken(accessToken);
-			})
+			this._updateAccessToken
 		);
 	}
 
 	google(telegramUser: any) {
 		return this._googleGQL.mutate({ telegramUser }).pipe(
 			map((result) => result.data?.telegram.accessToken),
-			tap((accessToken) => {
-				this.updateAccessToken(accessToken);
-			})
+			this._updateAccessToken
 		);
 	}
 
@@ -115,11 +112,11 @@ export class AuthService {
 	}
 
 	updateMe(user: any) {
-		return this._updateMeGQL.mutate({ user }).pipe(take(1), this._toastrService.observe("Пользователь"));
+		return this._updateMeGQL.mutate({ user });
 	}
 
 	deleteMe() {
-		return this._deleteMeGQL.mutate().pipe(take(1), this._toastrService.observe("Пользователь"));
+		return this._deleteMeGQL.mutate();
 	}
 
 	async signOut() {

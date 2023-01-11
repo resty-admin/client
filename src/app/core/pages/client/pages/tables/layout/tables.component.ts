@@ -2,11 +2,13 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import type { Observable } from "rxjs";
-import { TablesService } from "src/app/features/tables";
+import { map } from "rxjs";
 import { PLACE_ID } from "src/app/shared/constants";
 import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
+
+import { TablesPageGQL } from "../graphql/tables-page";
 
 @UntilDestroy()
 @Component({
@@ -16,11 +18,12 @@ import { RouterService } from "src/app/shared/modules/router";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TablesComponent implements OnInit {
-	tables$: Observable<any> = this._tablesService.tables$;
+	private readonly _tablesPageQuery = this._tablesPageGQL.watch();
+	readonly tables$: Observable<any> = this._tablesPageQuery.valueChanges.pipe(map((result) => result.data.tables.data));
 
 	constructor(
+		private readonly _tablesPageGQL: TablesPageGQL,
 		private readonly _routerService: RouterService,
-		private readonly _tablesService: TablesService,
 		private readonly _breadcrumbsService: BreadcrumbsService
 	) {}
 

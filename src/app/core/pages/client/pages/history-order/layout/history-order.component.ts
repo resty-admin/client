@@ -1,5 +1,6 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { FormControl } from "@ngneat/reactive-forms";
 import { map, switchMap, take, tap } from "rxjs";
 import { OrdersService } from "src/app/features/orders";
 import { DYNAMIC_ID } from "src/app/shared/constants";
@@ -31,6 +32,8 @@ export class HistoryOrderComponent implements OnInit, OnDestroy {
 			}))
 		}))
 	);
+
+	readonly usersControl = new FormControl();
 
 	readonly displayStatuses = [ProductToOrderStatusEnum.Added, ProductToOrderStatusEnum.Confirmed];
 

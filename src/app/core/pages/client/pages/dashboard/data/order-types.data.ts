@@ -2,22 +2,22 @@ import { OrderTypeEnum } from "../../../../../../../graphql";
 
 export const ORDER_TYPES = [
 	{
-		label: "IN_PLACE",
+		label: "in_place",
 		type: OrderTypeEnum.InPlace,
 		image: "in-place"
 	},
 	{
-		label: "PICKUP",
+		label: "pickup",
 		type: OrderTypeEnum.Pickup,
 		image: "to-go"
 	},
 	{
-		label: "DELIVERY",
+		label: "delivery",
 		type: OrderTypeEnum.Delivery,
 		image: "delivery"
 	},
 	{
-		label: "RESERVE",
+		label: "reserve",
 		type: OrderTypeEnum.Reserve,
 		image: "booking"
 	}

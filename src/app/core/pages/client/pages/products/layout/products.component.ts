@@ -3,7 +3,6 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import type { Observable } from "rxjs";
 import { map, switchMap, take } from "rxjs";
-import { ProductsService } from "src/app/features/products";
 import { PLACE_ID } from "src/app/shared/constants";
 import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
@@ -11,6 +10,7 @@ import { RouterService } from "src/app/shared/modules/router";
 
 import { AuthService } from "../../../../../../features/auth/services";
 import { OrdersService } from "../../../../../../features/orders";
+import { ProductsPageGQL } from "../graphql/products-pages";
 
 @UntilDestroy()
 @Component({
@@ -20,7 +20,10 @@ import { OrdersService } from "../../../../../../features/orders";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductsComponent implements OnInit {
-	readonly products$: Observable<any> = this._productsService.products$.pipe(
+	private readonly _productsPageQuery = this._productsPageGQL.watch();
+
+	readonly products$: Observable<any> = this._productsPageQuery.valueChanges.pipe(
+		map((result) => result.data.products.data),
 		switchMap((products: any) =>
 			this._ordersService.activeOrder$.pipe(
 				map((activeOrder: any) =>
@@ -42,8 +45,8 @@ export class ProductsComponent implements OnInit {
 	user: any;
 
 	constructor(
+		private readonly _productsPageGQL: ProductsPageGQL,
 		private readonly _routerService: RouterService,
-		private readonly _productsService: ProductsService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _ordersService: OrdersService,
 		private readonly _authService: AuthService
@@ -58,11 +61,7 @@ export class ProductsComponent implements OnInit {
 
 	addProductToOrder(product: any) {
 		this._ordersService
-			.addProductToOrder({
-				count: (product.count || 0) + 1,
-				product: product.id,
-				user: this.user.id
-			})
+			.addProductToOrder({ product: product.id, user: this.user.id })
 			.pipe(take(1))
 			.subscribe(() => {});
 	}

@@ -4,7 +4,7 @@
 	<ul class="tables">
 		<li class="table" *ngFor="let table of tables$ | async">
 			<a class="link" [routerLink]="table.id">
-				<app-table [table]="table"></app-table>
+				<app-preview-table [table]="table"></app-preview-table>
 			</a>
 		</li>
 	</ul>

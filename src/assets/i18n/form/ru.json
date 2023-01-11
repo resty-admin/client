@@ -3,6 +3,8 @@
 	"create": "Создать",
 	"add": "Добавить",
 	"submit": "Подтвердиь",
+	"name_label": "Имя",
+	"name_placeholder": "Введите имя",
 	"code_label": "Код",
 	"code_placeholder": "Введите код",
 	"email_label": "Почта",

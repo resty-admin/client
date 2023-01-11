@@ -1,2 +1,1 @@
-export * from "./places.feature.module";
-export * from "./services";
+export * from "./ui";

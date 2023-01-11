@@ -4,7 +4,10 @@ import { FormBuilder } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { shareReplay } from "rxjs";
 
+import { ActionsService } from "../../../../../../features/actions";
 import { AuthService } from "../../../../../../features/auth/services";
+import { CLIENT_ROUTES } from "../../../../../../shared/constants";
+import { BreadcrumbsService } from "../../../../../../shared/modules/breadcrumbs";
 
 @UntilDestroy()
 @Component({
@@ -22,9 +25,23 @@ export class ProfileComponent implements OnInit {
 		email: ""
 	});
 
-	constructor(private readonly _formBuilder: FormBuilder, private readonly _authService: AuthService) {}
+	constructor(
+		private readonly _formBuilder: FormBuilder,
+		private readonly _authService: AuthService,
+		private readonly _breadcrumbsService: BreadcrumbsService,
+		private readonly _actionsService: ActionsService
+	) {}
 
 	ngOnInit() {
+		this._breadcrumbsService.setBackUrl(CLIENT_ROUTES.PLACES.absolutePath);
+
+		this._actionsService.setAction({
+			label: "Обновить",
+			action: () => {
+				this._authService.updateMe(this.formGroup.value).subscribe();
+			}
+		});
+
 		this.user$.pipe(untilDestroyed(this)).subscribe((user: any) => {
 			if (!user) {
 				return;
@@ -32,10 +49,6 @@ export class ProfileComponent implements OnInit {
 
 			this.formGroup.patchValue(user);
 		});
-	}
-
-	updateMe(formValue: any) {
-		this._authService.updateMe(formValue).subscribe();
 	}
 
 	deleteMe() {

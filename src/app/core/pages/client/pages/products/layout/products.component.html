@@ -3,11 +3,11 @@
 	<ul class="products">
 		<li class="product" *ngFor="let product of products$ | async">
 			<a class="link" [routerLink]="product.id">
-				<app-product
+				<app-preview-product
 					[product]="product"
 					(minusClicked)="removeProductFromOrder(product)"
 					(plusClicked)="addProductToOrder(product)"
-				></app-product>
+				></app-preview-product>
 			</a>
 		</li>
 	</ul>

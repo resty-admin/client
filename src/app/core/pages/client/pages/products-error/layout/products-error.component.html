@@ -1,11 +1,11 @@
 <div class="products-error" *transloco="let t; read: 'productErrorPage'">
 	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
-	<h2 class="subtitle">{{ t("descriptiom") }}</h2>
+	<h2 class="subtitle">{{ t("description") }}</h2>
 
 	<ul class="products">
 		<li class="product" *ngFor="let product of products$ | async">
 			<a class="link" [routerLink]="product.id">
-				<app-product [product]="product"></app-product>
+				<app-preview-product [product]="product"></app-preview-product>
 			</a>
 		</li>
 	</ul>

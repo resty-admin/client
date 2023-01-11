@@ -12,6 +12,6 @@ import { WelcomeRoutingModule } from "./welcome-routing.module";
 @NgModule({
 	declarations: [WelcomeComponent],
 	imports: [CommonModule, WelcomeRoutingModule, TypographyModule, InputModule, ReactiveFormsModule, I18nModule],
-	providers: [getI18nProvider("welcomePage", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider("form"), getI18nProvider("welcomePage", (lang) => import(`./i18n/${lang}.json`))]
 })
 export class WelcomeModule {}

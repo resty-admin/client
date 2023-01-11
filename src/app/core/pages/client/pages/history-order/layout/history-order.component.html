@@ -6,18 +6,11 @@
 			<div class="table" *ngIf="order.table">
 				<h2 class="subtitle" appTypography theme="3">{{ t("table") }}</h2>
 
-				<app-table *ngIf="order.table" [table]="order.table"></app-table>
+				<app-preview-table *ngIf="order.table" [table]="order.table"></app-preview-table>
 			</div>
 
 			<div class="products" *ngIf="order.usersToOrders?.length">
-				<ul class="users-list">
-					<li class="user">
-						<button class="button selected">Все</button>
-					</li>
-					<li class="user" *ngFor="let user of order.users; let i = index">
-						<button class="button">{{ user.name || "Гость " + i }}</button>
-					</li>
-				</ul>
+				<app-users-select [users]="order.users" [formControl]="usersControl"></app-users-select>
 
 				<ul class="products-list">
 					<li class="product" *ngFor="let userToOrder of order.usersToOrders">

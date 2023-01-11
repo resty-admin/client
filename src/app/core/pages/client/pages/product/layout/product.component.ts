@@ -2,14 +2,14 @@ import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { map, switchMap, take } from "rxjs";
-import { ProductsService } from "src/app/features/products";
-import { CATEGORY_ID, DYNAMIC_ID, PLACE_ID } from "src/app/shared/constants";
+import { map, take } from "rxjs";
+import { CATEGORY_ID, PLACE_ID } from "src/app/shared/constants";
 import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
 
 import { ActionsService } from "../../../../../../features/actions";
+import { ProductPageGQL } from "../graphql/product-page";
 
 @UntilDestroy()
 @Component({
@@ -19,8 +19,9 @@ import { ActionsService } from "../../../../../../features/actions";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductComponent implements OnInit, OnDestroy {
-	readonly product$ = this._routerService.selectParams(DYNAMIC_ID.slice(1)).pipe(
-		switchMap((id) => this._productsService.getProduct(id)),
+	private readonly _productPageQuery = this._productsPageGQL.watch();
+	readonly product$ = this._productPageQuery.valueChanges.pipe(
+		map((result) => result.data.product),
 		map((product) => ({
 			...product,
 			attrsGroups: product.attrsGroups?.map((attrGroup) => ({
@@ -35,7 +36,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 	);
 
 	constructor(
-		private readonly _productsService: ProductsService,
+		private readonly _productsPageGQL: ProductPageGQL,
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _actionsService: ActionsService,
@@ -46,7 +47,9 @@ export class ProductComponent implements OnInit, OnDestroy {
 		this._routerService
 			.selectParams()
 			.pipe(untilDestroyed(this))
-			.subscribe(({ placeId, categoryId }) => {
+			.subscribe(async ({ placeId, categoryId, dynamicId }) => {
+				await this._productPageQuery.setVariables({ productId: dynamicId });
+
 				this._breadcrumbsService.setBackUrl(
 					CLIENT_ROUTES.PRODUCTS.absolutePath.replace(PLACE_ID, placeId).replace(CATEGORY_ID, categoryId)
 				);

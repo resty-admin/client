@@ -1,9 +1,10 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
+import { ReactiveFormsModule } from "@angular/forms";
 
-import { PlacesFeatureModule } from "../../../../../features/places";
-import { ProductsFeatureModule } from "../../../../../features/products";
-import { TablesFeatureModule } from "../../../../../features/tables";
+import { ProductToOrderModule } from "../../../../../features/products";
+import { PreviewTableModule } from "../../../../../features/tables";
+import { UsersSelectModule } from "../../../../../features/users/ui/users-select/users-select.module";
 import { getI18nProvider } from "../../../../../shared/i18n";
 import { TranslocoModule } from "../../../../../shared/modules/i18n";
 import { ButtonModule } from "../../../../../shared/ui/button";
@@ -20,12 +21,13 @@ import { HistoryOrderComponent } from "./layout/history-order.component";
 		HistoryOrderRoutingModule,
 		TypographyModule,
 		ButtonModule,
-		PlacesFeatureModule,
-		TablesFeatureModule,
-		ProductsFeatureModule,
 		IconModule,
 		TranslocoModule,
-		ImageModule
+		ImageModule,
+		ReactiveFormsModule,
+		PreviewTableModule,
+		ProductToOrderModule,
+		UsersSelectModule
 	],
 	providers: [getI18nProvider("historyOrderPage", (lang) => import(`./i18n/${lang}.json`))]
 })

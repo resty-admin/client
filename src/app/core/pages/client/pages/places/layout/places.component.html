@@ -4,7 +4,7 @@
 	<ul class="places">
 		<li class="place" *ngFor="let place of places$ | async">
 			<a class="link" [routerLink]="place.id">
-				<app-place [place]="place"></app-place>
+				<app-preview-place [place]="place"></app-preview-place>
 			</a>
 		</li>
 	</ul>

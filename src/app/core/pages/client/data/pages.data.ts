@@ -2,22 +2,22 @@ import { CLIENT_ROUTES } from "../../../../shared/constants";
 
 export const PAGES = [
 	{
-		label: "MY_ORDERS",
+		label: "my_orders",
 		icon: "layers",
 		routerLink: CLIENT_ROUTES.ALL_ORDERS.absolutePath
 	},
 	{
-		label: "PLACES",
+		label: "places",
 		icon: "places",
 		routerLink: CLIENT_ROUTES.PLACES.absolutePath
 	},
 	{
-		label: "CALL_WAITER",
+		label: "call_waiter",
 		icon: "waiter",
 		routerLink: "call-waiter"
 	},
 	{
-		label: "CALL_HOOKAH",
+		label: "call_hookah",
 		icon: "hookah",
 		routerLink: "call-hookah"
 	}

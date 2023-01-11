@@ -1,0 +1,82 @@
+@import "/src/assets/scss/abstractions/index";
+
+@include component() {
+	.place {
+		background-color: var(--light-grey);
+		border-radius: rem(12);
+		display: grid;
+		justify-content: space-between;
+		align-items: center;
+		padding: rem(8);
+		column-gap: rem(16);
+		row-gap: rem(8);
+		grid-template-areas:
+			"image label status"
+			"image address address"
+			"image time time";
+		grid-template-columns: auto 1fr auto;
+		.image {
+			grid-area: image;
+			width: rem(72);
+			height: rem(96);
+
+			@include image() {
+				border-radius: rem(12);
+			}
+		}
+		.label {
+			grid-area: label;
+			font-weight: 500;
+			font-size: rem(20);
+			line-height: rem(32);
+			color: var(--dark);
+		}
+		.status {
+			grid-area: status;
+			font-weight: 400;
+			font-size: rem(12);
+			line-height: rem(16);
+			text-align: right;
+			color: #009007;
+		}
+		.time,
+		.address {
+			display: flex;
+			align-items: center;
+			column-gap: rem(8);
+			.icon {
+				width: rem(15);
+				height: rem(15);
+			}
+			.text {
+				font-weight: 400;
+				font-size: rem(14);
+				line-height: rem(24);
+				color: var(--dark);
+			}
+			&.time {
+				grid-area: time;
+			}
+			&.address {
+				grid-area: address;
+			}
+		}
+	}
+}
+@include dark() {
+	.place {
+		background-color: var(--dark-grey);
+		.label {
+			color: var(--light);
+		}
+		.time,
+		.address {
+			.text {
+				color: var(--light);
+			}
+			.icon {
+				@include icon(false, var(--light));
+			}
+		}
+	}
+}

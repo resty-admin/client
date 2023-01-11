@@ -1,2 +1,1 @@
-export * from "./products.feature.module";
-export * from "./services";
+export * from "./ui";

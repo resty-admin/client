@@ -1,7 +1,9 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { PlacesService } from "src/app/features/places";
+import { map } from "rxjs";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
+
+import { PlacesPageGQL } from "../graphql/places-pages";
 
 @Component({
 	selector: "app-places",
@@ -10,10 +12,11 @@ import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlacesComponent implements OnInit {
-	readonly places$ = this._placesService.places$;
+	private readonly _placesPageQuery = this._placesPageGQL.watch();
+	readonly places$ = this._placesPageQuery.valueChanges.pipe(map((result) => result.data.places.data));
 
 	constructor(
-		private readonly _placesService: PlacesService,
+		private readonly _placesPageGQL: PlacesPageGQL,
 		private readonly _breadcrumbsService: BreadcrumbsService
 	) {}
 

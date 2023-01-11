@@ -6,7 +6,6 @@ import { take } from "rxjs";
 
 import { ActionsService } from "../../../../../../features/actions";
 import { AuthService } from "../../../../../../features/auth/services";
-import { UsersService } from "../../../../../../features/users";
 import { RouterService } from "../../../../../../shared/modules/router";
 
 @UntilDestroy()
@@ -22,8 +21,7 @@ export class WelcomeComponent implements OnInit {
 	constructor(
 		private readonly _actionsService: ActionsService,
 		private readonly _routerService: RouterService,
-		private readonly _authService: AuthService,
-		private readonly _usersService: UsersService
+		private readonly _authService: AuthService
 	) {}
 
 	ngOnInit() {

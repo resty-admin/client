@@ -27,6 +27,6 @@ import { ProfileRoutingModule } from "./profile-routing.module";
 		ThemeModule,
 		ReactiveFormsModule
 	],
-	providers: [getI18nProvider("profilePage", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider("profilePage", (lang) => import(`./i18n/${lang}.json`)), getI18nProvider("form")]
 })
 export class ProfileModule {}

@@ -30,6 +30,6 @@ import { ProductRoutingModule } from "./product-routing.module";
 		MultipleCheckboxModule,
 		I18nModule
 	],
-	providers: [getI18nProvider("productPage", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider("productPage", (lang) => import(`./i18n/${lang}.json`)), getI18nProvider("form")]
 })
 export class ProductModule {}
