@@ -3,16 +3,19 @@
 
 	<app-header
 		class="header"
-		(burgerClicked)="toggleAside()"
+		[activeOrder]="activeOrder$ | async"
+		[actions]="profileActions"
 		[user]="user$ | async"
-		[isAsideOpen]="isAsideOpen"
+		[isAsideOpen]="isAsideOpen$ | async"
+		(burgerClicked)="toggleAside()"
 	></app-header>
 
 	<main class="main">
 		<app-aside
 			class="aside"
+			[activeOrder]="activeOrder$ | async"
 			[user]="user$ | async"
-			[class.open]="isAsideOpen"
+			[class.open]="isAsideOpen$ | async"
 			(closeClicked)="toggleAside()"
 		></app-aside>
 

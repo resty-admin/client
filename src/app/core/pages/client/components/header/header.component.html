@@ -6,8 +6,8 @@
 	<div class="space"></div>
 
 	<a
+		*ngIf="activeOrder"
 		[class]="'active-order' + ' ' + activeOrder.type"
-		*ngIf="activeOrder$ | async as activeOrder"
 		[routerLink]="clientRoutes.ACTIVE_ORDER.absolutePath.replace(':id', activeOrder.id)"
 	>
 		<p class="code">{{ t("HEADER.ORDER") }} №{{ activeOrder.code }}</p>

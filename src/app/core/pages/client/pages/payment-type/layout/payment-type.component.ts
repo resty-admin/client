@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
 import { switchMap, take } from "rxjs";
 
-import { ActionsService } from "../../../../../../features/actions";
+import { ActionsService } from "../../../../../../features/app";
 import { AuthService } from "../../../../../../features/auth/services";
 import { OrdersService } from "../../../../../../features/orders";
 import { DYNAMIC_ID } from "../../../../../../shared/constants";

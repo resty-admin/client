@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { AuthService } from "../../../../../../features/auth/services";
-import { OrdersService } from "../../../../../../features/orders";
 import { CLIENT_ROUTES } from "../../../../../../shared/constants";
 import { getI18nProvider } from "../../../../../../shared/i18n";
 import { PAGES } from "../../../data";
@@ -15,18 +13,16 @@ import { PAGES } from "../../../data";
 })
 export class AsideComponent {
 	@Output() closeClicked = new EventEmitter();
-
+	@Output() signOutClicked = new EventEmitter();
 	@Input() user?: any | null = null;
+	@Input() activeOrder: any;
 
 	readonly clientRoutes = CLIENT_ROUTES;
 
 	readonly pages = PAGES;
-	readonly activeOrder$ = this._ordersService.activeOrder$;
 
-	constructor(private readonly _ordersService: OrdersService, private readonly _authService: AuthService) {}
-
-	async signOut() {
-		await this._authService.signOut();
+	emitSignOutClick() {
+		this.signOutClicked.emit();
 	}
 
 	emitCloseClick() {

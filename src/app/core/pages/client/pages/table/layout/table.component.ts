@@ -7,7 +7,7 @@ import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
 
-import { ActionsService } from "../../../../../../features/actions";
+import { ActionsService } from "../../../../../../features/app";
 import { OrdersService } from "../../../../../../features/orders";
 import { TablePageGQL } from "../graphql/table-page";
 

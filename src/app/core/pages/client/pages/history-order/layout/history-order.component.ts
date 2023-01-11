@@ -9,7 +9,7 @@ import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
 
 import { ProductToOrderStatusEnum } from "../../../../../../../graphql";
-import { ActionsService } from "../../../../../../features/actions";
+import { ActionsService } from "../../../../../../features/app";
 
 @Component({
 	selector: "app-history-order",

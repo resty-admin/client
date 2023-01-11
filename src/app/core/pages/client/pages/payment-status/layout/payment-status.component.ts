@@ -5,7 +5,7 @@ import { DYNAMIC_ID } from "src/app/shared/constants";
 import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { RouterService } from "src/app/shared/modules/router";
 
-import { ActionsService } from "../../../../../../features/actions";
+import { ActionsService } from "../../../../../../features/app";
 import { OrdersService } from "../../../../../../features/orders";
 
 @Component({

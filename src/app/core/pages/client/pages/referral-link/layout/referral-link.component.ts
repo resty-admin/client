@@ -5,7 +5,7 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import type { Observable } from "rxjs";
 import { shareReplay } from "rxjs";
 
-import { ActionsService } from "../../../../../../features/actions";
+import { ActionsService } from "../../../../../../features/app";
 import { OrdersService } from "../../../../../../features/orders";
 import { PLACE_ID } from "../../../../../../shared/constants";
 import { CLIENT_ROUTES } from "../../../../../../shared/constants";
