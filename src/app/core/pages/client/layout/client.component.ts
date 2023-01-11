@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { shareReplay } from "rxjs";
 
-import { AuthService } from "../../auth/services";
+import { AuthService } from "../../../../features/auth/services";
 
 @Component({
 	selector: "app-client",

@@ -2,9 +2,9 @@ import { NgModule } from "@angular/core";
 import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
 
+import { AuthGuard } from "../features/auth/guards";
 import { CLIENT_ROUTES } from "../shared/constants";
 import { ROUTER_CONFIG } from "./configs/router.config";
-import { AuthGuard } from "./pages/auth/guards";
 
 export const CORE_ROUTES: Route[] = [
 	{

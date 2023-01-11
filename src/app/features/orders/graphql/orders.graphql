@@ -62,22 +62,6 @@ query Order($orderId: String!) {
 	}
 }
 
-mutation AddProductToOrder($orderId: String!, $product: CreateUserToOrderInput!) {
-	addProductToOrder(orderId: $orderId, product: $product) {
-		id
-	}
-}
-
-mutation RemoveUserProductInOrder($userToOrderId: String!) {
-	removeUserProductInOrder(userToOrderId: $userToOrderId)
-}
-
-mutation UpdateUserProductInOrder($userToOrder: UpdateUserToOrderInput!) {
-	updateUserProductInOrder(userToOrder: $userToOrder) {
-		id
-	}
-}
-
 mutation AddUserToOrder($code: Int!) {
 	addUserToOrder(code: $code) {
 		code

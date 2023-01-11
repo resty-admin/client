@@ -3,7 +3,7 @@ import type { Routes } from "@angular/router";
 import { RouterModule } from "@angular/router";
 import { CLIENT_ROUTES } from "src/app/shared/constants";
 
-import { JwtGuard } from "./guards";
+import { JwtGuard } from "../../../features/auth/guards";
 import { AuthComponent } from "./layout/auth.component";
 
 export const AUTH_ROUTES: Routes = [

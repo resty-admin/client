@@ -7,8 +7,8 @@ import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
 
 import { OrderTypeEnum } from "../../../../../../../graphql";
+import { AuthService } from "../../../../../../features/auth/services";
 import { OrdersService } from "../../../../../../features/orders";
-import { AuthService } from "../../../../auth/services";
 import { ORDER_TYPES } from "../data";
 
 @Component({

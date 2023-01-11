@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 
+import { AuthService } from "../../../../../features/auth/services";
 import { OrdersService } from "../../../../../features/orders";
 import { CLIENT_ROUTES } from "../../../../../shared/constants";
 import { RouterService } from "../../../../../shared/modules/router";
 import type { IAction } from "../../../../../shared/ui/actions";
-import { AuthService } from "../../../auth/services";
 
 @Component({
 	selector: "app-header",

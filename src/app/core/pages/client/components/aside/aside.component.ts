@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
+import { AuthService } from "../../../../../features/auth/services";
 import { OrdersService } from "../../../../../features/orders";
 import { CLIENT_ROUTES } from "../../../../../shared/constants";
-import { AuthService } from "../../../auth/services";
 import { PAGES } from "../../data";
 
 @Component({

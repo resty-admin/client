@@ -5,9 +5,9 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { take } from "rxjs";
 
 import { ActionsService } from "../../../../../../features/actions";
+import { AuthService } from "../../../../../../features/auth/services";
 import { UsersService } from "../../../../../../features/users";
 import { RouterService } from "../../../../../../shared/modules/router";
-import { AuthService } from "../../../../auth/services";
 
 @UntilDestroy()
 @Component({

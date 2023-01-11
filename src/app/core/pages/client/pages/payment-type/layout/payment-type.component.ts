@@ -4,6 +4,7 @@ import { FormControl } from "@ngneat/reactive-forms";
 import { switchMap, take } from "rxjs";
 
 import { ActionsService } from "../../../../../../features/actions";
+import { AuthService } from "../../../../../../features/auth/services";
 import { OrdersService } from "../../../../../../features/orders";
 import { DYNAMIC_ID } from "../../../../../../shared/constants";
 import { CLIENT_ROUTES } from "../../../../../../shared/constants";
@@ -11,7 +12,6 @@ import { ApiService } from "../../../../../../shared/modules/api";
 import { BreadcrumbsService } from "../../../../../../shared/modules/breadcrumbs";
 import { RouterService } from "../../../../../../shared/modules/router";
 import { ToastrService } from "../../../../../../shared/ui/toastr";
-import { AuthService } from "../../../../auth/services";
 
 export enum PaymentType {
 	CASH,

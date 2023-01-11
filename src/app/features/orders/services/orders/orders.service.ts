@@ -1,18 +1,9 @@
 import { Injectable } from "@angular/core";
-import { map, switchMap, take, tap } from "rxjs";
+import { map, of, switchMap, take, tap } from "rxjs";
 
-import type { CreateOrderInput, UpdateOrderInput, UpdateUserToOrderInput } from "../../../../../graphql";
+import type { CreateOrderInput, UpdateOrderInput } from "../../../../../graphql";
 import { ToastrService } from "../../../../shared/ui/toastr";
-import {
-	AddProductToOrderGQL,
-	AddUserToOrderGQL,
-	CreateOrderGQL,
-	OrderGQL,
-	OrdersGQL,
-	RemoveUserProductInOrderGQL,
-	UpdateOrderGQL,
-	UpdateUserProductInOrderGQL
-} from "../../graphql/orders";
+import { AddUserToOrderGQL, CreateOrderGQL, OrderGQL, OrdersGQL, UpdateOrderGQL } from "../../graphql/orders";
 import { OrdersRepository } from "../../repositories";
 
 @Injectable({ providedIn: "root" })
@@ -30,9 +21,6 @@ export class OrdersService {
 		private readonly _orderGQL: OrderGQL,
 		private readonly _createOrderGQL: CreateOrderGQL,
 		private readonly _updateOrderGQL: UpdateOrderGQL,
-		private readonly _addProductToOrderGQL: AddProductToOrderGQL,
-		private readonly _removeUserProdcutInOrder: RemoveUserProductInOrderGQL,
-		private readonly _updateUserProdcutInOrder: UpdateUserProductInOrderGQL,
 		private readonly _addUserToOrderGQL: AddUserToOrderGQL
 	) {}
 
@@ -65,19 +53,18 @@ export class OrdersService {
 	}
 
 	addProductToOrder(product: any) {
-		return this.activeOrder$.pipe(
-			take(1),
-			switchMap((order: any) => this._addProductToOrderGQL.mutate({ orderId: order.id, product })),
-			take(1)
-		);
+		console.log(product);
+		return this.activeOrder$.pipe(take(1), take(1));
 	}
 
 	removeUserProductInOrder(userToOrderId: string) {
-		return this._removeUserProdcutInOrder.mutate({ userToOrderId }).pipe(take(1));
+		console.log(userToOrderId);
+		return of(null).pipe(take(1)) as any;
 	}
 
-	updateUserProductInOrder(userToOrder: UpdateUserToOrderInput) {
-		return this._updateUserProdcutInOrder.mutate({ userToOrder }).pipe(take(1));
+	updateUserProductInOrder(userToOrder: any) {
+		console.log(userToOrder);
+		return of(null).pipe(take(1)) as any;
 	}
 
 	addUserToOrder(code: number) {

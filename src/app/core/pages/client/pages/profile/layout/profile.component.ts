@@ -4,7 +4,7 @@ import { FormBuilder } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { shareReplay } from "rxjs";
 
-import { AuthService } from "../../../../auth/services";
+import { AuthService } from "../../../../../../features/auth/services";
 
 @UntilDestroy()
 @Component({
@@ -25,8 +25,7 @@ export class ProfileComponent implements OnInit {
 	constructor(private readonly _formBuilder: FormBuilder, private readonly _authService: AuthService) {}
 
 	ngOnInit() {
-		this.user$.pipe(untilDestroyed(this)).subscribe((user) => {
-			console.log(user);
+		this.user$.pipe(untilDestroyed(this)).subscribe((user: any) => {
 			if (!user) {
 				return;
 			}
