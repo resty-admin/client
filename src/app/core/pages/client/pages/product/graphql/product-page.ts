@@ -22,7 +22,7 @@ export interface ProductPageQuery {
 					__typename?: "AttributesGroupEntity";
 					id: string;
 					name: string;
-					attributes?: { __typename?: "AttributesEntity"; id: string; name: string; price?: number | null }[] | null;
+					attributes?: { __typename?: "AttributesEntity"; id: string; name: string; price: number }[] | null;
 			  }[]
 			| null;
 	};
