@@ -4,10 +4,7 @@ import { FormBuilder } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { shareReplay } from "rxjs";
 
-import { ActionsService } from "../../../../../../features/app";
 import { AuthService } from "../../../../../../features/auth/services";
-import { CLIENT_ROUTES } from "../../../../../../shared/constants";
-import { BreadcrumbsService } from "../../../../../../shared/modules/breadcrumbs";
 
 @UntilDestroy()
 @Component({
@@ -19,36 +16,26 @@ import { BreadcrumbsService } from "../../../../../../shared/modules/breadcrumbs
 export class ProfileComponent implements OnInit {
 	readonly user$ = this._authService.getMe().pipe(shareReplay({ refCount: true }));
 
-	readonly formGroup = this._formBuilder.group({
+	readonly formGroup = this._formBuilder.group<any>({
 		name: "",
 		tel: "",
 		email: ""
 	});
 
-	constructor(
-		private readonly _formBuilder: FormBuilder,
-		private readonly _authService: AuthService,
-		private readonly _breadcrumbsService: BreadcrumbsService,
-		private readonly _actionsService: ActionsService
-	) {}
+	constructor(private readonly _formBuilder: FormBuilder, private readonly _authService: AuthService) {}
 
 	ngOnInit() {
-		this._breadcrumbsService.setBackUrl(CLIENT_ROUTES.PLACES.absolutePath);
-
-		this._actionsService.setAction({
-			label: "Обновить",
-			action: () => {
-				this._authService.updateMe(this.formGroup.value).subscribe();
-			}
-		});
-
-		this.user$.pipe(untilDestroyed(this)).subscribe((user: any) => {
+		this.user$.pipe(untilDestroyed(this)).subscribe((user) => {
 			if (!user) {
 				return;
 			}
 
 			this.formGroup.patchValue(user);
 		});
+	}
+
+	updateMe(formValue: any) {
+		this._authService.updateMe(formValue).subscribe();
 	}
 
 	deleteMe() {

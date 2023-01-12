@@ -105,7 +105,6 @@
 
 				&.menu {
 					.icon {
-						@include icon(var(--primary));
 					}
 					.label {
 						color: var(--primary);
@@ -123,7 +122,6 @@
 				color: var(--light);
 			}
 			.icon {
-				@include icon(#fff);
 			}
 		}
 	}

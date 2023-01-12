@@ -75,7 +75,6 @@
 				color: var(--light);
 			}
 			.icon {
-				@include icon(false, var(--light));
 			}
 		}
 	}

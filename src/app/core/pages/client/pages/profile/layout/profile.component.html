@@ -13,7 +13,7 @@
 			<p class="role">{{ user.role }}</p>
 		</div>
 
-		<form class="form" [formGroup]="formGroup" *transloco="let f; read: 'form'">
+		<form *transloco="let f; read: 'form'" class="form" [formGroup]="formGroup" (ngSubmit)="updateMe(formGroup.value)">
 			<app-input
 				class="input name"
 				theme="2"
@@ -36,7 +36,9 @@
 				[placeholder]="f('email_placeholder')"
 			></app-input>
 
-			<app-image class="image" name="profile"></app-image>
+			<button class="submit">{{ f("submit") }}</button>
+
+			<app-image class="image" name="manager"></app-image>
 		</form>
 
 		<button class="delete" (click)="deleteMe()">{{ t("delete_profile") }}</button>

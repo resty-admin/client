@@ -27,8 +27,6 @@
 				.icon {
 					width: rem(20);
 					height: rem(20);
-
-					@include icon(var(--dark), var(--dark));
 				}
 			}
 			&.count {

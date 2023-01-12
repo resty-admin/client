@@ -163,7 +163,6 @@
 								color: var(--dark-d);
 							}
 							.icon {
-								@include icon(var(--dark-d));
 							}
 						}
 						.label {
@@ -175,8 +174,6 @@
 						.icon {
 							width: rem(24);
 							height: rem(24);
-
-							@include icon(var(--dark));
 						}
 					}
 				}
@@ -196,8 +193,6 @@
 				grid-area: icon;
 				width: rem(24);
 				height: rem(24);
-
-				@include icon(var(--grey));
 			}
 			.label {
 				grid-area: label;
@@ -239,7 +234,6 @@
 			.sign-out {
 				background-color: var(--dark);
 				.icon {
-					@include icon(null, var(--light));
 				}
 			}
 		}
@@ -250,14 +244,12 @@
 					color: var(--light);
 				}
 				.icon {
-					@include icon(var(--light));
 				}
 				&.disabled {
 					span {
 						color: var(--light-b);
 					}
 					.icon {
-						@include icon(var(--light-b));
 					}
 				}
 			}

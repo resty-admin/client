@@ -51,8 +51,6 @@
 						.icon {
 							width: rem(15);
 							height: rem(15);
-
-							@include icon(var(--dark));
 						}
 
 						.text {
@@ -92,7 +90,6 @@
 		.place {
 			color: var(--light);
 			.icon {
-				@include icon(#fff);
 			}
 			.text {
 				color: var(--light);

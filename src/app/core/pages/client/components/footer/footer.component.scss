@@ -17,8 +17,6 @@
 			.icon {
 				width: rem(35);
 				height: rem(35);
-
-				@include icon(null, var(--dark));
 			}
 		}
 
@@ -29,12 +27,11 @@
 		}
 	}
 }
-@include dark () {
+@include dark() {
 	.footer {
 		.back {
 			background-color: var(--dark-grey);
 			.icon {
-				@include icon(null, var(--light));
 			}
 		}
 	}
