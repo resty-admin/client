@@ -7,6 +7,8 @@ import { take } from "rxjs";
 import { ActionsService } from "../../../../../../features/app";
 import { AuthService } from "../../../../../../features/auth/services";
 import { RouterService } from "../../../../../../shared/modules/router";
+import { FORM_I18N } from "../../../../../constants";
+import { WELCOME_PAGE_I18N } from "../constants";
 
 @UntilDestroy()
 @Component({
@@ -16,6 +18,8 @@ import { RouterService } from "../../../../../../shared/modules/router";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WelcomeComponent implements OnInit {
+	readonly welcomePageI18n = WELCOME_PAGE_I18N;
+	readonly formI18n = FORM_I18N;
 	readonly nameControl = new FormControl<string>();
 
 	constructor(

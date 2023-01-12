@@ -7,6 +7,7 @@ import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
 
+import { CATEGORIES_PAGE_I18N } from "../constants";
 import { CategoriesPageGQL } from "../graphql/categories-page";
 
 @UntilDestroy()
@@ -17,6 +18,7 @@ import { CategoriesPageGQL } from "../graphql/categories-page";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoriesComponent implements OnInit {
+	readonly categoriesPageI18n = CATEGORIES_PAGE_I18N;
 	private readonly _categoriesPageQuery = this._categoriesPageGQL.watch();
 	readonly categories$ = this._categoriesPageQuery.valueChanges.pipe(map((result) => result.data.categories.data));
 

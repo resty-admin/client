@@ -11,6 +11,7 @@ import { ButtonModule } from "../../../../../shared/ui/button";
 import { IconModule } from "../../../../../shared/ui/icon";
 import { ImageModule } from "../../../../../shared/ui/image";
 import { TypographyModule } from "../../../../../shared/ui/typography";
+import { HISTORY_ORDER_PAGE_I18N } from "./constants";
 import { HistoryOrderRoutingModule } from "./history-order-routing.module";
 import { HistoryOrderComponent } from "./layout/history-order.component";
 
@@ -29,6 +30,6 @@ import { HistoryOrderComponent } from "./layout/history-order.component";
 		ProductToOrderModule,
 		UsersSelectModule
 	],
-	providers: [getI18nProvider("historyOrderPage", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider(HISTORY_ORDER_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
 })
 export class HistoryOrderModule {}

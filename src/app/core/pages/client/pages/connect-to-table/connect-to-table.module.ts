@@ -10,6 +10,7 @@ import { getI18nProvider } from "../../../../../shared/i18n";
 import { I18nModule } from "../../../../../shared/modules/i18n";
 import { CodeInputModule } from "../../../../../shared/ui/code-input";
 import { ConnectToTableRoutingModule } from "./connect-to-table-routing.module";
+import { CONNECT_TO_TABLE_PAGE_I18N } from "./constants";
 import { ConnectToTableComponent } from "./layout/connect-to-table.component";
 
 @NgModule({
@@ -25,6 +26,6 @@ import { ConnectToTableComponent } from "./layout/connect-to-table.component";
 		I18nModule,
 		CodeInputModule
 	],
-	providers: [getI18nProvider("connectToTablePage", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider(CONNECT_TO_TABLE_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
 })
 export class ConnectToTableModule {}

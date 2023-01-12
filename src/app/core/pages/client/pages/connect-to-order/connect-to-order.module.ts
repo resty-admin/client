@@ -10,6 +10,7 @@ import { getI18nProvider } from "../../../../../shared/i18n";
 import { I18nModule } from "../../../../../shared/modules/i18n";
 import { CodeInputModule } from "../../../../../shared/ui/code-input";
 import { ConnectToOrderRoutingModule } from "./connect-to-order-routing.module";
+import { CONNECT_TO_ORDER_PAGE_I18N } from "./constants";
 import { ConnectToOrderComponent } from "./layout/connect-to-order.component";
 
 @NgModule({
@@ -25,6 +26,6 @@ import { ConnectToOrderComponent } from "./layout/connect-to-order.component";
 		I18nModule,
 		CodeInputModule
 	],
-	providers: [getI18nProvider("connectToOrderPage", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider(CONNECT_TO_ORDER_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
 })
 export class ConnectToOrderModule {}

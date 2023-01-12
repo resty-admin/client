@@ -11,6 +11,7 @@ import { TypographyModule } from "src/app/shared/ui/typography";
 
 import { getI18nProvider } from "../../../../../shared/i18n";
 import { I18nModule } from "../../../../../shared/modules/i18n";
+import { PRODUCT_PAGE_I18N } from "./constants";
 import { ProductComponent } from "./layout/product.component";
 import { ProductRoutingModule } from "./product-routing.module";
 
@@ -30,6 +31,6 @@ import { ProductRoutingModule } from "./product-routing.module";
 		MultipleCheckboxModule,
 		I18nModule
 	],
-	providers: [getI18nProvider("productPage", (lang) => import(`./i18n/${lang}.json`)), getI18nProvider("form")]
+	providers: [getI18nProvider(PRODUCT_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`)), getI18nProvider("form")]
 })
 export class ProductModule {}

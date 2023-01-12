@@ -10,6 +10,7 @@ import { RouterService } from "src/app/shared/modules/router";
 
 import { ProductToOrderStatusEnum } from "../../../../../../../graphql";
 import { ActionsService } from "../../../../../../features/app";
+import { HISTORY_ORDER_PAGE_I18N } from "../constants";
 
 @Component({
 	selector: "app-history-order",
@@ -18,6 +19,7 @@ import { ActionsService } from "../../../../../../features/app";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HistoryOrderComponent implements OnInit, OnDestroy {
+	readonly historyOrderPageI18n = HISTORY_ORDER_PAGE_I18N;
 	readonly clientRoutes = CLIENT_ROUTES;
 	readonly order$ = this._routerService.selectParams(DYNAMIC_ID.slice(1)).pipe(
 		switchMap((id) => this._ordersService.getOrder(id)),

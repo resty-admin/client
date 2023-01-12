@@ -9,6 +9,7 @@ import { TypographyModule } from "src/app/shared/ui/typography";
 import { getI18nProvider } from "../../../../../shared/i18n";
 import { I18nModule } from "../../../../../shared/modules/i18n";
 import { ButtonModule } from "../../../../../shared/ui/button";
+import { PAYMENT_TYPE_PAGE_I18N } from "./constants";
 import { PaymentTypeComponent } from "./layout/payment-type.component";
 import { PaymentTypeRoutingModule } from "./payment-type-routing.module";
 
@@ -25,6 +26,6 @@ import { PaymentTypeRoutingModule } from "./payment-type-routing.module";
 		ReactiveFormsModule,
 		I18nModule
 	],
-	providers: [getI18nProvider("paymentTypePage", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider(PAYMENT_TYPE_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
 })
 export class PaymentTypeModule {}

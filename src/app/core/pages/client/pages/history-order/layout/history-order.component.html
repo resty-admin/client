@@ -1,4 +1,4 @@
-<ng-container *transloco="let t; read: 'historyOrderPage'">
+<ng-container *transloco="let t; read: historyOrderPageI18n">
 	<div class="history-order" *ngIf="order$ | async as order">
 		<app-image class="image" [remote]="true" [name]="order.place.file?.url"></app-image>
 

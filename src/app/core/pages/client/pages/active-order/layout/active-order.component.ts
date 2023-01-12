@@ -10,6 +10,7 @@ import { RouterService } from "src/app/shared/modules/router";
 
 import { ProductToOrderStatusEnum } from "../../../../../../../graphql";
 import { ActionsService } from "../../../../../../features/app";
+import { ACTIVE_ORDER_PAGE_I18N } from "../constants";
 
 @Component({
 	selector: "app-active-order",
@@ -18,6 +19,7 @@ import { ActionsService } from "../../../../../../features/app";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActiveOrderComponent implements OnInit, OnDestroy {
+	readonly activeOrderPageI18n = ACTIVE_ORDER_PAGE_I18N;
 	readonly clientRoutes = CLIENT_ROUTES;
 
 	readonly usersControl = new FormControl();

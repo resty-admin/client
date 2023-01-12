@@ -1,4 +1,4 @@
-<ng-container *transloco="let t; read: 'tablePage'">
+<ng-container *transloco="let t; read: tablePageI18n">
 	<div class="table-page" *ngIf="table$ | async as table">
 		<app-image class="image" [remote]="true" [name]="table.file?.url" placeholder="table"></app-image>
 

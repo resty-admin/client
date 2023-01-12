@@ -5,6 +5,7 @@ import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 
 import { DYNAMIC_ID } from "../../../../../../shared/constants";
+import { ALL_ORDERS_PAGE_I18N } from "../constants";
 
 @Component({
 	selector: "app-all-orders",
@@ -13,6 +14,7 @@ import { DYNAMIC_ID } from "../../../../../../shared/constants";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AllOrdersComponent implements OnInit {
+	readonly allOrdersPageI18n = ALL_ORDERS_PAGE_I18N;
 	readonly orders$ = this._ordersService.orders$;
 	readonly clienRoutes = CLIENT_ROUTES;
 	readonly dynamicId = DYNAMIC_ID;

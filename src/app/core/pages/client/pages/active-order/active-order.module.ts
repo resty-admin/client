@@ -10,6 +10,7 @@ import { ButtonModule } from "../../../../../shared/ui/button";
 import { IconModule } from "../../../../../shared/ui/icon";
 import { TypographyModule } from "../../../../../shared/ui/typography";
 import { ActiveOrderRoutingModule } from "./active-order-routing.module";
+import { ACTIVE_ORDER_PAGE_I18N } from "./constants";
 import { ActiveOrderComponent } from "./layout/active-order.component";
 
 @NgModule({
@@ -25,6 +26,6 @@ import { ActiveOrderComponent } from "./layout/active-order.component";
 		ProductToOrderModule,
 		UsersSelectModule
 	],
-	providers: [getI18nProvider("activeOrderPage", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider(ACTIVE_ORDER_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
 })
 export class ActiveOrderModule {}

@@ -7,6 +7,7 @@ import { RouterService } from "src/app/shared/modules/router";
 
 import { ActionsService } from "../../../../../../features/app";
 import { OrdersService } from "../../../../../../features/orders";
+import { PAYMENT_STATUS_PAGE_I18N } from "../constants";
 
 @Component({
 	selector: "app-payment-status",
@@ -15,6 +16,7 @@ import { OrdersService } from "../../../../../../features/orders";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaymentStatusComponent implements OnInit, OnDestroy {
+	readonly paymentStatusPageI18n = PAYMENT_STATUS_PAGE_I18N;
 	readonly order$ = this._routerService
 		.selectParams(DYNAMIC_ID.slice(1))
 		.pipe(switchMap((id) => this._ordersService.getOrder(id)));

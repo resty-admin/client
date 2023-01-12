@@ -7,6 +7,7 @@ import { TypographyModule } from "src/app/shared/ui/typography";
 
 import { getI18nProvider } from "../../../../../shared/i18n";
 import { I18nModule } from "../../../../../shared/modules/i18n";
+import { PAYMENT_STATUS_PAGE_I18N } from "./constants";
 import { PaymentStatusComponent } from "./layout/payment-status.component";
 import { PaymentStatusRoutingModule } from "./payment-status-routing.module";
 
@@ -21,6 +22,6 @@ import { PaymentStatusRoutingModule } from "./payment-status-routing.module";
 		ButtonModule,
 		I18nModule
 	],
-	providers: [getI18nProvider("paymentStatusPage", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider(PAYMENT_STATUS_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
 })
 export class PaymentStatusModule {}

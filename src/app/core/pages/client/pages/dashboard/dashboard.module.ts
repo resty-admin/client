@@ -8,6 +8,7 @@ import { TypographyModule } from "src/app/shared/ui/typography";
 
 import { getI18nProvider } from "../../../../../shared/i18n";
 import { TranslocoModule } from "../../../../../shared/modules/i18n";
+import { DASHBOARD_PAGE_I18N } from "./constants";
 import { DashboardRoutingModule } from "./dashboard-routing.module";
 import { DashboardComponent } from "./layout/dashboard.component";
 
@@ -23,6 +24,6 @@ import { DashboardComponent } from "./layout/dashboard.component";
 		DialogModule,
 		TranslocoModule
 	],
-	providers: [getI18nProvider("dashboardPage", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider(DASHBOARD_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
 })
 export class DashboardModule {}

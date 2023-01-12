@@ -12,6 +12,7 @@ import { CLIENT_ROUTES } from "../../../../../../shared/constants";
 import { BreadcrumbsService } from "../../../../../../shared/modules/breadcrumbs";
 import { RouterService } from "../../../../../../shared/modules/router";
 import { ToastrService } from "../../../../../../shared/ui/toastr";
+import { REFERRAL_LINK_PAGE_I18N } from "../constants";
 
 @UntilDestroy()
 @Component({
@@ -21,6 +22,7 @@ import { ToastrService } from "../../../../../../shared/ui/toastr";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReferralLinkComponent implements OnInit {
+	readonly referralLinkPageI18n = REFERRAL_LINK_PAGE_I18N;
 	readonly activeOrder$: Observable<any> = this._ordersService.activeOrder$.pipe(shareReplay({ refCount: true }));
 	constructor(
 		private readonly _routerService: RouterService,

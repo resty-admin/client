@@ -12,6 +12,7 @@ import { ApiService } from "../../../../../../shared/modules/api";
 import { BreadcrumbsService } from "../../../../../../shared/modules/breadcrumbs";
 import { RouterService } from "../../../../../../shared/modules/router";
 import { ToastrService } from "../../../../../../shared/ui/toastr";
+import { PAYMENT_TYPE_PAGE_I18N } from "../constants";
 
 export enum PaymentType {
 	CASH,
@@ -26,6 +27,7 @@ export enum PaymentType {
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaymentTypeComponent implements OnInit, OnDestroy {
+	readonly paymentTypePageI18n = PAYMENT_TYPE_PAGE_I18N;
 	readonly order$ = this._routerService
 		.selectParams(DYNAMIC_ID.slice(1))
 		.pipe(switchMap((id) => this._ordersService.getOrder(id)));

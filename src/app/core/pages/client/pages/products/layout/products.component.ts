@@ -10,6 +10,7 @@ import { RouterService } from "src/app/shared/modules/router";
 
 import { AuthService } from "../../../../../../features/auth/services";
 import { OrdersService } from "../../../../../../features/orders";
+import { PRODUCTS_PAGE_I18N } from "../constants";
 import { ProductsPageGQL } from "../graphql/products-pages";
 
 @UntilDestroy()
@@ -20,6 +21,7 @@ import { ProductsPageGQL } from "../graphql/products-pages";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductsComponent implements OnInit {
+	readonly productsPageI18n = PRODUCTS_PAGE_I18N;
 	private readonly _productsPageQuery = this._productsPageGQL.watch();
 
 	readonly products$: Observable<any> = this._productsPageQuery.valueChanges.pipe(

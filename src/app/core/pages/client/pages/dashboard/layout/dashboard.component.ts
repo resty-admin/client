@@ -9,6 +9,7 @@ import { RouterService } from "src/app/shared/modules/router";
 import { OrderTypeEnum } from "../../../../../../../graphql";
 import { AuthService } from "../../../../../../features/auth/services";
 import { OrdersService } from "../../../../../../features/orders";
+import { DASHBOARD_PAGE_I18N } from "../constants";
 import { ORDER_TYPES } from "../data";
 
 @Component({
@@ -18,6 +19,7 @@ import { ORDER_TYPES } from "../data";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent implements OnInit {
+	readonly dashboardPageI18n = DASHBOARD_PAGE_I18N;
 	readonly orderTypes = ORDER_TYPES;
 
 	constructor(

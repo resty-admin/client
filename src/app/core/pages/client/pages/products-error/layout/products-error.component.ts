@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { map } from "rxjs";
 
+import { PRODUCTS_ERROR_PAGE_I18N } from "../constants";
 import { ProductsErrorPageGQL } from "../graphql/products-error-page";
 
 @Component({
@@ -10,6 +11,7 @@ import { ProductsErrorPageGQL } from "../graphql/products-error-page";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductsErrorComponent {
+	readonly productsErrorPageI18n = PRODUCTS_ERROR_PAGE_I18N;
 	private readonly _productsErrorPageQuery = this._productsErrorPageGQL.watch();
 	readonly products$ = this._productsErrorPageQuery.valueChanges.pipe(map((result) => result.data.products.data));
 

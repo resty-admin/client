@@ -9,6 +9,7 @@ import { RouterService } from "src/app/shared/modules/router";
 
 import { ActionsService } from "../../../../../../features/app";
 import { OrdersService } from "../../../../../../features/orders";
+import { CONNECT_TO_ORDER_PAGE_I18N } from "../constants";
 
 @UntilDestroy()
 @Component({
@@ -18,6 +19,7 @@ import { OrdersService } from "../../../../../../features/orders";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConnectToOrderComponent implements OnInit, OnDestroy {
+	readonly connectToOrderPageI18n = CONNECT_TO_ORDER_PAGE_I18N;
 	codeControl = new FormControl();
 
 	constructor(

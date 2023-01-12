@@ -9,6 +9,7 @@ import { RouterService } from "src/app/shared/modules/router";
 
 import { ActionsService } from "../../../../../../features/app";
 import { OrdersService } from "../../../../../../features/orders";
+import { TABLE_PAGE_I18N } from "../constants";
 import { TablePageGQL } from "../graphql/table-page";
 
 @UntilDestroy()
@@ -19,6 +20,7 @@ import { TablePageGQL } from "../graphql/table-page";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableComponent implements OnInit, OnDestroy {
+	readonly tablePageI18n = TABLE_PAGE_I18N;
 	private readonly _tablePageQuery = this._tablePageGQL.watch();
 	readonly table$ = this._tablePageQuery.valueChanges.pipe(map((result) => result.data.table));
 

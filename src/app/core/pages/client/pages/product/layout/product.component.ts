@@ -9,6 +9,8 @@ import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
 
 import { ActionsService } from "../../../../../../features/app";
+import { FORM_I18N } from "../../../../../constants";
+import { PRODUCT_PAGE_I18N } from "../constants";
 import { ProductPageGQL } from "../graphql/product-page";
 
 @UntilDestroy()
@@ -19,6 +21,8 @@ import { ProductPageGQL } from "../graphql/product-page";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductComponent implements OnInit, OnDestroy {
+	readonly productPageI18n = PRODUCT_PAGE_I18N;
+	readonly formI18n = FORM_I18N;
 	private readonly _productPageQuery = this._productsPageGQL.watch();
 	readonly product$ = this._productPageQuery.valueChanges.pipe(
 		map((result) => result.data.product),

@@ -1,4 +1,4 @@
-<div class="products-page" *transloco="let t; read: 'productsPage'">
+<div class="products-page" *transloco="let t; read: productsPageI18n">
 	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 	<ul class="products">
 		<li class="product" *ngFor="let product of products$ | async">
