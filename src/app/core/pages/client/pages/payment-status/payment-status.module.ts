@@ -5,11 +5,10 @@ import { IconModule } from "src/app/shared/ui/icon";
 import { ImageModule } from "src/app/shared/ui/image";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
-import { getI18nProvider } from "../../../../../shared/i18n";
 import { I18nModule } from "../../../../../shared/modules/i18n";
-import { PAYMENT_STATUS_PAGE_I18N } from "./constants";
 import { PaymentStatusComponent } from "./layout/payment-status.component";
 import { PaymentStatusRoutingModule } from "./payment-status-routing.module";
+import { PAYMENT_STATUS_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [PaymentStatusComponent],
@@ -22,6 +21,6 @@ import { PaymentStatusRoutingModule } from "./payment-status-routing.module";
 		ButtonModule,
 		I18nModule
 	],
-	providers: [getI18nProvider(PAYMENT_STATUS_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
+	providers: PAYMENT_STATUS_PROVIDERS
 })
 export class PaymentStatusModule {}

@@ -38,6 +38,7 @@ import {
 } from "./configs";
 import { CoreRoutingModule } from "./core-routing.module";
 import { CoreComponent } from "./layout/core.component";
+import { CORE_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [CoreComponent],
@@ -64,6 +65,7 @@ import { CoreComponent } from "./layout/core.component";
 		CodeInputModule.forRoot(CODE_INPUT_CONFIG),
 		CookiesModule
 	],
+	providers: CORE_PROVIDERS,
 	exports: [CoreComponent]
 })
 export class CoreModule {}

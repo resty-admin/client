@@ -6,11 +6,10 @@ import { IconModule } from "src/app/shared/ui/icon";
 import { ImageModule } from "src/app/shared/ui/image";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
-import { getI18nProvider } from "../../../../../shared/i18n";
 import { I18nModule } from "../../../../../shared/modules/i18n";
 import { IosDatepickerModule } from "../../../../../shared/ui/ios-datepicker";
-import { TABLE_PAGE_I18N } from "./constants";
 import { TableComponent } from "./layout/table.component";
+import { TABLE_PROVIDERS } from "./providers";
 import { TableRoutingModule } from "./table-routing.module";
 
 @NgModule({
@@ -26,6 +25,6 @@ import { TableRoutingModule } from "./table-routing.module";
 		ButtonModule,
 		I18nModule
 	],
-	providers: [getI18nProvider(TABLE_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
+	providers: TABLE_PROVIDERS
 })
 export class TableModule {}

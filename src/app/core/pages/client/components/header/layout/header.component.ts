@@ -1,16 +1,18 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { CLIENT_ROUTES } from "../../../../../../shared/constants";
-import { getI18nProvider } from "../../../../../../shared/i18n";
+import { HEADER_I18N } from "../constants";
+import { HEADER_PROVIDERS } from "../providers";
 
 @Component({
 	selector: "app-header",
 	templateUrl: "./header.component.html",
 	styleUrls: ["./header.component.scss"],
-	providers: [getI18nProvider("header", (lang) => import(`../i18n/${lang}.json`))],
+	providers: HEADER_PROVIDERS,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent {
+	readonly headerI18n = HEADER_I18N;
 	@Output() burgerClicked = new EventEmitter();
 
 	@Input() isAsideOpen: any = false;

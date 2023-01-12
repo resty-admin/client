@@ -1,4 +1,4 @@
-<ng-container *transloco="let t; read: 'activeOrderPage'">
+<ng-container *transloco="let t; read: activeOrderPageI18n">
 	<div class="active-order" *ngIf="order$ | async as order">
 		<div class="products">
 			<app-users-select [users]="order.users" [formControl]="usersControl"></app-users-select>

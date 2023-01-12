@@ -4,14 +4,13 @@ import { ReactiveFormsModule } from "@angular/forms";
 
 import { ProductToOrderModule } from "../../../../../features/products";
 import { UsersSelectModule } from "../../../../../features/users/ui/users-select/users-select.module";
-import { getI18nProvider } from "../../../../../shared/i18n";
 import { TranslocoModule } from "../../../../../shared/modules/i18n";
 import { ButtonModule } from "../../../../../shared/ui/button";
 import { IconModule } from "../../../../../shared/ui/icon";
 import { TypographyModule } from "../../../../../shared/ui/typography";
 import { ActiveOrderRoutingModule } from "./active-order-routing.module";
-import { ACTIVE_ORDER_PAGE_I18N } from "./constants";
 import { ActiveOrderComponent } from "./layout/active-order.component";
+import { ACTIVE_ORDER_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [ActiveOrderComponent],
@@ -26,6 +25,6 @@ import { ActiveOrderComponent } from "./layout/active-order.component";
 		ProductToOrderModule,
 		UsersSelectModule
 	],
-	providers: [getI18nProvider(ACTIVE_ORDER_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
+	providers: ACTIVE_ORDER_PROVIDERS
 })
 export class ActiveOrderModule {}

@@ -3,15 +3,14 @@ import { NgModule } from "@angular/core";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
 import { PreviewCategoryModule } from "../../../../../features/categories";
-import { getI18nProvider } from "../../../../../shared/i18n";
 import { I18nModule } from "../../../../../shared/modules/i18n";
 import { CategoriesRoutingModule } from "./categories-routing.module";
-import { CATEGORIES_PAGE_I18N } from "./constants";
 import { CategoriesComponent } from "./layout/categories.component";
+import { CATEGORIES_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [CategoriesComponent],
 	imports: [CommonModule, CategoriesRoutingModule, TypographyModule, I18nModule, PreviewCategoryModule],
-	providers: [getI18nProvider(CATEGORIES_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
+	providers: CATEGORIES_PROVIDERS
 })
 export class CategoriesModule {}

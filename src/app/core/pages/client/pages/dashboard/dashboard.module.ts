@@ -6,11 +6,10 @@ import { IconModule } from "src/app/shared/ui/icon";
 import { ImageModule } from "src/app/shared/ui/image";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
-import { getI18nProvider } from "../../../../../shared/i18n";
 import { TranslocoModule } from "../../../../../shared/modules/i18n";
-import { DASHBOARD_PAGE_I18N } from "./constants";
 import { DashboardRoutingModule } from "./dashboard-routing.module";
 import { DashboardComponent } from "./layout/dashboard.component";
+import { DASHBOARD_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [DashboardComponent],
@@ -24,6 +23,6 @@ import { DashboardComponent } from "./layout/dashboard.component";
 		DialogModule,
 		TranslocoModule
 	],
-	providers: [getI18nProvider(DASHBOARD_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
+	providers: DASHBOARD_PROVIDERS
 })
 export class DashboardModule {}

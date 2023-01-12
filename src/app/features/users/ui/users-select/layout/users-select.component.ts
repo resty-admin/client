@@ -8,6 +8,7 @@ import { pairwise } from "rxjs";
 
 import { getControlValueAccessorProviders } from "../../../../../shared/functions";
 import type { ISimpleChanges } from "../../../../../shared/interfaces";
+import { USERS_SELECT_I18N } from "../constants";
 
 @UntilDestroy()
 @Component({
@@ -18,6 +19,7 @@ import type { ISimpleChanges } from "../../../../../shared/interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UsersSelectComponent implements OnInit, OnChanges, ControlValueAccessor {
+	readonly usersSelectI18n = USERS_SELECT_I18N;
 	@Input() users?: any[] | null = [];
 
 	readonly usersGroup = this._formBuilder.group({ all: false });
