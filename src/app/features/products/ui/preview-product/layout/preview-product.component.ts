@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
+import type { ProductEntity } from "../../../../../../graphql";
+
 @Component({
 	selector: "app-preview-product",
 	templateUrl: "./preview-product.component.html",
@@ -9,7 +11,8 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 export class PreviewProductComponent {
 	@Output() minusClicked = new EventEmitter();
 	@Output() plusClicked = new EventEmitter();
-	@Input() product: any;
+	@Input() product?: Partial<ProductEntity>;
+	@Input() count?: number;
 
 	emitMinusClick() {
 		this.minusClicked.emit();

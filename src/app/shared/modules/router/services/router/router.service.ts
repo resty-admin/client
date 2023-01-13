@@ -16,8 +16,8 @@ export class RouterService {
 		return this._router.navigateByUrl(url, extras);
 	}
 
-	getParams<T = any>(name?: string) {
-		return this._routerRepository.getParams<T>(name);
+	getParams(name?: string) {
+		return this._routerRepository.getParams(name);
 	}
 
 	getQueryParams<T = any>(name?: string) {

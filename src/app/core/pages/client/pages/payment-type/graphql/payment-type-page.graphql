@@ -1,0 +1,6 @@
+query PaymentTypePage($orderId: String!) {
+	order(id: $orderId) {
+		id
+		totalPrice
+	}
+}

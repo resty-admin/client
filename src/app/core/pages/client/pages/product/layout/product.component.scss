@@ -10,7 +10,7 @@
 			align-items: center;
 			grid-template-areas:
 				"name cal price"
-				"description description counter"
+				"description description description"
 				"attrGroups attrGroups attrGroups"
 				"textarea textarea textarea";
 			row-gap: rem(12);
@@ -62,10 +62,6 @@
 						color: var(--dark);
 					}
 				}
-			}
-			.counter {
-				grid-area: counter;
-				justify-self: end;
 			}
 			.textarea {
 				grid-area: textarea;

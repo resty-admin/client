@@ -25,10 +25,9 @@
 			}
 		}
 		.label {
-			grid-area: label;
-			font-weight: 500;
-			font-size: rem(20);
-			line-height: rem(32);
+			font-weight: 600;
+			font-size: rem(14);
+			line-height: rem(24);
 			color: var(--dark);
 		}
 		.status {

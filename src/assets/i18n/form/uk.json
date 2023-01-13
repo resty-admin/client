@@ -5,6 +5,8 @@
 	"submit": "Подтвердиь",
 	"name_label": "Имя",
 	"name_placeholder": "Введите имя",
+	"description_label": "Описание",
+	"description_placeholder": "Введите описание",
 	"code_label": "Код",
 	"code_placeholder": "Введите код",
 	"email_label": "Почта",

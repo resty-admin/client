@@ -9,11 +9,12 @@
 			"divider divider divider"
 			"user count price";
 		align-items: center;
-		border: rem(1) solid var(--dark-b);
+		border: rem(1) solid transparent;
 		border-radius: rem(16);
 		padding: rem(8);
 		gap: rem(8);
 		grid-template-columns: auto 1fr auto;
+		background-color: var(--light-grey);
 
 		&.active {
 			border-color: var(--primary);

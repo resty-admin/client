@@ -1,16 +1,4 @@
 <img
-	*ngIf="fullMode"
-	appStopPropagation
-	appImagePlaceholder
-	[class]="className"
-	[src]="src$ | async"
-	[alt]="name"
-	[placeholder]="placeholderSrc$ | async"
-	(click)="openImage()"
-/>
-
-<img
-	*ngIf="!fullMode"
 	appImagePlaceholder
 	[class]="className"
 	[src]="src$ | async"

@@ -15,9 +15,13 @@
 		}
 
 		.image {
-			width: rem(250);
-			height: rem(250);
+			width: rem(300);
+			height: rem(300);
 			margin: 0 auto;
+
+			@include image() {
+				object-fit: contain;
+			}
 		}
 	}
 }

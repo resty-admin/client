@@ -2,9 +2,9 @@ import { Clipboard } from "@angular/cdk/clipboard";
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import type { Observable } from "rxjs";
-import { shareReplay } from "rxjs";
+import { filter, map, shareReplay, switchMap } from "rxjs";
 
+import { OrderTypeEnum } from "../../../../../../../graphql";
 import { ActionsService } from "../../../../../../features/app";
 import { OrdersService } from "../../../../../../features/orders";
 import { PLACE_ID } from "../../../../../../shared/constants";
@@ -13,6 +13,7 @@ import { BreadcrumbsService } from "../../../../../../shared/modules/breadcrumbs
 import { RouterService } from "../../../../../../shared/modules/router";
 import { ToastrService } from "../../../../../../shared/ui/toastr";
 import { REFERRAL_LINK_PAGE_I18N } from "../constants";
+import { ReferralLinkPageGQL } from "../graphql/referral-link-page";
 
 @UntilDestroy()
 @Component({
@@ -23,8 +24,15 @@ import { REFERRAL_LINK_PAGE_I18N } from "../constants";
 })
 export class ReferralLinkComponent implements OnInit {
 	readonly referralLinkPageI18n = REFERRAL_LINK_PAGE_I18N;
-	readonly activeOrder$: Observable<any> = this._ordersService.activeOrder$.pipe(shareReplay({ refCount: true }));
+	readonly activeOrder$ = this._ordersService.activeOrderId$.pipe(
+		filter((orderId) => Boolean(orderId)),
+		switchMap((orderId) => this._referralLinkPageGQL.watch({ orderId: orderId! }).valueChanges),
+		map((result) => result.data.order),
+		shareReplay({ refCount: true })
+	);
+
 	constructor(
+		private readonly _referralLinkPageGQL: ReferralLinkPageGQL,
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _ordersService: OrdersService,
@@ -33,8 +41,8 @@ export class ReferralLinkComponent implements OnInit {
 		private readonly _clipboard: Clipboard
 	) {}
 
-	copyCode(code: string) {
-		this._clipboard.copy(code);
+	copyCode(code: number) {
+		this._clipboard.copy(code.toString());
 
 		this._toastrService.show("Успешно скопировано");
 	}
@@ -46,12 +54,25 @@ export class ReferralLinkComponent implements OnInit {
 			}
 
 			this._breadcrumbsService.setBackUrl(CLIENT_ROUTES.DASHBOARD.absolutePath.replace(PLACE_ID, order.place.id));
+
+			const url = {
+				[OrderTypeEnum.Reserve]: CLIENT_ROUTES.HALLS.absolutePath,
+				[OrderTypeEnum.Pickup]: CLIENT_ROUTES.CATEGORIES.absolutePath,
+				[OrderTypeEnum.Delivery]: CLIENT_ROUTES.CATEGORIES.absolutePath,
+				[OrderTypeEnum.InPlace]: CLIENT_ROUTES.CATEGORIES.absolutePath
+			}[order.type];
+
+			const label = {
+				[OrderTypeEnum.Reserve]: "Выбрать стол",
+				[OrderTypeEnum.Pickup]: "Выбрать блюда",
+				[OrderTypeEnum.Delivery]: "Выбрать блюда",
+				[OrderTypeEnum.InPlace]: "Выбрать блюда"
+			}[order.type];
+
 			this._actionsService.setAction({
-				label: "Добавить блюда",
+				label,
 				action: async () => {
-					await this._routerService.navigateByUrl(
-						CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, order.place.id)
-					);
+					await this._routerService.navigateByUrl(url.replace(PLACE_ID, order.place.id));
 				}
 			});
 		});

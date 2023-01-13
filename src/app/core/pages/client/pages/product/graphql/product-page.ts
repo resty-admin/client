@@ -16,7 +16,7 @@ export interface ProductPageQuery {
 		price: number;
 		description?: string | null;
 		file?: { __typename?: "FileEntity"; id: string; url: string } | null;
-		category?: { __typename?: "CategoryEntity"; id: string; name: string } | null;
+		category: { __typename?: "CategoryEntity"; id: string; name: string };
 		attrsGroups?:
 			| {
 					__typename?: "AttributesGroupEntity";

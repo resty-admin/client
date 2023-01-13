@@ -1,6 +1,8 @@
+import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import { ANY_SYMBOL, THEME } from "src/app/shared/constants";
 
+import type { ISimpleChanges } from "../../../interfaces";
 import { ICounterTheme } from "../interfaces";
 
 @Component({
@@ -9,22 +11,34 @@ import { ICounterTheme } from "../interfaces";
 	styleUrls: ["./counter.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CounterComponent {
+export class CounterComponent implements OnChanges {
 	@Output() plusClicked = new EventEmitter();
 	@Output() minusClicked = new EventEmitter();
 	@Input() label = "";
-	@Input() count = 0;
+	@Input() value? = 0;
 	@Input() theme: ICounterTheme = "1";
+
+	count = 0;
 
 	get className() {
 		return `app-counter ${THEME.replace(ANY_SYMBOL, this.theme)} ${!this.count && "add"}`;
 	}
 
-	minus() {
+	ngOnChanges(changes: ISimpleChanges<CounterComponent>) {
+		if (!changes.value || !changes.value.currentValue) {
+			return;
+		}
+
+		this.count = changes.value.currentValue;
+	}
+
+	emitPlusClick() {
+		this.count++;
 		this.plusClicked.emit();
 	}
 
-	add() {
+	emitMinusClick() {
+		this.count--;
 		this.minusClicked.emit();
 	}
 }

@@ -16,7 +16,7 @@ export class AuthGuard implements CanActivate {
 	canActivate(activatedRouteSnapshot: IActivatedRouteSnapshot<{ roles: UserRoleEnum[] }>) {
 		const { fragment, queryParamMap } = activatedRouteSnapshot;
 
-		return this._authService.getMe().pipe(
+		return this._authService.me$.pipe(
 			map((user) => {
 				if (user && user.status === UserStatusEnum.Verified) {
 					return true;

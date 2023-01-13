@@ -12,7 +12,7 @@ import { IInputTheme, IInputType } from "../interfaces";
 	providers: getControlValueAccessorProviders(InputComponent),
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class InputComponent extends ControlValueAccessor<string> {
+export class InputComponent extends ControlValueAccessor<number | string> {
 	@Input() label = "";
 	@Input() theme: IInputTheme = "1";
 	@Input() type: IInputType = "input";

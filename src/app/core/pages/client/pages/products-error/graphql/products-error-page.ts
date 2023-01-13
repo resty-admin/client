@@ -15,7 +15,7 @@ export interface ProductsErrorPageQuery {
 		__typename?: "PaginatedProduct";
 		page: number;
 		totalCount: number;
-		data?: { __typename?: "ProductEntity"; id: string; name: string }[] | null;
+		data?: { __typename?: "ProductEntity"; id: string; name: string; price: number }[] | null;
 	};
 }
 
@@ -27,6 +27,7 @@ export const ProductsErrorPageDocument = gql`
 			data {
 				id
 				name
+				price
 			}
 		}
 	}

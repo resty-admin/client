@@ -1,5 +1,11 @@
 <ng-container *transloco="let t; read: activeOrderPageI18n">
 	<div class="active-order" *ngIf="order$ | async as order">
+		<app-preview-place class="place" [place]="order.place"></app-preview-place>
+
+		<a [routerLink]="clientRoutes.HALLS.absolutePath.replace(':placeId', order.place.id)">
+			<app-preview-table class="table" [table]="order.table"></app-preview-table>
+		</a>
+
 		<div class="products">
 			<app-users-select [users]="order.users" [formControl]="usersControl"></app-users-select>
 
@@ -11,7 +17,7 @@
 							<li class="user-to-order" *ngFor="let userToOrder of userToOrderByType.usersToOrders">
 								<app-product-to-order
 									[userToOrder]="userToOrder"
-									[isActive]="userToOrderByType.status !== 'PAID' && users?.includes(userToOrder.user.id)"
+									[isActive]="userToOrderByType.status !== 'PAID' && usersControl.value?.includes(userToOrder.user.id)"
 								></app-product-to-order>
 							</li>
 						</ul>

@@ -5,6 +5,23 @@ query ProductsPage($skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) {
 		data {
 			id
 			name
+			description
+			price
+		}
+	}
+}
+
+query ProductsPageOrder($orderId: String!) {
+	order(id: $orderId) {
+		id
+		usersToOrders {
+			user {
+				id
+			}
+			product {
+				id
+			}
+			count
 		}
 	}
 }

@@ -38,8 +38,8 @@
 		.image {
 			justify-self: center;
 			grid-area: image;
-			width: rem(150);
-			height: rem(150);
+			width: rem(250);
+			height: rem(250);
 		}
 
 		.tips {
@@ -52,7 +52,7 @@
 		}
 	}
 }
-@include dark () {
+@include dark() {
 	.payment-type {
 		.tips,
 		.subtitle {

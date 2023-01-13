@@ -5,6 +5,8 @@
 	"submit": "Submit",
 	"name_label": "Name",
 	"name_placeholder": "Enter name",
+	"description_label": "Description",
+	"description_placeholder": "Enter description",
 	"code_label": "Code",
 	"code_placeholder": "Enter code",
 	"email_label": "Email",

@@ -1,10 +1,4 @@
 <div class="category" *ngIf="category">
-	<app-image
-		class="image"
-		[fullMode]="true"
-		[remote]="true"
-		[name]="category.file?.url"
-		placeholder="category"
-	></app-image>
+	<app-image class="image" [remote]="true" [name]="category.file?.url" placeholder="category"></app-image>
 	<span class="name">{{ category.name }}</span>
 </div>

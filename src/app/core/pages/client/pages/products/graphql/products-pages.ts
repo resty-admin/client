@@ -15,7 +15,35 @@ export interface ProductsPageQuery {
 		__typename?: "PaginatedProduct";
 		page: number;
 		totalCount: number;
-		data?: { __typename?: "ProductEntity"; id: string; name: string }[] | null;
+		data?:
+			| {
+					__typename?: "ProductEntity";
+					id: string;
+					name: string;
+					description?: string | null;
+					price: number;
+			  }[]
+			| null;
+	};
+}
+
+export type ProductsPageOrderQueryVariables = Types.Exact<{
+	orderId: Types.Scalars["String"];
+}>;
+
+export interface ProductsPageOrderQuery {
+	__typename?: "Query";
+	order: {
+		__typename?: "ActiveOrderEntity";
+		id: string;
+		usersToOrders?:
+			| {
+					__typename?: "UserToOrderEntity";
+					count: number;
+					user: { __typename?: "UserEntity"; id: string };
+					product: { __typename?: "ProductEntity"; id: string };
+			  }[]
+			| null;
 	};
 }
 
@@ -27,6 +55,8 @@ export const ProductsPageDocument = gql`
 			data {
 				id
 				name
+				description
+				price
 			}
 		}
 	}
@@ -37,6 +67,33 @@ export const ProductsPageDocument = gql`
 })
 export class ProductsPageGQL extends Apollo.Query<ProductsPageQuery, ProductsPageQueryVariables> {
 	override document = ProductsPageDocument;
+
+	constructor(apollo: Apollo.Apollo) {
+		super(apollo);
+	}
+}
+export const ProductsPageOrderDocument = gql`
+	query ProductsPageOrder($orderId: String!) {
+		order(id: $orderId) {
+			id
+			usersToOrders {
+				user {
+					id
+				}
+				product {
+					id
+				}
+				count
+			}
+		}
+	}
+`;
+
+@Injectable({
+	providedIn: "root"
+})
+export class ProductsPageOrderGQL extends Apollo.Query<ProductsPageOrderQuery, ProductsPageOrderQueryVariables> {
+	override document = ProductsPageOrderDocument;
 
 	constructor(apollo: Apollo.Apollo) {
 		super(apollo);

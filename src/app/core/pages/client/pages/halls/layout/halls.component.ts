@@ -30,10 +30,11 @@ export class HallsComponent implements OnInit {
 
 	ngOnInit() {
 		this._routerService
-			.selectParams<{ placeId: string }>()
+			.selectParams(PLACE_ID.slice(1))
 			.pipe(untilDestroyed(this))
-			.subscribe(({ placeId }) => {
+			.subscribe(async (placeId) => {
 				this._breadcrumbsService.setBackUrl(CLIENT_ROUTES.DASHBOARD.absolutePath.replace(PLACE_ID, placeId));
+				await this._hallsPageQuery.setVariables({ filtersArgs: [{ key: "place.id", operator: "=", value: placeId }] });
 			});
 	}
 }

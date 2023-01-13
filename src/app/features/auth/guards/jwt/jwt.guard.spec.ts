@@ -1,6 +1,6 @@
 import { TestBed } from "@angular/core/testing";
 
-import { JwtGuard } from "./role.guard";
+import { JwtGuard } from "./jwt.guard";
 
 describe("JwtGuard", () => {
 	beforeEach(async () => {

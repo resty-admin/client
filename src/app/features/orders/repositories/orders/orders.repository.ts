@@ -4,30 +4,24 @@ import { persistState } from "@ngneat/elf-persist-state";
 import { includeKeys } from "elf-sync-state";
 import { LocalforageService } from "src/app/shared/modules/localforage";
 
-import type { ActiveOrderEntity } from "../../../../../graphql";
-
 export interface IOrdersState {
-	activeOrder?: ActiveOrderEntity | null;
+	activeOrderId?: string;
 }
 
 @Injectable({ providedIn: "root" })
 export class OrdersRepository {
-	private readonly _store = createStore({ name: "orders" }, withProps<IOrdersState>({ activeOrder: null }));
+	private readonly _store = createStore({ name: "orders" }, withProps<IOrdersState>({ activeOrderId: undefined }));
 
-	readonly persist = persistState(this._store, {
+	private readonly _persist = persistState(this._store, {
 		storage: LocalforageService.storage,
-		source: () => this._store.pipe(includeKeys(["activeOrder"]))
+		source: () => this._store.pipe(includeKeys(["activeOrderId"]))
 	});
 
 	readonly store$ = this._store.pipe(select((store) => store));
 
-	readonly activeOrder$ = this.store$.pipe(select((state) => state.activeOrder));
+	readonly activeOrderId$ = this.store$.pipe(select((state) => state.activeOrderId));
 
-	get activeOrder() {
-		return this._store.getValue().activeOrder;
-	}
-
-	updateActiveOrder(activeOrder?: any) {
-		return this._store.update(setProp("activeOrder", activeOrder));
+	setActiveOrderId(activeOrderId?: string) {
+		return this._store.update(setProp("activeOrderId", activeOrderId));
 	}
 }

@@ -1,87 +1,78 @@
 import { Injectable } from "@angular/core";
-import { map, of, switchMap, take, tap } from "rxjs";
 
-import type { CreateOrderInput, UpdateOrderInput } from "../../../../../graphql";
-import { ToastrService } from "../../../../shared/ui/toastr";
-import { AddUserToOrderGQL, CreateOrderGQL, OrderGQL, OrdersGQL, UpdateOrderGQL } from "../../graphql/orders";
+import type {
+	AddProductToOrderInput,
+	CreateOrderInput,
+	RemoveProductFromOrderInput,
+	UpdateOrderInput
+} from "../../../../../graphql";
+import {
+	AddProductToOrderGQL,
+	AddTableToOrderGQL,
+	AddUserToOrderGQL,
+	CloseOrderGQL,
+	CreateOrderGQL,
+	DeleteOrderGQL,
+	RemoveProductFromOrderGQL,
+	RemoveTableFromOrderGQL,
+	UpdateOrderGQL
+} from "../../graphql/orders";
 import { OrdersRepository } from "../../repositories";
 
 @Injectable({ providedIn: "root" })
 export class OrdersService {
-	private readonly _ordersQuery = this._ordersGQL.watch({ skip: 0, take: 5 });
-
-	readonly orders$ = this._ordersQuery.valueChanges.pipe(map((result) => result.data.orders.data));
-
-	readonly activeOrder$ = this._ordersRepository.activeOrder$;
+	readonly activeOrderId$ = this._ordersRepository.activeOrderId$;
 
 	constructor(
-		private readonly _toastrService: ToastrService,
 		private readonly _ordersRepository: OrdersRepository,
-		private readonly _ordersGQL: OrdersGQL,
-		private readonly _orderGQL: OrderGQL,
 		private readonly _createOrderGQL: CreateOrderGQL,
 		private readonly _updateOrderGQL: UpdateOrderGQL,
-		private readonly _addUserToOrderGQL: AddUserToOrderGQL
+		private readonly _deleteOrderGQL: DeleteOrderGQL,
+		private readonly _closeOrderGQL: CloseOrderGQL,
+		private readonly _addUserToOrderGQL: AddUserToOrderGQL,
+		private readonly _addTableToOrderGQL: AddTableToOrderGQL,
+		private readonly _removeTableFromOrdeGQL: RemoveTableFromOrderGQL,
+		private readonly _addProductToOrderGQL: AddProductToOrderGQL,
+		private readonly _removeProductFromOrderGQL: RemoveProductFromOrderGQL
 	) {}
 
-	setActiveOrder(order: any) {
-		this._ordersRepository.updateActiveOrder(order);
+	setActiveOrderId(orderId?: string) {
+		return this._ordersRepository.setActiveOrderId(orderId);
 	}
 
 	createOrder(order: CreateOrderInput) {
-		return this._createOrderGQL.mutate({ order }).pipe(
-			take(1),
-			this._toastrService.observe("Заказ"),
-			tap(async () => {
-				await this._ordersQuery.refetch();
-			}),
-			map((result) => result.data?.createOrder),
-			tap((order) => {
-				this._ordersRepository.updateActiveOrder(order);
-			})
-		);
+		return this._createOrderGQL.mutate({ order });
 	}
 
 	updateOrder(order: UpdateOrderInput) {
-		return this._updateOrderGQL.mutate({ order }).pipe(
-			take(1),
-			this._toastrService.observe("Заказ"),
-			tap(async () => {
-				await this._ordersQuery.refetch();
-			})
-		);
+		return this._updateOrderGQL.mutate({ order });
 	}
 
-	addProductToOrder(product: any) {
-		console.log(product);
-		return this.activeOrder$.pipe(take(1), take(1));
+	deleteOrder(orderId: string) {
+		return this._deleteOrderGQL.mutate({ orderId });
 	}
 
-	removeUserProductInOrder(userToOrderId: string) {
-		console.log(userToOrderId);
-		return of(null).pipe(take(1)) as any;
-	}
-
-	updateUserProductInOrder(userToOrder: any) {
-		console.log(userToOrder);
-		return of(null).pipe(take(1)) as any;
+	closeOrder(orderId: string) {
+		return this._closeOrderGQL.mutate({ orderId });
 	}
 
 	addUserToOrder(code: number) {
-		return this._addUserToOrderGQL.mutate({ code }).pipe(
-			take(1),
-			map((result) => result.data?.addUserToOrder)
-		);
+		return this._addUserToOrderGQL.mutate({ code });
 	}
 
-	updateActiveOrder(order: any) {
-		return this.activeOrder$.pipe(
-			take(1),
-			switchMap(({ id }: any) => this.updateOrder({ id, ...order }))
-		);
+	addTableToOrder(orderId: string, tableId: string) {
+		return this._addTableToOrderGQL.mutate({ orderId, tableId });
 	}
 
-	getOrder(orderId: string) {
-		return this._orderGQL.watch({ orderId }).valueChanges.pipe(map((result) => result.data.order));
+	removeTableFromOrder(orderId: string) {
+		return this._removeTableFromOrdeGQL.mutate({ orderId });
+	}
+
+	addProductToOrder(productToOrder: AddProductToOrderInput) {
+		return this._addProductToOrderGQL.mutate({ productToOrder });
+	}
+
+	removeProductFromOrder(productFromOrder: RemoveProductFromOrderInput) {
+		return this._removeProductFromOrderGQL.mutate({ productFromOrder });
 	}
 }

@@ -7,7 +7,7 @@
 		row-gap: rem(24);
 		.products {
 			display: grid;
-			row-gap: rem(12);
+			row-gap: rem(24);
 			.users-to-orders-by-type {
 				display: grid;
 				row-gap: rem(12);
@@ -29,7 +29,7 @@
 		}
 	}
 }
-@include dark () {
+@include dark() {
 	.active-order .products .users-to-orders-by-type .user-to-order-by-type .status {
 		color: var(--light);
 	}

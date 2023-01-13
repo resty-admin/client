@@ -1,0 +1,7 @@
+query ClientPage($orderId: String!) {
+	order(id: $orderId) {
+		type
+		id
+		code
+	}
+}

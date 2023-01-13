@@ -21,7 +21,6 @@ export class ImageComponent implements OnChanges {
 	@Input() format: "png" | "svg" = "png";
 	@Input() remote = false;
 	@Input() placeholder = "";
-	@Input() fullMode = false;
 
 	private _src = "";
 	private _placeholder = "";

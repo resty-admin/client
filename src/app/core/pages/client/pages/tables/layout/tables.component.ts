@@ -33,8 +33,9 @@ export class TablesComponent implements OnInit {
 		this._routerService
 			.selectParams()
 			.pipe(untilDestroyed(this))
-			.subscribe(({ placeId }) => {
+			.subscribe(async ({ placeId, hallId }) => {
 				this._breadcrumbsService.setBackUrl(CLIENT_ROUTES.HALLS.absolutePath.replace(PLACE_ID, placeId));
+				await this._tablesPageQuery.setVariables({ filtersArgs: [{ key: "hall.id", operator: "=", value: hallId }] });
 			});
 	}
 }

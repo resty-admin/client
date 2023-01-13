@@ -4,7 +4,7 @@
 	.referral-link {
 		height: 100%;
 		display: grid;
-		grid-template-rows: auto auto auto auto 1fr auto;
+		grid-template-rows: auto auto auto 1fr auto;
 		row-gap: rem(10);
 
 		@include pagePadding();
@@ -13,6 +13,17 @@
 			width: rem(40);
 			height: rem(40);
 			background-color: var(--primary);
+		}
+
+		.image {
+			width: rem(250);
+			height: rem(250);
+			margin: 0 auto;
+			align-self: center;
+
+			@include image() {
+				object-fit: contain;
+			}
 		}
 
 		.input {

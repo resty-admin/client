@@ -1,70 +1,5 @@
-query Orders($take: Int!, $skip: Int!, $filtersArgs: [FiltersArgsDto!]) {
-	orders(take: $take, skip: $skip, filtersArgs: $filtersArgs) {
-		page
-		totalCount
-		data {
-			code
-			id
-			totalPrice
-			type
-			place {
-				id
-				name
-				file {
-					url
-				}
-			}
-		}
-	}
-}
-
-query Order($orderId: String!) {
-	order(id: $orderId) {
-		id
-		code
-		type
-		status
-		totalPrice
-		users {
-			id
-			name
-		}
-		usersToOrders {
-			id
-			count
-			status
-			product {
-				id
-				name
-				price
-				description
-				file {
-					id
-					url
-				}
-			}
-			user {
-				id
-				name
-			}
-		}
-		place {
-			id
-			name
-			file {
-				url
-			}
-		}
-		table {
-			id
-			name
-		}
-	}
-}
-
-mutation AddUserToOrder($code: Int!) {
-	addUserToOrder(code: $code) {
-		code
+mutation CreateOrder($order: CreateOrderInput!) {
+	createOrder(order: $order) {
 		id
 	}
 }
@@ -72,29 +7,43 @@ mutation AddUserToOrder($code: Int!) {
 mutation UpdateOrder($order: UpdateOrderInput!) {
 	updateOrder(order: $order) {
 		id
-		code
-		status
-		type
 	}
 }
 
-mutation CreateOrder($order: CreateOrderInput!) {
-	createOrder(order: $order) {
+mutation DeleteOrder($orderId: String!) {
+	deleteOrder(orderId: $orderId)
+}
+
+mutation CloseOrder($orderId: String!) {
+	closeOrder(orderId: $orderId)
+}
+
+mutation AddUserToOrder($code: Int!) {
+	addUserToOrder(code: $code) {
 		id
-		code
-		type
-		status
-		totalPrice
-		table {
-			id
-			name
-		}
-		place {
-			id
-			name
-		}
-		place {
-			id
-		}
+	}
+}
+
+mutation AddTableToOrder($orderId: String!, $tableId: String!) {
+	addTableToOrder(orderId: $orderId, tableId: $tableId) {
+		id
+	}
+}
+
+mutation RemoveTableFromOrder($orderId: String!) {
+	removeTableFromOrder(orderId: $orderId) {
+		id
+	}
+}
+
+mutation AddProductToOrder($productToOrder: AddProductToOrderInput!) {
+	addProductToOrder(productToOrder: $productToOrder) {
+		id
+	}
+}
+
+mutation RemoveProductFromOrder($productFromOrder: RemoveProductFromOrderInput!) {
+	removeProductFromOrder(productFromOrder: $productFromOrder) {
+		id
 	}
 }

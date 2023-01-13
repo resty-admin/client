@@ -1,23 +1,22 @@
-import type { OnInit } from "@angular/core";
+import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { take } from "rxjs";
 
 import { ActionsService } from "../../../../../../features/app";
 import { AuthService } from "../../../../../../features/auth/services";
+import { CLIENT_ROUTES } from "../../../../../../shared/constants";
 import { RouterService } from "../../../../../../shared/modules/router";
 import { FORM_I18N } from "../../../../../constants";
 import { WELCOME_PAGE_I18N } from "../constants";
 
-@UntilDestroy()
 @Component({
 	selector: "app-welcome",
 	templateUrl: "./welcome.component.html",
 	styleUrls: ["./welcome.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class WelcomeComponent implements OnInit {
+export class WelcomeComponent implements OnInit, OnDestroy {
 	readonly welcomePageI18n = WELCOME_PAGE_I18N;
 	readonly formI18n = FORM_I18N;
 	readonly nameControl = new FormControl<string>();
@@ -31,22 +30,19 @@ export class WelcomeComponent implements OnInit {
 	ngOnInit() {
 		this._actionsService.setAction({
 			label: "Подтвердить",
-			action: () => this.updateUser()
+			action: () => {
+				this._authService
+					.updateMe({ name: this.nameControl.value })
+					.pipe(take(1))
+					.subscribe(async () => {
+						await this._authService.getMeQuery.refetch();
+						await this._routerService.navigateByUrl(CLIENT_ROUTES.PLACES.absolutePath);
+					});
+			}
 		});
-
-		this._authService
-			.getMe()
-			.pipe(untilDestroyed(this))
-			.subscribe((me) => {
-				if (!me) {
-					return;
-				}
-
-				this.nameControl.setValue(me.name);
-			});
 	}
 
-	updateUser() {
-		this._authService.updateMe({ name: this.nameControl.value }).pipe(take(1)).subscribe();
+	ngOnDestroy() {
+		this._actionsService.setAction(null);
 	}
 }

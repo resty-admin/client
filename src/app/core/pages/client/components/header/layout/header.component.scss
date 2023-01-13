@@ -1,6 +1,6 @@
 @import "/src/assets/scss/abstractions/index";
 
-@include component () {
+@include component() {
 	.header {
 		position: relative;
 		display: flex;
@@ -18,7 +18,7 @@
 
 		.active-order {
 			display: flex;
-			justify-content: end;
+			justify-content: space-between;
 			align-items: center;
 			height: rem(40);
 			border-radius: rem(12);

@@ -30,10 +30,14 @@ export class CategoriesComponent implements OnInit {
 
 	ngOnInit() {
 		this._routerService
-			.selectParams()
+			.selectParams(PLACE_ID.slice(1))
 			.pipe(untilDestroyed(this))
-			.subscribe(({ placeId }) => {
+			.subscribe(async (placeId) => {
 				this._breadcrumbsService.setBackUrl(CLIENT_ROUTES.DASHBOARD.absolutePath.replace(PLACE_ID, placeId));
+
+				await this._categoriesPageQuery.setVariables({
+					filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
+				});
 			});
 	}
 }

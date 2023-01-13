@@ -1,14 +1,14 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { map, take } from "rxjs";
-import { CATEGORY_ID, PLACE_ID } from "src/app/shared/constants";
+import { combineLatest, map, switchMap, take } from "rxjs";
+import { CATEGORY_ID, DYNAMIC_ID, PLACE_ID } from "src/app/shared/constants";
 import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
 
 import { ActionsService } from "../../../../../../features/app";
+import { OrdersService } from "../../../../../../features/orders";
 import { FORM_I18N } from "../../../../../constants";
 import { PRODUCT_PAGE_I18N } from "../constants";
 import { ProductPageGQL } from "../graphql/product-page";
@@ -44,15 +44,15 @@ export class ProductComponent implements OnInit, OnDestroy {
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _actionsService: ActionsService,
-		private readonly _activatedRoute: ActivatedRoute
+		private readonly _ordersService: OrdersService
 	) {}
 
 	ngOnInit() {
 		this._routerService
 			.selectParams()
 			.pipe(untilDestroyed(this))
-			.subscribe(async ({ placeId, categoryId, dynamicId }) => {
-				await this._productPageQuery.setVariables({ productId: dynamicId });
+			.subscribe(async ({ placeId, categoryId, id }) => {
+				await this._productPageQuery.setVariables({ productId: id });
 
 				this._breadcrumbsService.setBackUrl(
 					CLIENT_ROUTES.PRODUCTS.absolutePath.replace(PLACE_ID, placeId).replace(CATEGORY_ID, categoryId)
@@ -61,13 +61,24 @@ export class ProductComponent implements OnInit, OnDestroy {
 
 		this._actionsService.setAction({
 			label: "Подтвердить",
-			action: () =>
-				this.product$.pipe(take(1)).subscribe(async () => {
-					const { categoryId, placeId } = this._activatedRoute.snapshot.params;
-					await this._routerService.navigateByUrl(
-						CLIENT_ROUTES.PRODUCTS.absolutePath.replace(PLACE_ID, placeId).replace(CATEGORY_ID, categoryId)
-					);
-				})
+			action: () => {
+				combineLatest([this.product$, this._ordersService.activeOrderId$])
+					.pipe(
+						take(1),
+						switchMap(([product, activeOrderId]) =>
+							this._ordersService.addProductToOrder({ productId: product.id, orderId: activeOrderId! })
+						),
+						take(1),
+						map((result) => result.data?.addProductToOrder)
+					)
+					.subscribe(async () => {
+						const { id, categoryId } = this._routerService.getParams();
+
+						await this._routerService.navigateByUrl(
+							CLIENT_ROUTES.PRODUCTS.absolutePath.replace(CATEGORY_ID, categoryId).replace(DYNAMIC_ID, id)
+						);
+					});
+			}
 		});
 	}
 

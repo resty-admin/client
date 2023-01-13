@@ -1,23 +1,29 @@
 <ng-container *transloco="let t; read: historyOrderPageI18n">
-	<div class="history-order" *ngIf="order$ | async as order">
-		<app-image class="image" [remote]="true" [name]="order.place.file?.url"></app-image>
+	<div class="active-order" *ngIf="order$ | async as order">
+		<app-preview-place class="place" [place]="order.place"></app-preview-place>
 
-		<div class="content">
-			<div class="table" *ngIf="order.table">
-				<h2 class="subtitle" appTypography theme="3">{{ t("table") }}</h2>
+		<a [routerLink]="clientRoutes.HALLS.absolutePath.replace(':placeId', order.place.id)">
+			<app-preview-table class="table" [table]="order.table"></app-preview-table>
+		</a>
 
-				<app-preview-table *ngIf="order.table" [table]="order.table"></app-preview-table>
-			</div>
+		<div class="products">
+			<app-users-select [users]="order.users" [formControl]="usersControl"></app-users-select>
 
-			<div class="products" *ngIf="order.usersToOrders?.length">
-				<app-users-select [users]="order.users" [formControl]="usersControl"></app-users-select>
-
-				<ul class="products-list">
-					<li class="product" *ngFor="let userToOrder of order.usersToOrders">
-						<app-product-to-order [userToOrder]="userToOrder"></app-product-to-order>
-					</li>
-				</ul>
-			</div>
+			<ul class="users-to-orders-by-type">
+				<li class="user-to-order-by-type" *ngFor="let userToOrderByType of order.usersToOrdersByType">
+					<ng-container *ngIf="userToOrderByType.usersToOrders?.length">
+						<p class="status">{{ userToOrderByType.status }}</p>
+						<ul class="users-to-orders">
+							<li class="user-to-order" *ngFor="let userToOrder of userToOrderByType.usersToOrders">
+								<app-product-to-order
+									[userToOrder]="userToOrder"
+									[isActive]="userToOrderByType.status !== 'PAID' && usersControl.value?.includes(userToOrder.user.id)"
+								></app-product-to-order>
+							</li>
+						</ul>
+					</ng-container>
+				</li>
+			</ul>
 		</div>
 	</div>
 </ng-container>
