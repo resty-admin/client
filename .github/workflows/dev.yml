@@ -36,8 +36,7 @@ jobs:
 
             doctl registry login
             isDisabled=true
-            while $do; do
-            do=false
+            while $isDisabled; do
             if doctl registry garbage-collection get-active; then
               echo "already running"
             else
