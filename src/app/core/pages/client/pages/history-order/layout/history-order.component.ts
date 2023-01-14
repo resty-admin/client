@@ -2,7 +2,7 @@ import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { map, shareReplay, take } from "rxjs";
+import { map, take } from "rxjs";
 import { OrdersService } from "src/app/features/orders";
 import { DYNAMIC_ID, PLACE_ID } from "src/app/shared/constants";
 import { CLIENT_ROUTES } from "src/app/shared/constants";
@@ -34,8 +34,7 @@ export class HistoryOrderComponent implements OnInit, OnDestroy {
 				status,
 				usersToOrders: order.usersToOrders?.filter((userToOrder) => userToOrder.status === status)
 			}))
-		})),
-		shareReplay({ refCount: true })
+		}))
 	);
 
 	readonly displayStatuses = [

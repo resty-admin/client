@@ -1,7 +1,7 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy } from "@ngneat/until-destroy";
-import { filter, map, shareReplay, switchMap, take } from "rxjs";
+import { filter, map, switchMap, take } from "rxjs";
 
 import { AsideService } from "../../../../features/app";
 import { AuthService } from "../../../../features/auth/services";
@@ -19,13 +19,12 @@ import { ClientPageGQL } from "../graphql/client-page";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ClientComponent implements OnInit {
-	readonly isAsideOpen$ = this._asideService.isOpen$.pipe(shareReplay({ refCount: true }));
-	readonly user$ = this._authService.me$.pipe(shareReplay({ refCount: true }));
+	readonly isAsideOpen$ = this._asideService.isOpen$;
+	readonly user$ = this._authService.me$;
 	readonly activeOrder$ = this._ordersService.activeOrderId$.pipe(
 		filter((orderId) => Boolean(orderId)),
 		switchMap((orderId) => this._clientPageGQL.watch({ orderId: orderId! }).valueChanges),
-		map((result) => result.data.order),
-		shareReplay({ refCount: true })
+		map((result) => result.data.order)
 	);
 
 	readonly profileActions: IAction<any>[] = [

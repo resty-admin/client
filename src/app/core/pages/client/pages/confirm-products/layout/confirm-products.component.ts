@@ -1,7 +1,7 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { filter, map, shareReplay, switchMap, take } from "rxjs";
+import { filter, map, switchMap, take } from "rxjs";
 import { DYNAMIC_ID, PLACE_ID } from "src/app/shared/constants";
 import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
@@ -29,10 +29,7 @@ export type IConfirmProductsMap = Record<
 export class ConfirmProductsComponent implements OnInit, OnDestroy {
 	readonly confirmProductsPageI18n = CONFIRM_PRODUCTS_PAGE_I18N;
 	private readonly _confirmProductsPageQuery = this._confirmProductsPageGQL.watch();
-	private readonly _order$ = this._confirmProductsPageQuery.valueChanges.pipe(
-		map((result) => result.data.order),
-		shareReplay({ refCount: true })
-	);
+	private readonly _order$ = this._confirmProductsPageQuery.valueChanges.pipe(map((result) => result.data.order));
 
 	readonly products$ = this._order$.pipe(
 		map((order) =>

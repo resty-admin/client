@@ -2,7 +2,7 @@ import { Clipboard } from "@angular/cdk/clipboard";
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { filter, map, shareReplay, switchMap } from "rxjs";
+import { filter, map, switchMap } from "rxjs";
 
 import { OrderTypeEnum } from "../../../../../../../graphql";
 import { ActionsService } from "../../../../../../features/app";
@@ -27,8 +27,7 @@ export class ReferralLinkComponent implements OnInit, OnDestroy {
 	readonly activeOrder$ = this._ordersService.activeOrderId$.pipe(
 		filter((orderId) => Boolean(orderId)),
 		switchMap((orderId) => this._referralLinkPageGQL.watch({ orderId: orderId! }).valueChanges),
-		map((result) => result.data.order),
-		shareReplay({ refCount: true })
+		map((result) => result.data.order)
 	);
 
 	constructor(

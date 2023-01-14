@@ -1,6 +1,6 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { map, shareReplay } from "rxjs";
+import { map } from "rxjs";
 import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 
@@ -22,7 +22,7 @@ export class AllOrdersComponent implements OnInit, OnDestroy {
 	readonly dynamicId = DYNAMIC_ID;
 
 	private readonly _allOrdersPageQuery = this._allOrdersPageGQL.watch();
-	private readonly _allOrders$ = this._allOrdersPageQuery.valueChanges.pipe(shareReplay({ refCount: true }));
+	private readonly _allOrders$ = this._allOrdersPageQuery.valueChanges;
 	readonly historyOrders$ = this._allOrders$.pipe(map((result) => result.data.historyOrders.data));
 	readonly orders$ = this._allOrders$.pipe(map((result) => result.data.orders.data));
 

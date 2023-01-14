@@ -1,7 +1,7 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { map, shareReplay, switchMap, take } from "rxjs";
+import { map, switchMap, take } from "rxjs";
 import { combineLatest } from "rxjs";
 import { DYNAMIC_ID, HALL_ID, PLACE_ID } from "src/app/shared/constants";
 import { CLIENT_ROUTES } from "src/app/shared/constants";
@@ -24,10 +24,7 @@ export class TableComponent implements OnInit, OnDestroy {
 	readonly tablePageI18n = TABLE_PAGE_I18N;
 
 	private readonly _tablePageQuery = this._tablePageGQL.watch();
-	readonly table$ = this._tablePageQuery.valueChanges.pipe(
-		map((result) => result.data.table),
-		shareReplay({ refCount: true })
-	);
+	readonly table$ = this._tablePageQuery.valueChanges.pipe(map((result) => result.data.table));
 
 	constructor(
 		private readonly _tablePageGQL: TablePageGQL,
