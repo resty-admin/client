@@ -1,0 +1,25 @@
+query ConfirmProductsPage($orderId: String!) {
+	order(id: $orderId) {
+		id
+		place {
+			id
+		}
+		usersToOrders {
+			count
+			user {
+				id
+			}
+			product {
+				id
+				name
+				description
+				price
+			}
+			attributes {
+				id
+				name
+				price
+			}
+		}
+	}
+}

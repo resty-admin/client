@@ -2,7 +2,7 @@ import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { PLACE_ID } from "src/app/shared/constants";
+import { DYNAMIC_ID, PLACE_ID } from "src/app/shared/constants";
 import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
@@ -37,21 +37,22 @@ export class ConnectToOrderComponent implements OnInit, OnDestroy {
 				this._breadcrumbsService.setBackUrl(CLIENT_ROUTES.DASHBOARD.absolutePath.replace(PLACE_ID, placeId));
 
 				this._actionsService.setAction({
-					label: "Отправить",
+					label: "Подключиться",
 					action: () => {
-						// this._ordersService
-						// 	.addUserToOrder(Number.parseInt(`${this.codeControl.value}`))
-						// 	.subscribe(async (order: any) => {
-						// 		await this._routerService.navigateByUrl(
-						// 			CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(DYNAMIC_ID, order.id)
-						// 		);
-						// 	});
+						this._ordersService
+							.addUserToOrder(Number.parseInt(`${this.codeControl.value}`))
+							.subscribe(async (order: any) => {
+								await this._routerService.navigateByUrl(
+									CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(DYNAMIC_ID, order.id)
+								);
+							});
 					}
 				});
 			});
 	}
 
 	ngOnDestroy() {
+		this._breadcrumbsService.setBackUrl(null);
 		this._actionsService.setAction(null);
 	}
 }

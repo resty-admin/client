@@ -1,10 +1,12 @@
-import type { OnInit } from "@angular/core";
+import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { map, shareReplay } from "rxjs";
 import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 
+import { ActionsService } from "../../../../../../features/app";
 import { DYNAMIC_ID } from "../../../../../../shared/constants";
+import { RouterService } from "../../../../../../shared/modules/router";
 import { ALL_ORDERS_PAGE_I18N } from "../constants";
 import { AllOrdersPageGQL } from "../graphql/all-orders-page";
 
@@ -14,7 +16,7 @@ import { AllOrdersPageGQL } from "../graphql/all-orders-page";
 	styleUrls: ["./all-orders.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AllOrdersComponent implements OnInit {
+export class AllOrdersComponent implements OnInit, OnDestroy {
 	readonly allOrdersPageI18n = ALL_ORDERS_PAGE_I18N;
 	readonly clienRoutes = CLIENT_ROUTES;
 	readonly dynamicId = DYNAMIC_ID;
@@ -26,10 +28,23 @@ export class AllOrdersComponent implements OnInit {
 
 	constructor(
 		private readonly _allOrdersPageGQL: AllOrdersPageGQL,
-		private readonly _breadcrumbsService: BreadcrumbsService
+		private readonly _breadcrumbsService: BreadcrumbsService,
+		private readonly _actionsService: ActionsService,
+		private readonly _routerService: RouterService
 	) {}
 
 	ngOnInit() {
 		this._breadcrumbsService.setBackUrl(CLIENT_ROUTES.PLACES.absolutePath);
+		this._actionsService.setAction({
+			label: "Создать заказ",
+			action: async () => {
+				await this._routerService.navigateByUrl(CLIENT_ROUTES.PLACES.absolutePath);
+			}
+		});
+	}
+
+	ngOnDestroy() {
+		this._breadcrumbsService.setBackUrl(null);
+		this._actionsService.setAction(null);
 	}
 }

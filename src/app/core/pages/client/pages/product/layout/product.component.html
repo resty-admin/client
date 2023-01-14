@@ -13,7 +13,12 @@
 				<div class="attrGroup" *ngFor="let attrGroup of product.attrsGroups">
 					<p class="label">{{ attrGroup.name }}</p>
 
-					<app-radio-button theme="2" class="radio" [options]="attrGroup.attributes"></app-radio-button>
+					<app-radio-button
+						theme="2"
+						class="radio"
+						[options]="attrGroup.attributes"
+						[formControl]="attributesFormControl"
+					></app-radio-button>
 				</div>
 			</div>
 

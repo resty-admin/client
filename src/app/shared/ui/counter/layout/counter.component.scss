@@ -1,40 +1,79 @@
 @import "src/assets/scss/abstractions";
 
 @include component() {
-	.app-counter.theme-1 {
-		display: flex;
-		align-items: center;
-		background-color: var(--primary);
-		border-radius: rem(50);
-		height: rem(40);
-		column-gap: rem(5);
-
-		&.add {
-			.count,
-			.minus {
-				display: none;
-			}
-		}
-
-		.count,
-		.button {
+	.app-counter {
+		&.theme-1 {
 			display: flex;
-			justify-content: center;
 			align-items: center;
-			&.button {
-				height: 100%;
-				width: rem(40);
-				.icon {
-					width: rem(20);
-					height: rem(20);
+			background-color: var(--light);
+			border-radius: rem(50);
+
+			&.add {
+				background-color: var(--primary);
+				.count,
+				.minus {
+					display: none;
 				}
 			}
-			&.count {
-				height: 100%;
-				font-weight: 500;
-				font-size: rem(16);
-				line-height: rem(16);
-				color: var(--dark);
+
+			.count,
+			.button {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				&.button {
+					width: rem(36);
+					height: rem(36);
+					.icon {
+						width: rem(12);
+						height: rem(12);
+					}
+				}
+				&.count {
+					width: rem(24);
+					height: 100%;
+					font-weight: 500;
+					font-size: rem(16);
+					line-height: rem(16);
+					color: var(--dark);
+				}
+			}
+		}
+		&.theme-2 {
+			display: flex;
+			align-items: center;
+			background-color: var(--light-grey);
+			border-radius: rem(50);
+
+			&.add {
+				background-color: var(--primary);
+				.count,
+				.minus {
+					display: none;
+				}
+			}
+
+			.count,
+			.button {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				&.button {
+					width: rem(36);
+					height: rem(36);
+					.icon {
+						width: rem(12);
+						height: rem(12);
+					}
+				}
+				&.count {
+					width: rem(24);
+					height: 100%;
+					font-weight: 500;
+					font-size: rem(16);
+					line-height: rem(16);
+					color: var(--dark);
+				}
 			}
 		}
 	}

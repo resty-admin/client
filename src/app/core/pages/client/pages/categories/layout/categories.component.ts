@@ -1,4 +1,4 @@
-import type { OnInit } from "@angular/core";
+import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { map } from "rxjs";
@@ -17,7 +17,7 @@ import { CategoriesPageGQL } from "../graphql/categories-page";
 	styleUrls: ["./categories.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CategoriesComponent implements OnInit {
+export class CategoriesComponent implements OnInit, OnDestroy {
 	readonly categoriesPageI18n = CATEGORIES_PAGE_I18N;
 	private readonly _categoriesPageQuery = this._categoriesPageGQL.watch();
 	readonly categories$ = this._categoriesPageQuery.valueChanges.pipe(map((result) => result.data.categories.data));
@@ -39,5 +39,9 @@ export class CategoriesComponent implements OnInit {
 					filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
 				});
 			});
+	}
+
+	ngOnDestroy() {
+		this._breadcrumbsService.setBackUrl(null);
 	}
 }

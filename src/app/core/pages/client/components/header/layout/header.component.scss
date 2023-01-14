@@ -6,7 +6,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		column-gap: rem(16);
+		column-gap: rem(8);
 		padding: rem(8) rem(16);
 		background-color: var(--light-grey);
 		box-shadow: 0 rem(4) rem(20) rgb(0 0 0 / 10%);
@@ -37,36 +37,38 @@
 				font-size: rem(12);
 				line-height: rem(16);
 				color: var(--dark);
+				font-weight: 500;
 			}
 
 			.type {
 				font-size: rem(12);
 				line-height: rem(16);
+				font-weight: 500;
 			}
 
 			&.DELIVERY {
-				background-color: rgb(109 185 255 / 10%);
+				background-color: rgb(109 185 255 / 20%);
 				.type {
 					color: #6db9ff;
 				}
 			}
 
 			&.IN_PLACE {
-				background-color: rgb(223 134 0 / 10%);
+				background-color: rgb(223 134 0 / 20%);
 				.type {
 					color: #df8600;
 				}
 			}
 
 			&.PICKUP {
-				background-color: rgb(0 144 7 / 10%);
+				background-color: rgb(0 144 7 / 20%);
 				.type {
 					color: #009007;
 				}
 			}
 
 			&.RESERVE {
-				background-color: rgb(144 111 216 / 10%);
+				background-color: rgb(144 111 216 / 20%);
 				.type {
 					color: #906fd8;
 				}

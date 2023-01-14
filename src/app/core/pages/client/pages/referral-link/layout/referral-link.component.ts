@@ -1,5 +1,5 @@
 import { Clipboard } from "@angular/cdk/clipboard";
-import type { OnInit } from "@angular/core";
+import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { filter, map, shareReplay, switchMap } from "rxjs";
@@ -22,7 +22,7 @@ import { ReferralLinkPageGQL } from "../graphql/referral-link-page";
 	styleUrls: ["./referral-link.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ReferralLinkComponent implements OnInit {
+export class ReferralLinkComponent implements OnInit, OnDestroy {
 	readonly referralLinkPageI18n = REFERRAL_LINK_PAGE_I18N;
 	readonly activeOrder$ = this._ordersService.activeOrderId$.pipe(
 		filter((orderId) => Boolean(orderId)),
@@ -76,5 +76,10 @@ export class ReferralLinkComponent implements OnInit {
 				}
 			});
 		});
+	}
+
+	ngOnDestroy() {
+		this._breadcrumbsService.setBackUrl(null);
+		this._actionsService.setAction(null);
 	}
 }

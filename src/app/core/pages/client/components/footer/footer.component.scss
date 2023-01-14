@@ -10,7 +10,7 @@
 			width: rem(50);
 			height: rem(50);
 			border-radius: rem(12);
-			background-color: var(--dark);
+			background-color: var(--light-grey);
 			display: flex;
 			align-items: center;
 			justify-content: center;
@@ -19,7 +19,26 @@
 				height: rem(35);
 				&::ng-deep {
 					svg {
-						stroke: var(--primary);
+						stroke: var(--dark);
+					}
+				}
+			}
+		}
+
+		.basket {
+			width: rem(50);
+			height: rem(50);
+			border-radius: rem(12);
+			background-color: var(--light-grey);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			.icon {
+				width: rem(35);
+				height: rem(35);
+				&::ng-deep {
+					svg {
+						fill: var(--dark);
 					}
 				}
 			}

@@ -1,4 +1,4 @@
-import type { OnInit } from "@angular/core";
+import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { map } from "rxjs";
@@ -17,7 +17,7 @@ import { HallsPageGQL } from "../graphql/halls-page";
 	styleUrls: ["./halls.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HallsComponent implements OnInit {
+export class HallsComponent implements OnInit, OnDestroy {
 	readonly hallsPageI18n = HALLS_PAGE_I18N;
 	private readonly _hallsPageQuery = this._hallsPageGQL.watch();
 	readonly halls$ = this._hallsPageQuery.valueChanges.pipe(map((result) => result.data.halls.data));
@@ -36,5 +36,9 @@ export class HallsComponent implements OnInit {
 				this._breadcrumbsService.setBackUrl(CLIENT_ROUTES.DASHBOARD.absolutePath.replace(PLACE_ID, placeId));
 				await this._hallsPageQuery.setVariables({ filtersArgs: [{ key: "place.id", operator: "=", value: placeId }] });
 			});
+	}
+
+	ngOnDestroy() {
+		this._breadcrumbsService.setBackUrl(null);
 	}
 }

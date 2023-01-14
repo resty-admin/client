@@ -72,6 +72,7 @@ export class TableComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy() {
+		this._breadcrumbsService.setBackUrl(null);
 		this._actionsService.setAction(null);
 	}
 }

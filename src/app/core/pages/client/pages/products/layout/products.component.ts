@@ -1,13 +1,15 @@
-import type { OnInit } from "@angular/core";
+import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { filter, map, switchMap, take } from "rxjs";
-import { PLACE_ID } from "src/app/shared/constants";
+import { DYNAMIC_ID, PLACE_ID } from "src/app/shared/constants";
 import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
 
+import { ActionsService } from "../../../../../../features/app";
 import { OrdersService } from "../../../../../../features/orders";
+import type { IEmit } from "../../../../../../features/products";
 import { PRODUCTS_PAGE_I18N } from "../constants";
 import { ProductsPageGQL, ProductsPageOrderGQL } from "../graphql/products-pages";
 
@@ -18,7 +20,7 @@ import { ProductsPageGQL, ProductsPageOrderGQL } from "../graphql/products-pages
 	styleUrls: ["./products.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductsComponent implements OnInit {
+export class ProductsComponent implements OnInit, OnDestroy {
 	readonly productsPageI18n = PRODUCTS_PAGE_I18N;
 	private readonly _productsPageQuery = this._productsPageGQL.watch();
 	private readonly _productsPageOrderQuery = this._productsPageOrderGQL.watch();
@@ -31,9 +33,7 @@ export class ProductsComponent implements OnInit {
 				map((order) =>
 					products!.map((product) => ({
 						...product,
-						count: (order.usersToOrders || [])
-							.filter((userToOrder) => product.id === userToOrder.product.id)
-							.reduce((pre: any, curr: any) => pre + curr.count, 0)
+						usersToOrders: (order.usersToOrders || []).filter((userToOrder) => userToOrder.product.id === product.id)
 					}))
 				)
 			)
@@ -45,28 +45,39 @@ export class ProductsComponent implements OnInit {
 		private readonly _productsPageOrderGQL: ProductsPageOrderGQL,
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
-		private readonly _ordersService: OrdersService
+		private readonly _ordersService: OrdersService,
+		private readonly _actionsService: ActionsService
 	) {}
 
-	removeProductFromOrder(productId: string) {
+	removeProductFromOrder({ productId, attributesIds }: IEmit) {
 		this._ordersService.activeOrderId$
 			.pipe(
 				take(1),
 				filter((activeOrderId) => Boolean(activeOrderId)),
 				switchMap((activeOrderId) =>
-					this._ordersService.removeProductFromOrder({ productId, orderId: activeOrderId! })
+					this._ordersService.removeProductFromOrder({
+						productId,
+						orderId: activeOrderId!,
+						attrs: attributesIds
+					})
 				),
 				take(1)
 			)
 			.subscribe();
 	}
 
-	addProductToOrder(productId: string) {
+	addProductToOrder({ productId, attributesIds }: IEmit) {
 		this._ordersService.activeOrderId$
 			.pipe(
 				take(1),
 				filter((activeOrderId) => Boolean(activeOrderId)),
-				switchMap((activeOrderId) => this._ordersService.addProductToOrder({ productId, orderId: activeOrderId! })),
+				switchMap((activeOrderId) =>
+					this._ordersService.addProductToOrder({
+						productId,
+						orderId: activeOrderId!,
+						attrs: attributesIds
+					})
+				),
 				take(1)
 			)
 			.subscribe();
@@ -91,5 +102,26 @@ export class ProductsComponent implements OnInit {
 
 			await this._productsPageOrderQuery.refetch({ orderId });
 		});
+
+		this._actionsService.setAction({
+			label: "Подтвердить",
+			action: () => {
+				this._ordersService.activeOrderId$
+					.pipe(
+						take(1),
+						filter((orderId) => Boolean(orderId))
+					)
+					.subscribe(async (orderId) => {
+						await this._routerService.navigateByUrl(
+							CLIENT_ROUTES.CONFIRM_PRODUCTS.absolutePath.replace(DYNAMIC_ID, orderId!)
+						);
+					});
+			}
+		});
+	}
+
+	ngOnDestroy() {
+		this._actionsService.setAction(null);
+		this._breadcrumbsService.setBackUrl(null);
 	}
 }

@@ -1,11 +1,10 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, Inject, Input, Optional } from "@angular/core";
-import { BehaviorSubject, map, of, switchMap, take, tap } from "rxjs";
+import { BehaviorSubject, map, of, switchMap, tap } from "rxjs";
 import { ANY_SYMBOL, THEME } from "src/app/shared/constants";
 import type { ISimpleChanges } from "src/app/shared/interfaces";
 
 import { DialogService } from "../../dialog";
-import { ImageDialogComponent } from "../components/image-dialog/image-dialog.component";
 import { IMAGE_CONFIG } from "../injection-tokens";
 import { IImageConfig, IImageTheme } from "../interfaces";
 
@@ -48,33 +47,20 @@ export class ImageComponent implements OnChanges {
 		})
 	);
 
+	className = `app-image ${THEME.replace(ANY_SYMBOL, this.theme)}`;
+
 	constructor(
 		@Optional() @Inject(IMAGE_CONFIG) private readonly _imageConfig: IImageConfig,
 		private readonly _dialogService: DialogService
 	) {}
 
-	openImage() {
-		this._dialogService
-			.open(ImageDialogComponent, {
-				data: {
-					placeholder: this._placeholder,
-					src: this._src,
-					name: this.name
-				}
-			})
-			.afterClosed$.pipe(take(1))
-			.subscribe();
-	}
-
 	ngOnChanges(changes: ISimpleChanges<ImageComponent>) {
-		if (!changes.remote) {
-			return;
+		if (changes.theme) {
+			this.className = `app-image ${THEME.replace(ANY_SYMBOL, changes.theme.currentValue)}`;
 		}
 
-		this.remoteSubject.next(changes.remote.currentValue);
-	}
-
-	get className() {
-		return `app-image ${THEME.replace(ANY_SYMBOL, this.theme)}`;
+		if (changes.remote) {
+			this.remoteSubject.next(changes.remote.currentValue);
+		}
 	}
 }

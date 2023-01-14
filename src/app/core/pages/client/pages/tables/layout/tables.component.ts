@@ -1,4 +1,4 @@
-import type { OnInit } from "@angular/core";
+import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import type { Observable } from "rxjs";
@@ -18,7 +18,7 @@ import { TablesPageGQL } from "../graphql/tables-page";
 	styleUrls: ["./tables.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TablesComponent implements OnInit {
+export class TablesComponent implements OnInit, OnDestroy {
 	readonly tablesPageI18n = TABLES_PAGE_I18N;
 	private readonly _tablesPageQuery = this._tablesPageGQL.watch();
 	readonly tables$: Observable<any> = this._tablesPageQuery.valueChanges.pipe(map((result) => result.data.tables.data));
@@ -37,5 +37,9 @@ export class TablesComponent implements OnInit {
 				this._breadcrumbsService.setBackUrl(CLIENT_ROUTES.HALLS.absolutePath.replace(PLACE_ID, placeId));
 				await this._tablesPageQuery.setVariables({ filtersArgs: [{ key: "hall.id", operator: "=", value: hallId }] });
 			});
+	}
+
+	ngOnDestroy() {
+		this._breadcrumbsService.setBackUrl(null);
 	}
 }

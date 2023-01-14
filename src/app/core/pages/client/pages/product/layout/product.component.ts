@@ -1,5 +1,6 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { combineLatest, map, switchMap, take } from "rxjs";
 import { CATEGORY_ID, DYNAMIC_ID, PLACE_ID } from "src/app/shared/constants";
@@ -24,6 +25,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 	readonly productPageI18n = PRODUCT_PAGE_I18N;
 	readonly formI18n = FORM_I18N;
 	private readonly _productPageQuery = this._productsPageGQL.watch();
+	readonly attributesFormControl = new FormControl<string>();
 	readonly product$ = this._productPageQuery.valueChanges.pipe(
 		map((result) => result.data.product),
 		map((product) => ({
@@ -66,7 +68,11 @@ export class ProductComponent implements OnInit, OnDestroy {
 					.pipe(
 						take(1),
 						switchMap(([product, activeOrderId]) =>
-							this._ordersService.addProductToOrder({ productId: product.id, orderId: activeOrderId! })
+							this._ordersService.addProductToOrder({
+								productId: product.id,
+								orderId: activeOrderId!,
+								attrs: [this.attributesFormControl.value]
+							})
 						),
 						take(1),
 						map((result) => result.data?.addProductToOrder)
@@ -83,6 +89,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy() {
+		this._breadcrumbsService.setBackUrl(null);
 		this._actionsService.setAction(null);
 	}
 }

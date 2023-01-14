@@ -53,6 +53,10 @@ export const CLIENT_ROUTES = {
 		path: `active-orders/${DYNAMIC_ID}`,
 		absolutePath: `/active-orders/${DYNAMIC_ID}`
 	},
+	CONFIRM_PRODUCTS: {
+		path: `active-orders/${DYNAMIC_ID}/confirm-products`,
+		absolutePath: `/active-orders/${DYNAMIC_ID}/confirm-products`
+	},
 	HISTORY_ORDER: {
 		path: `history-orders/${DYNAMIC_ID}`,
 		absolutePath: `/history-orders/${DYNAMIC_ID}`

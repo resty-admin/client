@@ -19,26 +19,35 @@ export class CounterComponent implements OnChanges {
 	@Input() theme: ICounterTheme = "1";
 
 	count = 0;
+	className = `app-counter ${THEME.replace(ANY_SYMBOL, this.theme)} ${!this.count && "add"}`;
 
-	get className() {
-		return `app-counter ${THEME.replace(ANY_SYMBOL, this.theme)} ${!this.count && "add"}`;
+	setClassName(args?: { theme?: string; count?: number }) {
+		this.className = `app-counter ${THEME.replace(ANY_SYMBOL, args?.theme || this.theme)} ${
+			!(args?.count || this.count) && "add"
+		}`;
 	}
 
 	ngOnChanges(changes: ISimpleChanges<CounterComponent>) {
-		if (!changes.value || !changes.value.currentValue) {
-			return;
+		if (changes.theme) {
+			this.setClassName({ theme: changes.theme.currentValue });
 		}
 
-		this.count = changes.value.currentValue;
+		if (changes.value) {
+			this.count = changes.value.currentValue || 0;
+			this.setClassName({ count: this.count });
+			this.className = `app-counter ${THEME.replace(ANY_SYMBOL, this.theme)} ${!this.count && "add"}`;
+		}
 	}
 
 	emitPlusClick() {
 		this.count++;
+		this.setClassName({ count: this.count });
 		this.plusClicked.emit();
 	}
 
 	emitMinusClick() {
 		this.count--;
+		this.setClassName({ count: this.count });
 		this.minusClicked.emit();
 	}
 }

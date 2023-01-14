@@ -39,9 +39,11 @@ export interface ProductsPageOrderQuery {
 		usersToOrders?:
 			| {
 					__typename?: "UserToOrderEntity";
+					id: string;
 					count: number;
 					user: { __typename?: "UserEntity"; id: string };
-					product: { __typename?: "ProductEntity"; id: string };
+					product: { __typename?: "ProductEntity"; id: string; name: string; price: number };
+					attributes?: { __typename?: "AttributesEntity"; id: string; name: string; price: number }[] | null;
 			  }[]
 			| null;
 	};
@@ -77,13 +79,21 @@ export const ProductsPageOrderDocument = gql`
 		order(id: $orderId) {
 			id
 			usersToOrders {
+				id
+				count
 				user {
 					id
 				}
 				product {
 					id
+					name
+					price
 				}
-				count
+				attributes {
+					id
+					name
+					price
+				}
 			}
 		}
 	}

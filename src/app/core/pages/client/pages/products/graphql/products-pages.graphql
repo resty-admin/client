@@ -15,13 +15,21 @@ query ProductsPageOrder($orderId: String!) {
 	order(id: $orderId) {
 		id
 		usersToOrders {
+			id
+			count
 			user {
 				id
 			}
 			product {
 				id
+				name
+				price
 			}
-			count
+			attributes {
+				id
+				name
+				price
+			}
 		}
 	}
 }

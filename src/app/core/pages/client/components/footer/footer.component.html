@@ -1,9 +1,14 @@
 <footer class="footer">
 	<a class="back" *ngIf="backUrl$ | async as backUrl" [routerLink]="backUrl">
 		<app-icon class="icon" name="back"></app-icon>
+		<!--		<span>Меню</span>-->
 	</a>
 
 	<button appButton theme="1" class="action" *ngIf="action$ | async as action" (click)="action.action()">
 		{{ action.label }}
 	</button>
+
+	<!--	<a class="basket" *ngIf="backUrl$ | async as backUrl" [routerLink]="backUrl">-->
+	<!--		<app-icon class="icon" name="basket"></app-icon>-->
+	<!--	</a>-->
 </footer>

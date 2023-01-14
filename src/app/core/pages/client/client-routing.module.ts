@@ -23,6 +23,11 @@ export const CLIENT_ROUTES: Route[] = [
 				loadChildren: () => import("./pages/active-order/active-order.module").then((m) => m.ActiveOrderModule)
 			},
 			{
+				..._SHARED_CLIENT_ROUTES.CONFIRM_PRODUCTS,
+				loadChildren: () =>
+					import("./pages/confirm-products/confirm-products.module").then((m) => m.ConfirmProductsModule)
+			},
+			{
 				..._SHARED_CLIENT_ROUTES.HISTORY_ORDER,
 				loadChildren: () => import("./pages/history-order/history-order.module").then((m) => m.HistoryOrderModule)
 			},
