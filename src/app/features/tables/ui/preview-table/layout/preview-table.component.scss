@@ -4,6 +4,7 @@
 	.table {
 		display: grid;
 		background-color: var(--light-grey);
+		border: rem(1) solid transparent;
 		border-radius: rem(12);
 		padding: rem(8);
 		row-gap: rem(8);
@@ -28,6 +29,7 @@
 			font-size: rem(14);
 			line-height: rem(24);
 			color: var(--dark);
+			justify-self: start;
 		}
 		.status {
 			grid-area: status;
@@ -35,6 +37,13 @@
 			font-size: rem(14);
 			line-height: rem(24);
 			color: var(--dark);
+		}
+
+		&.active {
+			border-color: var(--primary);
+			.name {
+				color: var(--primary);
+			}
 		}
 	}
 }

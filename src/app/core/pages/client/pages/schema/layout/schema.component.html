@@ -1,0 +1,7 @@
+<div class="schema-page" *transloco="let t; read: schemaPagei18n">
+	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
+
+	<app-halls-select [halls]="halls$ | async" [formControl]="hallControl"></app-halls-select>
+
+	<app-tables-select [tables]="tables$ | async" (tableClicked)="openTableDialog($event)"></app-tables-select>
+</div>

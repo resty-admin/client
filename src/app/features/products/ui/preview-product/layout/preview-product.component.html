@@ -1,5 +1,5 @@
 <div class="preview-product" *ngIf="product">
-	<div class="product">
+	<div class="product" [class.active]="usersToOrders?.length">
 		<app-image class="image" [remote]="true" [name]="product.file?.url" placeholder="product"></app-image>
 
 		<p class="name">{{ product.name }}</p>
@@ -19,8 +19,8 @@
 		></app-counter>
 	</div>
 
-	<ul class="products-with-attributes">
-		<li class="product-with-attribute" *ngFor="let userToOrder of usersToProductsWithAttributes">
+	<ul class="products-with-attributes" *ngIf="usersToProductsWithAttributes?.length">
+		<li class="product-with-attribute" *ngFor="let userToOrder of usersToProductsWithAttributes; trackBy: trackByFn">
 			<p class="name">{{ userToOrder.product?.name }}</p>
 			<p class="cal">250 гр</p>
 			<p class="attributes">{{ userToOrder.attributesName }}</p>

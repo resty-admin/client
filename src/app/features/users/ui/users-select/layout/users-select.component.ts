@@ -27,6 +27,10 @@ export class UsersSelectComponent implements OnInit, OnChanges, ControlValueAcce
 	onChange: ((value: any) => void) | undefined;
 	onTouched: (() => void) | undefined;
 
+	trackByFn(index: number) {
+		return index;
+	}
+
 	constructor(private readonly _formBuilder: FormBuilder) {}
 
 	ngOnInit() {

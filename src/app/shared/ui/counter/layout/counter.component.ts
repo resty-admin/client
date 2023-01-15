@@ -18,36 +18,27 @@ export class CounterComponent implements OnChanges {
 	@Input() value? = 0;
 	@Input() theme: ICounterTheme = "1";
 
-	count = 0;
-	className = `app-counter ${THEME.replace(ANY_SYMBOL, this.theme)} ${!this.count && "add"}`;
+	className = `app-counter ${THEME.replace(ANY_SYMBOL, this.theme)} ${!this.value && "add"}`;
 
-	setClassName(args?: { theme?: string; count?: number }) {
-		this.className = `app-counter ${THEME.replace(ANY_SYMBOL, args?.theme || this.theme)} ${
-			!(args?.count || this.count) && "add"
-		}`;
+	setClassName(theme = this.theme, value = this.value) {
+		this.className = `app-counter ${THEME.replace(ANY_SYMBOL, theme)} ${!value && "add"}`;
 	}
 
 	ngOnChanges(changes: ISimpleChanges<CounterComponent>) {
 		if (changes.theme) {
-			this.setClassName({ theme: changes.theme.currentValue });
+			this.setClassName(changes.theme.currentValue);
 		}
 
 		if (changes.value) {
-			this.count = changes.value.currentValue || 0;
-			this.setClassName({ count: this.count });
-			this.className = `app-counter ${THEME.replace(ANY_SYMBOL, this.theme)} ${!this.count && "add"}`;
+			this.setClassName(undefined, changes.value.currentValue);
 		}
 	}
 
 	emitPlusClick() {
-		this.count++;
-		this.setClassName({ count: this.count });
 		this.plusClicked.emit();
 	}
 
 	emitMinusClick() {
-		this.count--;
-		this.setClassName({ count: this.count });
 		this.minusClicked.emit();
 	}
 }

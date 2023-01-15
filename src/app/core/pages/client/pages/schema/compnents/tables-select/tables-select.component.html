@@ -1,0 +1,7 @@
+<ul class="tables-select">
+	<li class="table" *ngFor="let table of tables; trackBy: trackByFn">
+		<button class="button" (click)="emitTableClick(table)">
+			<app-preview-table class="preview-table" [table]="table" [active]="table.active"></app-preview-table>
+		</button>
+	</li>
+</ul>

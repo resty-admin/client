@@ -16,4 +16,8 @@ export class ProductsErrorComponent {
 	readonly products$ = this._productsErrorPageQuery.valueChanges.pipe(map((result) => result.data.products.data));
 
 	constructor(private readonly _productsErrorPageGQL: ProductsErrorPageGQL) {}
+
+	trackByFn(index: number) {
+		return index;
+	}
 }

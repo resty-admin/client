@@ -3,7 +3,7 @@
 	<h2 class="subtitle">{{ t("description") }}</h2>
 
 	<ul class="products">
-		<li class="product" *ngFor="let product of products$ | async">
+		<li class="product" *ngFor="let product of products$ | async; trackBy: trackByFn">
 			<a class="link" [routerLink]="product.id">
 				<app-preview-product [product]="product"></app-preview-product>
 			</a>

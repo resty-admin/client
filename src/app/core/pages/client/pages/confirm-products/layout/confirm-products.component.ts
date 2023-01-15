@@ -56,6 +56,10 @@ export class ConfirmProductsComponent implements OnInit, OnDestroy {
 		private readonly _ordersService: OrdersService
 	) {}
 
+	trackByFn(index: number) {
+		return index;
+	}
+
 	ngOnInit() {
 		this._routerService
 			.selectParams(DYNAMIC_ID.slice(1))

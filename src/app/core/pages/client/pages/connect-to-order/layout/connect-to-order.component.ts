@@ -35,7 +35,7 @@ export class ConnectToOrderComponent implements OnInit, OnDestroy {
 			.pipe(untilDestroyed(this))
 			.subscribe(({ placeId }) => {
 				this._breadcrumbsService.setBreadcrumb({
-					routerLink: CLIENT_ROUTES.DASHBOARD.absolutePath.replace(PLACE_ID, placeId)
+					routerLink: CLIENT_ROUTES.CREATE_ORDER.absolutePath.replace(PLACE_ID, placeId)
 				});
 			});
 

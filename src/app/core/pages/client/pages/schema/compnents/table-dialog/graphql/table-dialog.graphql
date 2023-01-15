@@ -1,0 +1,11 @@
+query TableDialog($tableId: String!) {
+	table(id: $tableId) {
+		id
+		name
+		code
+		file {
+			id
+			url
+		}
+	}
+}

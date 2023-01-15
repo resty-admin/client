@@ -11,6 +11,8 @@ import { RouterService } from "src/app/shared/modules/router";
 import { ActionsService } from "../../../../../../features/app";
 import { OrdersService } from "../../../../../../features/orders";
 import type { IEmit } from "../../../../../../features/products";
+import { DialogService } from "../../../../../../shared/ui/dialog";
+import { ProductDialogComponent } from "../compnents";
 import { MENU_PAGE_I18N } from "../constants";
 import { MenuPageCategoriesGQL, MenuPageOrderGQL, MenuPageProductsGQL } from "../graphql/menu-page";
 
@@ -61,7 +63,8 @@ export class MenuComponent implements OnInit, OnDestroy {
 		private readonly _ordersService: OrdersService,
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
-		private readonly _actionsService: ActionsService
+		private readonly _actionsService: ActionsService,
+		private readonly _dialogService: DialogService
 	) {}
 
 	ngOnInit() {
@@ -70,7 +73,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 			.pipe(untilDestroyed(this))
 			.subscribe(async (placeId) => {
 				this._breadcrumbsService.setBreadcrumb({
-					routerLink: CLIENT_ROUTES.DASHBOARD.absolutePath.replace(PLACE_ID, placeId)
+					routerLink: CLIENT_ROUTES.CREATE_ORDER.absolutePath.replace(PLACE_ID, placeId)
 				});
 
 				await this._menuPageCategoriesQuery.setVariables({
@@ -126,6 +129,18 @@ export class MenuComponent implements OnInit, OnDestroy {
 		});
 	}
 
+	openProductDialog(data: any) {
+		this._dialogService
+			.open(ProductDialogComponent, { data })
+			.afterClosed$.pipe(
+				take(1),
+				filter((result) => Boolean(result))
+			)
+			.subscribe(async ({ product }) => {
+				this.addProductToOrder({ productId: product.id, attributesIds: [] });
+			});
+	}
+
 	removeProductFromOrder({ productId, attributesIds }: IEmit) {
 		this._ordersService.activeOrderId$
 			.pipe(
@@ -140,7 +155,9 @@ export class MenuComponent implements OnInit, OnDestroy {
 				),
 				take(1)
 			)
-			.subscribe();
+			.subscribe(async () => {
+				await this._menuPageOrderQuery.refetch();
+			});
 	}
 
 	addProductToOrder({ productId, attributesIds }: IEmit) {
@@ -157,7 +174,9 @@ export class MenuComponent implements OnInit, OnDestroy {
 				),
 				take(1)
 			)
-			.subscribe();
+			.subscribe(async () => {
+				await this._menuPageOrderQuery.refetch();
+			});
 	}
 
 	ngOnDestroy() {

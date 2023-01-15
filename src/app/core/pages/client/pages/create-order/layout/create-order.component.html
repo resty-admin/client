@@ -1,0 +1,25 @@
+<div class="create-order" *transloco="let t; read: createOrderPageI18n">
+	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
+
+	<ul class="order-types">
+		<li [class]="'order-type ' + orderType.image" *ngFor="let orderType of orderTypes; trackBy: trackByFn">
+			<button class="link" (click)="createOrder(orderType)">
+				<app-image class="image" [name]="orderType.image"></app-image>
+				<span class="label">{{ t(orderType.label) }}</span>
+			</button>
+		</li>
+	</ul>
+
+	<div class="links">
+		<a class="link schema" [routerLink]="schemaRouterLink">
+			<app-image class="image" name="schema-decoration"></app-image>
+			<app-icon class="icon" name="home-smile"></app-icon>
+			<span class="label">{{ t("schema") }}</span>
+		</a>
+		<a class="link menu" [routerLink]="menuRouterLink">
+			<app-image class="image" name="menu-decoration"></app-image>
+			<app-icon class="icon" name="menu"></app-icon>
+			<span class="label">{{ t("menu") }}</span>
+		</a>
+	</div>
+</div>

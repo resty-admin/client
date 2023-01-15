@@ -1,6 +1,6 @@
 <ul class="products-select">
-	<li class="product" *ngFor="let product of products">
-		<a class="link" [routerLink]="product.id">
+	<li class="product" *ngFor="let product of products; trackBy: trackByFn">
+		<button class="button" (click)="emitProductClick(product)">
 			<app-preview-product
 				class="preview-product"
 				[product]="product"
@@ -8,6 +8,6 @@
 				(plusClicked)="emitPlusClick($event)"
 				(minusClicked)="emitMinusClick($event)"
 			></app-preview-product>
-		</a>
+		</button>
 	</li>
 </ul>

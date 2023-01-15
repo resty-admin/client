@@ -53,7 +53,7 @@ export class ReferralLinkComponent implements OnInit, OnDestroy {
 			}
 
 			this._breadcrumbsService.setBreadcrumb({
-				routerLink: CLIENT_ROUTES.DASHBOARD.absolutePath.replace(PLACE_ID, order.place.id)
+				routerLink: CLIENT_ROUTES.CREATE_ORDER.absolutePath.replace(PLACE_ID, order.place.id)
 			});
 
 			const url = {

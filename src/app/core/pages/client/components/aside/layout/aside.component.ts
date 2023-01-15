@@ -23,6 +23,10 @@ export class AsideComponent {
 
 	readonly pages = PAGES;
 
+	trackByFn(index: number) {
+		return index;
+	}
+
 	emitSignOutClick() {
 		this.signOutClicked.emit();
 	}

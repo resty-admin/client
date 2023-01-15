@@ -6,6 +6,7 @@
 		row-gap: rem(16);
 		.product {
 			display: grid;
+			border: rem(1) solid transparent;
 			background-color: var(--light-grey);
 			border-radius: rem(12);
 			align-items: center;
@@ -32,6 +33,7 @@
 				font-size: rem(20);
 				line-height: rem(32);
 				color: var(--dark);
+				justify-self: start;
 			}
 			.price {
 				grid-area: price;
@@ -60,6 +62,9 @@
 			.counter {
 				grid-area: counter;
 				justify-self: end;
+			}
+			&.active {
+				border-color: var(--primary);
 			}
 		}
 

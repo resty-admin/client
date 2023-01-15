@@ -1,0 +1,11 @@
+@import "/src/assets/scss/abstractions";
+
+@include component() {
+	.tables-select {
+		display: grid;
+		row-gap: rem(15);
+		.table .button {
+			width: 100%;
+		}
+	}
+}

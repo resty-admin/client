@@ -93,44 +93,40 @@ export const CLIENT_ROUTES = {
 		path: `places/${PLACE_ID}/connect-to-order`,
 		absolutePath: `/places/${PLACE_ID}/connect-to-order`
 	},
-	DASHBOARD: {
-		path: `places/${PLACE_ID}/dashboard`,
-		absolutePath: `/places/${PLACE_ID}/dashboard`
+	CREATE_ORDER: {
+		path: `places/${PLACE_ID}/create-order`,
+		absolutePath: `/places/${PLACE_ID}/create-order`
 	},
 	MENU: {
 		path: `places/${PLACE_ID}/menu`,
 		absolutePath: `/places/${PLACE_ID}/menu`
 	},
 	CATEGORIES: {
-		path: `places/${PLACE_ID}/menu/categories`,
+		path: `categories`,
 		absolutePath: `/places/${PLACE_ID}/menu/categories`
 	},
 	CATEGORY: {
-		path: `places/${PLACE_ID}/menu/categories/${CATEGORY_ID}`,
+		path: `categories/${CATEGORY_ID}`,
 		absolutePath: `/places/${PLACE_ID}/menu/categories/${CATEGORY_ID}`
 	},
 	PRODUCTS: {
-		path: `places/${PLACE_ID}/menu/categories/${CATEGORY_ID}/products`,
+		path: `categories/${CATEGORY_ID}/products`,
 		absolutePath: `/places/${PLACE_ID}/menu/categories/${CATEGORY_ID}/products`
 	},
-	PRODUCT: {
-		path: `places/${PLACE_ID}/menu/categories/${CATEGORY_ID}/products/${DYNAMIC_ID}`,
-		absolutePath: `/places/${PLACE_ID}/menu/categories/${CATEGORY_ID}/products/${DYNAMIC_ID}`
+	SCHEMA: {
+		path: `places/${PLACE_ID}/schema`,
+		absolutePath: `/places/${PLACE_ID}/schema`
 	},
 	HALLS: {
-		path: `places/${PLACE_ID}/halls`,
-		absolutePath: `/places/${PLACE_ID}/halls`
+		path: `halls`,
+		absolutePath: `/places/${PLACE_ID}/schema/halls`
 	},
 	HALL: {
-		path: `places/${PLACE_ID}/halls/${HALL_ID}`,
-		absolutePath: `/places/${PLACE_ID}/halls/${HALL_ID}`
+		path: `halls/${HALL_ID}`,
+		absolutePath: `/places/${PLACE_ID}/schema/halls/${HALL_ID}`
 	},
 	TABLES: {
-		path: `places/${PLACE_ID}/halls/${HALL_ID}/tables`,
-		absolutePath: `/places/${PLACE_ID}/halls/${HALL_ID}/tables`
-	},
-	TABLE: {
-		path: `places/${PLACE_ID}/halls/${HALL_ID}/tables/${DYNAMIC_ID}`,
-		absolutePath: `/places/${PLACE_ID}/halls/${HALL_ID}/tables/${DYNAMIC_ID}`
+		path: `halls/${HALL_ID}/tables`,
+		absolutePath: `/places/${PLACE_ID}/schema/halls/${HALL_ID}/tables`
 	}
 };

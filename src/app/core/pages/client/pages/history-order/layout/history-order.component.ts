@@ -51,6 +51,10 @@ export class HistoryOrderComponent implements OnInit, OnDestroy {
 		private readonly _actionsService: ActionsService
 	) {}
 
+	trackByFn(index: number) {
+		return index;
+	}
+
 	ngOnInit() {
 		this._routerService
 			.selectParams(DYNAMIC_ID.slice(1))

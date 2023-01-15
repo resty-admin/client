@@ -22,6 +22,10 @@ export class PlacesComponent implements OnInit {
 		private readonly _breadcrumbsService: BreadcrumbsService
 	) {}
 
+	trackByFn(index: number) {
+		return index;
+	}
+
 	ngOnInit() {
 		this._breadcrumbsService.setBreadcrumb(null);
 	}

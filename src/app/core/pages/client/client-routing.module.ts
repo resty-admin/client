@@ -19,6 +19,10 @@ export const CLIENT_ROUTES: Route[] = [
 				loadChildren: () => import("./pages/all-orders/all-orders.module").then((m) => m.AllOrdersModule)
 			},
 			{
+				..._SHARED_CLIENT_ROUTES.HISTORY_ORDER,
+				loadChildren: () => import("./pages/history-order/history-order.module").then((m) => m.HistoryOrderModule)
+			},
+			{
 				..._SHARED_CLIENT_ROUTES.ACTIVE_ORDER,
 				loadChildren: () => import("./pages/active-order/active-order.module").then((m) => m.ActiveOrderModule)
 			},
@@ -26,10 +30,6 @@ export const CLIENT_ROUTES: Route[] = [
 				..._SHARED_CLIENT_ROUTES.CONFIRM_PRODUCTS,
 				loadChildren: () =>
 					import("./pages/confirm-products/confirm-products.module").then((m) => m.ConfirmProductsModule)
-			},
-			{
-				..._SHARED_CLIENT_ROUTES.HISTORY_ORDER,
-				loadChildren: () => import("./pages/history-order/history-order.module").then((m) => m.HistoryOrderModule)
 			},
 			{
 				..._SHARED_CLIENT_ROUTES.REFERRAL_LINK,
@@ -54,11 +54,11 @@ export const CLIENT_ROUTES: Route[] = [
 			{
 				..._SHARED_CLIENT_ROUTES.PLACE,
 				pathMatch: "full",
-				redirectTo: _SHARED_CLIENT_ROUTES.DASHBOARD.absolutePath
+				redirectTo: _SHARED_CLIENT_ROUTES.CREATE_ORDER.absolutePath
 			},
 			{
-				..._SHARED_CLIENT_ROUTES.DASHBOARD,
-				loadChildren: () => import("./pages/dashboard/dashboard.module").then((m) => m.DashboardModule)
+				..._SHARED_CLIENT_ROUTES.CREATE_ORDER,
+				loadChildren: () => import("./pages/create-order/create-order.module").then((m) => m.CreateOrderModule)
 			},
 			{
 				..._SHARED_CLIENT_ROUTES.CONNECT_TO_TABLE,
@@ -75,38 +75,8 @@ export const CLIENT_ROUTES: Route[] = [
 				loadChildren: () => import("./pages/menu/menu.module").then((m) => m.MenuModule)
 			},
 			{
-				..._SHARED_CLIENT_ROUTES.CATEGORIES,
-				loadChildren: () => import("./pages/menu/menu.module").then((m) => m.MenuModule)
-			},
-			{
-				..._SHARED_CLIENT_ROUTES.CATEGORY,
-				pathMatch: "full",
-				redirectTo: _SHARED_CLIENT_ROUTES.PRODUCTS.absolutePath
-			},
-			{
-				..._SHARED_CLIENT_ROUTES.PRODUCTS,
-				loadChildren: () => import("./pages/menu/menu.module").then((m) => m.MenuModule)
-			},
-			{
-				..._SHARED_CLIENT_ROUTES.PRODUCT,
-				loadChildren: () => import("./pages/product/product.module").then((m) => m.ProductModule)
-			},
-			{
-				..._SHARED_CLIENT_ROUTES.HALLS,
-				loadChildren: () => import("./pages/halls/halls.module").then((m) => m.HallsModule)
-			},
-			{
-				..._SHARED_CLIENT_ROUTES.HALL,
-				pathMatch: "full",
-				redirectTo: _SHARED_CLIENT_ROUTES.TABLES.absolutePath
-			},
-			{
-				..._SHARED_CLIENT_ROUTES.TABLES,
-				loadChildren: () => import("./pages/tables/tables.module").then((m) => m.TablesModule)
-			},
-			{
-				..._SHARED_CLIENT_ROUTES.TABLE,
-				loadChildren: () => import("./pages/table/table.module").then((m) => m.TableModule)
+				..._SHARED_CLIENT_ROUTES.SCHEMA,
+				loadChildren: () => import("./pages/schema/schema.module").then((m) => m.SchemaModule)
 			},
 			{
 				..._SHARED_CLIENT_ROUTES.WELCOME,

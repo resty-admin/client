@@ -10,11 +10,14 @@
 			<app-users-select [users]="order.users" [formControl]="usersControl"></app-users-select>
 
 			<ul class="users-to-orders-by-type">
-				<li class="user-to-order-by-type" *ngFor="let userToOrderByType of order.usersToOrdersByType">
+				<li
+					class="user-to-order-by-type"
+					*ngFor="let userToOrderByType of order.usersToOrdersByType; trackBy: trackByFn"
+				>
 					<ng-container *ngIf="userToOrderByType.usersToOrders?.length">
 						<p class="status">{{ userToOrderByType.status }}</p>
 						<ul class="users-to-orders">
-							<li class="user-to-order" *ngFor="let userToOrder of userToOrderByType.usersToOrders">
+							<li class="user-to-order" *ngFor="let userToOrder of userToOrderByType.usersToOrders; trackBy: trackByFn">
 								<app-product-to-order
 									[userToOrder]="userToOrder"
 									[isActive]="userToOrderByType.status !== 'PAID' && usersControl.value?.includes(userToOrder.user.id)"

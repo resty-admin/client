@@ -26,6 +26,10 @@ export class PreviewProductComponent implements OnChanges {
 
 	usersToProductsWithAttributes: any[] = [];
 
+	trackByFn(index: number) {
+		return index;
+	}
+
 	ngOnChanges(changes: ISimpleChanges<PreviewProductComponent>) {
 		if (!changes.usersToOrders || !changes.usersToOrders.currentValue) {
 			return;

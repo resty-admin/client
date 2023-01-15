@@ -1,0 +1,30 @@
+query SchemaPageHalls($skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) {
+	halls(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
+		data {
+			id
+			name
+		}
+		page
+		totalCount
+	}
+}
+
+query SchemaPageTables($skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) {
+	tables(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
+		data {
+			id
+			name
+		}
+		page
+		totalCount
+	}
+}
+
+query SchemaPageOrder($orderId: String!) {
+	order(id: $orderId) {
+		id
+		table {
+			id
+		}
+	}
+}

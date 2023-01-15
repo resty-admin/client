@@ -33,6 +33,10 @@ export class AllOrdersComponent implements OnInit, OnDestroy {
 		private readonly _routerService: RouterService
 	) {}
 
+	trackByFn(index: number) {
+		return index;
+	}
+
 	ngOnInit() {
 		this._breadcrumbsService.setBreadcrumb({ routerLink: CLIENT_ROUTES.PLACES.absolutePath });
 		this._actionsService.setAction({

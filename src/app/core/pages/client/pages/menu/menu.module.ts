@@ -6,6 +6,10 @@ import { TypographyModule } from "src/app/shared/ui/typography";
 import { PreviewCategoryModule } from "../../../../../features/categories";
 import { PreviewProductModule } from "../../../../../features/products";
 import { I18nModule } from "../../../../../shared/modules/i18n";
+import { ButtonModule } from "../../../../../shared/ui/button";
+import { ImageModule } from "../../../../../shared/ui/image";
+import { RadioButtonModule } from "../../../../../shared/ui/radio-button";
+import { TextareaModule } from "../../../../../shared/ui/textarea";
 import { MENU_COMPONENTS } from "./compnents";
 import { MenuComponent } from "./layout/menu.component";
 import { MenuRoutingModule } from "./menu-routing.module";
@@ -18,9 +22,13 @@ import { CATEGORIES_PROVIDERS } from "./providers";
 		MenuRoutingModule,
 		TypographyModule,
 		I18nModule,
+		RadioButtonModule,
+		TextareaModule,
+		ImageModule,
 		PreviewCategoryModule,
 		ReactiveFormsModule,
-		PreviewProductModule
+		PreviewProductModule,
+		ButtonModule
 	],
 	providers: CATEGORIES_PROVIDERS
 })

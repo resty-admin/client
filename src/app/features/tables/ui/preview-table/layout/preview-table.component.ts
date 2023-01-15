@@ -11,4 +11,5 @@ import type { TableEntity } from "../../../../../../graphql";
 })
 export class PreviewTableComponent {
 	@Input() table?: DeepPartial<TableEntity> | null;
+	@Input() active = false;
 }

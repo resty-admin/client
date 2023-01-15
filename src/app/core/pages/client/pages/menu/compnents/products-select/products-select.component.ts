@@ -11,7 +11,16 @@ import type { IEmit } from "../../../../../../../features/products";
 export class ProductsSelectComponent {
 	@Output() plusClicked = new EventEmitter<IEmit>();
 	@Output() minusClicked = new EventEmitter<IEmit>();
+	@Output() productClicked = new EventEmitter<any>();
 	@Input() products?: any[] | null;
+
+	trackByFn(index: number) {
+		return index;
+	}
+
+	emitProductClick(product: any) {
+		this.productClicked.emit(product);
+	}
 
 	emitPlusClick(emit: IEmit) {
 		this.plusClicked.emit(emit);

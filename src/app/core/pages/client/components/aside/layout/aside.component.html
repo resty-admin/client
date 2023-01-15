@@ -22,7 +22,7 @@
 
 	<nav class="nav">
 		<ul class="pages">
-			<li class="page" *ngFor="let page of pages">
+			<li class="page" *ngFor="let page of pages; trackBy: trackByFn">
 				<a
 					appLink
 					routerLinkActive="active"
