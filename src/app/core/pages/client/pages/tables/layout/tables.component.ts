@@ -34,12 +34,14 @@ export class TablesComponent implements OnInit, OnDestroy {
 			.selectParams()
 			.pipe(untilDestroyed(this))
 			.subscribe(async ({ placeId, hallId }) => {
-				this._breadcrumbsService.setBackUrl(CLIENT_ROUTES.HALLS.absolutePath.replace(PLACE_ID, placeId));
+				this._breadcrumbsService.setBreadcrumb({
+					routerLink: CLIENT_ROUTES.HALLS.absolutePath.replace(PLACE_ID, placeId)
+				});
 				await this._tablesPageQuery.setVariables({ filtersArgs: [{ key: "hall.id", operator: "=", value: hallId }] });
 			});
 	}
 
 	ngOnDestroy() {
-		this._breadcrumbsService.setBackUrl(null);
+		this._breadcrumbsService.setBreadcrumb(null);
 	}
 }

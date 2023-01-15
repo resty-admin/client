@@ -27,15 +27,21 @@ export class CodeInputComponent extends ControlValueAccessor<number> implements 
 	@Input() isPrevFocusableAfterClearing = true;
 	@Input() isFocusingOnLastByClickIfFilled = false;
 	@Input() initialFocusField = 0;
-	@Input() code = "";
+	@Input() code = 0;
 	@Input() autocapitalize = "";
 	@Input() codeLength = 4;
+
+	codeValue = 0;
 
 	className = `app-code-input ${THEME.replace(ANY_SYMBOL, this.theme)}`;
 
 	override ngOnChanges(changes: ISimpleChanges<CodeInputComponent>) {
 		if (changes.theme) {
 			this.className = `app-code-input ${THEME.replace(ANY_SYMBOL, changes.theme.currentValue)}`;
+		}
+
+		if (changes.code) {
+			this.codeValue = changes.code.currentValue;
 		}
 
 		super.ngOnChanges(changes);
@@ -51,5 +57,11 @@ export class CodeInputComponent extends ControlValueAccessor<number> implements 
 		const codeNumber = Number(code);
 		this.codeCompleted.emit(codeNumber);
 		this.formControl.setValue(codeNumber);
+	}
+
+	override writeValue(value: number) {
+		super.writeValue(value);
+
+		this.codeValue = value;
 	}
 }

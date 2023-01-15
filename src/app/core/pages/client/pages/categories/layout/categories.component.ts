@@ -33,7 +33,9 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 			.selectParams(PLACE_ID.slice(1))
 			.pipe(untilDestroyed(this))
 			.subscribe(async (placeId) => {
-				this._breadcrumbsService.setBackUrl(CLIENT_ROUTES.DASHBOARD.absolutePath.replace(PLACE_ID, placeId));
+				this._breadcrumbsService.setBreadcrumb({
+					routerLink: CLIENT_ROUTES.DASHBOARD.absolutePath.replace(PLACE_ID, placeId)
+				});
 
 				await this._categoriesPageQuery.setVariables({
 					filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
@@ -42,6 +44,6 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy() {
-		this._breadcrumbsService.setBackUrl(null);
+		this._breadcrumbsService.setBreadcrumb(null);
 	}
 }

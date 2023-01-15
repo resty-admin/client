@@ -3,7 +3,7 @@ import { BehaviorSubject } from "rxjs";
 
 export interface IAction {
 	label: string;
-	action: () => unknown;
+	func: () => unknown;
 }
 @Injectable({ providedIn: "root" })
 export class ActionsService {

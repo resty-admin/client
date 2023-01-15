@@ -1,5 +1,5 @@
-query ConnectToTablePage($tableId: String!) {
-	table(id: $tableId) {
+mutation ConnectToTablePage($code: String!, $placeId: String!) {
+	getTableByCode(code: $code, placeId: $placeId) {
 		id
 	}
 }

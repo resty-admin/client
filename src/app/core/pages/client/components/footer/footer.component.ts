@@ -12,7 +12,7 @@ import { BreadcrumbsService } from "../../../../../shared/modules/breadcrumbs";
 })
 export class FooterComponent {
 	readonly clientRoutes = CLIENT_ROUTES;
-	readonly backUrl$ = this._breadcrumbsService.backUrl$;
+	readonly breadcrumb$ = this._breadcrumbsService.breadcrumb$;
 	readonly action$ = this._actionsService.action$;
 	constructor(
 		private readonly _breadcrumbsService: BreadcrumbsService,

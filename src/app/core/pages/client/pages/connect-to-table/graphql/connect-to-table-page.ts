@@ -3,18 +3,19 @@ import { gql } from "apollo-angular";
 import * as Apollo from "apollo-angular";
 
 import type * as Types from "../../../../../../../graphql";
-export type ConnectToTablePageQueryVariables = Types.Exact<{
-	tableId: Types.Scalars["String"];
+export type ConnectToTablePageMutationVariables = Types.Exact<{
+	code: Types.Scalars["String"];
+	placeId: Types.Scalars["String"];
 }>;
 
-export interface ConnectToTablePageQuery {
-	__typename?: "Query";
-	table: { __typename?: "TableEntity"; id: string };
+export interface ConnectToTablePageMutation {
+	__typename?: "Mutation";
+	getTableByCode: { __typename?: "TableEntity"; id: string };
 }
 
 export const ConnectToTablePageDocument = gql`
-	query ConnectToTablePage($tableId: String!) {
-		table(id: $tableId) {
+	mutation ConnectToTablePage($code: String!, $placeId: String!) {
+		getTableByCode(code: $code, placeId: $placeId) {
 			id
 		}
 	}
@@ -23,7 +24,10 @@ export const ConnectToTablePageDocument = gql`
 @Injectable({
 	providedIn: "root"
 })
-export class ConnectToTablePageGQL extends Apollo.Query<ConnectToTablePageQuery, ConnectToTablePageQueryVariables> {
+export class ConnectToTablePageGQL extends Apollo.Mutation<
+	ConnectToTablePageMutation,
+	ConnectToTablePageMutationVariables
+> {
 	override document = ConnectToTablePageDocument;
 
 	constructor(apollo: Apollo.Apollo) {

@@ -88,7 +88,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
 			.selectParams()
 			.pipe(untilDestroyed(this))
 			.subscribe(async ({ placeId, categoryId }) => {
-				this._breadcrumbsService.setBackUrl(CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, placeId));
+				this._breadcrumbsService.setBreadcrumb({
+					routerLink: CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, placeId)
+				});
 
 				await this._productsPageQuery.setVariables({
 					filtersArgs: [{ key: "category.id", operator: "=", value: categoryId }]
@@ -105,7 +107,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
 		this._actionsService.setAction({
 			label: "Подтвердить",
-			action: () => {
+			func: () => {
 				this._ordersService.activeOrderId$
 					.pipe(
 						take(1),
@@ -122,6 +124,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
 	ngOnDestroy() {
 		this._actionsService.setAction(null);
-		this._breadcrumbsService.setBackUrl(null);
+		this._breadcrumbsService.setBreadcrumb(null);
 	}
 }

@@ -1,0 +1,6 @@
+<ul class="categories-select">
+	<li class="category" *ngFor="let category of categories; let i = index; trackBy: trackByFn">
+		<input class="input" type="radio" [formControl]="formControl" [value]="category.id" [id]="category.id + i" />
+		<label class="label" [for]="category.id + i">{{ category.name }}</label>
+	</li>
+</ul>

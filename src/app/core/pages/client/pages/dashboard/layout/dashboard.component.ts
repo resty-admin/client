@@ -48,13 +48,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
 		this._actionsService.setAction({
 			label: "Подключиться к заказу",
-			action: async () => {
+			func: async () => {
 				const placeId = this._routerService.getParams(PLACE_ID.slice(1));
 				await this._routerService.navigateByUrl(CLIENT_ROUTES.CONNECT_TO_ORDER.absolutePath.replace(PLACE_ID, placeId));
 			}
 		});
 
-		this._breadcrumbsService.setBackUrl(CLIENT_ROUTES.PLACES.absolutePath);
+		this._breadcrumbsService.setBreadcrumb({
+			routerLink: CLIENT_ROUTES.PLACES.absolutePath
+		});
 	}
 
 	async createOrder({ type, routerLink }: IOrderType) {
@@ -84,6 +86,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
 	ngOnDestroy() {
 		this._actionsService.setAction(null);
-		this._breadcrumbsService.setBackUrl(null);
+		this._breadcrumbsService.setBreadcrumb(null);
 	}
 }

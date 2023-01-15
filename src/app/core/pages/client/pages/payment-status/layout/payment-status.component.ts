@@ -30,7 +30,7 @@ export class PaymentStatusComponent implements OnInit, OnDestroy {
 		this.order$.pipe(take(1)).subscribe((order: any) => {
 			this._actionsService.setAction({
 				label: "Вернуться в заказ",
-				action: () =>
+				func: () =>
 					this._routerService.navigateByUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(DYNAMIC_ID, order.id))
 			});
 		});

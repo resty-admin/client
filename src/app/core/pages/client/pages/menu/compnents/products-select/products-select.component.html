@@ -1,0 +1,13 @@
+<ul class="products-select">
+	<li class="product" *ngFor="let product of products">
+		<a class="link" [routerLink]="product.id">
+			<app-preview-product
+				class="preview-product"
+				[product]="product"
+				[usersToOrders]="product.usersToOrders"
+				(plusClicked)="emitPlusClick($event)"
+				(minusClicked)="emitMinusClick($event)"
+			></app-preview-product>
+		</a>
+	</li>
+</ul>

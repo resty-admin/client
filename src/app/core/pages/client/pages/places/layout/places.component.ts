@@ -23,6 +23,6 @@ export class PlacesComponent implements OnInit {
 	) {}
 
 	ngOnInit() {
-		this._breadcrumbsService.setBackUrl(null);
+		this._breadcrumbsService.setBreadcrumb(null);
 	}
 }

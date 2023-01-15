@@ -36,6 +36,7 @@ export class ConfirmProductsComponent implements OnInit, OnDestroy {
 			Object.values(
 				(order.usersToOrders || []).reduce<IConfirmProductsMap>(
 					(productsMap, userToOrder) => ({
+						...productsMap,
 						[userToOrder.product.id]: {
 							...userToOrder.product,
 							usersToOrders: [...(productsMap[userToOrder.product.id]?.usersToOrders || []), userToOrder]
@@ -64,12 +65,14 @@ export class ConfirmProductsComponent implements OnInit, OnDestroy {
 			});
 
 		this._order$.pipe(untilDestroyed(this)).subscribe((order) => {
-			this._breadcrumbsService.setBackUrl(CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, order.place.id));
+			this._breadcrumbsService.setBreadcrumb({
+				routerLink: CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, order.place.id)
+			});
 		});
 
 		this._actionsService.setAction({
 			label: "Подтвердить",
-			action: async () => {
+			func: async () => {
 				const order = this._routerService.getParams(DYNAMIC_ID.slice(1));
 
 				await this._routerService.navigateByUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(DYNAMIC_ID, order));
@@ -104,7 +107,7 @@ export class ConfirmProductsComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy() {
-		this._breadcrumbsService.setBackUrl(null);
+		this._breadcrumbsService.setBreadcrumb(null);
 		this._actionsService.setAction(null);
 	}
 }

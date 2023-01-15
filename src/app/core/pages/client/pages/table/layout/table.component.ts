@@ -40,14 +40,14 @@ export class TableComponent implements OnInit, OnDestroy {
 			.pipe(untilDestroyed(this))
 			.subscribe(async ({ placeId, hallId, id }) => {
 				await this._tablePageQuery.setVariables({ tableId: id });
-				this._breadcrumbsService.setBackUrl(
-					CLIENT_ROUTES.TABLES.absolutePath.replace(PLACE_ID, placeId).replace(HALL_ID, hallId)
-				);
+				this._breadcrumbsService.setBreadcrumb({
+					routerLink: CLIENT_ROUTES.TABLES.absolutePath.replace(PLACE_ID, placeId).replace(HALL_ID, hallId)
+				});
 			});
 
 		this._actionsService.setAction({
 			label: "Подтвердить",
-			action: () => {
+			func: () => {
 				combineLatest([this.table$, this._ordersService.activeOrderId$])
 					.pipe(
 						take(1),
@@ -69,7 +69,7 @@ export class TableComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy() {
-		this._breadcrumbsService.setBackUrl(null);
+		this._breadcrumbsService.setBreadcrumb(null);
 		this._actionsService.setAction(null);
 	}
 }

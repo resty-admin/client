@@ -56,14 +56,14 @@ export class ProductComponent implements OnInit, OnDestroy {
 			.subscribe(async ({ placeId, categoryId, id }) => {
 				await this._productPageQuery.setVariables({ productId: id });
 
-				this._breadcrumbsService.setBackUrl(
-					CLIENT_ROUTES.PRODUCTS.absolutePath.replace(PLACE_ID, placeId).replace(CATEGORY_ID, categoryId)
-				);
+				this._breadcrumbsService.setBreadcrumb({
+					routerLink: CLIENT_ROUTES.PRODUCTS.absolutePath.replace(PLACE_ID, placeId).replace(CATEGORY_ID, categoryId)
+				});
 			});
 
 		this._actionsService.setAction({
 			label: "Подтвердить",
-			action: () => {
+			func: () => {
 				combineLatest([this.product$, this._ordersService.activeOrderId$])
 					.pipe(
 						take(1),
@@ -89,7 +89,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy() {
-		this._breadcrumbsService.setBackUrl(null);
+		this._breadcrumbsService.setBreadcrumb(null);
 		this._actionsService.setAction(null);
 	}
 }

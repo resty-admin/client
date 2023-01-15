@@ -44,10 +44,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
 			this.formGroup.patchValue(user);
 		});
 
-		this._breadcrumbsService.setBackUrl(CLIENT_ROUTES.PLACES.absolutePath);
+		this._breadcrumbsService.setBreadcrumb({ routerLink: CLIENT_ROUTES.PLACES.absolutePath });
 		this._actionsService.setAction({
 			label: "Подтвердить",
-			action: () => {
+			func: () => {
 				this._authService.updateMe(this.formGroup.value).subscribe();
 			}
 		});
@@ -59,6 +59,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
 	ngOnDestroy() {
 		this._actionsService.setAction(null);
-		this._breadcrumbsService.setBackUrl(null);
+		this._breadcrumbsService.setBreadcrumb(null);
 	}
 }

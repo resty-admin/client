@@ -97,21 +97,25 @@ export const CLIENT_ROUTES = {
 		path: `places/${PLACE_ID}/dashboard`,
 		absolutePath: `/places/${PLACE_ID}/dashboard`
 	},
+	MENU: {
+		path: `places/${PLACE_ID}/menu`,
+		absolutePath: `/places/${PLACE_ID}/menu`
+	},
 	CATEGORIES: {
-		path: `places/${PLACE_ID}/categories`,
-		absolutePath: `/places/${PLACE_ID}/categories`
+		path: `places/${PLACE_ID}/menu/categories`,
+		absolutePath: `/places/${PLACE_ID}/menu/categories`
 	},
 	CATEGORY: {
-		path: `places/${PLACE_ID}/categories/${CATEGORY_ID}`,
-		absolutePath: `/places/${PLACE_ID}/categories/${CATEGORY_ID}`
+		path: `places/${PLACE_ID}/menu/categories/${CATEGORY_ID}`,
+		absolutePath: `/places/${PLACE_ID}/menu/categories/${CATEGORY_ID}`
 	},
 	PRODUCTS: {
-		path: `places/${PLACE_ID}/categories/${CATEGORY_ID}/products`,
-		absolutePath: `/places/${PLACE_ID}/categories/${CATEGORY_ID}/products`
+		path: `places/${PLACE_ID}/menu/categories/${CATEGORY_ID}/products`,
+		absolutePath: `/places/${PLACE_ID}/menu/categories/${CATEGORY_ID}/products`
 	},
 	PRODUCT: {
-		path: `places/${PLACE_ID}/categories/${CATEGORY_ID}/products/${DYNAMIC_ID}`,
-		absolutePath: `/places/${PLACE_ID}/categories/${CATEGORY_ID}/products/${DYNAMIC_ID}`
+		path: `places/${PLACE_ID}/menu/categories/${CATEGORY_ID}/products/${DYNAMIC_ID}`,
+		absolutePath: `/places/${PLACE_ID}/menu/categories/${CATEGORY_ID}/products/${DYNAMIC_ID}`
 	},
 	HALLS: {
 		path: `places/${PLACE_ID}/halls`,

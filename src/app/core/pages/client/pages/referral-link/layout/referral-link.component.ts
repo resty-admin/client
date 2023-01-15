@@ -52,7 +52,9 @@ export class ReferralLinkComponent implements OnInit, OnDestroy {
 				return;
 			}
 
-			this._breadcrumbsService.setBackUrl(CLIENT_ROUTES.DASHBOARD.absolutePath.replace(PLACE_ID, order.place.id));
+			this._breadcrumbsService.setBreadcrumb({
+				routerLink: CLIENT_ROUTES.DASHBOARD.absolutePath.replace(PLACE_ID, order.place.id)
+			});
 
 			const url = {
 				[OrderTypeEnum.Reserve]: CLIENT_ROUTES.HALLS.absolutePath,
@@ -70,7 +72,7 @@ export class ReferralLinkComponent implements OnInit, OnDestroy {
 
 			this._actionsService.setAction({
 				label,
-				action: async () => {
+				func: async () => {
 					await this._routerService.navigateByUrl(url.replace(PLACE_ID, order.place.id));
 				}
 			});
@@ -78,7 +80,7 @@ export class ReferralLinkComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy() {
-		this._breadcrumbsService.setBackUrl(null);
+		this._breadcrumbsService.setBreadcrumb(null);
 		this._actionsService.setAction(null);
 	}
 }

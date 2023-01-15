@@ -34,17 +34,17 @@ export class AllOrdersComponent implements OnInit, OnDestroy {
 	) {}
 
 	ngOnInit() {
-		this._breadcrumbsService.setBackUrl(CLIENT_ROUTES.PLACES.absolutePath);
+		this._breadcrumbsService.setBreadcrumb({ routerLink: CLIENT_ROUTES.PLACES.absolutePath });
 		this._actionsService.setAction({
 			label: "Создать заказ",
-			action: async () => {
+			func: async () => {
 				await this._routerService.navigateByUrl(CLIENT_ROUTES.PLACES.absolutePath);
 			}
 		});
 	}
 
 	ngOnDestroy() {
-		this._breadcrumbsService.setBackUrl(null);
+		this._breadcrumbsService.setBreadcrumb(null);
 		this._actionsService.setAction(null);
 	}
 }

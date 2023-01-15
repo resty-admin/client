@@ -60,11 +60,13 @@ export class HistoryOrderComponent implements OnInit, OnDestroy {
 			});
 
 		this.order$.pipe(untilDestroyed(this)).subscribe((order) => {
-			this._breadcrumbsService.setBackUrl(CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, order.place.id));
+			this._breadcrumbsService.setBreadcrumb({
+				routerLink: CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, order.place.id)
+			});
 
 			this._actionsService.setAction({
 				label: "Выбрать тип оплаты",
-				action: async () => {
+				func: async () => {
 					await this._routerService.navigate([CLIENT_ROUTES.PAYMENT_TYPE.absolutePath.replace(DYNAMIC_ID, order.id)], {
 						queryParams: { users: JSON.stringify(this.usersControl.value) }
 					});
@@ -78,7 +80,7 @@ export class HistoryOrderComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy() {
-		this._breadcrumbsService.setBackUrl(null);
+		this._breadcrumbsService.setBreadcrumb(null);
 		this._actionsService.setAction(null);
 	}
 }

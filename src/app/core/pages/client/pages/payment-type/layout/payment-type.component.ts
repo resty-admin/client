@@ -60,12 +60,14 @@ export class PaymentTypeComponent implements OnInit, OnDestroy {
 			.pipe(untilDestroyed(this))
 			.subscribe(async (orderId) => {
 				await this.paymentTypePageQuery.setVariables({ orderId });
-				this._breadcrumbsService.setBackUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(DYNAMIC_ID, orderId));
+				this._breadcrumbsService.setBreadcrumb({
+					routerLink: CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(DYNAMIC_ID, orderId)
+				});
 			});
 
 		this._actionsService.setAction({
 			label: "Оплатить",
-			action: () => {
+			func: () => {
 				const type = this.paymentTypeControl.value;
 
 				if (type === PaymentType.CARD) {
@@ -86,7 +88,7 @@ export class PaymentTypeComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy() {
-		this._breadcrumbsService.setBackUrl(null);
+		this._breadcrumbsService.setBreadcrumb(null);
 		this._actionsService.setAction(null);
 	}
 }

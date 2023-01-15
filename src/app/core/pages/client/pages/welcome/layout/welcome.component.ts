@@ -30,7 +30,7 @@ export class WelcomeComponent implements OnInit, OnDestroy {
 	ngOnInit() {
 		this._actionsService.setAction({
 			label: "Подтвердить",
-			action: () => {
+			func: () => {
 				this._authService
 					.updateMe({ name: this.nameControl.value })
 					.pipe(take(1))

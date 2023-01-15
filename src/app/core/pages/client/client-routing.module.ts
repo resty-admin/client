@@ -71,8 +71,12 @@ export const CLIENT_ROUTES: Route[] = [
 					import("./pages/connect-to-order/connect-to-order.module").then((m) => m.ConnectToOrderModule)
 			},
 			{
+				..._SHARED_CLIENT_ROUTES.MENU,
+				loadChildren: () => import("./pages/menu/menu.module").then((m) => m.MenuModule)
+			},
+			{
 				..._SHARED_CLIENT_ROUTES.CATEGORIES,
-				loadChildren: () => import("./pages/categories/categories.module").then((m) => m.CategoriesModule)
+				loadChildren: () => import("./pages/menu/menu.module").then((m) => m.MenuModule)
 			},
 			{
 				..._SHARED_CLIENT_ROUTES.CATEGORY,
@@ -81,7 +85,7 @@ export const CLIENT_ROUTES: Route[] = [
 			},
 			{
 				..._SHARED_CLIENT_ROUTES.PRODUCTS,
-				loadChildren: () => import("./pages/products/products.module").then((m) => m.ProductsModule)
+				loadChildren: () => import("./pages/menu/menu.module").then((m) => m.MenuModule)
 			},
 			{
 				..._SHARED_CLIENT_ROUTES.PRODUCT,
