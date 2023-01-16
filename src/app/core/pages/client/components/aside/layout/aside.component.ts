@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { CLIENT_ROUTES } from "../../../../../../shared/constants";
+import { CLIENT_ROUTES, ORDER_ID } from "../../../../../../shared/constants";
 import { PAGES } from "../../../data";
 import { ASIDE_I18N } from "../constants";
 import { ASIDE_PROVIDERS } from "../providers";
@@ -13,6 +13,7 @@ import { ASIDE_PROVIDERS } from "../providers";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AsideComponent {
+	readonly orderId = ORDER_ID;
 	readonly asideI18n = ASIDE_I18N;
 	@Output() closeClicked = new EventEmitter();
 	@Output() signOutClicked = new EventEmitter();

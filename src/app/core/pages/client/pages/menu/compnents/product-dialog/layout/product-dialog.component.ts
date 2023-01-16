@@ -2,7 +2,6 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 import { FormControl } from "@ngneat/reactive-forms";
-import { UntilDestroy } from "@ngneat/until-destroy";
 import { map } from "rxjs";
 
 import type { ProductEntity } from "../../../../../../../../../graphql";
@@ -11,7 +10,6 @@ import { FORM_I18N } from "../../../../../../../constants";
 import { PRODUCT_PAGE_I18N } from "../constants";
 import { ProductPageGQL } from "../graphql/product-page";
 
-@UntilDestroy()
 @Component({
 	selector: "app-product-dialog",
 	templateUrl: "./product-dialog.component.html",

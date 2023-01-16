@@ -9,7 +9,7 @@ import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
 
-import { OrderTypeEnum } from "../../../../../../../graphql";
+import { ProductToOrderStatusEnum } from "../../../../../../../graphql";
 import { ActionsService } from "../../../../../../features/app";
 import { ACTIVE_ORDER_PAGE_I18N } from "../constants";
 import { ActiveOrderPageGQL } from "../graphql/active-order-page";
@@ -22,6 +22,7 @@ import { ActiveOrderPageGQL } from "../graphql/active-order-page";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActiveOrderComponent implements OnInit, OnDestroy {
+	readonly placeId = PLACE_ID;
 	readonly activeOrderPageI18n = ACTIVE_ORDER_PAGE_I18N;
 	readonly clientRoutes = CLIENT_ROUTES;
 	readonly usersControl = new FormControl<any>();
@@ -30,14 +31,12 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 		map((result) => result.data.order),
 		map((order) => ({
 			...order,
-			usersToOrdersByType: this.displayStatuses.map((status) => ({
+			usersToOrdersByType: Object.values(ProductToOrderStatusEnum).map((status) => ({
 				status,
 				usersToOrders: order.usersToOrders?.filter((userToOrder) => userToOrder.status === status)
 			}))
 		}))
 	);
-
-	readonly displayStatuses = Object.keys(OrderTypeEnum);
 
 	constructor(
 		private readonly _activeOrderPageGQL: ActiveOrderPageGQL,

@@ -76,60 +76,7 @@
 		}
 
 		.active-order {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			height: rem(40);
-			border-radius: rem(12);
-			padding: rem(12);
-			column-gap: rem(12);
-
-			@include hideOnMobile(flex);
-
-			.divider {
-				width: rem(1);
-				height: 100%;
-				background-color: var(--dark-b);
-			}
-
-			.code {
-				font-size: rem(12);
-				line-height: rem(16);
-				color: var(--dark);
-			}
-
-			.type {
-				font-size: rem(12);
-				line-height: rem(16);
-			}
-
-			&.DELIVERY {
-				background-color: rgb(109 185 255 / 10%);
-				.type {
-					color: #6db9ff;
-				}
-			}
-
-			&.IN_PLACE {
-				background-color: rgb(223 134 0 / 10%);
-				.type {
-					color: #df8600;
-				}
-			}
-
-			&.PICKUP {
-				background-color: rgb(0 144 7 / 10%);
-				.type {
-					color: #009007;
-				}
-			}
-
-			&.RESERVE {
-				background-color: rgb(144 111 216 / 10%);
-				.type {
-					color: #906fd8;
-				}
-			}
+			@include hideOnMobile ();
 		}
 
 		.nav {

@@ -1,7 +1,6 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
-import { UntilDestroy } from "@ngneat/until-destroy";
 import { map, take } from "rxjs";
 
 import { ActionsService } from "../../../../../../features/app";
@@ -22,7 +21,6 @@ export enum PaymentType {
 	CARD = "card"
 }
 
-@UntilDestroy()
 @Component({
 	selector: "app-payment-type",
 	templateUrl: "./payment-type.component.html",

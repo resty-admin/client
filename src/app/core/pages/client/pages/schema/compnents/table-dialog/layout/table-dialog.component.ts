@@ -1,7 +1,6 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
-import { UntilDestroy } from "@ngneat/until-destroy";
 import { map } from "rxjs";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
@@ -12,7 +11,6 @@ import { TABLE_DIALOG_I18N } from "../constants";
 import { TableDialogGQL } from "../graphql/table-dialog";
 import { TABLE_DIALOG_PROVIDERS } from "../providers";
 
-@UntilDestroy()
 @Component({
 	selector: "app-table-dialog",
 	templateUrl: "./table-dialog.component.html",

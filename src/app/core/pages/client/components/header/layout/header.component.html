@@ -5,15 +5,11 @@
 
 	<div class="space"></div>
 
-	<a
-		*ngIf="activeOrder"
-		[class]="'active-order' + ' ' + activeOrder.type"
-		[routerLink]="clientRoutes.ACTIVE_ORDER.absolutePath.replace(':id', activeOrder.id)"
-	>
-		<p class="code">{{ t("order") }} №{{ activeOrder.code }}</p>
-		<hr class="divider" />
-		<p class="type">{{ activeOrder.type }}</p>
-	</a>
+	<app-active-order
+		class="active-order"
+		[activeOrder]="activeOrder"
+		[activeOrderLink]="activeOrderLink"
+	></app-active-order>
 
 	<div class="profile" *ngIf="user" [tippy]="dropdown" placement="bottom-end" variation="popper">
 		<p class="name">{{ user.name }}</p>

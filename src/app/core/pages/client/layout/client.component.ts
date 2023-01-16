@@ -1,7 +1,6 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { UntilDestroy } from "@ngneat/until-destroy";
-import { filter, map, switchMap, take } from "rxjs";
+import { catchError, filter, map, of, switchMap, take } from "rxjs";
 
 import { AsideService } from "../../../../features/app";
 import { AuthService } from "../../../../features/auth/services";
@@ -11,7 +10,6 @@ import { RouterService } from "../../../../shared/modules/router";
 import type { IAction } from "../../../../shared/ui/actions";
 import { ClientPageGQL } from "../graphql/client-page";
 
-@UntilDestroy()
 @Component({
 	selector: "app-client",
 	templateUrl: "./client.component.html",
@@ -24,7 +22,8 @@ export class ClientComponent implements OnInit {
 	readonly activeOrder$ = this._ordersService.activeOrderId$.pipe(
 		filter((orderId) => Boolean(orderId)),
 		switchMap((orderId) => this._clientPageGQL.watch({ orderId: orderId! }).valueChanges),
-		map((result) => result.data.order)
+		map((result) => result.data.order),
+		catchError(() => of(null))
 	);
 
 	readonly profileActions: IAction<any>[] = [

@@ -22,6 +22,7 @@ import { HistoryOrderPageGQL } from "../graphql/history-order-page";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HistoryOrderComponent implements OnInit, OnDestroy {
+	readonly placeId = PLACE_ID;
 	readonly historyOrderPageI18n = HISTORY_ORDER_PAGE_I18N;
 	readonly clientRoutes = CLIENT_ROUTES;
 	readonly usersControl = new FormControl<any>();

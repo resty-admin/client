@@ -1,7 +1,6 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
-import { UntilDestroy } from "@ngneat/until-destroy";
 import { map, switchMap, take } from "rxjs";
 import { CLIENT_ROUTES, PLACE_ID } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
@@ -13,7 +12,6 @@ import { OrdersService } from "../../../../../../features/orders";
 import { CONNECT_TO_TABLE_PAGE_I18N } from "../constants";
 import { ConnectToTablePageGQL } from "../graphql/connect-to-table-page";
 
-@UntilDestroy()
 @Component({
 	selector: "app-connect-to-table",
 	templateUrl: "./connect-to-table.component.html",

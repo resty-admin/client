@@ -1,6 +1,5 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { UntilDestroy } from "@ngneat/until-destroy";
 import { map, take } from "rxjs";
 import { ORDER_ID, PLACE_ID } from "src/app/shared/constants";
 import { CLIENT_ROUTES } from "src/app/shared/constants";
@@ -15,7 +14,6 @@ import { CREATE_ORDER_PAGE_I18N } from "../constants";
 import { ORDER_TYPES } from "../data";
 import type { IOrderType } from "../intefaces";
 
-@UntilDestroy()
 @Component({
 	selector: "app-create-order",
 	templateUrl: "./create-order.component.html",

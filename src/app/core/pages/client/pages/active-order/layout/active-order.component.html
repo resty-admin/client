@@ -2,7 +2,7 @@
 	<div class="active-order" *ngIf="order$ | async as order">
 		<app-preview-place class="place" [place]="order.place"></app-preview-place>
 
-		<a *ngIf="order.table" [routerLink]="clientRoutes.SCHEMA.absolutePath.replace(':placeId', order.place.id)">
+		<a *ngIf="order.table" [routerLink]="clientRoutes.SCHEMA.absolutePath.replace(placeId, order.place.id)">
 			<app-preview-table class="table" [table]="order.table"></app-preview-table>
 		</a>
 

@@ -30,10 +30,12 @@
 			.name {
 				grid-area: name;
 				font-weight: 500;
-				font-size: rem(20);
-				line-height: rem(32);
+				font-size: rem(14);
+				line-height: rem(24);
 				color: var(--dark);
-				justify-self: start;
+				text-align: left;
+
+				@include noWrap ();
 			}
 			.price {
 				grid-area: price;

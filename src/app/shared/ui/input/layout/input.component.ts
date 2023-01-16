@@ -1,6 +1,6 @@
 import type { OnChanges, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
-import { untilDestroyed } from "@ngneat/until-destroy";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { map } from "rxjs";
 import { ControlValueAccessor } from "src/app/shared/classes";
 import { ANY_SYMBOL, THEME } from "src/app/shared/constants";
@@ -9,6 +9,7 @@ import { getControlValueAccessorProviders } from "../../../functions";
 import type { ISimpleChanges } from "../../../interfaces";
 import { IInputTheme, IInputType } from "../interfaces";
 
+@UntilDestroy()
 @Component({
 	selector: "app-input",
 	templateUrl: "./input.component.html",

@@ -1,7 +1,6 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
-import { UntilDestroy } from "@ngneat/until-destroy";
 import { PLACE_ID } from "src/app/shared/constants";
 import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
@@ -11,7 +10,6 @@ import { ActionsService } from "../../../../../../features/app";
 import { OrdersService } from "../../../../../../features/orders";
 import { CONNECT_TO_ORDER_PAGE_I18N } from "../constants";
 
-@UntilDestroy()
 @Component({
 	selector: "app-connect-to-order",
 	templateUrl: "./connect-to-order.component.html",

@@ -13,6 +13,7 @@ import { TypographyModule } from "src/app/shared/ui/typography";
 import { DirectivesModule } from "../../../shared/modules/directives";
 import { I18nModule } from "../../../shared/modules/i18n";
 import { ActionsModule } from "../../../shared/ui/actions";
+import { ActiveOrderModule } from "../../../shared/ui/active-order";
 import { LinkModule } from "../../../shared/ui/link";
 import { TooltipModule } from "../../../shared/ui/tooltip";
 import { ClientRoutingModule } from "./client-routing.module";
@@ -37,7 +38,8 @@ import { ClientComponent } from "./layout/client.component";
 		I18nModule,
 		TooltipModule,
 		DirectivesModule,
-		LinkModule
+		LinkModule,
+		ActiveOrderModule
 	],
 	exports: [ClientComponent]
 })

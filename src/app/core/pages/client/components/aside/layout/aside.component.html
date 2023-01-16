@@ -9,16 +9,7 @@
 		</button>
 	</a>
 
-	<a
-		*ngIf="activeOrder"
-		[class]="'active-order' + ' ' + activeOrder.type"
-		[routerLink]="clientRoutes.ACTIVE_ORDER.absolutePath.replace(':id', activeOrder.id)"
-		(click)="emitCloseClick()"
-	>
-		<p class="code">{{ t("order") }} №{{ activeOrder.code }}</p>
-		<hr class="divider" />
-		<p class="type">{{ activeOrder.type }}</p>
-	</a>
+	<app-active-order class="active-order" [activeOrder]="activeOrder"></app-active-order>
 
 	<nav class="nav">
 		<ul class="pages">

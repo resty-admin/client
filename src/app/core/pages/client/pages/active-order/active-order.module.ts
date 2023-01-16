@@ -29,6 +29,7 @@ import { ACTIVE_ORDER_PROVIDERS } from "./providers";
 		PreviewTableModule,
 		PreviewPlaceModule
 	],
+	exports: [ActiveOrderComponent],
 	providers: ACTIVE_ORDER_PROVIDERS
 })
 export class ActiveOrderModule {}
