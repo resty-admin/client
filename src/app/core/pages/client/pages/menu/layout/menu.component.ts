@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { filter, map, switchMap, take, tap } from "rxjs";
-import { CATEGORY_ID, DYNAMIC_ID, PLACE_ID } from "src/app/shared/constants";
+import { CATEGORY_ID, ORDER_ID, PLACE_ID } from "src/app/shared/constants";
 import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
@@ -67,19 +67,20 @@ export class MenuComponent implements OnInit, OnDestroy {
 		private readonly _dialogService: DialogService
 	) {}
 
-	ngOnInit() {
-		this._routerService
-			.selectParams(PLACE_ID.slice(1))
-			.pipe(untilDestroyed(this))
-			.subscribe(async (placeId) => {
-				this._breadcrumbsService.setBreadcrumb({
-					routerLink: CLIENT_ROUTES.CREATE_ORDER.absolutePath.replace(PLACE_ID, placeId)
-				});
+	async ngOnInit() {
+		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
 
-				await this._menuPageCategoriesQuery.setVariables({
-					filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
-				});
-			});
+		if (!placeId) {
+			return;
+		}
+
+		this._breadcrumbsService.setBreadcrumb({
+			routerLink: CLIENT_ROUTES.CREATE_ORDER.absolutePath.replace(PLACE_ID, placeId)
+		});
+
+		await this._menuPageCategoriesQuery.setVariables({
+			filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
+		});
 
 		this._routerService
 			.selectParams(CATEGORY_ID.slice(1))
@@ -98,9 +99,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 			});
 
 			await this._routerService.navigateByUrl(
-				CLIENT_ROUTES.CATEGORY.absolutePath
-					.replace(PLACE_ID, this._routerService.getParams(PLACE_ID.slice(1)))
-					.replace(CATEGORY_ID, categoryId)
+				CLIENT_ROUTES.CATEGORY.absolutePath.replace(PLACE_ID, placeId).replace(CATEGORY_ID, categoryId)
 			);
 		});
 
@@ -122,7 +121,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 					)
 					.subscribe(async (orderId) => {
 						await this._routerService.navigateByUrl(
-							CLIENT_ROUTES.CONFIRM_PRODUCTS.absolutePath.replace(DYNAMIC_ID, orderId!)
+							CLIENT_ROUTES.CONFIRM_PRODUCTS.absolutePath.replace(ORDER_ID, orderId!)
 						);
 					});
 			}

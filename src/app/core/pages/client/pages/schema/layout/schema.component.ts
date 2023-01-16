@@ -67,19 +67,16 @@ export class SchemaComponent implements OnInit, OnDestroy {
 		private readonly _dialogService: DialogService
 	) {}
 
-	ngOnInit() {
-		this._routerService
-			.selectParams(PLACE_ID.slice(1))
-			.pipe(untilDestroyed(this))
-			.subscribe(async (placeId) => {
-				this._breadcrumbsService.setBreadcrumb({
-					routerLink: CLIENT_ROUTES.CREATE_ORDER.absolutePath.replace(PLACE_ID, placeId)
-				});
+	async ngOnInit() {
+		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
 
-				await this._schemaPageHallsQuery.setVariables({
-					filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
-				});
-			});
+		if (!placeId) {
+			return;
+		}
+
+		this._breadcrumbsService.setBreadcrumb({
+			routerLink: CLIENT_ROUTES.CREATE_ORDER.absolutePath.replace(PLACE_ID, placeId)
+		});
 
 		this._routerService
 			.selectParams(HALL_ID.slice(1))
@@ -110,6 +107,10 @@ export class SchemaComponent implements OnInit, OnDestroy {
 			}
 
 			await this._schemaPageOrderQuery.refetch({ orderId });
+		});
+
+		await this._schemaPageHallsQuery.setVariables({
+			filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
 		});
 	}
 

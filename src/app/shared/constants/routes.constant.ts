@@ -1,4 +1,4 @@
-import { CATEGORY_ID, DYNAMIC_ID, DYNAMIC_TOKEN, HALL_ID, PLACE_ID } from "./index";
+import { CATEGORY_ID, DYNAMIC_TOKEN, HALL_ID, ORDER_ID, PLACE_ID } from "./index";
 
 export const CLIENT_ROUTES = {
 	AUTH: {
@@ -50,32 +50,32 @@ export const CLIENT_ROUTES = {
 		absolutePath: `/all-orders`
 	},
 	ACTIVE_ORDER: {
-		path: `active-orders/${DYNAMIC_ID}`,
-		absolutePath: `/active-orders/${DYNAMIC_ID}`
+		path: `active-orders/${ORDER_ID}`,
+		absolutePath: `/active-orders/${ORDER_ID}`
 	},
 	CONFIRM_PRODUCTS: {
-		path: `active-orders/${DYNAMIC_ID}/confirm-products`,
-		absolutePath: `/active-orders/${DYNAMIC_ID}/confirm-products`
+		path: `active-orders/${ORDER_ID}/confirm-products`,
+		absolutePath: `/active-orders/${ORDER_ID}/confirm-products`
 	},
 	HISTORY_ORDER: {
-		path: `history-orders/${DYNAMIC_ID}`,
-		absolutePath: `/history-orders/${DYNAMIC_ID}`
+		path: `history-orders/${ORDER_ID}`,
+		absolutePath: `/history-orders/${ORDER_ID}`
 	},
 	REFERRAL_LINK: {
-		path: `orders/${DYNAMIC_ID}/referral-link`,
-		absolutePath: `/orders/${DYNAMIC_ID}/referral-link`
+		path: `orders/${ORDER_ID}/referral-link`,
+		absolutePath: `/orders/${ORDER_ID}/referral-link`
 	},
 	PRODUCTS_ERROR: {
-		path: `orders/${DYNAMIC_ID}/products-error`,
-		absolutePath: `/orders/${DYNAMIC_ID}/products-error`
+		path: `orders/${ORDER_ID}/products-error`,
+		absolutePath: `/orders/${ORDER_ID}/products-error`
 	},
 	PAYMENT_TYPE: {
-		path: `orders/${DYNAMIC_ID}/payment-type`,
-		absolutePath: `/orders/${DYNAMIC_ID}/payment-type`
+		path: `orders/${ORDER_ID}/payment-type`,
+		absolutePath: `/orders/${ORDER_ID}/payment-type`
 	},
 	PAYMENT_STATUS: {
-		path: `orders/${DYNAMIC_ID}/payment-status`,
-		absolutePath: `/orders/${DYNAMIC_ID}/payment-status`
+		path: `orders/${ORDER_ID}/payment-status`,
+		absolutePath: `/orders/${ORDER_ID}/payment-status`
 	},
 	PLACES: {
 		path: "places",

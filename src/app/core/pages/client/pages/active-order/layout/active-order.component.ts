@@ -4,7 +4,7 @@ import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { map } from "rxjs";
 import { OrdersService } from "src/app/features/orders";
-import { DYNAMIC_ID, PLACE_ID } from "src/app/shared/constants";
+import { ORDER_ID, PLACE_ID } from "src/app/shared/constants";
 import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
@@ -51,13 +51,12 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 		return index;
 	}
 
-	ngOnInit() {
-		this._routerService
-			.selectParams(DYNAMIC_ID.slice(1))
-			.pipe(untilDestroyed(this))
-			.subscribe(async (orderId) => {
-				await this._activeOrderPageQuery.setVariables({ orderId });
-			});
+	async ngOnInit() {
+		const orderId = this._routerService.getParams(ORDER_ID.slice(1));
+
+		if (!orderId) {
+			return;
+		}
 
 		this.order$.pipe(untilDestroyed(this)).subscribe((order) => {
 			this._breadcrumbsService.setBreadcrumb({
@@ -68,12 +67,14 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 			this._actionsService.setAction({
 				label: "Выбрать тип оплаты",
 				func: async () => {
-					await this._routerService.navigate([CLIENT_ROUTES.PAYMENT_TYPE.absolutePath.replace(DYNAMIC_ID, order.id)], {
+					await this._routerService.navigate([CLIENT_ROUTES.PAYMENT_TYPE.absolutePath.replace(ORDER_ID, order.id)], {
 						queryParams: { users: JSON.stringify(this.usersControl.value) }
 					});
 				}
 			});
 		});
+
+		await this._activeOrderPageQuery.setVariables({ orderId });
 	}
 
 	ngOnDestroy() {

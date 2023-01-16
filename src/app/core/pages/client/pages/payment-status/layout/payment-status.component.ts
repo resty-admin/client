@@ -1,8 +1,6 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import type { Observable } from "rxjs";
-import { take } from "rxjs";
-import { DYNAMIC_ID } from "src/app/shared/constants";
+import { ORDER_ID } from "src/app/shared/constants";
 import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { RouterService } from "src/app/shared/modules/router";
 
@@ -18,7 +16,6 @@ import { PAYMENT_STATUS_PAGE_I18N } from "../constants";
 })
 export class PaymentStatusComponent implements OnInit, OnDestroy {
 	readonly paymentStatusPageI18n = PAYMENT_STATUS_PAGE_I18N;
-	readonly order$: Observable<any> = this._routerService.selectParams(DYNAMIC_ID.slice(1));
 
 	constructor(
 		private readonly _ordersService: OrdersService,
@@ -27,12 +24,15 @@ export class PaymentStatusComponent implements OnInit, OnDestroy {
 	) {}
 
 	ngOnInit() {
-		this.order$.pipe(take(1)).subscribe((order: any) => {
-			this._actionsService.setAction({
-				label: "Вернуться в заказ",
-				func: () =>
-					this._routerService.navigateByUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(DYNAMIC_ID, order.id))
-			});
+		const orderId = this._routerService.getParams(ORDER_ID.slice(1));
+
+		if (!orderId) {
+			return;
+		}
+
+		this._actionsService.setAction({
+			label: "Вернуться в заказ",
+			func: () => this._routerService.navigateByUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, orderId))
 		});
 	}
 

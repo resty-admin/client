@@ -1,7 +1,7 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { UntilDestroy } from "@ngneat/until-destroy";
 import { take } from "rxjs";
 import { DYNAMIC_TOKEN } from "src/app/shared/constants";
 import { CLIENT_ROUTES } from "src/app/shared/constants";
@@ -29,13 +29,10 @@ export class VerificationCodeComponent implements OnInit {
 		private readonly _routerService: RouterService
 	) {}
 
-	ngOnInit() {
-		this._routerService
-			.selectParams(DYNAMIC_TOKEN.slice(1))
-			.pipe(untilDestroyed(this))
-			.subscribe((accessToken) => {
-				this._authService.updateAccessToken(accessToken);
-			});
+	async ngOnInit() {
+		const dynamicToken = this._routerService.getParams(DYNAMIC_TOKEN.slice(1));
+
+		await this._authService.updateAccessToken(dynamicToken);
 	}
 
 	verifyCode({ verificationCode }: any) {

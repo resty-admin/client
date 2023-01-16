@@ -1,7 +1,7 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { UntilDestroy } from "@ngneat/until-destroy";
 import { map, switchMap, take } from "rxjs";
 import { CLIENT_ROUTES, PLACE_ID } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
@@ -33,22 +33,22 @@ export class ConnectToTableComponent implements OnInit, OnDestroy {
 	) {}
 
 	ngOnInit() {
-		this._routerService
-			.selectParams(PLACE_ID.slice(1))
-			.pipe(untilDestroyed(this))
-			.subscribe((placeId) => {
-				this._breadcrumbsService.setBreadcrumb({
-					routerLink: CLIENT_ROUTES.CREATE_ORDER.absolutePath.replace(PLACE_ID, placeId)
-				});
-			});
+		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
 
-		this._routerService
-			.selectQueryParams("code")
-			.pipe(untilDestroyed(this))
-			.subscribe((code) => {
-				this.codeControl.setValue(code);
-				this.connectToTable(code, this._routerService.getParams(PLACE_ID.slice(1)));
-			});
+		if (!placeId) {
+			return;
+		}
+
+		this._breadcrumbsService.setBreadcrumb({
+			routerLink: CLIENT_ROUTES.CREATE_ORDER.absolutePath.replace(PLACE_ID, placeId)
+		});
+
+		const code = this._routerService.getQueryParams("code");
+
+		if (code) {
+			this.codeControl.setValue(code);
+			this.connectToTable(code, this._routerService.getParams(PLACE_ID.slice(1)));
+		}
 
 		this._actionsService.setAction({
 			label: "Подключиться",

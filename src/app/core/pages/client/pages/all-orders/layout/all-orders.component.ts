@@ -1,11 +1,10 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { map } from "rxjs";
-import { CLIENT_ROUTES } from "src/app/shared/constants";
+import { CLIENT_ROUTES, ORDER_ID } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 
 import { ActionsService } from "../../../../../../features/app";
-import { DYNAMIC_ID } from "../../../../../../shared/constants";
 import { RouterService } from "../../../../../../shared/modules/router";
 import { ALL_ORDERS_PAGE_I18N } from "../constants";
 import { AllOrdersPageGQL } from "../graphql/all-orders-page";
@@ -19,7 +18,7 @@ import { AllOrdersPageGQL } from "../graphql/all-orders-page";
 export class AllOrdersComponent implements OnInit, OnDestroy {
 	readonly allOrdersPageI18n = ALL_ORDERS_PAGE_I18N;
 	readonly clienRoutes = CLIENT_ROUTES;
-	readonly dynamicId = DYNAMIC_ID;
+	readonly orderId = ORDER_ID;
 
 	private readonly _allOrdersPageQuery = this._allOrdersPageGQL.watch();
 	private readonly _allOrders$ = this._allOrdersPageQuery.valueChanges;

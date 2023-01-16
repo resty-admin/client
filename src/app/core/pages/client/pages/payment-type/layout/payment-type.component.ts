@@ -1,13 +1,13 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { UntilDestroy } from "@ngneat/until-destroy";
 import { map, take } from "rxjs";
 
 import { ActionsService } from "../../../../../../features/app";
 import { AuthService } from "../../../../../../features/auth/services";
 import { OrdersService } from "../../../../../../features/orders";
-import { CLIENT_ROUTES, DYNAMIC_ID } from "../../../../../../shared/constants";
+import { CLIENT_ROUTES, ORDER_ID } from "../../../../../../shared/constants";
 import { ApiService } from "../../../../../../shared/modules/api";
 import { BreadcrumbsService } from "../../../../../../shared/modules/breadcrumbs";
 import { RouterService } from "../../../../../../shared/modules/router";
@@ -54,16 +54,16 @@ export class PaymentTypeComponent implements OnInit, OnDestroy {
 		private readonly _authService: AuthService
 	) {}
 
-	ngOnInit() {
-		this._routerService
-			.selectParams(DYNAMIC_ID.slice(1))
-			.pipe(untilDestroyed(this))
-			.subscribe(async (orderId) => {
-				await this.paymentTypePageQuery.setVariables({ orderId });
-				this._breadcrumbsService.setBreadcrumb({
-					routerLink: CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(DYNAMIC_ID, orderId)
-				});
-			});
+	async ngOnInit() {
+		const orderId = this._routerService.getParams(ORDER_ID.slice(1));
+
+		if (!orderId) {
+			return;
+		}
+
+		this._breadcrumbsService.setBreadcrumb({
+			routerLink: CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, orderId)
+		});
 
 		this._actionsService.setAction({
 			label: "Оплатить",
@@ -72,7 +72,7 @@ export class PaymentTypeComponent implements OnInit, OnDestroy {
 
 				if (type === PaymentType.CARD) {
 					const users = JSON.parse(this._routerService.getQueryParams("users") || "");
-					const orderId = this._routerService.getParams(DYNAMIC_ID.slice(1));
+					const orderId = this._routerService.getParams(ORDER_ID.slice(1));
 
 					this._apiService
 						.post("fondy/create-payment-link", { orderId, users })
@@ -85,6 +85,8 @@ export class PaymentTypeComponent implements OnInit, OnDestroy {
 				}
 			}
 		});
+
+		await this.paymentTypePageQuery.setVariables({ orderId });
 	}
 
 	ngOnDestroy() {

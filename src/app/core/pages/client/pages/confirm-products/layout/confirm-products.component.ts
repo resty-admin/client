@@ -2,7 +2,7 @@ import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { filter, map, switchMap, take } from "rxjs";
-import { DYNAMIC_ID, PLACE_ID } from "src/app/shared/constants";
+import { ORDER_ID, PLACE_ID } from "src/app/shared/constants";
 import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
@@ -60,13 +60,14 @@ export class ConfirmProductsComponent implements OnInit, OnDestroy {
 		return index;
 	}
 
-	ngOnInit() {
-		this._routerService
-			.selectParams(DYNAMIC_ID.slice(1))
-			.pipe(untilDestroyed(this))
-			.subscribe(async (orderId) => {
-				await this._confirmProductsPageQuery.refetch({ orderId });
-			});
+	async ngOnInit() {
+		const orderId = this._routerService.getParams(ORDER_ID.slice(1));
+
+		if (!orderId) {
+			return;
+		}
+
+		await this._confirmProductsPageQuery.refetch({ orderId });
 
 		this._order$.pipe(untilDestroyed(this)).subscribe((order) => {
 			this._breadcrumbsService.setBreadcrumb({
@@ -77,9 +78,9 @@ export class ConfirmProductsComponent implements OnInit, OnDestroy {
 		this._actionsService.setAction({
 			label: "Подтвердить",
 			func: async () => {
-				const order = this._routerService.getParams(DYNAMIC_ID.slice(1));
+				const order = this._routerService.getParams(ORDER_ID.slice(1));
 
-				await this._routerService.navigateByUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(DYNAMIC_ID, order));
+				await this._routerService.navigateByUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, order));
 			}
 		});
 	}

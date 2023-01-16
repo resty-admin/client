@@ -1,8 +1,8 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { UntilDestroy } from "@ngneat/until-destroy";
 import { map, take } from "rxjs";
-import { DYNAMIC_ID, PLACE_ID } from "src/app/shared/constants";
+import { ORDER_ID, PLACE_ID } from "src/app/shared/constants";
 import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
@@ -42,13 +42,14 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
-		this._routerService
-			.selectParams(PLACE_ID.slice(1))
-			.pipe(untilDestroyed(this))
-			.subscribe((placeId) => {
-				this.schemaRouterLink = CLIENT_ROUTES.SCHEMA.absolutePath.replace(PLACE_ID, placeId);
-				this.menuRouterLink = CLIENT_ROUTES.MENU.absolutePath.replace(PLACE_ID, placeId);
-			});
+		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
+
+		if (!placeId) {
+			return;
+		}
+
+		this.schemaRouterLink = CLIENT_ROUTES.SCHEMA.absolutePath.replace(PLACE_ID, placeId);
+		this.menuRouterLink = CLIENT_ROUTES.MENU.absolutePath.replace(PLACE_ID, placeId);
 
 		this._actionsService.setAction({
 			label: "Подключиться к заказу",
@@ -84,7 +85,7 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 
 				this._ordersService.setActiveOrderId(order.id);
 
-				await this._routerService.navigateByUrl(routerLink.replace(DYNAMIC_ID, order.id));
+				await this._routerService.navigateByUrl(routerLink.replace(ORDER_ID, order.id));
 			});
 	}
 
