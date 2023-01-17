@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import type { IEmit } from "../../../../../../../features/products";
+import type { IEmit } from "../../../index";
 
 @Component({
 	selector: "app-products-select",

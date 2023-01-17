@@ -5,6 +5,7 @@ query ActiveOrderPage($orderId: String!) {
 		type
 		status
 		totalPrice
+		tableStatus
 		users {
 			id
 			name
@@ -29,10 +30,11 @@ query ActiveOrderPage($orderId: String!) {
 				name
 			}
 		}
-		usersToOrders {
+		productsToOrders {
 			id
 			count
 			status
+			paidStatus
 			user {
 				id
 				name

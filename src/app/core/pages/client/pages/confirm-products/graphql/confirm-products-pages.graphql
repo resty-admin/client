@@ -4,8 +4,9 @@ query ConfirmProductsPage($orderId: String!) {
 		place {
 			id
 		}
-		usersToOrders {
+		productsToOrders {
 			count
+			status
 			user {
 				id
 			}

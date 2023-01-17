@@ -13,10 +13,11 @@ export interface ConfirmProductsPageQuery {
 		__typename?: "ActiveOrderEntity";
 		id: string;
 		place: { __typename?: "PlaceEntity"; id: string };
-		usersToOrders?:
+		productsToOrders?:
 			| {
-					__typename?: "UserToOrderEntity";
+					__typename?: "ProductToOrderEntity";
 					count: number;
+					status: Types.ProductToOrderStatusEnum;
 					user: { __typename?: "UserEntity"; id: string };
 					product: {
 						__typename?: "ProductEntity";
@@ -38,8 +39,9 @@ export const ConfirmProductsPageDocument = gql`
 			place {
 				id
 			}
-			usersToOrders {
+			productsToOrders {
 				count
+				status
 				user {
 					id
 				}

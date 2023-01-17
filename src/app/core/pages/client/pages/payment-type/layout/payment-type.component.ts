@@ -1,7 +1,7 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
-import { map, take } from "rxjs";
+import { lastValueFrom, map } from "rxjs";
 
 import { ActionsService } from "../../../../../../features/app";
 import { AuthService } from "../../../../../../features/auth/services";
@@ -65,21 +65,27 @@ export class PaymentTypeComponent implements OnInit, OnDestroy {
 
 		this._actionsService.setAction({
 			label: "Оплатить",
-			func: () => {
+			func: async () => {
 				const type = this.paymentTypeControl.value;
+				const products = JSON.parse(this._routerService.getQueryParams("products") || "");
+				const orderId = this._routerService.getParams(ORDER_ID.slice(1));
 
 				if (type === PaymentType.CARD) {
-					const users = JSON.parse(this._routerService.getQueryParams("users") || "");
-					const orderId = this._routerService.getParams(ORDER_ID.slice(1));
-
-					this._apiService
-						.post("fondy/create-payment-link", { orderId, users })
-						.pipe(take(1))
-						.subscribe(({ link }: any) => {
-							window.location.href = link;
-						});
+					try {
+						window.location.href = await lastValueFrom(
+							this._apiService.post("fondy/create-payment-link", { orderId, products })
+						);
+					} catch (error) {
+						console.error(error);
+					}
 				} else {
-					this._toastrService.error("Официант сейчас подойдет к вам");
+					try {
+						await lastValueFrom(this._ordersService.setManualPayForProductsInOrderGQL(products));
+
+						await this._routerService.navigateByUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, orderId));
+					} catch (error) {
+						console.error(error);
+					}
 				}
 			}
 		});

@@ -16,6 +16,7 @@ export interface ActiveOrderPageQuery {
 		type: Types.OrderTypeEnum;
 		status: Types.OrderStatusEnum;
 		totalPrice?: number | null;
+		tableStatus: Types.TableStatusEnum;
 		users?: { __typename?: "UserEntity"; id: string; name: string }[] | null;
 		place: {
 			__typename?: "PlaceEntity";
@@ -30,12 +31,13 @@ export interface ActiveOrderPageQuery {
 			file?: { __typename?: "FileEntity"; id: string; url: string } | null;
 			hall: { __typename?: "HallEntity"; id: string; name: string };
 		} | null;
-		usersToOrders?:
+		productsToOrders?:
 			| {
-					__typename?: "UserToOrderEntity";
+					__typename?: "ProductToOrderEntity";
 					id: string;
 					count: number;
 					status: Types.ProductToOrderStatusEnum;
+					paidStatus: Types.ProductToOrderPaidStatusEnum;
 					user: { __typename?: "UserEntity"; id: string; name: string };
 					product: {
 						__typename?: "ProductEntity";
@@ -68,6 +70,7 @@ export const ActiveOrderPageDocument = gql`
 			type
 			status
 			totalPrice
+			tableStatus
 			users {
 				id
 				name
@@ -92,10 +95,11 @@ export const ActiveOrderPageDocument = gql`
 					name
 				}
 			}
-			usersToOrders {
+			productsToOrders {
 				id
 				count
 				status
+				paidStatus
 				user {
 					id
 					name

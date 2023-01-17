@@ -5,7 +5,7 @@
 			<a class="link" [routerLink]="product.id">
 				<app-preview-product
 					[product]="product"
-					[usersToOrders]="product.usersToOrders"
+					[productsToOrders]="product.productsToOrders"
 					(minusClicked)="removeProductFromOrder($event)"
 					(plusClicked)="addProductToOrder($event)"
 				></app-preview-product>

@@ -34,7 +34,7 @@ export class TableDialogComponent implements OnInit {
 	) {}
 
 	closeDialogWithData(table: any) {
-		this._dialogRef.close({ table });
+		this._dialogRef.close(table);
 	}
 
 	async ngOnInit() {

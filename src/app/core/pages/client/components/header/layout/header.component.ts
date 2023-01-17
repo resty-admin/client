@@ -34,7 +34,7 @@ export class HeaderComponent implements OnChanges {
 		if (changes.activeOrder && changes.activeOrder.currentValue) {
 			this.activeOrderLink = CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(
 				ORDER_ID,
-				this._routerService.getParams(ORDER_ID.slice(1))
+				changes.activeOrder.currentValue.id
 			);
 		}
 	}

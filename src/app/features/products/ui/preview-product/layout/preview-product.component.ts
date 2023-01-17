@@ -1,7 +1,7 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import type { ProductEntity, UserToOrderEntity } from "../../../../../../graphql";
+import type { ProductEntity, ProductToOrderEntity } from "../../../../../../graphql";
 import type { ISimpleChanges } from "../../../../../shared/interfaces";
 import { DeepAtLeast } from "../../../../../shared/interfaces";
 
@@ -20,7 +20,7 @@ export class PreviewProductComponent implements OnChanges {
 	@Output() minusClicked = new EventEmitter<IEmit>();
 	@Output() plusClicked = new EventEmitter<IEmit>();
 	@Input() product?: DeepAtLeast<ProductEntity, "id">;
-	@Input() usersToOrders?: DeepAtLeast<UserToOrderEntity, "count">[] = [];
+	@Input() productsToOrders?: DeepAtLeast<ProductToOrderEntity, "count">[] = [];
 
 	count = 0;
 
@@ -31,21 +31,21 @@ export class PreviewProductComponent implements OnChanges {
 	}
 
 	ngOnChanges(changes: ISimpleChanges<PreviewProductComponent>) {
-		if (!changes.usersToOrders || !changes.usersToOrders.currentValue) {
+		if (!changes.productsToOrders || !changes.productsToOrders.currentValue) {
 			return;
 		}
 
-		const usersToOrders = changes.usersToOrders.currentValue || [];
+		const productsToOrders = changes.productsToOrders.currentValue || [];
 
-		this.count = usersToOrders
-			.filter((userToOrder) => (userToOrder.attributes || []).length === 0)
-			.reduce((count, userToOrder) => count + userToOrder.count, 0);
+		this.count = productsToOrders
+			.filter((productToOrder) => (productToOrder.attributes || []).length === 0)
+			.reduce((count, productToOrder) => count + productToOrder.count, 0);
 
-		this.usersToProductsWithAttributes = usersToOrders
-			.filter((userToOrder) => (userToOrder.attributes || []).length)
-			.map((userToOrder) => ({
-				...userToOrder,
-				attributesName: (userToOrder.attributes || []).reduce(
+		this.usersToProductsWithAttributes = productsToOrders
+			.filter((productToOrder) => (productToOrder.attributes || []).length)
+			.map((productToOrder) => ({
+				...productToOrder,
+				attributesName: (productToOrder.attributes || []).reduce(
 					(attributesName, attribute) => `${attributesName} ${attribute?.name || ""} (${attribute?.price} грн)`,
 					""
 				)

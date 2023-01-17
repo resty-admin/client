@@ -3,7 +3,7 @@ import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 
 import { PreviewPlaceModule } from "../../../../../features/places";
-import { ProductToOrderModule } from "../../../../../features/products";
+import { ProductsToOrderSelectModule, ProductToOrderModule } from "../../../../../features/products";
 import { PreviewTableModule } from "../../../../../features/tables";
 import { UsersSelectModule } from "../../../../../features/users/ui/users-select/users-select.module";
 import { TranslocoModule } from "../../../../../shared/modules/i18n";
@@ -27,7 +27,8 @@ import { ACTIVE_ORDER_PROVIDERS } from "./providers";
 		ProductToOrderModule,
 		UsersSelectModule,
 		PreviewTableModule,
-		PreviewPlaceModule
+		PreviewPlaceModule,
+		ProductsToOrderSelectModule
 	],
 	exports: [ActiveOrderComponent],
 	providers: ACTIVE_ORDER_PROVIDERS

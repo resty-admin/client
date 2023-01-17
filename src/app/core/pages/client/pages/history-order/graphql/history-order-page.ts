@@ -30,12 +30,13 @@ export interface HistoryOrderPageQuery {
 			file?: { __typename?: "FileEntity"; id: string; url: string } | null;
 			hall: { __typename?: "HallEntity"; id: string; name: string };
 		} | null;
-		usersToOrders?:
+		productsToOrders?:
 			| {
-					__typename?: "UserToOrderEntity";
+					__typename?: "ProductToOrderEntity";
 					id: string;
 					count: number;
 					status: Types.ProductToOrderStatusEnum;
+					paidStatus: Types.ProductToOrderPaidStatusEnum;
 					user: { __typename?: "UserEntity"; id: string; name: string };
 					product: {
 						__typename?: "ProductEntity";
@@ -92,10 +93,11 @@ export const HistoryOrderPageDocument = gql`
 					name
 				}
 			}
-			usersToOrders {
+			productsToOrders {
 				id
 				count
 				status
+				paidStatus
 				user {
 					id
 					name

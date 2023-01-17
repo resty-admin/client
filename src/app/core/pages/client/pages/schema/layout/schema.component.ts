@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { filter, map, switchMap, take, tap } from "rxjs";
-import { HALL_ID, PLACE_ID } from "src/app/shared/constants";
+import { HALL_ID, ORDER_ID, PLACE_ID } from "src/app/shared/constants";
 import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
@@ -119,10 +119,21 @@ export class SchemaComponent implements OnInit, OnDestroy {
 			.open(TableDialogComponent, { data })
 			.afterClosed$.pipe(
 				take(1),
-				filter((result) => Boolean(result))
+				filter((result) => Boolean(result)),
+				switchMap((table) =>
+					this._ordersService.activeOrderId$.pipe(
+						take(1),
+						switchMap((orderId) => this._ordersService.addTableToOrder(orderId!, table.id)),
+						map((result) => result.data?.addTableToOrder)
+					)
+				)
 			)
-			.subscribe(async ({ table }) => {
-				console.log("?", table);
+			.subscribe(async (order) => {
+				if (!order) {
+					return;
+				}
+
+				await this._routerService.navigateByUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, order.id));
 			});
 	}
 

@@ -11,10 +11,12 @@ import {
 	AddTableToOrderGQL,
 	AddUserToOrderGQL,
 	CloseOrderGQL,
+	ConfirmOrderGQL,
 	CreateOrderGQL,
 	DeleteOrderGQL,
 	RemoveProductFromOrderGQL,
 	RemoveTableFromOrderGQL,
+	SetManualPayForProductsInOrderGQL,
 	UpdateOrderGQL
 } from "../../graphql/orders";
 import { OrdersRepository } from "../../repositories";
@@ -33,7 +35,9 @@ export class OrdersService {
 		private readonly _addTableToOrderGQL: AddTableToOrderGQL,
 		private readonly _removeTableFromOrdeGQL: RemoveTableFromOrderGQL,
 		private readonly _addProductToOrderGQL: AddProductToOrderGQL,
-		private readonly _removeProductFromOrderGQL: RemoveProductFromOrderGQL
+		private readonly _removeProductFromOrderGQL: RemoveProductFromOrderGQL,
+		private readonly _confirmOrderGQL: ConfirmOrderGQL,
+		private readonly _setManualPayForProductsInOrderGQL: SetManualPayForProductsInOrderGQL
 	) {}
 
 	setActiveOrderId(orderId?: string) {
@@ -74,5 +78,13 @@ export class OrdersService {
 
 	removeProductFromOrder(productFromOrder: RemoveProductFromOrderInput) {
 		return this._removeProductFromOrderGQL.mutate({ productFromOrder });
+	}
+
+	confirmOrder(orderId: string) {
+		return this._confirmOrderGQL.mutate({ orderId });
+	}
+
+	setManualPayForProductsInOrderGQL(productToOrderIds: string[]) {
+		return this._setManualPayForProductsInOrderGQL.mutate({ productToOrderIds });
 	}
 }

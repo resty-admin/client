@@ -29,10 +29,11 @@ query HistoryOrderPage($orderId: String!) {
 				name
 			}
 		}
-		usersToOrders {
+		productsToOrders {
 			id
 			count
 			status
+			paidStatus
 			user {
 				id
 				name

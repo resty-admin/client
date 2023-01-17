@@ -44,11 +44,12 @@ export interface MenuPageOrderQuery {
 	order: {
 		__typename?: "ActiveOrderEntity";
 		id: string;
-		usersToOrders?:
+		productsToOrders?:
 			| {
-					__typename?: "UserToOrderEntity";
+					__typename?: "ProductToOrderEntity";
 					id: string;
 					count: number;
+					status: Types.ProductToOrderStatusEnum;
 					user: { __typename?: "UserEntity"; id: string };
 					product: { __typename?: "ProductEntity"; id: string; name: string; price: number };
 					attributes?: { __typename?: "AttributesEntity"; id: string; name: string; price: number }[] | null;
@@ -108,9 +109,10 @@ export const MenuPageOrderDocument = gql`
 	query MenuPageOrder($orderId: String!) {
 		order(id: $orderId) {
 			id
-			usersToOrders {
+			productsToOrders {
 				id
 				count
+				status
 				user {
 					id
 				}

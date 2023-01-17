@@ -47,3 +47,15 @@ mutation RemoveProductFromOrder($productFromOrder: RemoveProductFromOrderInput!)
 		id
 	}
 }
+
+mutation ConfirmOrder($orderId: String!) {
+	confirmOrder(orderId: $orderId) {
+		id
+	}
+}
+
+mutation SetManualPayForProductsInOrder($productToOrderIds: [String!]!) {
+	setManualPayForProductsInOrder(productToOrderIds: $productToOrderIds) {
+		id
+	}
+}

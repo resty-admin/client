@@ -24,9 +24,10 @@ query MenuPageProducts($skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) 
 query MenuPageOrder($orderId: String!) {
 	order(id: $orderId) {
 		id
-		usersToOrders {
+		productsToOrders {
 			id
 			count
+			status
 			user {
 				id
 			}

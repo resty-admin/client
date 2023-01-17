@@ -2,12 +2,12 @@ import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { filter, map, switchMap, take } from "rxjs";
-import { ORDER_ID, PLACE_ID } from "src/app/shared/constants";
-import { CLIENT_ROUTES } from "src/app/shared/constants";
+import { CLIENT_ROUTES, ORDER_ID, PLACE_ID } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
 
-import type { ProductEntity, UserToOrderEntity } from "../../../../../../../graphql";
+import type { ProductEntity, ProductToOrderEntity } from "../../../../../../../graphql";
+import { ProductToOrderStatusEnum } from "../../../../../../../graphql";
 import { ActionsService } from "../../../../../../features/app";
 import { OrdersService } from "../../../../../../features/orders";
 import type { IEmit } from "../../../../../../features/products";
@@ -17,7 +17,7 @@ import { ConfirmProductsPageGQL } from "../graphql/confirm-products-pages";
 
 export type IConfirmProductsMap = Record<
 	string,
-	DeepAtLeast<ProductEntity, "id"> & { usersToOrders?: DeepAtLeast<UserToOrderEntity, "count">[] }
+	DeepAtLeast<ProductEntity, "id"> & { productsToOrders?: DeepAtLeast<ProductToOrderEntity, "count">[] }
 >;
 @UntilDestroy()
 @Component({
@@ -34,16 +34,18 @@ export class ConfirmProductsComponent implements OnInit, OnDestroy {
 	readonly products$ = this._order$.pipe(
 		map((order) =>
 			Object.values(
-				(order.usersToOrders || []).reduce<IConfirmProductsMap>(
-					(productsMap, userToOrder) => ({
-						...productsMap,
-						[userToOrder.product.id]: {
-							...userToOrder.product,
-							usersToOrders: [...(productsMap[userToOrder.product.id]?.usersToOrders || []), userToOrder]
-						}
-					}),
-					{}
-				)
+				(order.productsToOrders || [])
+					.filter((productToOrder) => productToOrder.status === ProductToOrderStatusEnum.Added)
+					.reduce<IConfirmProductsMap>(
+						(productsMap, productToOrder) => ({
+							...productsMap,
+							[productToOrder.product.id]: {
+								...productToOrder.product,
+								productsToOrders: [...(productsMap[productToOrder.product.id]?.productsToOrders || []), productToOrder]
+							}
+						}),
+						{}
+					)
 			)
 		)
 	);
@@ -78,9 +80,14 @@ export class ConfirmProductsComponent implements OnInit, OnDestroy {
 		this._actionsService.setAction({
 			label: "Подтвердить",
 			func: async () => {
-				const order = this._routerService.getParams(ORDER_ID.slice(1));
+				const orderId = this._routerService.getParams(ORDER_ID.slice(1));
 
-				await this._routerService.navigateByUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, order));
+				this._ordersService
+					.confirmOrder(orderId)
+					.pipe(take(1))
+					.subscribe(async () => {
+						await this._routerService.navigateByUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, orderId));
+					});
 			}
 		});
 	}

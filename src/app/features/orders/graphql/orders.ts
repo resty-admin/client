@@ -85,6 +85,24 @@ export interface RemoveProductFromOrderMutation {
 	removeProductFromOrder: { __typename?: "ActiveOrderEntity"; id: string };
 }
 
+export type ConfirmOrderMutationVariables = Types.Exact<{
+	orderId: Types.Scalars["String"];
+}>;
+
+export interface ConfirmOrderMutation {
+	__typename?: "Mutation";
+	confirmOrder: { __typename?: "ActiveOrderEntity"; id: string };
+}
+
+export type SetManualPayForProductsInOrderMutationVariables = Types.Exact<{
+	productToOrderIds: Types.Scalars["String"] | Types.Scalars["String"][];
+}>;
+
+export interface SetManualPayForProductsInOrderMutation {
+	__typename?: "Mutation";
+	setManualPayForProductsInOrder: { __typename?: "ProductToOrderEntity"; id: string }[];
+}
+
 export const CreateOrderDocument = gql`
 	mutation CreateOrder($order: CreateOrderInput!) {
 		createOrder(order: $order) {
@@ -247,6 +265,45 @@ export class RemoveProductFromOrderGQL extends Apollo.Mutation<
 	RemoveProductFromOrderMutationVariables
 > {
 	override document = RemoveProductFromOrderDocument;
+
+	constructor(apollo: Apollo.Apollo) {
+		super(apollo);
+	}
+}
+export const ConfirmOrderDocument = gql`
+	mutation ConfirmOrder($orderId: String!) {
+		confirmOrder(orderId: $orderId) {
+			id
+		}
+	}
+`;
+
+@Injectable({
+	providedIn: "root"
+})
+export class ConfirmOrderGQL extends Apollo.Mutation<ConfirmOrderMutation, ConfirmOrderMutationVariables> {
+	override document = ConfirmOrderDocument;
+
+	constructor(apollo: Apollo.Apollo) {
+		super(apollo);
+	}
+}
+export const SetManualPayForProductsInOrderDocument = gql`
+	mutation SetManualPayForProductsInOrder($productToOrderIds: [String!]!) {
+		setManualPayForProductsInOrder(productToOrderIds: $productToOrderIds) {
+			id
+		}
+	}
+`;
+
+@Injectable({
+	providedIn: "root"
+})
+export class SetManualPayForProductsInOrderGQL extends Apollo.Mutation<
+	SetManualPayForProductsInOrderMutation,
+	SetManualPayForProductsInOrderMutationVariables
+> {
+	override document = SetManualPayForProductsInOrderDocument;
 
 	constructor(apollo: Apollo.Apollo) {
 		super(apollo);

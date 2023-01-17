@@ -31,17 +31,17 @@ export class HistoryOrderComponent implements OnInit, OnDestroy {
 		map((result) => result.data.order),
 		map((order) => ({
 			...order,
-			usersToOrdersByType: this.displayStatuses.map((status) => ({
+			productsToOrdersByType: this.displayStatuses.map((status) => ({
 				status,
-				usersToOrders: order.usersToOrders?.filter((userToOrder) => userToOrder.status === status)
+				productsToOrders: order.productsToOrders?.filter((productToOrder) => productToOrder.status === status)
 			}))
 		}))
 	);
 
 	readonly displayStatuses = [
 		ProductToOrderStatusEnum.Added,
-		ProductToOrderStatusEnum.Confirmed,
-		ProductToOrderStatusEnum.Paid
+		ProductToOrderStatusEnum.WaitingForApprove,
+		ProductToOrderStatusEnum.Approved
 	];
 
 	constructor(
