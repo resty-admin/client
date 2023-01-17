@@ -5,8 +5,8 @@ import { map } from "rxjs";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
 
-import { ActionsService } from "../../../../../../../../features/app";
-import { OrdersService } from "../../../../../../../../features/orders";
+import { ActionsService } from "../../../../app";
+import { OrdersService } from "../../../../orders";
 import { TABLE_DIALOG_I18N } from "../constants";
 import { TableDialogGQL } from "../graphql/table-dialog";
 import { TABLE_DIALOG_PROVIDERS } from "../providers";

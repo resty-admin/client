@@ -5,9 +5,9 @@ import type { ControlValueAccessor } from "@ngneat/reactive-forms";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 
-import type { HallEntity } from "../../../../../../../../graphql";
-import { getControlValueAccessorProviders } from "../../../../../../../shared/functions";
-import type { DeepAtLeast } from "../../../../../../../shared/interfaces";
+import type { HallEntity } from "../../../../../../graphql";
+import { getControlValueAccessorProviders } from "../../../../../shared/functions";
+import type { DeepAtLeast } from "../../../../../shared/interfaces";
 
 @UntilDestroy()
 @Component({

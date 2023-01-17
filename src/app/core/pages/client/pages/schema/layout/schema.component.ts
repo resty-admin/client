@@ -10,8 +10,8 @@ import { RouterService } from "src/app/shared/modules/router";
 
 import { ActionsService } from "../../../../../../features/app";
 import { OrdersService } from "../../../../../../features/orders";
+import { TableDialogComponent } from "../../../../../../features/tables/ui/table-dialog";
 import { DialogService } from "../../../../../../shared/ui/dialog";
-import { TableDialogComponent } from "../compnents";
 import { SCHEMA_PAGE_I18N } from "../constants";
 import { SchemaPageHallsGQL, SchemaPageOrderGQL, SchemaPageTablesGQL } from "../graphql/schema-page";
 

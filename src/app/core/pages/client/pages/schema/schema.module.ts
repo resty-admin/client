@@ -4,21 +4,22 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
 import { PreviewCategoryModule } from "../../../../../features/categories";
+import { HallsSelectModule } from "../../../../../features/halls";
 import { PreviewProductModule } from "../../../../../features/products";
 import { PreviewTableModule } from "../../../../../features/tables";
+import { TablesSelectModule } from "../../../../../features/tables/ui/tables-select";
 import { I18nModule } from "../../../../../shared/modules/i18n";
 import { ButtonModule } from "../../../../../shared/ui/button";
 import { ImageModule } from "../../../../../shared/ui/image";
 import { IosDatepickerModule } from "../../../../../shared/ui/ios-datepicker";
 import { RadioButtonModule } from "../../../../../shared/ui/radio-button";
 import { TextareaModule } from "../../../../../shared/ui/textarea";
-import { SCHEMA_COMPONENTS } from "./compnents";
 import { SchemaComponent } from "./layout/schema.component";
 import { SCHEMA_PROVIDERS } from "./providers";
 import { SchemaRoutingModule } from "./schema-routing.module";
 
 @NgModule({
-	declarations: [SchemaComponent, ...SCHEMA_COMPONENTS],
+	declarations: [SchemaComponent],
 	imports: [
 		CommonModule,
 		SchemaRoutingModule,
@@ -32,7 +33,9 @@ import { SchemaRoutingModule } from "./schema-routing.module";
 		PreviewProductModule,
 		ButtonModule,
 		PreviewTableModule,
-		IosDatepickerModule
+		IosDatepickerModule,
+		TablesSelectModule,
+		HallsSelectModule
 	],
 	providers: SCHEMA_PROVIDERS
 })
