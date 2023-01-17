@@ -24,4 +24,8 @@ export class OrdersRepository {
 	setActiveOrderId(activeOrderId?: string) {
 		return this._store.update(setProp("activeOrderId", activeOrderId));
 	}
+
+	getActiveOrderId() {
+		return this._store.value.activeOrderId;
+	}
 }

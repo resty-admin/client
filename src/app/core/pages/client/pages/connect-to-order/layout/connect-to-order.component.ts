@@ -1,6 +1,7 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
+import { lastValueFrom } from "rxjs";
 import { PLACE_ID } from "src/app/shared/constants";
 import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
@@ -40,10 +41,10 @@ export class ConnectToOrderComponent implements OnInit, OnDestroy {
 
 		this._actionsService.setAction({
 			label: "Подключиться",
-			func: () => {
-				this._ordersService.addUserToOrder(Number.parseInt(`${this.codeControl.value}`)).subscribe(async () => {
-					await this._routerService.navigateByUrl(CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, placeId));
-				});
+			func: async () => {
+				await lastValueFrom(this._ordersService.addUserToOrder(Number.parseInt(`${this.codeControl.value}`)));
+
+				await this._routerService.navigateByUrl(CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, placeId));
 			}
 		});
 	}

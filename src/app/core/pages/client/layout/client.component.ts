@@ -1,6 +1,6 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { catchError, filter, map, of, switchMap, take } from "rxjs";
+import { catchError, filter, lastValueFrom, map, of, switchMap } from "rxjs";
 
 import { AsideService } from "../../../../features/app";
 import { AuthService } from "../../../../features/auth/services";
@@ -51,14 +51,14 @@ export class ClientComponent implements OnInit {
 		private readonly _ordersService: OrdersService
 	) {}
 
-	ngOnInit() {
-		this._authService.me$.pipe(take(1)).subscribe(async (user) => {
-			if (user?.name) {
-				return;
-			}
+	async ngOnInit() {
+		const user = await lastValueFrom(this._authService.me$);
 
-			await this._routerService.navigateByUrl(CLIENT_ROUTES.WELCOME.absolutePath);
-		});
+		if (user?.name) {
+			return;
+		}
+
+		await this._routerService.navigateByUrl(CLIENT_ROUTES.WELCOME.absolutePath);
 	}
 
 	toggleAside() {

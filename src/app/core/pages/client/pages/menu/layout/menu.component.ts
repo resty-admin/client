@@ -2,7 +2,7 @@ import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { filter, map, switchMap, take, tap } from "rxjs";
+import { lastValueFrom, map, switchMap, tap } from "rxjs";
 import { CATEGORY_ID, ORDER_ID, PLACE_ID } from "src/app/shared/constants";
 import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
@@ -117,69 +117,60 @@ export class MenuComponent implements OnInit, OnDestroy {
 
 		this._actionsService.setAction({
 			label: "Подвтердить",
-			func: () => {
-				this._ordersService.activeOrderId$
-					.pipe(
-						take(1),
-						filter((orderId) => Boolean(orderId))
-					)
-					.subscribe(async (orderId) => {
-						await this._routerService.navigateByUrl(
-							CLIENT_ROUTES.CONFIRM_PRODUCTS.absolutePath.replace(ORDER_ID, orderId!)
-						);
-					});
+			func: async () => {
+				const activeOrderId = this._ordersService.getActiveOrderId();
+
+				if (!activeOrderId) {
+					return;
+				}
+
+				await this._routerService.navigateByUrl(
+					CLIENT_ROUTES.CONFIRM_PRODUCTS.absolutePath.replace(ORDER_ID, activeOrderId)
+				);
 			}
 		});
 	}
 
-	openProductDialog(data: any) {
-		this._dialogService
-			.open(ProductDialogComponent, { data })
-			.afterClosed$.pipe(
-				take(1),
-				filter((result) => Boolean(result))
-			)
-			.subscribe(async ({ product }) => {
-				this.addProductToOrder({ productId: product.id, attributesIds: [] });
-			});
+	async openProductDialog(data: any) {
+		const result = await lastValueFrom(this._dialogService.open(ProductDialogComponent, { data }).afterClosed$);
+
+		if (!result) {
+			return;
+		}
+
+		await this.addProductToOrder({ productId: result.product.id, attributesIds: [] });
 	}
 
-	removeProductFromOrder({ productId, attributesIds }: IEmit) {
-		this._ordersService.activeOrderId$
-			.pipe(
-				take(1),
-				filter((activeOrderId) => Boolean(activeOrderId)),
-				switchMap((activeOrderId) =>
-					this._ordersService.removeProductFromOrder({
-						productId,
-						orderId: activeOrderId!,
-						attrs: attributesIds
-					})
-				),
-				take(1)
-			)
-			.subscribe(async () => {
-				await this._menuPageOrderQuery.refetch();
-			});
+	async removeProductFromOrder({ productId, attributesIds }: IEmit) {
+		const activeOrderId = this._ordersService.getActiveOrderId();
+
+		await lastValueFrom(
+			this._ordersService.removeProductFromOrder({
+				productId,
+				orderId: activeOrderId!,
+				attrs: attributesIds
+			})
+		);
+
+		await this._menuPageOrderQuery.refetch();
 	}
 
-	addProductToOrder({ productId, attributesIds }: IEmit) {
-		this._ordersService.activeOrderId$
-			.pipe(
-				take(1),
-				filter((activeOrderId) => Boolean(activeOrderId)),
-				switchMap((activeOrderId) =>
-					this._ordersService.addProductToOrder({
-						productId,
-						orderId: activeOrderId!,
-						attrs: attributesIds
-					})
-				),
-				take(1)
-			)
-			.subscribe(async () => {
-				await this._menuPageOrderQuery.refetch();
-			});
+	async addProductToOrder({ productId, attributesIds }: IEmit) {
+		const activeOrderId = this._ordersService.getActiveOrderId();
+
+		if (!activeOrderId) {
+			return;
+		}
+
+		await lastValueFrom(
+			this._ordersService.addProductToOrder({
+				productId,
+				orderId: activeOrderId,
+				attrs: attributesIds
+			})
+		);
+
+		await this._menuPageOrderQuery.refetch();
 	}
 
 	ngOnDestroy() {

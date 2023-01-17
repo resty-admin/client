@@ -1,7 +1,7 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { filter, map, switchMap, take } from "rxjs";
+import { lastValueFrom, map } from "rxjs";
 import { CLIENT_ROUTES, ORDER_ID, PLACE_ID } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
@@ -82,40 +82,47 @@ export class ConfirmProductsComponent implements OnInit, OnDestroy {
 			func: async () => {
 				const orderId = this._routerService.getParams(ORDER_ID.slice(1));
 
-				this._ordersService
-					.confirmOrder(orderId)
-					.pipe(take(1))
-					.subscribe(async () => {
-						await this._routerService.navigateByUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, orderId));
-					});
+				try {
+					await lastValueFrom(this._ordersService.confirmOrder(orderId));
+
+					await this._routerService.navigateByUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, orderId));
+				} catch (error) {
+					console.error(error);
+				}
 			}
 		});
 	}
 
-	removeProductFromOrder({ productId, attributesIds }: IEmit) {
-		this._ordersService.activeOrderId$
-			.pipe(
-				take(1),
-				filter((activeOrderId) => Boolean(activeOrderId)),
-				switchMap((activeOrderId) =>
-					this._ordersService.removeProductFromOrder({ productId, orderId: activeOrderId!, attrs: attributesIds })
-				),
-				take(1)
-			)
-			.subscribe();
+	async removeProductFromOrder({ productId, attributesIds }: IEmit) {
+		const activeOrderId = this._ordersService.getActiveOrderId();
+
+		if (!activeOrderId) {
+			return;
+		}
+
+		try {
+			await lastValueFrom(
+				this._ordersService.removeProductFromOrder({ productId, orderId: activeOrderId, attrs: attributesIds })
+			);
+		} catch (error) {
+			console.error(error);
+		}
 	}
 
-	addProductToOrder({ productId, attributesIds }: IEmit) {
-		this._ordersService.activeOrderId$
-			.pipe(
-				take(1),
-				filter((activeOrderId) => Boolean(activeOrderId)),
-				switchMap((activeOrderId) =>
-					this._ordersService.addProductToOrder({ productId, orderId: activeOrderId!, attrs: attributesIds })
-				),
-				take(1)
-			)
-			.subscribe();
+	async addProductToOrder({ productId, attributesIds }: IEmit) {
+		const activeOrderId = this._ordersService.getActiveOrderId();
+
+		if (!activeOrderId) {
+			return;
+		}
+
+		try {
+			await lastValueFrom(
+				this._ordersService.addProductToOrder({ productId, orderId: activeOrderId, attrs: attributesIds })
+			);
+		} catch (error) {
+			console.error(error);
+		}
 	}
 
 	ngOnDestroy() {

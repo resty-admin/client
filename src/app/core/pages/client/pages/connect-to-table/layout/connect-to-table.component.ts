@@ -1,7 +1,7 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
-import { map, switchMap, take } from "rxjs";
+import { lastValueFrom, map } from "rxjs";
 import { CLIENT_ROUTES, PLACE_ID } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
@@ -30,7 +30,7 @@ export class ConnectToTableComponent implements OnInit, OnDestroy {
 		private readonly _ordersService: OrdersService
 	) {}
 
-	ngOnInit() {
+	async ngOnInit() {
 		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
 
 		if (!placeId) {
@@ -45,55 +45,55 @@ export class ConnectToTableComponent implements OnInit, OnDestroy {
 
 		if (code) {
 			this.codeControl.setValue(code);
-			this.connectToTable(code, this._routerService.getParams(PLACE_ID.slice(1)));
+			await this.connectToTable(code, this._routerService.getParams(PLACE_ID.slice(1)));
 		}
 
 		this._actionsService.setAction({
 			label: "Подключиться",
-			func: () => {
-				this.connectToTable(this.codeControl.value.toString(), this._routerService.getParams(PLACE_ID.slice(1)));
+			func: async () => {
+				await this.connectToTable(this.codeControl.value.toString(), this._routerService.getParams(PLACE_ID.slice(1)));
 			}
 		});
 	}
 
-	connectToTable(code: string, placeId: string) {
-		this._connectToTablePageGQL
-			.mutate({ code, placeId })
-			.pipe(
-				take(1),
-				map((result) => result.data?.getTableByCode),
-				switchMap((table) =>
-					this._ordersService.createOrder({ table: table!.id, type: OrderTypeEnum.InPlace, place: placeId })
-				),
-				take(1),
-				map((result) => result.data?.createOrder)
-			)
-			.subscribe({
-				next: async (order) => {
-					if (!order) {
-						return;
-					}
+	async connectToTable(code: string, placeId: string) {
+		try {
+			const table = await lastValueFrom(
+				this._connectToTablePageGQL.mutate({ code, placeId }).pipe(map((result) => result.data?.getTableByCode))
+			);
 
-					await this._ordersService.setActiveOrderId(order.id);
+			if (!table) {
+				return;
+			}
 
-					await this._routerService.navigateByUrl(CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, placeId));
-				},
-				error: async (error) => {
-					switch (Number.parseInt(error.message)) {
-						case 1023: {
-							console.error(`Invalid Code`);
-							break;
-						}
-						case 1024: {
-							const placeId = this._routerService.getParams(PLACE_ID.slice(1));
+			const order = await lastValueFrom(
+				this._ordersService
+					.createOrder({ table: table.id, type: OrderTypeEnum.InPlace, place: placeId })
+					.pipe(map((result) => result.data?.createOrder))
+			);
 
-							await this._routerService.navigateByUrl(
-								CLIENT_ROUTES.CONNECT_TO_ORDER.absolutePath.replace(PLACE_ID, placeId)
-							);
-						}
-					}
+			if (!order) {
+				return;
+			}
+
+			await this._ordersService.setActiveOrderId(order.id);
+
+			await this._routerService.navigateByUrl(CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, placeId));
+		} catch (error: any) {
+			switch (Number.parseInt(error.message)) {
+				case 1023: {
+					console.error(`Invalid Code`);
+					break;
 				}
-			});
+				case 1024: {
+					const placeId = this._routerService.getParams(PLACE_ID.slice(1));
+
+					await this._routerService.navigateByUrl(
+						CLIENT_ROUTES.CONNECT_TO_ORDER.absolutePath.replace(PLACE_ID, placeId)
+					);
+				}
+			}
+		}
 	}
 
 	ngOnDestroy() {

@@ -2,7 +2,7 @@ import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { map, switchMap, take, tap } from "rxjs";
+import { lastValueFrom, map, tap } from "rxjs";
 import { OrdersService } from "src/app/features/orders";
 import { ORDER_ID, PLACE_ID } from "src/app/shared/constants";
 import { CLIENT_ROUTES } from "src/app/shared/constants";
@@ -48,24 +48,20 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 		this.usersControl.valueChanges
 			.pipe(
 				untilDestroyed(this),
-				switchMap((users) =>
-					this.order$.pipe(
-						take(1),
-						tap((order) => {
-							const productsByUser = Object.keys(this.productsControl.value).reduce(
-								(productsMap, id) => ({
-									...productsMap,
-									[id]: (users || []).includes(
-										(order.productsToOrders || []).find((productToOrder) => productToOrder.id === id)?.user.id
-									)
-								}),
-								{}
-							);
+				tap(async (users) => {
+					const order = await lastValueFrom(this.order$);
+					const productsByUser = Object.keys(this.productsControl.value).reduce(
+						(productsMap, id) => ({
+							...productsMap,
+							[id]: (users || []).includes(
+								(order.productsToOrders || []).find((productToOrder) => productToOrder.id === id)?.user.id
+							)
+						}),
+						{}
+					);
 
-							this.productsControl.patchValue(productsByUser);
-						})
-					)
-				)
+					this.productsControl.patchValue(productsByUser);
+				})
 			)
 			.subscribe();
 

@@ -1,7 +1,7 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
-import { take } from "rxjs";
+import { lastValueFrom } from "rxjs";
 
 import { ActionsService } from "../../../../../../features/app";
 import { AuthService } from "../../../../../../features/auth/services";
@@ -30,14 +30,15 @@ export class WelcomeComponent implements OnInit, OnDestroy {
 	ngOnInit() {
 		this._actionsService.setAction({
 			label: "Подтвердить",
-			func: () => {
-				this._authService
-					.updateMe({ name: this.nameControl.value })
-					.pipe(take(1))
-					.subscribe(async () => {
-						await this._authService.getMeQuery.refetch();
-						await this._routerService.navigateByUrl(CLIENT_ROUTES.PLACES.absolutePath);
-					});
+			func: async () => {
+				try {
+					await lastValueFrom(this._authService.updateMe({ name: this.nameControl.value }));
+
+					await this._authService.getMeQuery.refetch();
+					await this._routerService.navigateByUrl(CLIENT_ROUTES.PLACES.absolutePath);
+				} catch (error) {
+					console.error(error);
+				}
 			}
 		});
 	}

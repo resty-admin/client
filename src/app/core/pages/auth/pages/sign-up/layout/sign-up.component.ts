@@ -2,7 +2,7 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { filter, take } from "rxjs";
+import { filter, lastValueFrom } from "rxjs";
 import { CLIENT_ROUTES, DYNAMIC_TOKEN } from "src/app/shared/constants";
 import { RouterService } from "src/app/shared/modules/router";
 
@@ -63,18 +63,15 @@ export class SignUpComponent implements OnInit {
 		});
 	}
 
-	signUp(body: any) {
-		this._authService
-			.signUp(body)
-			.pipe(take(1))
-			.subscribe(async (accessToken) => {
-				if (!accessToken) {
-					return;
-				}
+	async signUp(body: any) {
+		const accessToken = await lastValueFrom(this._authService.signUp(body));
 
-				await this._routerService.navigateByUrl(
-					CLIENT_ROUTES.VERIFICATION_CODE.absolutePath.replace(DYNAMIC_TOKEN, accessToken)
-				);
-			});
+		if (!accessToken) {
+			return;
+		}
+
+		await this._routerService.navigateByUrl(
+			CLIENT_ROUTES.VERIFICATION_CODE.absolutePath.replace(DYNAMIC_TOKEN, accessToken)
+		);
 	}
 }

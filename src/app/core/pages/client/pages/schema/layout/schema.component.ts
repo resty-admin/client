@@ -2,7 +2,7 @@ import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { filter, map, switchMap, take, tap } from "rxjs";
+import { lastValueFrom, map, switchMap, tap } from "rxjs";
 import { HALL_ID, ORDER_ID, PLACE_ID } from "src/app/shared/constants";
 import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
@@ -114,27 +114,28 @@ export class SchemaComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	openTableDialog(data: any) {
-		this._dialogService
-			.open(TableDialogComponent, { data })
-			.afterClosed$.pipe(
-				take(1),
-				filter((result) => Boolean(result)),
-				switchMap((table) =>
-					this._ordersService.activeOrderId$.pipe(
-						take(1),
-						switchMap((orderId) => this._ordersService.addTableToOrder(orderId!, table.id)),
-						map((result) => result.data?.addTableToOrder)
-					)
-				)
-			)
-			.subscribe(async (order) => {
-				if (!order) {
-					return;
-				}
+	async openTableDialog(data: any) {
+		const result = await lastValueFrom(this._dialogService.open(TableDialogComponent, { data }).afterClosed$);
 
-				await this._routerService.navigateByUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, order.id));
-			});
+		if (!result) {
+			return;
+		}
+
+		const activeOrderId = this._ordersService.getActiveOrderId();
+
+		if (!activeOrderId) {
+			return;
+		}
+
+		const order = await lastValueFrom(
+			this._ordersService.addTableToOrder(activeOrderId, result.id).pipe(map((result) => result.data?.addTableToOrder))
+		);
+
+		if (!order) {
+			return;
+		}
+
+		await this._routerService.navigateByUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, order.id));
 	}
 
 	ngOnDestroy() {

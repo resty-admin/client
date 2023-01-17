@@ -1,7 +1,7 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { map, switchMap, take } from "rxjs";
+import { lastValueFrom, map } from "rxjs";
 import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { RouterService } from "src/app/shared/modules/router";
 
@@ -22,11 +22,16 @@ export class TelegramComponent implements OnInit {
 			.selectFragment()
 			.pipe(
 				untilDestroyed(this),
-				map((value) => JSON.parse(new URLSearchParams(value).get("user") || "")),
-				switchMap((telegramUser) => this._authService.telegram(telegramUser).pipe(take(1)))
+				map((value) => JSON.parse(new URLSearchParams(value).get("user") || ""))
 			)
-			.subscribe(async () => {
-				await this._routerService.navigateByUrl(CLIENT_ROUTES.CLIENT.absolutePath);
+			.subscribe(async (telegramUser) => {
+				try {
+					await lastValueFrom(this._authService.telegram(telegramUser));
+
+					await this._routerService.navigateByUrl(CLIENT_ROUTES.CLIENT.absolutePath);
+				} catch (error) {
+					console.error(error);
+				}
 			});
 	}
 }

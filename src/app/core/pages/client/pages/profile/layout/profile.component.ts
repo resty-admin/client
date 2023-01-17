@@ -2,6 +2,7 @@ import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormBuilder } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { lastValueFrom } from "rxjs";
 
 import { ActionsService } from "../../../../../../features/app";
 import { AuthService } from "../../../../../../features/auth/services";
@@ -47,14 +48,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
 		this._breadcrumbsService.setBreadcrumb({ routerLink: CLIENT_ROUTES.PLACES.absolutePath });
 		this._actionsService.setAction({
 			label: "Подтвердить",
-			func: () => {
-				this._authService.updateMe(this.formGroup.value).subscribe();
+			func: async () => {
+				await lastValueFrom(this._authService.updateMe(this.formGroup.value));
+
+				await this._authService.getMeQuery.refetch();
 			}
 		});
 	}
 
-	deleteMe() {
-		this._authService.deleteMe().subscribe();
+	async deleteMe() {
+		await lastValueFrom(this._authService.deleteMe());
 	}
 
 	ngOnDestroy() {
