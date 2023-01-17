@@ -1,5 +1,5 @@
-import type { AfterViewInit } from "@angular/core";
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, ViewChild } from "@angular/core";
+import type { AfterViewInit, OnChanges, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, ViewChild } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import type { Dayjs } from "dayjs";
@@ -8,6 +8,8 @@ import * as localeData from "dayjs/plugin/localeData";
 import { combineLatest, debounceTime, distinctUntilChanged, fromEvent } from "rxjs";
 import { ControlValueAccessor } from "src/app/shared/classes";
 import { getControlValueAccessorProviders } from "src/app/shared/functions";
+
+import type { ISimpleChanges } from "../../../interfaces";
 
 dayjs.extend(localeData);
 
@@ -19,13 +21,18 @@ dayjs.extend(localeData);
 	providers: getControlValueAccessorProviders(IosDatepickerComponent),
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IosDatepickerComponent extends ControlValueAccessor<Dayjs> implements AfterViewInit {
+export class IosDatepickerComponent extends ControlValueAccessor<Dayjs> implements AfterViewInit, OnInit, OnChanges {
 	@ViewChild("monthsContainer") monthsContainer!: ElementRef;
 	@ViewChild("datesContainer") datesContainer!: ElementRef;
 	@ViewChild("hoursContainer") hoursContainer!: ElementRef;
 	@ViewChild("minutesContainer") minutesContainer!: ElementRef;
 
+	@Input() isTableActive?: boolean | null = undefined;
+
 	isDropdownOpen = false;
+
+	isValid = false;
+	isInvalid = false;
 
 	readonly height = 50;
 
@@ -58,6 +65,17 @@ export class IosDatepickerComponent extends ControlValueAccessor<Dayjs> implemen
 
 	constructor(private readonly _changeDetectorReference: ChangeDetectorRef) {
 		super(dayjs());
+	}
+
+	override ngOnChanges(changes: ISimpleChanges<IosDatepickerComponent>) {
+		if (changes.isTableActive) {
+			const isBoolean = typeof changes.isTableActive.currentValue === "boolean";
+
+			this.isValid = Boolean(isBoolean && changes.isTableActive.currentValue);
+			this.isInvalid = Boolean(isBoolean && !changes.isTableActive.currentValue);
+		}
+
+		super.ngOnChanges(changes);
 	}
 
 	toggleDropdown() {

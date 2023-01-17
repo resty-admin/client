@@ -9,3 +9,9 @@ query TableDialog($tableId: String!) {
 		}
 	}
 }
+
+query IsTableAvailableForReserve($body: IsTableAvailableInput!) {
+	isTableAvailableForReserve(body: $body) {
+		id
+	}
+}

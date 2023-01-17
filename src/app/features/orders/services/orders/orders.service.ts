@@ -13,6 +13,7 @@ import {
 	CloseOrderGQL,
 	ConfirmOrderGQL,
 	CreateOrderGQL,
+	CreatePaymentOrderLinkGQL,
 	DeleteOrderGQL,
 	RemoveProductFromOrderGQL,
 	RemoveTableFromOrderGQL,
@@ -37,7 +38,8 @@ export class OrdersService {
 		private readonly _addProductToOrderGQL: AddProductToOrderGQL,
 		private readonly _removeProductFromOrderGQL: RemoveProductFromOrderGQL,
 		private readonly _confirmOrderGQL: ConfirmOrderGQL,
-		private readonly _setManualPayForProductsInOrderGQL: SetManualPayForProductsInOrderGQL
+		private readonly _setManualPayForProductsInOrderGQL: SetManualPayForProductsInOrderGQL,
+		private readonly _createPaymentOrderLinkGQL: CreatePaymentOrderLinkGQL
 	) {}
 
 	setActiveOrderId(orderId?: string) {
@@ -90,5 +92,9 @@ export class OrdersService {
 
 	setManualPayForProductsInOrderGQL(productToOrderIds: string[]) {
 		return this._setManualPayForProductsInOrderGQL.mutate({ productToOrderIds });
+	}
+
+	createPaymentOrderLink(productsToOrders: string[]) {
+		return this._createPaymentOrderLinkGQL.mutate({ productsToOrders });
 	}
 }

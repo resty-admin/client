@@ -32,6 +32,14 @@
 					grid-template-columns: auto auto auto min-content auto;
 					width: 100%;
 
+					&.valid .active-item {
+						background-color: var(--success-t);
+					}
+
+					&.invalid .active-item {
+						background-color: var(--danger-t);
+					}
+
 					.active-item {
 						position: absolute;
 						width: 100%;
@@ -93,7 +101,7 @@
 		}
 	}
 }
-@include dark () {
+@include dark() {
 	.ios-datepicker {
 		.backdrop {
 			.dropdown {

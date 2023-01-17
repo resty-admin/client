@@ -72,9 +72,13 @@ export class PaymentTypeComponent implements OnInit, OnDestroy {
 
 				if (type === PaymentType.CARD) {
 					try {
-						window.location.href = await lastValueFrom(
-							this._apiService.post("fondy/create-payment-link", { orderId, products })
-						);
+						const result = await lastValueFrom(this._ordersService.createPaymentOrderLink(products));
+
+						if (!result.data?.createPaymentOrderLink) {
+							return;
+						}
+
+						window.location.href = result.data.createPaymentOrderLink.link;
 					} catch (error) {
 						console.error(error);
 					}

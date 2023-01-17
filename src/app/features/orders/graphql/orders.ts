@@ -103,6 +103,15 @@ export interface SetManualPayForProductsInOrderMutation {
 	setManualPayForProductsInOrder: { __typename?: "ProductToOrderEntity"; id: string }[];
 }
 
+export type CreatePaymentOrderLinkMutationVariables = Types.Exact<{
+	productsToOrders: Types.Scalars["String"] | Types.Scalars["String"][];
+}>;
+
+export interface CreatePaymentOrderLinkMutation {
+	__typename?: "Mutation";
+	createPaymentOrderLink: { __typename?: "FondyLink"; link: string };
+}
+
 export const CreateOrderDocument = gql`
 	mutation CreateOrder($order: CreateOrderInput!) {
 		createOrder(order: $order) {
@@ -304,6 +313,27 @@ export class SetManualPayForProductsInOrderGQL extends Apollo.Mutation<
 	SetManualPayForProductsInOrderMutationVariables
 > {
 	override document = SetManualPayForProductsInOrderDocument;
+
+	constructor(apollo: Apollo.Apollo) {
+		super(apollo);
+	}
+}
+export const CreatePaymentOrderLinkDocument = gql`
+	mutation CreatePaymentOrderLink($productsToOrders: [String!]!) {
+		createPaymentOrderLink(productsToOrders: $productsToOrders) {
+			link
+		}
+	}
+`;
+
+@Injectable({
+	providedIn: "root"
+})
+export class CreatePaymentOrderLinkGQL extends Apollo.Mutation<
+	CreatePaymentOrderLinkMutation,
+	CreatePaymentOrderLinkMutationVariables
+> {
+	override document = CreatePaymentOrderLinkDocument;
 
 	constructor(apollo: Apollo.Apollo) {
 		super(apollo);

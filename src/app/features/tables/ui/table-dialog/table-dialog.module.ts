@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
+import { ReactiveFormsModule } from "@angular/forms";
 
 import { TranslocoModule } from "../../../../shared/modules/i18n";
 import { ButtonModule } from "../../../../shared/ui/button";
@@ -10,7 +11,7 @@ import { TABLE_DIALOG_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [TableDialogComponent],
-	imports: [CommonModule, ImageModule, IosDatepickerModule, ButtonModule, TranslocoModule],
+	imports: [CommonModule, ImageModule, IosDatepickerModule, ButtonModule, TranslocoModule, ReactiveFormsModule],
 	providers: TABLE_DIALOG_PROVIDERS,
 	exports: [TableDialogComponent]
 })

@@ -59,3 +59,9 @@ mutation SetManualPayForProductsInOrder($productToOrderIds: [String!]!) {
 		id
 	}
 }
+
+mutation CreatePaymentOrderLink($productsToOrders: [String!]!) {
+	createPaymentOrderLink(productsToOrders: $productsToOrders) {
+		link
+	}
+}

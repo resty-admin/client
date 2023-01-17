@@ -2,7 +2,7 @@ import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { lastValueFrom, map, tap } from "rxjs";
+import { lastValueFrom, map, take, tap } from "rxjs";
 import { OrdersService } from "src/app/features/orders";
 import { ORDER_ID, PLACE_ID } from "src/app/shared/constants";
 import { CLIENT_ROUTES } from "src/app/shared/constants";
@@ -49,8 +49,8 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 			.pipe(
 				untilDestroyed(this),
 				tap(async (users) => {
-					const order = await lastValueFrom(this.order$);
-					const productsByUser = Object.keys(this.productsControl.value).reduce(
+					const order = await lastValueFrom(this.order$.pipe(take(1)));
+					const productsByUser = Object.keys(this.productsControl.value || {}).reduce(
 						(productsMap, id) => ({
 							...productsMap,
 							[id]: (users || []).includes(

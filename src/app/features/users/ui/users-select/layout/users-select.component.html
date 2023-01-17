@@ -1,6 +1,6 @@
 <form class="users-select" [formGroup]="usersGroup" *transloco="let t; read: usersSelectI18n">
 	<ul class="users">
-		<li class="user">
+		<li class="user" *ngIf="(users?.length || 0) > 1">
 			<input class="checkbox" type="checkbox" id="users_all" formControlName="all" />
 			<label class="label" for="users_all">{{ t("all") }}</label>
 		</li>

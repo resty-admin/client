@@ -1,16 +1,12 @@
 <ng-container *transloco="let t; read: activeOrderPageI18n">
 	<div class="active-order" *ngIf="order$ | async as order">
-		<app-preview-place class="place" [place]="order.place"></app-preview-place>
-
-		<a *ngIf="order.table" [routerLink]="clientRoutes.SCHEMA.absolutePath.replace(placeId, order.place.id)">
-			<app-preview-table class="table" [table]="order.table"></app-preview-table>
-		</a>
+		<app-order-info class="order-info" [order]="order"></app-order-info>
 
 		<div class="products">
 			<app-users-select [users]="order.users" [formControl]="usersControl"></app-users-select>
 
 			<app-products-to-order-select
-				[productsToOrder]="order.productsToOrders"
+				[productsToOrders]="order.productsToOrders"
 				[formControl]="productsControl"
 			></app-products-to-order-select>
 		</div>

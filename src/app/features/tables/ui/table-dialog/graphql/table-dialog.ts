@@ -18,6 +18,15 @@ export interface TableDialogQuery {
 	};
 }
 
+export type IsTableAvailableForReserveQueryVariables = Types.Exact<{
+	body: Types.IsTableAvailableInput;
+}>;
+
+export interface IsTableAvailableForReserveQuery {
+	__typename?: "Query";
+	isTableAvailableForReserve: { __typename?: "TableEntity"; id: string };
+}
+
 export const TableDialogDocument = gql`
 	query TableDialog($tableId: String!) {
 		table(id: $tableId) {
@@ -37,6 +46,27 @@ export const TableDialogDocument = gql`
 })
 export class TableDialogGQL extends Apollo.Query<TableDialogQuery, TableDialogQueryVariables> {
 	override document = TableDialogDocument;
+
+	constructor(apollo: Apollo.Apollo) {
+		super(apollo);
+	}
+}
+export const IsTableAvailableForReserveDocument = gql`
+	query IsTableAvailableForReserve($body: IsTableAvailableInput!) {
+		isTableAvailableForReserve(body: $body) {
+			id
+		}
+	}
+`;
+
+@Injectable({
+	providedIn: "root"
+})
+export class IsTableAvailableForReserveGQL extends Apollo.Query<
+	IsTableAvailableForReserveQuery,
+	IsTableAvailableForReserveQueryVariables
+> {
+	override document = IsTableAvailableForReserveDocument;
 
 	constructor(apollo: Apollo.Apollo) {
 		super(apollo);

@@ -6,7 +6,11 @@
 			<p class="label">{{ t("code") }} {{ table.code }}</p>
 			<p class="status">{{ t("status") }}</p>
 
-			<app-ios-datepicker class="datepicker"></app-ios-datepicker>
+			<app-ios-datepicker
+				class="datepicker"
+				[formControl]="dateControl"
+				[isTableActive]="isTableActive$ | async"
+			></app-ios-datepicker>
 		</div>
 
 		<div class="footer">

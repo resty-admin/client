@@ -1,16 +1,19 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
-import { map } from "rxjs";
+import { FormControl } from "@ngneat/reactive-forms";
+import { UntilDestroy } from "@ngneat/until-destroy";
+import { catchError, debounceTime, distinctUntilChanged, filter, map, of, switchMap } from "rxjs";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
 
 import { ActionsService } from "../../../../app";
 import { OrdersService } from "../../../../orders";
 import { TABLE_DIALOG_I18N } from "../constants";
-import { TableDialogGQL } from "../graphql/table-dialog";
+import { IsTableAvailableForReserveGQL, TableDialogGQL } from "../graphql/table-dialog";
 import { TABLE_DIALOG_PROVIDERS } from "../providers";
 
+@UntilDestroy()
 @Component({
 	selector: "app-table-dialog",
 	templateUrl: "./table-dialog.component.html",
@@ -21,8 +24,25 @@ import { TABLE_DIALOG_PROVIDERS } from "../providers";
 export class TableDialogComponent implements OnInit {
 	readonly tableDialogI18n = TABLE_DIALOG_I18N;
 
+	private readonly _isTableAvailableForReserveQuery = this._isTableAvailableForReserveGQL.watch();
+
 	private readonly _tableDialogQuery = this._tableDialogGQL.watch();
 	readonly table$ = this._tableDialogQuery.valueChanges.pipe(map((result) => result.data.table));
+
+	readonly dateControl = new FormControl();
+
+	readonly isTableActive$ = this.dateControl.valueChanges.pipe(
+		debounceTime(500),
+		distinctUntilChanged(),
+		filter((date) => Boolean(date)),
+		map((date: any) => date.format()),
+		switchMap((date) =>
+			this._isTableAvailableForReserveGQL.watch({ body: { date, tableId: this._dialogRef.data.id } }).valueChanges.pipe(
+				map(() => true),
+				catchError(() => of(false))
+			)
+		)
+	);
 
 	constructor(
 		private readonly _dialogRef: DialogRef,
@@ -30,7 +50,8 @@ export class TableDialogComponent implements OnInit {
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _ordersService: OrdersService,
-		private readonly _actionsService: ActionsService
+		private readonly _actionsService: ActionsService,
+		private readonly _isTableAvailableForReserveGQL: IsTableAvailableForReserveGQL
 	) {}
 
 	closeDialogWithData(table: any) {
