@@ -74,7 +74,7 @@ export class PaymentTypeComponent implements OnInit, OnDestroy {
 					try {
 						const result = await lastValueFrom(this._ordersService.createPaymentOrderLink(products));
 
-						if (!result.data?.createPaymentOrderLink) {
+						if (!result.data) {
 							return;
 						}
 

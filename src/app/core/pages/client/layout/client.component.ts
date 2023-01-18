@@ -1,6 +1,6 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { catchError, filter, lastValueFrom, map, of, switchMap } from "rxjs";
+import { catchError, filter, lastValueFrom, map, of, switchMap, take } from "rxjs";
 
 import { AsideService } from "../../../../features/app";
 import { AuthService } from "../../../../features/auth/services";
@@ -52,7 +52,7 @@ export class ClientComponent implements OnInit {
 	) {}
 
 	async ngOnInit() {
-		const user = await lastValueFrom(this._authService.me$);
+		const user = await lastValueFrom(this._authService.me$.pipe(take(1)));
 
 		if (user?.name) {
 			return;

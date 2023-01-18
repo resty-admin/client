@@ -115,9 +115,9 @@ export class SchemaComponent implements OnInit, OnDestroy {
 	}
 
 	async openTableDialog(data: any) {
-		const result = await lastValueFrom(this._dialogService.open(TableDialogComponent, { data }).afterClosed$);
+		const dialogResult = await lastValueFrom(this._dialogService.open(TableDialogComponent, { data }).afterClosed$);
 
-		if (!result) {
+		if (!dialogResult) {
 			return;
 		}
 
@@ -127,15 +127,15 @@ export class SchemaComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		const order = await lastValueFrom(
-			this._ordersService.addTableToOrder(activeOrderId, result.id).pipe(map((result) => result.data?.addTableToOrder))
-		);
+		const tableResult = await lastValueFrom(this._ordersService.addTableToOrder(activeOrderId, dialogResult.id));
 
-		if (!order) {
+		if (!tableResult.data) {
 			return;
 		}
 
-		await this._routerService.navigateByUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, order.id));
+		const { id } = tableResult.data.addTableToOrder;
+
+		await this._routerService.navigateByUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, id));
 	}
 
 	ngOnDestroy() {

@@ -1,7 +1,7 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
-import { lastValueFrom, map } from "rxjs";
+import { lastValueFrom } from "rxjs";
 import { CLIENT_ROUTES, PLACE_ID } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
@@ -58,23 +58,23 @@ export class ConnectToTableComponent implements OnInit, OnDestroy {
 
 	async connectToTable(code: string, placeId: string) {
 		try {
-			const table = await lastValueFrom(
-				this._connectToTablePageGQL.mutate({ code, placeId }).pipe(map((result) => result.data?.getTableByCode))
-			);
+			const tableResult = await lastValueFrom(this._connectToTablePageGQL.mutate({ code, placeId }));
 
-			if (!table) {
+			if (!tableResult.data) {
 				return;
 			}
 
-			const order = await lastValueFrom(
-				this._ordersService
-					.createOrder({ table: table.id, type: OrderTypeEnum.InPlace, place: placeId })
-					.pipe(map((result) => result.data?.createOrder))
+			const table = tableResult.data.getTableByCode;
+
+			const orderResult = await lastValueFrom(
+				this._ordersService.createOrder({ table: table.id, type: OrderTypeEnum.InPlace, place: placeId })
 			);
 
-			if (!order) {
+			if (!orderResult.data) {
 				return;
 			}
+
+			const order = orderResult.data.createOrder;
 
 			await this._ordersService.setActiveOrderId(order.id);
 

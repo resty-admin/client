@@ -85,6 +85,8 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 			}
 		});
 
+		this._ordersService.setActiveOrderId(orderId);
+
 		await this._activeOrderPageQuery.setVariables({ orderId });
 	}
 

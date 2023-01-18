@@ -1,6 +1,6 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { lastValueFrom, map } from "rxjs";
+import { lastValueFrom } from "rxjs";
 import { ORDER_ID, PLACE_ID } from "src/app/shared/constants";
 import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
@@ -71,17 +71,17 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 		}
 
 		try {
-			const order = await lastValueFrom(
-				this._ordersService.createOrder({ type, place }).pipe(map((result) => result.data?.createOrder))
-			);
+			const result = await lastValueFrom(this._ordersService.createOrder({ type, place }));
 
-			if (!order) {
+			if (!result.data) {
 				return;
 			}
 
-			this._ordersService.setActiveOrderId(order.id);
+			const { id } = result.data.createOrder;
 
-			await this._routerService.navigateByUrl(routerLink.replace(ORDER_ID, order.id));
+			this._ordersService.setActiveOrderId(id);
+
+			await this._routerService.navigateByUrl(routerLink.replace(ORDER_ID, id));
 		} catch (error) {
 			console.error(error);
 		}
