@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import { OrderTypeEnum } from "../../../../../../graphql";
 import { CLIENT_ROUTES, HALL_ID, PLACE_ID } from "../../../../../shared/constants";
 import type { ISimpleChanges } from "../../../../../shared/interfaces";
+import type { IOrderInfo } from "../interfaces";
 
 @Component({
 	selector: "app-order-info",
@@ -13,7 +14,7 @@ import type { ISimpleChanges } from "../../../../../shared/interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderInfoComponent implements OnChanges {
-	@Input() order: any;
+	@Input() order?: IOrderInfo | null;
 
 	tableStatus = "";
 	tableInfo = "";
@@ -21,7 +22,7 @@ export class OrderInfoComponent implements OnChanges {
 	dateInfo = "";
 
 	ngOnChanges(changes: ISimpleChanges<OrderInfoComponent>) {
-		if (!changes.order) {
+		if (!changes.order || !changes.order.currentValue) {
 			return;
 		}
 
@@ -36,6 +37,10 @@ export class OrderInfoComponent implements OnChanges {
 		this.tableInfo = tableStauses.has(type) ? tableName || "Выберите стол" : "";
 		this.dateInfo = dateStatuses.includes(type) ? dateName || "Выберите время" : "";
 		this.tableStatus = tableStauses.has(type) ? tableStatus : "";
+
+		if (!table) {
+			return;
+		}
 
 		this.tableLink = CLIENT_ROUTES.TABLES.absolutePath.replace(PLACE_ID, place.id).replace(HALL_ID, table?.hall.id);
 	}

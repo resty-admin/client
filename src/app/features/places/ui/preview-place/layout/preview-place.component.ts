@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
+import type { IPreviewPlace } from "../interfaces";
+
 @Component({
 	selector: "app-preview-place",
 	templateUrl: "./preview-place.component.html",
@@ -7,5 +9,5 @@ import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PreviewPlaceComponent {
-	@Input() place?: any;
+	@Input() place?: IPreviewPlace | null;
 }

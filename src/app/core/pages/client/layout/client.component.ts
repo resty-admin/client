@@ -26,7 +26,7 @@ export class ClientComponent implements OnInit {
 		catchError(() => of(null))
 	);
 
-	readonly profileActions: IAction<any>[] = [
+	readonly profileActions: IAction[] = [
 		{
 			label: "Профиль",
 			icon: "profile",

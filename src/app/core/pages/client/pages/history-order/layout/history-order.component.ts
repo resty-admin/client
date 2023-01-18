@@ -2,7 +2,7 @@ import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { lastValueFrom, map } from "rxjs";
+import { map } from "rxjs";
 import { OrdersService } from "src/app/features/orders";
 import { ORDER_ID, PLACE_ID } from "src/app/shared/constants";
 import { CLIENT_ROUTES } from "src/app/shared/constants";
@@ -25,7 +25,7 @@ export class HistoryOrderComponent implements OnInit, OnDestroy {
 	readonly placeId = PLACE_ID;
 	readonly historyOrderPageI18n = HISTORY_ORDER_PAGE_I18N;
 	readonly clientRoutes = CLIENT_ROUTES;
-	readonly usersControl = new FormControl<any>();
+	readonly usersControl = new FormControl([]);
 	private readonly _historyOrderPageQuery = this._historyOrderPageGQL.watch();
 	readonly order$ = this._historyOrderPageQuery.valueChanges.pipe(
 		map((result) => result.data.order),
@@ -79,10 +79,6 @@ export class HistoryOrderComponent implements OnInit, OnDestroy {
 		});
 
 		await this._historyOrderPageQuery.setVariables({ orderId });
-	}
-
-	async closeOrder(order: any) {
-		await lastValueFrom(this._ordersService.closeOrder(order));
 	}
 
 	ngOnDestroy() {

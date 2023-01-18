@@ -3,6 +3,8 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { CLIENT_ROUTES, ORDER_ID } from "../../../../../../shared/constants";
 import { PAGES } from "../../../data";
 import { ASIDE_I18N } from "../constants";
+import type { IAsideUser } from "../interfaces";
+import type { IAsideActiveOrder } from "../interfaces";
 import { ASIDE_PROVIDERS } from "../providers";
 
 @Component({
@@ -17,8 +19,8 @@ export class AsideComponent {
 	readonly asideI18n = ASIDE_I18N;
 	@Output() closeClicked = new EventEmitter();
 	@Output() signOutClicked = new EventEmitter();
-	@Input() user?: any | null = null;
-	@Input() activeOrder: any;
+	@Input() user?: IAsideUser | null;
+	@Input() activeOrder?: IAsideActiveOrder | null;
 
 	readonly clientRoutes = CLIENT_ROUTES;
 

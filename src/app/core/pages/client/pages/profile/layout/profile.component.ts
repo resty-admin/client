@@ -10,6 +10,7 @@ import { CLIENT_ROUTES } from "../../../../../../shared/constants";
 import { BreadcrumbsService } from "../../../../../../shared/modules/breadcrumbs";
 import { FORM_I18N } from "../../../../../constants";
 import { PROFILE_PAGE_I18N } from "../constants";
+import type { IProfileForm } from "../interfaces";
 
 @UntilDestroy()
 @Component({
@@ -23,7 +24,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 	readonly profilePageI18n = PROFILE_PAGE_I18N;
 	readonly user$ = this._authService.me$;
 
-	readonly formGroup = this._formBuilder.group<any>({
+	readonly formGroup = this._formBuilder.group<IProfileForm>({
 		name: "",
 		tel: "",
 		email: ""

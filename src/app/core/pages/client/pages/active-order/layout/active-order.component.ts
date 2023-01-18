@@ -24,9 +24,8 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 	readonly placeId = PLACE_ID;
 	readonly activeOrderPageI18n = ACTIVE_ORDER_PAGE_I18N;
 	readonly clientRoutes = CLIENT_ROUTES;
-	readonly usersControl = new FormControl<any>();
-
-	readonly productsControl = new FormControl<any>();
+	readonly usersControl = new FormControl<string[]>();
+	readonly productsControl = new FormControl();
 	private readonly _activeOrderPageQuery = this._activeOrderPageGQL.watch();
 	readonly order$ = this._activeOrderPageQuery.valueChanges.pipe(map((result) => result.data.order));
 
@@ -50,15 +49,14 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 				untilDestroyed(this),
 				tap(async (users) => {
 					const order = await lastValueFrom(this.order$.pipe(take(1)));
-					const productsByUser = Object.keys(this.productsControl.value || {}).reduce(
-						(productsMap, id) => ({
+					const productsByUser = Object.keys(this.productsControl.value || {}).reduce((productsMap, id) => {
+						const userId = (order.productsToOrders || []).find((productToOrder) => productToOrder.id === id)?.user.id;
+
+						return {
 							...productsMap,
-							[id]: (users || []).includes(
-								(order.productsToOrders || []).find((productToOrder) => productToOrder.id === id)?.user.id
-							)
-						}),
-						{}
-					);
+							[id]: userId && (users || []).includes(userId)
+						};
+					}, {});
 
 					this.productsControl.patchValue(productsByUser);
 				})
@@ -75,7 +73,7 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 		this._actionsService.setAction({
 			label: "Выбрать тип оплаты",
 			func: async () => {
-				const products = Object.entries(this.productsControl.value)
+				const products = Object.entries(this.productsControl.value || {})
 					.filter(([_, value]) => value)
 					.map(([key]) => key);
 

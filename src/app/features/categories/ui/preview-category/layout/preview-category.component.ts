@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
+import type { IPreviewCategory } from "../interfaces";
+
 @Component({
 	selector: "app-preview-category",
 	templateUrl: "./preview-category.component.html",
@@ -7,5 +9,5 @@ import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PreviewCategoryComponent {
-	@Input() category: any;
+	@Input() category?: IPreviewCategory | null;
 }

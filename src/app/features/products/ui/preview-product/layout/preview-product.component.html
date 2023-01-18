@@ -19,18 +19,21 @@
 		></app-counter>
 	</div>
 
-	<ul class="products-with-attributes" *ngIf="usersToProductsWithAttributes?.length">
-		<li class="product-with-attribute" *ngFor="let productToOrder of usersToProductsWithAttributes; trackBy: trackByFn">
-			<p class="name">{{ productToOrder.product?.name }}</p>
+	<ul class="products-with-attributes" *ngIf="productsToOrdersWithAttributes?.length">
+		<li
+			class="product-with-attribute"
+			*ngFor="let productToOrder of productsToOrdersWithAttributes; trackBy: trackByFn"
+		>
+			<p class="name">{{ productToOrder.product.name }}</p>
 			<p class="cal">250 гр</p>
 			<p class="attributes">{{ productToOrder.attributesName }}</p>
-			<p class="price">{{ productToOrder.product?.price }} грн</p>
+			<p class="price">{{ productToOrder.product.price }} грн</p>
 			<app-counter
 				theme="2"
 				class="counter"
 				[value]="productToOrder.count"
-				(plusClicked)="emitPlusClick(productToOrder.product?.id || '', productToOrder.attributes)"
-				(minusClicked)="emitMinusClick(productToOrder.product?.id || '', productToOrder.attributes)"
+				(plusClicked)="emitPlusClick(productToOrder.product.id || '', productToOrder.attributes)"
+				(minusClicked)="emitMinusClick(productToOrder.product.id || '', productToOrder.attributes)"
 			></app-counter>
 		</li>
 	</ul>

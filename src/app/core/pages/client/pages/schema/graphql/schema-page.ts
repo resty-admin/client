@@ -31,7 +31,14 @@ export interface SchemaPageTablesQuery {
 		__typename?: "PaginatedTable";
 		page: number;
 		totalCount: number;
-		data?: { __typename?: "TableEntity"; id: string; name: string }[] | null;
+		data?:
+			| {
+					__typename?: "TableEntity";
+					id: string;
+					name: string;
+					hall: { __typename?: "HallEntity"; id: string; name: string };
+			  }[]
+			| null;
 	};
 }
 
@@ -73,6 +80,10 @@ export const SchemaPageTablesDocument = gql`
 			data {
 				id
 				name
+				hall {
+					id
+					name
+				}
 			}
 			page
 			totalCount

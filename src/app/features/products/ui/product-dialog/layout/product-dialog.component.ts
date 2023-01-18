@@ -6,7 +6,7 @@ import { map } from "rxjs";
 
 import type { ProductEntity } from "../../../../../../graphql";
 import { FORM_I18N } from "../../../../../core/constants";
-import type { DeepAtLeast } from "../../../../../shared/interfaces";
+import type { DeepAtLeast, DeepPartial } from "../../../../../shared/interfaces";
 import { PRODUCT_PAGE_I18N } from "../constants";
 import { ProductPageGQL } from "../graphql/product-page";
 
@@ -20,7 +20,7 @@ export class ProductDialogComponent implements OnInit {
 	readonly productPageI18n = PRODUCT_PAGE_I18N;
 	readonly formI18n = FORM_I18N;
 	private readonly _productPageQuery = this._productsPageGQL.watch();
-	readonly attributesFormControl = new FormControl<string>();
+	readonly attributesFormControl = new FormControl<string[]>();
 	readonly product$ = this._productPageQuery.valueChanges.pipe(
 		map((result) => result.data.product),
 		map((product) => ({
@@ -44,7 +44,7 @@ export class ProductDialogComponent implements OnInit {
 		return index;
 	}
 
-	closeDialogWithData(product: any, attributes: any) {
+	closeDialogWithData(product: DeepPartial<ProductEntity>, attributes: string[]) {
 		this._dialogRef.close({ product, attributes });
 	}
 

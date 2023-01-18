@@ -22,7 +22,7 @@ export class CategoriesSelectComponent implements ControlValueAccessor, OnInit {
 
 	readonly formControl = new FormControl<string>();
 
-	onChange: ((value: any) => void) | undefined;
+	onChange: ((value: string) => void) | undefined;
 	onTouched: (() => void) | undefined;
 
 	ngOnInit() {
@@ -45,7 +45,7 @@ export class CategoriesSelectComponent implements ControlValueAccessor, OnInit {
 		return this.formControl.errors;
 	}
 
-	writeValue(value: any): void {
+	writeValue(value: string): void {
 		this.formControl.setValue(value, { emitValue: false });
 	}
 

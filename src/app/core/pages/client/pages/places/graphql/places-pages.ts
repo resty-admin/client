@@ -15,7 +15,16 @@ export interface PlacesPageQuery {
 		__typename?: "PaginatedPlace";
 		page: number;
 		totalCount: number;
-		data?: { __typename?: "PlaceEntity"; id: string; name: string }[] | null;
+		data?:
+			| {
+					__typename?: "PlaceEntity";
+					id: string;
+					name: string;
+					status: Types.PlaceStatusEnum;
+					address?: string | null;
+					file?: { __typename?: "FileEntity"; id: string; url: string } | null;
+			  }[]
+			| null;
 	};
 }
 
@@ -27,6 +36,12 @@ export const PlacesPageDocument = gql`
 			data {
 				id
 				name
+				status
+				address
+				file {
+					id
+					url
+				}
 			}
 		}
 	}

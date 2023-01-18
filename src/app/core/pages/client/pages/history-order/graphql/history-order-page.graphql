@@ -12,6 +12,7 @@ query HistoryOrderPage($orderId: String!) {
 		place {
 			id
 			name
+			status
 			file {
 				id
 				url

@@ -39,7 +39,7 @@ export class PaymentTypeComponent implements OnInit, OnDestroy {
 		{ value: PaymentType.CARD, label: `Картой` }
 	];
 
-	readonly paymentTypeControl = new FormControl<any>();
+	readonly paymentTypeControl = new FormControl();
 
 	constructor(
 		private readonly _paymentTypeGQL: PaymentTypePageGQL,

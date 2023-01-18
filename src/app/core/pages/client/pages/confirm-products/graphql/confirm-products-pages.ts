@@ -16,6 +16,7 @@ export interface ConfirmProductsPageQuery {
 		productsToOrders?:
 			| {
 					__typename?: "ProductToOrderEntity";
+					id: string;
 					count: number;
 					status: Types.ProductToOrderStatusEnum;
 					user: { __typename?: "UserEntity"; id: string };
@@ -25,6 +26,7 @@ export interface ConfirmProductsPageQuery {
 						name: string;
 						description?: string | null;
 						price: number;
+						isHide: boolean;
 					};
 					attributes?: { __typename?: "AttributesEntity"; id: string; name: string; price: number }[] | null;
 			  }[]
@@ -40,6 +42,7 @@ export const ConfirmProductsPageDocument = gql`
 				id
 			}
 			productsToOrders {
+				id
 				count
 				status
 				user {
@@ -50,6 +53,7 @@ export const ConfirmProductsPageDocument = gql`
 					name
 					description
 					price
+					isHide
 				}
 				attributes {
 					id

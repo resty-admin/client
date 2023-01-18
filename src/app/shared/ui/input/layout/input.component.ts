@@ -7,7 +7,7 @@ import { ANY_SYMBOL, THEME } from "src/app/shared/constants";
 
 import { getControlValueAccessorProviders } from "../../../functions";
 import type { ISimpleChanges } from "../../../interfaces";
-import { IInputTheme, IInputType } from "../interfaces";
+import { IInputReturnType, IInputTheme, IInputType } from "../interfaces";
 
 @UntilDestroy()
 @Component({
@@ -22,7 +22,7 @@ export class InputComponent extends ControlValueAccessor<number | string> implem
 	@Input() theme: IInputTheme = "1";
 	@Input() type: IInputType = "input";
 	@Input() readonly = false;
-	@Input() returnType: any = "string";
+	@Input() returnType: IInputReturnType = "string";
 
 	@Input() icon?: string;
 

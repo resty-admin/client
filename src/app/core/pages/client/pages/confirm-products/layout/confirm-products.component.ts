@@ -6,19 +6,18 @@ import { CLIENT_ROUTES, ORDER_ID, PLACE_ID } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
 
-import type { ProductEntity, ProductToOrderEntity } from "../../../../../../../graphql";
 import { ProductToOrderStatusEnum } from "../../../../../../../graphql";
 import { ActionsService } from "../../../../../../features/app";
 import { OrdersService } from "../../../../../../features/orders";
 import type { IEmit } from "../../../../../../features/products";
-import type { DeepAtLeast } from "../../../../../../shared/interfaces";
+import type {
+	IPreviewProduct,
+	IProductToOrder
+} from "../../../../../../features/products/ui/preview-product/interfaces";
 import { CONFIRM_PRODUCTS_PAGE_I18N } from "../constants";
 import { ConfirmProductsPageGQL } from "../graphql/confirm-products-pages";
 
-export type IConfirmProductsMap = Record<
-	string,
-	DeepAtLeast<ProductEntity, "id"> & { productsToOrders?: DeepAtLeast<ProductToOrderEntity, "count">[] }
->;
+export type IConfirmProductsMap = Record<string, IPreviewProduct & { productsToOrders: IProductToOrder[] }>;
 @UntilDestroy()
 @Component({
 	selector: "app-confirm-products",
@@ -41,7 +40,10 @@ export class ConfirmProductsComponent implements OnInit, OnDestroy {
 							...productsMap,
 							[productToOrder.product.id]: {
 								...productToOrder.product,
-								productsToOrders: [...(productsMap[productToOrder.product.id]?.productsToOrders || []), productToOrder]
+								productsToOrders: [
+									...(productsMap[productToOrder.product.id]?.productsToOrders || []),
+									{ ...productToOrder, attributes: productToOrder.attributes || [] }
+								]
 							}
 						}),
 						{}

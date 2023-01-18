@@ -5,7 +5,12 @@ query ProductsErrorPage($skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!])
 		data {
 			id
 			name
+			description
 			price
+			file {
+				id
+				url
+			}
 		}
 	}
 }

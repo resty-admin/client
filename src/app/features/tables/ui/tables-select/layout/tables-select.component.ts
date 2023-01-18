@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
+import type { ISelectTable } from "../interfaces";
+
 @Component({
 	selector: "app-tables-select",
 	templateUrl: "./tables-select.component.html",
@@ -7,14 +9,14 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TablesSelectComponent {
-	@Output() tableClicked = new EventEmitter<any>();
-	@Input() tables?: any[] | null;
+	@Output() tableClicked = new EventEmitter<ISelectTable>();
+	@Input() tables?: ISelectTable[] | null;
 
 	trackByFn(index: number) {
 		return index;
 	}
 
-	emitTableClick(product: any) {
-		this.tableClicked.emit(product);
+	emitTableClick(selectTable: ISelectTable) {
+		this.tableClicked.emit(selectTable);
 	}
 }

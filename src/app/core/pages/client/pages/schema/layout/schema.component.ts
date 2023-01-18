@@ -8,9 +8,11 @@ import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
 
+import type { TableEntity } from "../../../../../../../graphql";
 import { ActionsService } from "../../../../../../features/app";
 import { OrdersService } from "../../../../../../features/orders";
 import { TableDialogComponent } from "../../../../../../features/tables/ui/table-dialog";
+import type { DeepPartial } from "../../../../../../shared/interfaces";
 import { DialogService } from "../../../../../../shared/ui/dialog";
 import { SCHEMA_PAGE_I18N } from "../constants";
 import { SchemaPageHallsGQL, SchemaPageOrderGQL, SchemaPageTablesGQL } from "../graphql/schema-page";
@@ -114,7 +116,7 @@ export class SchemaComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	async openTableDialog(data: any) {
+	async openTableDialog(data: DeepPartial<TableEntity>) {
 		const dialogResult = await lastValueFrom(this._dialogService.open(TableDialogComponent, { data }).afterClosed$);
 
 		if (!dialogResult) {

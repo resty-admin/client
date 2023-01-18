@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
+import type { IPreviewHall } from "../interfaces";
+
 @Component({
 	selector: "app-preview-hall",
 	templateUrl: "./preview-hall.component.html",
@@ -7,5 +9,5 @@ import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PreviewHallComponent {
-	@Input() hall: any;
+	@Input() hall?: IPreviewHall | null;
 }

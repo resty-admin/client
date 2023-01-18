@@ -21,10 +21,7 @@
 								class="user-to-order"
 								*ngFor="let productToOrder of productToOrderByType.productsToOrders; trackBy: trackByFn"
 							>
-								<app-product-to-order
-									[productToOrder]="productToOrder"
-									[isActive]="usersControl.value?.includes(productToOrder.user.id)"
-								></app-product-to-order>
+								<app-product-to-order [productToOrder]="productToOrder"></app-product-to-order>
 							</li>
 						</ul>
 					</ng-container>

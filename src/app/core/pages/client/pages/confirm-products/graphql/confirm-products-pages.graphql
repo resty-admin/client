@@ -5,6 +5,7 @@ query ConfirmProductsPage($orderId: String!) {
 			id
 		}
 		productsToOrders {
+			id
 			count
 			status
 			user {
@@ -15,6 +16,7 @@ query ConfirmProductsPage($orderId: String!) {
 				name
 				description
 				price
+				isHide
 			}
 			attributes {
 				id

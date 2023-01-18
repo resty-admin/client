@@ -5,6 +5,7 @@ import { CLIENT_ROUTES, ORDER_ID } from "../../../../../../shared/constants";
 import type { ISimpleChanges } from "../../../../../../shared/interfaces";
 import { RouterService } from "../../../../../../shared/modules/router";
 import { HEADER_I18N } from "../constants";
+import type { IHeaderActiveOrder, IHeaderUser } from "../interfaces";
 import { HEADER_PROVIDERS } from "../providers";
 
 @Component({
@@ -18,12 +19,11 @@ export class HeaderComponent implements OnChanges {
 	readonly orderId = ORDER_ID;
 	readonly headerI18n = HEADER_I18N;
 	@Output() burgerClicked = new EventEmitter();
+	@Input() isAsideOpen?: boolean | null;
+	@Input() user?: IHeaderUser | null;
+	@Input() activeOrder?: IHeaderActiveOrder | null;
 
-	@Input() isAsideOpen: any = false;
-	@Input() user?: any | null = null;
 	@Input() actions?: any = [];
-	@Input() activeOrder: any;
-
 	activeOrderLink = "";
 
 	readonly clientRoutes = CLIENT_ROUTES;

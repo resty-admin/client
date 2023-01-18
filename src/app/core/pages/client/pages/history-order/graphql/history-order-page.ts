@@ -21,6 +21,7 @@ export interface HistoryOrderPageQuery {
 			__typename?: "PlaceEntity";
 			id: string;
 			name: string;
+			status: Types.PlaceStatusEnum;
 			file?: { __typename?: "FileEntity"; id: string; url: string } | null;
 		};
 		table?: {
@@ -76,6 +77,7 @@ export const HistoryOrderPageDocument = gql`
 			place {
 				id
 				name
+				status
 				file {
 					id
 					url

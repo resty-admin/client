@@ -1,9 +1,11 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import type { ProductEntity, ProductToOrderEntity } from "../../../../../../graphql";
-import type { ISimpleChanges } from "../../../../../shared/interfaces";
-import { DeepAtLeast } from "../../../../../shared/interfaces";
+import type { AttributesEntity } from "../../../../../../graphql";
+import type { AtLeast, ISimpleChanges } from "../../../../../shared/interfaces";
+import type { IPreviewProduct } from "../interfaces";
+import type { IProductToOrder } from "../interfaces/product-to-order.interface";
+import type { IProductToOrderWithAttributes } from "../interfaces/product-to-order-with-attributes.interface";
 
 export interface IEmit {
 	productId: string;
@@ -19,12 +21,12 @@ export interface IEmit {
 export class PreviewProductComponent implements OnChanges {
 	@Output() minusClicked = new EventEmitter<IEmit>();
 	@Output() plusClicked = new EventEmitter<IEmit>();
-	@Input() product?: DeepAtLeast<ProductEntity, "id">;
-	@Input() productsToOrders?: DeepAtLeast<ProductToOrderEntity, "count">[] = [];
+	@Input() product?: IPreviewProduct | null;
+	@Input() productsToOrders?: IProductToOrder[] = [];
 
 	count = 0;
 
-	usersToProductsWithAttributes: any[] = [];
+	productsToOrdersWithAttributes: IProductToOrderWithAttributes[] = [];
 
 	trackByFn(index: number) {
 		return index;
@@ -41,7 +43,7 @@ export class PreviewProductComponent implements OnChanges {
 			.filter((productToOrder) => (productToOrder.attributes || []).length === 0)
 			.reduce((count, productToOrder) => count + productToOrder.count, 0);
 
-		this.usersToProductsWithAttributes = productsToOrders
+		this.productsToOrdersWithAttributes = productsToOrders
 			.filter((productToOrder) => (productToOrder.attributes || []).length)
 			.map((productToOrder) => ({
 				...productToOrder,
@@ -52,13 +54,13 @@ export class PreviewProductComponent implements OnChanges {
 			}));
 	}
 
-	emitMinusClick(productId: string, attributes?: any) {
-		const attributesIds = (attributes || []).map((attribute: any) => attribute.id);
+	emitMinusClick(productId: string, attributes?: AtLeast<AttributesEntity, "id">[]) {
+		const attributesIds = (attributes || []).map((attribute) => attribute.id);
 		this.minusClicked.emit({ productId, attributesIds });
 	}
 
-	emitPlusClick(productId: string, attributes?: any) {
-		const attributesIds = (attributes || []).map((attribute: any) => attribute.id);
+	emitPlusClick(productId: string, attributes?: AtLeast<AttributesEntity, "id">[]) {
+		const attributesIds = (attributes || []).map((attribute) => attribute.id);
 		this.plusClicked.emit({ productId, attributesIds });
 	}
 }

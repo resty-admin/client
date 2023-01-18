@@ -58,7 +58,7 @@ export class AuthService {
 		private readonly _toastrService: ToastrService
 	) {}
 
-	private _getBodyWithEncryptedPassword(body: any) {
+	private _getBodyWithEncryptedPassword<T extends { password: string }>(body: T) {
 		return { body: { ...body, password: this._cryptoService.encrypt(body.password) } };
 	}
 

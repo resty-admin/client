@@ -5,6 +5,12 @@ query PlacesPage($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
 		data {
 			id
 			name
+			status
+			address
+			file {
+				id
+				url
+			}
 		}
 	}
 }

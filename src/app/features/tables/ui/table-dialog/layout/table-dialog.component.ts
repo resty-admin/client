@@ -3,10 +3,13 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy } from "@ngneat/until-destroy";
+import type { Dayjs } from "dayjs";
 import { catchError, debounceTime, distinctUntilChanged, filter, map, of, switchMap } from "rxjs";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
 
+import type { TableEntity } from "../../../../../../graphql";
+import type { DeepPartial } from "../../../../../shared/interfaces";
 import { ActionsService } from "../../../../app";
 import { OrdersService } from "../../../../orders";
 import { TABLE_DIALOG_I18N } from "../constants";
@@ -24,18 +27,16 @@ import { TABLE_DIALOG_PROVIDERS } from "../providers";
 export class TableDialogComponent implements OnInit {
 	readonly tableDialogI18n = TABLE_DIALOG_I18N;
 
-	private readonly _isTableAvailableForReserveQuery = this._isTableAvailableForReserveGQL.watch();
-
 	private readonly _tableDialogQuery = this._tableDialogGQL.watch();
 	readonly table$ = this._tableDialogQuery.valueChanges.pipe(map((result) => result.data.table));
 
-	readonly dateControl = new FormControl();
+	readonly dateControl = new FormControl<Dayjs>();
 
 	readonly isTableActive$ = this.dateControl.valueChanges.pipe(
 		debounceTime(500),
 		distinctUntilChanged(),
 		filter((date) => Boolean(date)),
-		map((date: any) => date.format()),
+		map((date) => date.format()),
 		switchMap((date) =>
 			this._isTableAvailableForReserveGQL.watch({ body: { date, tableId: this._dialogRef.data.id } }).valueChanges.pipe(
 				map(() => true),
@@ -54,7 +55,7 @@ export class TableDialogComponent implements OnInit {
 		private readonly _isTableAvailableForReserveGQL: IsTableAvailableForReserveGQL
 	) {}
 
-	closeDialogWithData(table: any) {
+	closeDialogWithData(table: DeepPartial<TableEntity>) {
 		this._dialogRef.close(table);
 	}
 

@@ -8,11 +8,13 @@ import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
 
+import type { ProductEntity } from "../../../../../../../graphql";
 import { ProductToOrderStatusEnum } from "../../../../../../../graphql";
 import { ActionsService } from "../../../../../../features/app";
 import { OrdersService } from "../../../../../../features/orders";
 import type { IEmit } from "../../../../../../features/products";
 import { ProductDialogComponent } from "../../../../../../features/products";
+import type { DeepPartial } from "../../../../../../shared/interfaces";
 import { DialogService } from "../../../../../../shared/ui/dialog";
 import { MENU_PAGE_I18N } from "../constants";
 import { MenuPageCategoriesGQL, MenuPageOrderGQL, MenuPageProductsGQL } from "../graphql/menu-page";
@@ -49,10 +51,15 @@ export class MenuComponent implements OnInit, OnDestroy {
 				map((order) =>
 					products?.map((product) => ({
 						...product,
-						productsToOrders: (order.productsToOrders || []).filter(
-							(productToOrder) =>
-								productToOrder.product.id === product.id && productToOrder.status === ProductToOrderStatusEnum.Added
-						)
+						productsToOrders: (order.productsToOrders || [])
+							.filter(
+								(productToOrder) =>
+									productToOrder.product.id === product.id && productToOrder.status === ProductToOrderStatusEnum.Added
+							)
+							.map((productToOrder) => ({
+								...productToOrder,
+								attributes: productToOrder.attributes || []
+							}))
 					}))
 				)
 			)
@@ -131,7 +138,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	async openProductDialog(data: any) {
+	async openProductDialog(data: DeepPartial<ProductEntity>) {
 		const result = await lastValueFrom(this._dialogService.open(ProductDialogComponent, { data }).afterClosed$);
 
 		if (!result) {
