@@ -4,6 +4,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { CLIENT_ROUTES, ORDER_ID } from "../../../../../../shared/constants";
 import type { ISimpleChanges } from "../../../../../../shared/interfaces";
 import { RouterService } from "../../../../../../shared/modules/router";
+import type { IAction } from "../../../../../../shared/ui/actions";
 import { HEADER_I18N } from "../constants";
 import type { IHeaderActiveOrder, IHeaderUser } from "../interfaces";
 import { HEADER_PROVIDERS } from "../providers";
@@ -23,7 +24,8 @@ export class HeaderComponent implements OnChanges {
 	@Input() user?: IHeaderUser | null;
 	@Input() activeOrder?: IHeaderActiveOrder | null;
 
-	@Input() actions?: any = [];
+	@Input() actions?: IAction[] | null = [];
+
 	activeOrderLink = "";
 
 	readonly clientRoutes = CLIENT_ROUTES;

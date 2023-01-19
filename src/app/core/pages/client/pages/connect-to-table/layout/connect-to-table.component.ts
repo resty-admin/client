@@ -79,7 +79,11 @@ export class ConnectToTableComponent implements OnInit, OnDestroy {
 			await this._ordersService.setActiveOrderId(order.id);
 
 			await this._routerService.navigateByUrl(CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, placeId));
-		} catch (error: any) {
+		} catch (error) {
+			if (!(error instanceof Error)) {
+				return;
+			}
+
 			switch (Number.parseInt(error.message)) {
 				case 1023: {
 					console.error(`Invalid Code`);
