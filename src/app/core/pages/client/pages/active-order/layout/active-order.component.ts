@@ -10,8 +10,24 @@ import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 import { RouterService } from "src/app/shared/modules/router";
 
 import { ActionsService } from "../../../../../../features/app";
+import { SocketIoService } from "../../../../../../shared/modules/socket-io";
 import { ACTIVE_ORDER_PAGE_I18N } from "../constants";
 import { ActiveOrderPageGQL } from "../graphql/active-order-page";
+
+export enum ORDERS_EVENTS {
+	CREATED = "ORDER_CREATED",
+	CLOSED = "ORDER_CLOSED",
+	CANCELED = "ORDER_CANCELED",
+	CONFIRM = "ORDER_CONFIRM",
+	REJECTED = "ORDER_REJECTED",
+	APPROVED = "ORDER_APPROVED",
+	WAITING_FOR_MANUAL_PAY = "ORDER_WAITING_FOR_MANUAL_PAY",
+	USER_ADDED = "ORDER_USER_ADDED",
+	TABLE_ADDED = "ORDER_TABLE_ADDED",
+	TABLE_APPROVED = "ORDER_TABLE_APPROVED",
+	TABLE_REJECTED = "ORDER_TABLE_REJECTED",
+	TABLE_REMOVED = "ORDER_TABLE_REMOVED"
+}
 
 @UntilDestroy()
 @Component({
@@ -24,7 +40,7 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 	readonly placeId = PLACE_ID;
 	readonly activeOrderPageI18n = ACTIVE_ORDER_PAGE_I18N;
 	readonly clientRoutes = CLIENT_ROUTES;
-	readonly usersControl = new FormControl<string[]>();
+	readonly usersControl = new FormControl<Record<string, boolean>>();
 	readonly productsControl = new FormControl();
 	private readonly _activeOrderPageQuery = this._activeOrderPageGQL.watch();
 	readonly order$ = this._activeOrderPageQuery.valueChanges.pipe(map((result) => result.data.order));
@@ -34,7 +50,8 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 		private readonly _ordersService: OrdersService,
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
-		private readonly _actionsService: ActionsService
+		private readonly _actionsService: ActionsService,
+		private readonly _socketIoService: SocketIoService
 	) {}
 
 	async ngOnInit() {
@@ -44,13 +61,22 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 			return;
 		}
 
+		this._socketIoService
+			.fromEvents(Object.values(ORDERS_EVENTS))
+			.pipe(untilDestroyed(this))
+			.subscribe(async () => {
+				await this._activeOrderPageQuery.refetch();
+			});
+
 		this.usersControl.valueChanges
 			.pipe(
 				untilDestroyed(this),
-				tap(async (users) => {
+				tap(async (usersMap) => {
 					const order = await lastValueFrom(this.order$.pipe(take(1)));
 					const productsByUser = Object.keys(this.productsControl.value || {}).reduce((productsMap, id) => {
 						const userId = (order.productsToOrders || []).find((productToOrder) => productToOrder.id === id)?.user.id;
+
+						const users = Object.keys(usersMap);
 
 						return {
 							...productsMap,

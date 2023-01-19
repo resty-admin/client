@@ -26,6 +26,9 @@
 			color: var(--dark);
 		}
 		.paid-status {
+			display: flex;
+			align-items: center;
+			column-gap: rem(5);
 			justify-self: end;
 			grid-area: paid-status;
 			.waiting {
