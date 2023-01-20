@@ -3,15 +3,9 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 
 import type { AttributesEntity } from "../../../../../../graphql";
 import type { AtLeast, ISimpleChanges } from "../../../../../shared/interfaces";
-import type { IPreviewProduct } from "../interfaces";
+import type { IPreviewProduct, IProductChanged } from "../interfaces";
 import type { IProductToOrder } from "../interfaces/product-to-order.interface";
 import type { IProductToOrderWithAttributes } from "../interfaces/product-to-order-with-attributes.interface";
-
-export interface IEmit {
-	productId: string;
-	attributesIds: string[];
-}
-
 @Component({
 	selector: "app-preview-product",
 	templateUrl: "./preview-product.component.html",
@@ -19,8 +13,8 @@ export interface IEmit {
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PreviewProductComponent implements OnChanges {
-	@Output() minusClicked = new EventEmitter<IEmit>();
-	@Output() plusClicked = new EventEmitter<IEmit>();
+	@Output() minusClicked = new EventEmitter<IProductChanged>();
+	@Output() plusClicked = new EventEmitter<IProductChanged>();
 	@Input() product?: IPreviewProduct | null;
 	@Input() productsToOrders?: IProductToOrder[] = [];
 

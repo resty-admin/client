@@ -1,12 +1,16 @@
-<div class="menu-page" *transloco="let t; read: menuPagei18n">
+<div class="menu-page" *transloco="let t; read: menuPageI18n">
 	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 
-	<app-categories-select [categories]="categories$ | async" [formControl]="categoryControl"></app-categories-select>
+	<app-categories-select
+		[categories]="categories$ | async"
+		[selectedCategory]="selectedCategory$ | async"
+		(selectedCategoryChange)="setSelectedCategory($event)"
+	></app-categories-select>
 
 	<app-products-select
 		[products]="products$ | async"
-		(minusClicked)="removeProductFromOrder($event)"
 		(plusClicked)="addProductToOrder($event)"
+		(minusClicked)="removeProductFromOrder($event)"
 		(productClicked)="openProductDialog($event)"
 	></app-products-select>
 </div>

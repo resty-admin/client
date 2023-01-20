@@ -46,10 +46,6 @@ export class OrdersService {
 		return this._ordersRepository.setActiveOrderId(orderId);
 	}
 
-	getActiveOrderId() {
-		return this._ordersRepository.getActiveOrderId();
-	}
-
 	createOrder(order: CreateOrderInput) {
 		return this._createOrderGQL.mutate({ order });
 	}

@@ -1,15 +1,15 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { lastValueFrom, map, take, tap } from "rxjs";
-import { OrdersService } from "src/app/features/orders";
-import { ORDER_ID, PLACE_ID } from "src/app/shared/constants";
-import { CLIENT_ROUTES } from "src/app/shared/constants";
-import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
-import { RouterService } from "src/app/shared/modules/router";
+import { lastValueFrom, map, take } from "rxjs";
 
+import type { ActiveOrderEntity } from "../../../../../../../graphql";
+import { ProductToOrderStatusEnum } from "../../../../../../../graphql";
 import { ActionsService } from "../../../../../../features/app";
+import { OrdersService } from "../../../../../../features/orders";
+import { CLIENT_ROUTES, ORDER_ID, PLACE_ID } from "../../../../../../shared/constants";
+import { BreadcrumbsService } from "../../../../../../shared/modules/breadcrumbs";
+import { RouterService } from "../../../../../../shared/modules/router";
 import { SocketIoService } from "../../../../../../shared/modules/socket-io";
 import { ACTIVE_ORDER_PAGE_I18N } from "../constants";
 import { ActiveOrderPageGQL } from "../graphql/active-order-page";
@@ -37,22 +37,26 @@ export enum ORDERS_EVENTS {
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActiveOrderComponent implements OnInit, OnDestroy {
-	readonly placeId = PLACE_ID;
 	readonly activeOrderPageI18n = ACTIVE_ORDER_PAGE_I18N;
-	readonly clientRoutes = CLIENT_ROUTES;
-	readonly usersControl = new FormControl<Record<string, boolean>>();
-	readonly productsControl = new FormControl();
+	readonly statuses = [ProductToOrderStatusEnum.Approved, ProductToOrderStatusEnum.WaitingForApprove];
+
 	private readonly _activeOrderPageQuery = this._activeOrderPageGQL.watch();
 	readonly order$ = this._activeOrderPageQuery.valueChanges.pipe(map((result) => result.data.order));
 
+	selectedUsers: string[] = [];
+	selectedProductsToOrders: string[] = [];
 	constructor(
 		private readonly _activeOrderPageGQL: ActiveOrderPageGQL,
-		private readonly _ordersService: OrdersService,
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _actionsService: ActionsService,
+		private readonly _ordersService: OrdersService,
 		private readonly _socketIoService: SocketIoService
 	) {}
+
+	trackByFn(index: number) {
+		return index;
+	}
 
 	async ngOnInit() {
 		const orderId = this._routerService.getParams(ORDER_ID.slice(1));
@@ -61,33 +65,18 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 			return;
 		}
 
+		this._ordersService.setActiveOrderId(orderId);
+
 		this._socketIoService
-			.fromEvents(Object.values(ORDERS_EVENTS))
+			.fromEvents<{ order: ActiveOrderEntity }>(Object.values(ORDERS_EVENTS))
 			.pipe(untilDestroyed(this))
-			.subscribe(async () => {
+			.subscribe(async (data) => {
+				if (!data || !data.order || !orderId || orderId !== data.order.id) {
+					return;
+				}
+
 				await this._activeOrderPageQuery.refetch();
 			});
-
-		this.usersControl.valueChanges
-			.pipe(
-				untilDestroyed(this),
-				tap(async (usersMap) => {
-					const order = await lastValueFrom(this.order$.pipe(take(1)));
-					const productsByUser = Object.keys(this.productsControl.value || {}).reduce((productsMap, id) => {
-						const userId = (order.productsToOrders || []).find((productToOrder) => productToOrder.id === id)?.user.id;
-
-						const users = Object.keys(usersMap);
-
-						return {
-							...productsMap,
-							[id]: userId && (users || []).includes(userId)
-						};
-					}, {});
-
-					this.productsControl.patchValue(productsByUser);
-				})
-			)
-			.subscribe();
 
 		this.order$.pipe(untilDestroyed(this)).subscribe((order) => {
 			this._breadcrumbsService.setBreadcrumb({
@@ -99,23 +88,43 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 		this._actionsService.setAction({
 			label: "Выбрать тип оплаты",
 			func: async () => {
-				const products = Object.entries(this.productsControl.value || {})
-					.filter(([_, value]) => value)
-					.map(([key]) => key);
-
 				await this._routerService.navigate([CLIENT_ROUTES.PAYMENT_TYPE.absolutePath.replace(ORDER_ID, orderId)], {
-					queryParams: { products: JSON.stringify(products) }
+					queryParams: { products: JSON.stringify(this.selectedProductsToOrders) }
 				});
 			}
 		});
 
-		this._ordersService.setActiveOrderId(orderId);
-
 		await this._activeOrderPageQuery.setVariables({ orderId });
 	}
 
+	async setSelectedUsers(usersIds: string[]) {
+		const { productsToOrders } = await lastValueFrom(this.order$.pipe(take(1)));
+
+		this.selectedProductsToOrders = (productsToOrders || [])
+			.filter((productToOrder) => usersIds.includes(productToOrder.user.id))
+			.map((productToOrder) => productToOrder.id);
+	}
+
+	async setSelectedProductsToOrders(productsToOrdersIds: string[]) {
+		const { productsToOrders, users } = await lastValueFrom(this.order$.pipe(take(1)));
+
+		const productsByUser = (users || []).reduce(
+			(usersMap, user) => ({
+				...usersMap,
+				[user.id]: (productsToOrders || [])
+					.filter((productToOrder) => productToOrder.user.id === user.id)
+					.every((productToOrder) => productsToOrdersIds.includes(productToOrder.id))
+			}),
+			{}
+		);
+
+		this.selectedUsers = Object.entries(productsByUser)
+			.filter(([_, value]) => value)
+			.map(([key]) => key);
+	}
+
 	ngOnDestroy() {
-		this._breadcrumbsService.setBreadcrumb(null);
 		this._actionsService.setAction(null);
+		this._breadcrumbsService.setBreadcrumb(null);
 	}
 }

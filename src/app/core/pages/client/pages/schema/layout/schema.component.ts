@@ -1,8 +1,7 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { lastValueFrom, map, switchMap, tap } from "rxjs";
+import { filter, lastValueFrom, map, ReplaySubject, switchMap, take, tap } from "rxjs";
 import { HALL_ID, ORDER_ID, PLACE_ID } from "src/app/shared/constants";
 import { CLIENT_ROUTES } from "src/app/shared/constants";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
@@ -26,33 +25,36 @@ import { SchemaPageHallsGQL, SchemaPageOrderGQL, SchemaPageTablesGQL } from "../
 })
 export class SchemaComponent implements OnInit, OnDestroy {
 	readonly schemaPagei18n = SCHEMA_PAGE_I18N;
-
-	readonly hallControl = new FormControl<string>();
-
 	private readonly _schemaPageHallsQuery = this._scemaPageHallsGQL.watch();
+	private readonly _schemaPageTablesQuery = this._scemaPageTablesGQL.watch();
+	private readonly _schemaPageOrderQuery = this._schemaPageOrderGQL.watch();
+	private readonly _selectedHallSubject = new ReplaySubject<string>();
+	readonly selectedHall$ = this._selectedHallSubject.asObservable();
 	readonly halls$ = this._schemaPageHallsQuery.valueChanges.pipe(
 		map((result) => result.data.halls.data),
-		tap((halls) => {
-			if (!halls || !halls[0] || this.hallControl.value) {
+		tap(async (halls) => {
+			const { hallId, placeId } = this._routerService.getParams();
+
+			if (!halls || !halls[0] || hallId) {
 				return;
 			}
 
-			this.hallControl.setValue(halls[0].id);
+			await this._routerService.navigateByUrl(
+				CLIENT_ROUTES.HALL.absolutePath.replace(PLACE_ID, placeId).replace(HALL_ID, halls[0].id)
+			);
 		})
 	);
 
-	private readonly _schemaPageTablesQuery = this._scemaPageTablesGQL.watch();
-	private readonly _schemaPageOrderQuery = this._schemaPageOrderGQL.watch();
-	readonly tables$ = this._schemaPageTablesQuery.valueChanges.pipe(
-		map((result) => result.data.tables.data),
-		switchMap((tables) =>
-			this._schemaPageOrderQuery.valueChanges.pipe(
-				map((result) => result.data.order),
-				map((order) =>
-					(tables || []).map((table) => ({
-						...table,
-						active: order.table?.id === table.id
-					}))
+	readonly tables$ = this.selectedHall$.pipe(
+		take(1),
+		switchMap(() =>
+			this._schemaPageTablesQuery.valueChanges.pipe(
+				map((result) => result.data.tables.data),
+				switchMap((tables) =>
+					this._schemaPageOrderQuery.valueChanges.pipe(
+						map((result) => result.data.order),
+						map((order) => (tables || []).map((table) => ({ ...table, active: order.table?.id === table.id })))
+					)
 				)
 			)
 		)
@@ -76,40 +78,37 @@ export class SchemaComponent implements OnInit, OnDestroy {
 			return;
 		}
 
+		this._routerService
+			.selectParams(HALL_ID.slice(1))
+			.pipe(untilDestroyed(this))
+			.subscribe(async (hallId) => {
+				if (!hallId) {
+					return;
+				}
+
+				this._selectedHallSubject.next(hallId);
+
+				await this._schemaPageTablesQuery.setVariables({
+					filtersArgs: [{ key: "hall.id", operator: "=", value: hallId }]
+				});
+			});
+
 		this._breadcrumbsService.setBreadcrumb({
 			routerLink: CLIENT_ROUTES.CREATE_ORDER.absolutePath.replace(PLACE_ID, placeId)
 		});
 
-		this._routerService
-			.selectParams(HALL_ID.slice(1))
-			.pipe(untilDestroyed(this))
-			.subscribe(async (categoryId) => {
-				this.hallControl.setValue(categoryId);
-			});
+		const orderId = await lastValueFrom(
+			this._ordersService.activeOrderId$.pipe(
+				filter((orderId) => Boolean(orderId)),
+				take(1)
+			)
+		);
 
-		this.hallControl.valueChanges.pipe(untilDestroyed(this)).subscribe(async (hallId) => {
-			if (!hallId || hallId === this._routerService.getParams(HALL_ID.slice(1))) {
-				return;
-			}
+		if (!orderId) {
+			return;
+		}
 
-			await this._schemaPageTablesQuery.setVariables({
-				filtersArgs: [{ key: "hall.id", operator: "=", value: hallId }]
-			});
-
-			await this._routerService.navigateByUrl(
-				CLIENT_ROUTES.HALL.absolutePath
-					.replace(PLACE_ID, this._routerService.getParams(PLACE_ID.slice(1)))
-					.replace(HALL_ID, hallId)
-			);
-		});
-
-		this._ordersService.activeOrderId$.pipe(untilDestroyed(this)).subscribe(async (orderId) => {
-			if (!orderId) {
-				return;
-			}
-
-			await this._schemaPageOrderQuery.refetch({ orderId });
-		});
+		await this._schemaPageOrderQuery.refetch({ orderId });
 
 		await this._schemaPageHallsQuery.setVariables({
 			filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
@@ -123,7 +122,7 @@ export class SchemaComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		const activeOrderId = this._ordersService.getActiveOrderId();
+		const activeOrderId = await lastValueFrom(this._ordersService.activeOrderId$.pipe(take(1)));
 
 		if (!activeOrderId) {
 			return;
@@ -138,6 +137,14 @@ export class SchemaComponent implements OnInit, OnDestroy {
 		const { id } = tableResult.data.addTableToOrder;
 
 		await this._routerService.navigateByUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, id));
+	}
+
+	async setSelectedHall(hallId: string) {
+		await this._routerService.navigateByUrl(
+			CLIENT_ROUTES.HALL.absolutePath
+				.replace(PLACE_ID, this._routerService.getParams(PLACE_ID.slice(1)))
+				.replace(HALL_ID, hallId)
+		);
 	}
 
 	ngOnDestroy() {

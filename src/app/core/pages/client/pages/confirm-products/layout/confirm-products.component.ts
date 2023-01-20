@@ -9,13 +9,13 @@ import { RouterService } from "src/app/shared/modules/router";
 import { ProductToOrderStatusEnum } from "../../../../../../../graphql";
 import { ActionsService } from "../../../../../../features/app";
 import { OrdersService } from "../../../../../../features/orders";
-import type { IEmit } from "../../../../../../features/products";
 import type {
 	IPreviewProduct,
 	IProductToOrder
 } from "../../../../../../features/products/ui/preview-product/interfaces";
 import { CONFIRM_PRODUCTS_PAGE_I18N } from "../constants";
 import { ConfirmProductsPageGQL } from "../graphql/confirm-products-pages";
+import type { IProductChanged } from "../interfaces";
 
 export type IConfirmProductsMap = Record<string, IPreviewProduct & { productsToOrders: IProductToOrder[] }>;
 @UntilDestroy()
@@ -95,33 +95,33 @@ export class ConfirmProductsComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	async removeProductFromOrder({ productId, attributesIds }: IEmit) {
-		const activeOrderId = this._ordersService.getActiveOrderId();
+	async removeProductFromOrder({ productId, attributesIds }: IProductChanged) {
+		const orderId = this._routerService.getParams(ORDER_ID.slice(1));
 
-		if (!activeOrderId) {
+		if (!orderId) {
 			return;
 		}
 
 		try {
-			await lastValueFrom(
-				this._ordersService.removeProductFromOrder({ productId, orderId: activeOrderId, attrs: attributesIds })
-			);
+			await lastValueFrom(this._ordersService.removeProductFromOrder({ productId, orderId, attrs: attributesIds }));
+
+			await this._confirmProductsPageQuery.refetch();
 		} catch (error) {
 			console.error(error);
 		}
 	}
 
-	async addProductToOrder({ productId, attributesIds }: IEmit) {
-		const activeOrderId = this._ordersService.getActiveOrderId();
+	async addProductToOrder({ productId, attributesIds }: IProductChanged) {
+		const orderId = this._routerService.getParams(ORDER_ID.slice(1));
 
-		if (!activeOrderId) {
+		if (!orderId) {
 			return;
 		}
 
 		try {
-			await lastValueFrom(
-				this._ordersService.addProductToOrder({ productId, orderId: activeOrderId, attrs: attributesIds })
-			);
+			await lastValueFrom(this._ordersService.addProductToOrder({ productId, orderId, attrs: attributesIds }));
+
+			await this._confirmProductsPageQuery.refetch();
 		} catch (error) {
 			console.error(error);
 		}

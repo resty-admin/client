@@ -3,11 +3,18 @@
 		<app-order-info class="order-info" [order]="order"></app-order-info>
 
 		<div class="products">
-			<app-users-select [users]="order.users" [formControl]="usersControl"></app-users-select>
+			<app-users-select
+				class="users-select"
+				[users]="order.users"
+				[(selectedUsers)]="selectedUsers"
+				(selectedUsersChange)="setSelectedUsers($event)"
+			></app-users-select>
 
 			<app-products-to-order-select
+				class="products-select"
 				[productsToOrders]="order.productsToOrders"
-				[formControl]="productsControl"
+				[(selectedProductsToOrders)]="selectedProductsToOrders"
+				(selectedProductsToOrdersChange)="setSelectedProductsToOrders($event)"
 			></app-products-to-order-select>
 		</div>
 	</div>

@@ -2,7 +2,6 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 import { FormControl } from "@ngneat/reactive-forms";
-import { UntilDestroy } from "@ngneat/until-destroy";
 import type { Dayjs } from "dayjs";
 import { catchError, debounceTime, distinctUntilChanged, filter, map, of, switchMap } from "rxjs";
 import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
@@ -16,7 +15,6 @@ import { TABLE_DIALOG_I18N } from "../constants";
 import { IsTableAvailableForReserveGQL, TableDialogGQL } from "../graphql/table-dialog";
 import { TABLE_DIALOG_PROVIDERS } from "../providers";
 
-@UntilDestroy()
 @Component({
 	selector: "app-table-dialog",
 	templateUrl: "./table-dialog.component.html",

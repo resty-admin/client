@@ -10,7 +10,7 @@
 		row-gap: rem(8);
 		grid-template-areas:
 			"image name"
-			"image status";
+			"image .";
 		column-gap: rem(16);
 		grid-template-columns: auto 1fr;
 
@@ -30,13 +30,6 @@
 			line-height: rem(24);
 			color: var(--dark);
 			justify-self: start;
-		}
-		.status {
-			grid-area: status;
-			font-weight: 400;
-			font-size: rem(14);
-			line-height: rem(24);
-			color: var(--dark);
 		}
 
 		&.active {
