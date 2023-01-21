@@ -1,13 +1,15 @@
 import { Injectable } from "@angular/core";
+import type * as Types from "@graphql";
 import { gql } from "apollo-angular";
 import * as Apollo from "apollo-angular";
-
-import type * as Types from "../../../../../../../graphql";
 export type ProfilePageQueryVariables = Types.Exact<{
 	userId: Types.Scalars["String"];
 }>;
 
-export interface ProfilePageQuery { __typename?: "Query"; user: { __typename?: "UserEntity"; id: string; name: string } }
+export interface ProfilePageQuery {
+	__typename?: "Query";
+	user: { __typename?: "UserEntity"; id: string; name: string };
+}
 
 export const ProfilePageDocument = gql`
 	query ProfilePage($userId: String!) {

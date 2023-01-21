@@ -1,20 +1,20 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActionsService } from "@features/app";
+import { OrdersService } from "@features/orders";
+import { ProductDialogComponent } from "@features/products";
+import type { IProductToSelect } from "@features/products/ui/products-select/interfaces";
+import { ProductToOrderStatusEnum } from "@graphql";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { CATEGORY_ID, ORDER_ID, PLACE_ID } from "@shared/constants";
+import { CLIENT_ROUTES } from "@shared/constants";
+import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
+import { RouterService } from "@shared/modules/router";
+import { DialogService } from "@shared/ui/dialog";
 import { filter, lastValueFrom, map, ReplaySubject, switchMap, take, tap } from "rxjs";
-import { CATEGORY_ID, ORDER_ID, PLACE_ID } from "src/app/shared/constants";
-import { CLIENT_ROUTES } from "src/app/shared/constants";
-import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
-import { RouterService } from "src/app/shared/modules/router";
 
-import { ProductToOrderStatusEnum } from "../../../../../../../graphql";
-import { ActionsService } from "../../../../../../features/app";
-import { OrdersService } from "../../../../../../features/orders";
-import { ProductDialogComponent } from "../../../../../../features/products";
-import type { IProductToSelect } from "../../../../../../features/products/ui/products-select/interfaces";
-import { DialogService } from "../../../../../../shared/ui/dialog";
 import { MENU_PAGE_I18N } from "../constants";
-import { MenuPageCategoriesGQL, MenuPageOrderGQL, MenuPageProductsGQL } from "../graphql/menu-page";
+import { MenuPageCategoriesGQL, MenuPageOrderGQL, MenuPageProductsGQL } from "../graphql";
 import type { IProductChanged } from "../interfaces";
 
 @UntilDestroy()

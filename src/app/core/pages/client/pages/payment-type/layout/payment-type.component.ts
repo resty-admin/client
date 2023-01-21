@@ -1,19 +1,19 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActionsService } from "@features/app";
+import { AuthService } from "@features/auth/services";
+import { OrdersService } from "@features/orders";
 import { FormControl } from "@ngneat/reactive-forms";
+import { CLIENT_ROUTES, ORDER_ID } from "@shared/constants";
+import { ApiService } from "@shared/modules/api";
+import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
+import { RouterService } from "@shared/modules/router";
+import type { IRadioButtonOption } from "@shared/ui/radio-button";
+import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map } from "rxjs";
 
-import { ActionsService } from "../../../../../../features/app";
-import { AuthService } from "../../../../../../features/auth/services";
-import { OrdersService } from "../../../../../../features/orders";
-import { CLIENT_ROUTES, ORDER_ID } from "../../../../../../shared/constants";
-import { ApiService } from "../../../../../../shared/modules/api";
-import { BreadcrumbsService } from "../../../../../../shared/modules/breadcrumbs";
-import { RouterService } from "../../../../../../shared/modules/router";
-import type { IRadioButtonOption } from "../../../../../../shared/ui/radio-button";
-import { ToastrService } from "../../../../../../shared/ui/toastr";
 import { PAYMENT_TYPE_PAGE_I18N } from "../constants";
-import { PaymentTypePageGQL } from "../graphql/payment-type-page";
+import { PaymentTypePageGQL } from "../graphql";
 
 export enum PaymentType {
 	CASH = "cash",

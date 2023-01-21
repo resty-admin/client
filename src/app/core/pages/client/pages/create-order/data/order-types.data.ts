@@ -1,5 +1,6 @@
-import { OrderTypeEnum } from "../../../../../../../graphql";
-import { CLIENT_ROUTES } from "../../../../../../shared/constants";
+import { OrderTypeEnum } from "@graphql";
+import { CLIENT_ROUTES } from "@shared/constants";
+
 import type { IOrderType } from "../intefaces";
 
 export const ORDER_TYPES: IOrderType[] = [

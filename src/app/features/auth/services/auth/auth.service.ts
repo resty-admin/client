@@ -1,11 +1,4 @@
 import { Injectable } from "@angular/core";
-import type { Observable } from "rxjs";
-import { catchError, map, of, tap } from "rxjs";
-import { CLIENT_ROUTES } from "src/app/shared/constants";
-import { CryptoService } from "src/app/shared/modules/crypto";
-import { JwtService } from "src/app/shared/modules/jwt";
-import { RouterService } from "src/app/shared/modules/router";
-
 import type {
 	ForgotPasswordInput,
 	ResetPasswordInput,
@@ -14,8 +7,15 @@ import type {
 	TelegramUserInput,
 	UpdateMeInput,
 	UserEntity
-} from "../../../../../graphql";
-import { ToastrService } from "../../../../shared/ui/toastr";
+} from "@graphql";
+import { CLIENT_ROUTES } from "@shared/constants";
+import { CryptoService } from "@shared/modules/crypto";
+import { JwtService } from "@shared/modules/jwt";
+import { RouterService } from "@shared/modules/router";
+import { ToastrService } from "@shared/ui/toastr";
+import type { Observable } from "rxjs";
+import { catchError, map, of, tap } from "rxjs";
+
 import {
 	DeleteMeGQL,
 	ForgotPasswordGQL,
@@ -27,7 +27,7 @@ import {
 	TelegramGQL,
 	UpdateMeGQL,
 	VerifyCodeGQL
-} from "../../graphql/auth";
+} from "../../graphql";
 import { AuthRepository } from "../../repositories";
 
 @Injectable({

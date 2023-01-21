@@ -1,4 +1,4 @@
-import { CLIENT_ROUTES } from "../../../../shared/constants";
+import { CLIENT_ROUTES } from "@shared/constants";
 
 export const PAGES = [
 	{

@@ -2,14 +2,13 @@ import type { AfterViewInit, OnChanges, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, ViewChild } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { ControlValueAccessor } from "@shared/classes";
+import { getControlValueAccessorProviders } from "@shared/functions";
+import type { ISimpleChanges } from "@shared/interfaces";
 import type { Dayjs } from "dayjs";
 import * as dayjs from "dayjs";
 import * as localeData from "dayjs/plugin/localeData";
 import { combineLatest, debounceTime, distinctUntilChanged, fromEvent } from "rxjs";
-import { ControlValueAccessor } from "src/app/shared/classes";
-import { getControlValueAccessorProviders } from "src/app/shared/functions";
-
-import type { ISimpleChanges } from "../../../interfaces";
 
 dayjs.extend(localeData);
 

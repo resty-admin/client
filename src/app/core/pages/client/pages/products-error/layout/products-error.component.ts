@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { map } from "rxjs";
 
 import { PRODUCTS_ERROR_PAGE_I18N } from "../constants";
-import { ProductsErrorPageGQL } from "../graphql/products-error-page";
+import { ProductsErrorPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-products-error",

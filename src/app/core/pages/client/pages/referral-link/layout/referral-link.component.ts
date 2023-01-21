@@ -1,19 +1,19 @@
 import { Clipboard } from "@angular/cdk/clipboard";
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActionsService } from "@features/app";
+import { OrdersService } from "@features/orders";
+import { OrderTypeEnum } from "@graphql";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { PLACE_ID } from "@shared/constants";
+import { CLIENT_ROUTES } from "@shared/constants";
+import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
+import { RouterService } from "@shared/modules/router";
+import { ToastrService } from "@shared/ui/toastr";
 import { filter, map, switchMap } from "rxjs";
 
-import { OrderTypeEnum } from "../../../../../../../graphql";
-import { ActionsService } from "../../../../../../features/app";
-import { OrdersService } from "../../../../../../features/orders";
-import { PLACE_ID } from "../../../../../../shared/constants";
-import { CLIENT_ROUTES } from "../../../../../../shared/constants";
-import { BreadcrumbsService } from "../../../../../../shared/modules/breadcrumbs";
-import { RouterService } from "../../../../../../shared/modules/router";
-import { ToastrService } from "../../../../../../shared/ui/toastr";
 import { REFERRAL_LINK_PAGE_I18N } from "../constants";
-import { ReferralLinkPageGQL } from "../graphql/referral-link-page";
+import { ReferralLinkPageGQL } from "../graphql";
 
 @UntilDestroy()
 @Component({

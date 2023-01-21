@@ -1,9 +1,9 @@
 import { CommonModule } from "@angular/common";
 import type { ModuleWithProviders } from "@angular/core";
 import { NgModule } from "@angular/core";
+import { DirectivesModule } from "@shared/modules/directives";
 
 import type { IFactory } from "../../interfaces";
-import { DirectivesModule } from "../../modules/directives";
 import { IMAGE_DIRECTIVES } from "./directives";
 import { IMAGE_CONFIG } from "./injection-tokens";
 import type { IImageConfig } from "./interfaces";

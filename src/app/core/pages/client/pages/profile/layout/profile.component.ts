@@ -1,14 +1,14 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { FORM_I18N } from "@core/constants";
+import { ActionsService } from "@features/app";
+import { AuthService } from "@features/auth/services";
 import { FormBuilder } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { CLIENT_ROUTES } from "@shared/constants";
+import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { lastValueFrom } from "rxjs";
 
-import { ActionsService } from "../../../../../../features/app";
-import { AuthService } from "../../../../../../features/auth/services";
-import { CLIENT_ROUTES } from "../../../../../../shared/constants";
-import { BreadcrumbsService } from "../../../../../../shared/modules/breadcrumbs";
-import { FORM_I18N } from "../../../../../constants";
 import { PROFILE_PAGE_I18N } from "../constants";
 import type { IProfileForm } from "../interfaces";
 

@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-
-import { ActionsService } from "../../../../../features/app";
-import { CLIENT_ROUTES } from "../../../../../shared/constants";
-import { BreadcrumbsService } from "../../../../../shared/modules/breadcrumbs";
+import { ActionsService } from "@features/app";
+import { CLIENT_ROUTES } from "@shared/constants";
+import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 
 @Component({
 	selector: "app-footer",

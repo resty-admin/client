@@ -1,4 +1,4 @@
-import type { ProductEntity, ProductToOrderEntity, UserEntity } from "../../../../../../graphql";
+import type { ProductEntity, ProductToOrderEntity, UserEntity } from "@graphql";
 
 export interface IProductToOrder {
 	id: ProductToOrderEntity["id"];

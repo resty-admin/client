@@ -1,11 +1,10 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { AuthService } from "@features/auth/services";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { CLIENT_ROUTES } from "@shared/constants";
+import { RouterService } from "@shared/modules/router";
 import { lastValueFrom, map } from "rxjs";
-import { CLIENT_ROUTES } from "src/app/shared/constants";
-import { RouterService } from "src/app/shared/modules/router";
-
-import { AuthService } from "../../../../../../features/auth/services";
 
 @UntilDestroy()
 @Component({

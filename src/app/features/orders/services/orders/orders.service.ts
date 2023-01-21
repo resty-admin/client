@@ -1,11 +1,6 @@
 import { Injectable } from "@angular/core";
+import type { AddProductToOrderInput, CreateOrderInput, RemoveProductFromOrderInput, UpdateOrderInput } from "@graphql";
 
-import type {
-	AddProductToOrderInput,
-	CreateOrderInput,
-	RemoveProductFromOrderInput,
-	UpdateOrderInput
-} from "../../../../../graphql";
 import {
 	AddProductToOrderGQL,
 	AddTableToOrderGQL,
@@ -19,7 +14,7 @@ import {
 	RemoveTableFromOrderGQL,
 	SetManualPayForProductsInOrderGQL,
 	UpdateOrderGQL
-} from "../../graphql/orders";
+} from "../../graphql";
 import { OrdersRepository } from "../../repositories";
 
 @Injectable({ providedIn: "root" })

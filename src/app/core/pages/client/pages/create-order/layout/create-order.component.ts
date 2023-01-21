@@ -1,15 +1,15 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActionsService } from "@features/app";
+import { AuthService } from "@features/auth/services";
+import { OrdersService } from "@features/orders";
+import { OrderTypeEnum } from "@graphql";
+import { ORDER_ID, PLACE_ID } from "@shared/constants";
+import { CLIENT_ROUTES } from "@shared/constants";
+import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
+import { RouterService } from "@shared/modules/router";
 import { lastValueFrom } from "rxjs";
-import { ORDER_ID, PLACE_ID } from "src/app/shared/constants";
-import { CLIENT_ROUTES } from "src/app/shared/constants";
-import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
-import { RouterService } from "src/app/shared/modules/router";
 
-import { OrderTypeEnum } from "../../../../../../../graphql";
-import { ActionsService } from "../../../../../../features/app";
-import { AuthService } from "../../../../../../features/auth/services";
-import { OrdersService } from "../../../../../../features/orders";
 import { CREATE_ORDER_PAGE_I18N } from "../constants";
 import { ORDER_TYPES } from "../data";
 import type { IOrderType } from "../intefaces";

@@ -1,4 +1,4 @@
-import type { ActiveOrderEntity, HallEntity, PlaceEntity, TableEntity } from "../../../../../../graphql";
+import type { ActiveOrderEntity, HallEntity, PlaceEntity, TableEntity } from "@graphql";
 
 export interface IOrderInfo {
 	type: ActiveOrderEntity["type"];

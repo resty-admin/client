@@ -1,13 +1,13 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActionsService } from "@features/app";
+import { CLIENT_ROUTES, ORDER_ID } from "@shared/constants";
+import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
+import { RouterService } from "@shared/modules/router";
 import { map } from "rxjs";
-import { CLIENT_ROUTES, ORDER_ID } from "src/app/shared/constants";
-import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 
-import { ActionsService } from "../../../../../../features/app";
-import { RouterService } from "../../../../../../shared/modules/router";
 import { ALL_ORDERS_PAGE_I18N } from "../constants";
-import { AllOrdersPageGQL } from "../graphql/all-orders-page";
+import { AllOrdersPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-all-orders",

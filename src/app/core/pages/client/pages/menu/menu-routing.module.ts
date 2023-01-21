@@ -1,8 +1,8 @@
 import { NgModule } from "@angular/core";
 import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
+import { CLIENT_ROUTES as _SHARED_CLIENT_ROUTES } from "@shared/constants";
 
-import { CLIENT_ROUTES as _SHARED_CLIENT_ROUTES } from "../../../../../shared/constants";
 import { MenuComponent } from "./layout/menu.component";
 
 export const MENU_ROUTES: Route[] = [

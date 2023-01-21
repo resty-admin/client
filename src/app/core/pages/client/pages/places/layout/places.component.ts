@@ -1,10 +1,10 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { map } from "rxjs";
-import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
 
 import { PLACES_PAGE_I18N } from "../constants";
-import { PlacesPageGQL } from "../graphql/places-pages";
+import { PlacesPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-places",

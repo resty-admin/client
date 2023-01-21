@@ -1,4 +1,4 @@
-import type { CategoryEntity } from "../../../../../../graphql";
+import type { CategoryEntity } from "@graphql";
 
 export interface ICategoryToSelect {
 	id: CategoryEntity["id"];

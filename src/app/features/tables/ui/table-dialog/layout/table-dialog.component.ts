@@ -1,18 +1,18 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActionsService } from "@features/app";
+import { OrdersService } from "@features/orders";
+import type { TableEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormControl } from "@ngneat/reactive-forms";
+import type { DeepPartial } from "@shared/interfaces";
+import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
+import { RouterService } from "@shared/modules/router";
 import type { Dayjs } from "dayjs";
 import { catchError, debounceTime, distinctUntilChanged, filter, map, of, switchMap } from "rxjs";
-import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
-import { RouterService } from "src/app/shared/modules/router";
 
-import type { TableEntity } from "../../../../../../graphql";
-import type { DeepPartial } from "../../../../../shared/interfaces";
-import { ActionsService } from "../../../../app";
-import { OrdersService } from "../../../../orders";
 import { TABLE_DIALOG_I18N } from "../constants";
-import { IsTableAvailableForReserveGQL, TableDialogGQL } from "../graphql/table-dialog";
+import { IsTableAvailableForReserveGQL, TableDialogGQL } from "../graphql";
 import { TABLE_DIALOG_PROVIDERS } from "../providers";
 
 @Component({

@@ -1,10 +1,10 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { OrderTypeEnum } from "@graphql";
+import { CLIENT_ROUTES, HALL_ID, PLACE_ID } from "@shared/constants";
+import type { ISimpleChanges } from "@shared/interfaces";
 import dayjs from "dayjs";
 
-import { OrderTypeEnum } from "../../../../../../graphql";
-import { CLIENT_ROUTES, HALL_ID, PLACE_ID } from "../../../../../shared/constants";
-import type { ISimpleChanges } from "../../../../../shared/interfaces";
 import type { IOrderInfo } from "../interfaces";
 
 @Component({

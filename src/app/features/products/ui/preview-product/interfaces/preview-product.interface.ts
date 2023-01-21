@@ -1,4 +1,4 @@
-import type { ProductEntity } from "../../../../../../graphql";
+import type { ProductEntity } from "@graphql";
 
 export interface IPreviewProduct {
 	id: ProductEntity["id"];

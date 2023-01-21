@@ -1,4 +1,4 @@
-import type { OrderTypeEnum } from "../../../../../../../graphql";
+import type { OrderTypeEnum } from "@graphql";
 
 export interface IOrderType {
 	label: string;

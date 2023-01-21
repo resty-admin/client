@@ -1,20 +1,17 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActionsService } from "@features/app";
+import { OrdersService } from "@features/orders";
+import type { IPreviewProduct, IProductToOrder } from "@features/products/ui/preview-product/interfaces";
+import { ProductToOrderStatusEnum } from "@graphql";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { CLIENT_ROUTES, ORDER_ID, PLACE_ID } from "@shared/constants";
+import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
+import { RouterService } from "@shared/modules/router";
 import { lastValueFrom, map } from "rxjs";
-import { CLIENT_ROUTES, ORDER_ID, PLACE_ID } from "src/app/shared/constants";
-import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
-import { RouterService } from "src/app/shared/modules/router";
 
-import { ProductToOrderStatusEnum } from "../../../../../../../graphql";
-import { ActionsService } from "../../../../../../features/app";
-import { OrdersService } from "../../../../../../features/orders";
-import type {
-	IPreviewProduct,
-	IProductToOrder
-} from "../../../../../../features/products/ui/preview-product/interfaces";
 import { CONFIRM_PRODUCTS_PAGE_I18N } from "../constants";
-import { ConfirmProductsPageGQL } from "../graphql/confirm-products-pages";
+import { ConfirmProductsPageGQL } from "../graphql";
 import type { IProductChanged } from "../interfaces";
 
 export type IConfirmProductsMap = Record<string, IPreviewProduct & { productsToOrders: IProductToOrder[] }>;

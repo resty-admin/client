@@ -1,8 +1,8 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+import type { AttributesEntity } from "@graphql";
+import type { AtLeast, ISimpleChanges } from "@shared/interfaces";
 
-import type { AttributesEntity } from "../../../../../../graphql";
-import type { AtLeast, ISimpleChanges } from "../../../../../shared/interfaces";
 import type { IPreviewProduct, IProductChanged } from "../interfaces";
 import type { IProductToOrder } from "../interfaces/product-to-order.interface";
 import type { IProductToOrderWithAttributes } from "../interfaces/product-to-order-with-attributes.interface";

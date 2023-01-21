@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
-import { CLIENT_ROUTES as _SHARED_CLIENT_ROUTES } from "src/app/shared/constants";
+import { CLIENT_ROUTES as _SHARED_CLIENT_ROUTES } from "@shared/constants";
 
 import { ClientComponent } from "./layout/client.component";
 

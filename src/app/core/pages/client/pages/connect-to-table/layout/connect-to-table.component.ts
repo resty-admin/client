@@ -1,16 +1,16 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActionsService } from "@features/app";
+import { OrdersService } from "@features/orders";
+import { OrderTypeEnum } from "@graphql";
 import { FormControl } from "@ngneat/reactive-forms";
+import { CLIENT_ROUTES, PLACE_ID } from "@shared/constants";
+import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
+import { RouterService } from "@shared/modules/router";
 import { lastValueFrom } from "rxjs";
-import { CLIENT_ROUTES, PLACE_ID } from "src/app/shared/constants";
-import { BreadcrumbsService } from "src/app/shared/modules/breadcrumbs";
-import { RouterService } from "src/app/shared/modules/router";
 
-import { OrderTypeEnum } from "../../../../../../../graphql";
-import { ActionsService } from "../../../../../../features/app";
-import { OrdersService } from "../../../../../../features/orders";
 import { CONNECT_TO_TABLE_PAGE_I18N } from "../constants";
-import { ConnectToTablePageGQL } from "../graphql/connect-to-table-page";
+import { ConnectToTablePageGQL } from "../graphql";
 
 @Component({
 	selector: "app-connect-to-table",

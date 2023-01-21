@@ -1,14 +1,14 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { FORM_I18N } from "@core/constants";
+import type { ProductEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormControl } from "@ngneat/reactive-forms";
+import type { DeepAtLeast, DeepPartial } from "@shared/interfaces";
 import { map } from "rxjs";
 
-import type { ProductEntity } from "../../../../../../graphql";
-import { FORM_I18N } from "../../../../../core/constants";
-import type { DeepAtLeast, DeepPartial } from "../../../../../shared/interfaces";
 import { PRODUCT_PAGE_I18N } from "../constants";
-import { ProductPageGQL } from "../graphql/product-page";
+import { ProductPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-product-dialog",

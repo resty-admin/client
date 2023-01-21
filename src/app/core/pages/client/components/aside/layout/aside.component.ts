@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+import { CLIENT_ROUTES, ORDER_ID } from "@shared/constants";
 
-import { CLIENT_ROUTES, ORDER_ID } from "../../../../../../shared/constants";
 import { PAGES } from "../../../data";
 import { ASIDE_I18N } from "../constants";
 import type { IAsideUser } from "../interfaces";

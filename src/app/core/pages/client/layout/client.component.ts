@@ -1,14 +1,14 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { AsideService } from "@features/app";
+import { AuthService } from "@features/auth/services";
+import { OrdersService } from "@features/orders";
+import { CLIENT_ROUTES } from "@shared/constants";
+import { RouterService } from "@shared/modules/router";
+import type { IAction } from "@shared/ui/actions";
 import { catchError, filter, lastValueFrom, map, of, switchMap, take } from "rxjs";
 
-import { AsideService } from "../../../../features/app";
-import { AuthService } from "../../../../features/auth/services";
-import { OrdersService } from "../../../../features/orders";
-import { CLIENT_ROUTES } from "../../../../shared/constants";
-import { RouterService } from "../../../../shared/modules/router";
-import type { IAction } from "../../../../shared/ui/actions";
-import { ClientPageGQL } from "../graphql/client-page";
+import { ClientPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-client",
