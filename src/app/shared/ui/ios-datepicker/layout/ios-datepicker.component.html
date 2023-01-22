@@ -1,5 +1,11 @@
 <div class="ios-datepicker">
-	<app-input class="input" label="Дата" placeholder="Выберите дату" (click)="toggleDropdown()"></app-input>
+	<app-input
+		class="input"
+		label="Дата"
+		placeholder="Выберите дату"
+		[readonly]="true"
+		(click)="toggleDropdown()"
+	></app-input>
 
 	<div class="backdrop" [class.open]="isDropdownOpen" (click)="toggleDropdown()">
 		<div class="dropdown">
