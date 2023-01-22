@@ -8,7 +8,7 @@ import { ORDER_ID, PLACE_ID } from "@shared/constants";
 import { CLIENT_ROUTES } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
-import { lastValueFrom } from "rxjs";
+import { lastValueFrom, take } from "rxjs";
 
 import { CREATE_ORDER_PAGE_I18N } from "../constants";
 import { ORDER_TYPES } from "../data";
@@ -27,6 +27,8 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 	schemaRouterLink = "";
 	menuRouterLink = "";
 
+	withData = false;
+
 	constructor(
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
@@ -40,9 +42,17 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
+		this._ordersService.setActiveOrderId(undefined);
+
 		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
 
 		if (!placeId) {
+			return;
+		}
+
+		this.withData = this._routerService.getQueryParams("withData");
+
+		if (this.withData) {
 			return;
 		}
 
@@ -77,11 +87,23 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 				return;
 			}
 
-			const { id } = result.data.createOrder;
+			const { id: orderId } = result.data.createOrder;
 
-			this._ordersService.setActiveOrderId(id);
+			this._ordersService.setActiveOrderId(orderId);
 
-			await this._routerService.navigateByUrl(routerLink.replace(ORDER_ID, id));
+			if (this.withData) {
+				const productsToOrders = await lastValueFrom(this._ordersService.productsToOrders$.pipe(take(1)));
+
+				await lastValueFrom(
+					this._ordersService.confirmProductsToOrders(
+						(productsToOrders || []).map((productToOrder) => ({ ...productToOrder, orderId }))
+					)
+				);
+
+				this._ordersService.setProductsToOrders([]);
+			}
+
+			await this._routerService.navigateByUrl(routerLink.replace(ORDER_ID, orderId));
 		} catch (error) {
 			console.error(error);
 		}

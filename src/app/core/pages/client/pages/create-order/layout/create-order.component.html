@@ -10,7 +10,7 @@
 		</li>
 	</ul>
 
-	<div class="links">
+	<div class="links" *ngIf="!withData">
 		<a class="link schema" [routerLink]="schemaRouterLink">
 			<app-image class="image" name="schema-decoration"></app-image>
 			<app-icon class="icon" name="home-smile"></app-icon>

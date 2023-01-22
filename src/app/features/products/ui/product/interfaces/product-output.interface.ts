@@ -1,4 +1,4 @@
-export interface IProductChanged {
+export interface IProductOutput {
 	productId: string;
 	attributesIds: string[];
 }

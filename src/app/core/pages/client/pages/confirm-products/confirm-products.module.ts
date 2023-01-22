@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { PreviewProductModule } from "@features/products";
+import { ProductModule } from "@features/products";
 import { I18nModule } from "@shared/modules/i18n";
 import { TypographyModule } from "@shared/ui/typography";
 
@@ -10,7 +10,7 @@ import { CONFIRM_PRODUCTS_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [ConfirmProductsComponent],
-	imports: [CommonModule, ConfirmProductsRoutingModule, TypographyModule, I18nModule, PreviewProductModule],
+	imports: [CommonModule, ConfirmProductsRoutingModule, TypographyModule, I18nModule, ProductModule],
 	providers: CONFIRM_PRODUCTS_PROVIDERS
 })
 export class ConfirmProductsModule {}

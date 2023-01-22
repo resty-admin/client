@@ -1,7 +1,7 @@
 @import "/src/assets/scss/abstractions/index";
 
 @include component() {
-	.preview-product {
+	.app-product {
 		display: grid;
 		row-gap: rem(16);
 		.product {
@@ -35,7 +35,7 @@
 				color: var(--dark);
 				text-align: left;
 
-				@include noWrap ();
+				@include noWrap();
 			}
 			.price {
 				grid-area: price;

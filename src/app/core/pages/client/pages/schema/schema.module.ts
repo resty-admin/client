@@ -3,7 +3,7 @@ import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { PreviewCategoryModule } from "@features/categories";
 import { HallsSelectModule } from "@features/halls";
-import { PreviewProductModule } from "@features/products";
+import { ProductModule } from "@features/products";
 import { PreviewTableModule } from "@features/tables";
 import { TablesSelectModule } from "@features/tables/ui/tables-select";
 import { I18nModule } from "@shared/modules/i18n";
@@ -30,7 +30,7 @@ import { SchemaRoutingModule } from "./schema-routing.module";
 		ImageModule,
 		PreviewCategoryModule,
 		ReactiveFormsModule,
-		PreviewProductModule,
+		ProductModule,
 		ButtonModule,
 		PreviewTableModule,
 		IosDatepickerModule,

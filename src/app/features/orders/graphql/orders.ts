@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
-import type * as Types from "@graphql";
 import { gql } from "apollo-angular";
 import * as Apollo from "apollo-angular";
+
+import type * as Types from "../../../../graphql";
 export type CreateOrderMutationVariables = Types.Exact<{
 	order: Types.CreateOrderInput;
 }>;
@@ -91,6 +92,15 @@ export type ConfirmOrderMutationVariables = Types.Exact<{
 export interface ConfirmOrderMutation {
 	__typename?: "Mutation";
 	confirmOrder: { __typename?: "ActiveOrderEntity"; id: string };
+}
+
+export type ConfirmProductsToOrdersMutationVariables = Types.Exact<{
+	productsToOrders: Types.ConfirmProductToOrderInput | Types.ConfirmProductToOrderInput[];
+}>;
+
+export interface ConfirmProductsToOrdersMutation {
+	__typename?: "Mutation";
+	confirmProductsToOrders: { __typename?: "ActiveOrderEntity"; id: string };
 }
 
 export type SetManualPayForProductsInOrderMutationVariables = Types.Exact<{
@@ -291,6 +301,27 @@ export const ConfirmOrderDocument = gql`
 })
 export class ConfirmOrderGQL extends Apollo.Mutation<ConfirmOrderMutation, ConfirmOrderMutationVariables> {
 	override document = ConfirmOrderDocument;
+
+	constructor(apollo: Apollo.Apollo) {
+		super(apollo);
+	}
+}
+export const ConfirmProductsToOrdersDocument = gql`
+	mutation ConfirmProductsToOrders($productsToOrders: [ConfirmProductToOrderInput!]!) {
+		confirmProductsToOrders(productsToOrders: $productsToOrders) {
+			id
+		}
+	}
+`;
+
+@Injectable({
+	providedIn: "root"
+})
+export class ConfirmProductsToOrdersGQL extends Apollo.Mutation<
+	ConfirmProductsToOrdersMutation,
+	ConfirmProductsToOrdersMutationVariables
+> {
+	override document = ConfirmProductsToOrdersDocument;
 
 	constructor(apollo: Apollo.Apollo) {
 		super(apollo);

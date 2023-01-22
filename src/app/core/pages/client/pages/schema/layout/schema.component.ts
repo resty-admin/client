@@ -4,9 +4,9 @@ import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
 import { TableDialogComponent } from "@features/tables/ui/table-dialog";
 import type { TableEntity } from "@graphql";
+import { OrderTypeEnum } from "@graphql";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { HALL_ID, ORDER_ID, PLACE_ID } from "@shared/constants";
-import { CLIENT_ROUTES } from "@shared/constants";
+import { CLIENT_ROUTES, HALL_ID, ORDER_ID, PLACE_ID } from "@shared/constants";
 import type { DeepPartial } from "@shared/interfaces";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
@@ -14,7 +14,7 @@ import { DialogService } from "@shared/ui/dialog";
 import { filter, lastValueFrom, map, ReplaySubject, switchMap, take, tap } from "rxjs";
 
 import { SCHEMA_PAGE_I18N } from "../constants";
-import { SchemaPageHallsGQL, SchemaPageOrderGQL, SchemaPageTablesGQL } from "../graphql";
+import { SchemaPageHallsGQL, SchemaPageTablesGQL } from "../graphql";
 
 @UntilDestroy()
 @Component({
@@ -27,7 +27,6 @@ export class SchemaComponent implements OnInit, OnDestroy {
 	readonly schemaPagei18n = SCHEMA_PAGE_I18N;
 	private readonly _schemaPageHallsQuery = this._scemaPageHallsGQL.watch();
 	private readonly _schemaPageTablesQuery = this._scemaPageTablesGQL.watch();
-	private readonly _schemaPageOrderQuery = this._schemaPageOrderGQL.watch();
 	private readonly _selectedHallSubject = new ReplaySubject<string>();
 	readonly selectedHall$ = this._selectedHallSubject.asObservable();
 	readonly halls$ = this._schemaPageHallsQuery.valueChanges.pipe(
@@ -51,9 +50,8 @@ export class SchemaComponent implements OnInit, OnDestroy {
 			this._schemaPageTablesQuery.valueChanges.pipe(
 				map((result) => result.data.tables.data),
 				switchMap((tables) =>
-					this._schemaPageOrderQuery.valueChanges.pipe(
-						map((result) => result.data.order),
-						map((order) => (tables || []).map((table) => ({ ...table, active: order.table?.id === table.id })))
+					this._ordersService.tableId$.pipe(
+						map((tableId) => (tables || []).map((table) => ({ ...table, active: table.id === tableId })))
 					)
 				)
 			)
@@ -63,7 +61,6 @@ export class SchemaComponent implements OnInit, OnDestroy {
 	constructor(
 		private readonly _scemaPageHallsGQL: SchemaPageHallsGQL,
 		private readonly _scemaPageTablesGQL: SchemaPageTablesGQL,
-		private readonly _schemaPageOrderGQL: SchemaPageOrderGQL,
 		private readonly _ordersService: OrdersService,
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
@@ -108,8 +105,6 @@ export class SchemaComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		await this._schemaPageOrderQuery.refetch({ orderId });
-
 		await this._schemaPageHallsQuery.setVariables({
 			filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
 		});
@@ -122,7 +117,18 @@ export class SchemaComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		const activeOrderId = await lastValueFrom(this._ordersService.activeOrderId$.pipe(take(1)));
+		this._ordersService.setTableId(dialogResult.id);
+
+		const activeOrderId =
+			(await lastValueFrom(this._ordersService.activeOrderId$.pipe(take(1)))) ||
+			(await lastValueFrom(
+				this._ordersService
+					.createOrder({
+						place: this._routerService.getParams(PLACE_ID.slice(1)),
+						type: OrderTypeEnum.Reserve
+					})
+					.pipe(map((result) => result.data?.createOrder.id))
+			));
 
 		if (!activeOrderId) {
 			return;

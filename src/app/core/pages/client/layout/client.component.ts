@@ -1,12 +1,13 @@
 import type { OnInit } from "@angular/core";
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from "@angular/core";
 import { AsideService } from "@features/app";
 import { AuthService } from "@features/auth/services";
 import { OrdersService } from "@features/orders";
 import { CLIENT_ROUTES } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
 import type { IAction } from "@shared/ui/actions";
-import { catchError, filter, lastValueFrom, map, of, switchMap, take } from "rxjs";
+import { ToastrService } from "@shared/ui/toastr";
+import { catchError, lastValueFrom, map, of, switchMap, take, tap } from "rxjs";
 
 import { ClientPageGQL } from "../graphql";
 
@@ -20,10 +21,17 @@ export class ClientComponent implements OnInit {
 	readonly isAsideOpen$ = this._asideService.isOpen$;
 	readonly user$ = this._authService.me$;
 	readonly activeOrder$ = this._ordersService.activeOrderId$.pipe(
-		filter((orderId) => Boolean(orderId)),
-		switchMap((orderId) => this._clientPageGQL.watch({ orderId: orderId! }).valueChanges),
-		map((result) => result.data.order),
-		catchError(() => of(null))
+		switchMap((orderId) =>
+			orderId
+				? this._clientPageGQL.watch({ orderId }).valueChanges.pipe(
+						map((result) => result.data.order),
+						catchError(() => of(null))
+				  )
+				: of(null)
+		),
+		tap(() => {
+			this._changeDetectorRef.detectChanges();
+		})
 	);
 
 	readonly profileActions: IAction[] = [
@@ -48,7 +56,9 @@ export class ClientComponent implements OnInit {
 		private readonly _routerService: RouterService,
 		private readonly _authService: AuthService,
 		private readonly _asideService: AsideService,
-		private readonly _ordersService: OrdersService
+		private readonly _ordersService: OrdersService,
+		private readonly _toastrService: ToastrService,
+		private readonly _changeDetectorRef: ChangeDetectorRef
 	) {}
 
 	async ngOnInit() {

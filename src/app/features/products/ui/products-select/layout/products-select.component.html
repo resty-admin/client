@@ -1,13 +1,12 @@
 <ul class="products-select">
 	<li class="product" *ngFor="let product of products; trackBy: trackByFn">
 		<button class="button" (click)="emitProductClick(product)">
-			<app-preview-product
+			<app-product
 				class="preview-product"
 				[product]="product"
-				[productsToOrders]="product.productsToOrders"
 				(plusClicked)="emitPlusClick($event)"
 				(minusClicked)="emitMinusClick($event)"
-			></app-preview-product>
+			></app-product>
 		</button>
 	</li>
 </ul>

@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
-
-import type { IProductChanged, IProductToSelect } from "../interfaces";
+import type { IProductInput, IProductOutput } from "@features/products";
 
 @Component({
 	selector: "app-products-select",
@@ -9,24 +8,24 @@ import type { IProductChanged, IProductToSelect } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductsSelectComponent {
-	@Output() plusClicked = new EventEmitter<IProductChanged>();
-	@Output() minusClicked = new EventEmitter<IProductChanged>();
-	@Output() productClicked = new EventEmitter<IProductToSelect>();
-	@Input() products?: IProductToSelect[] | null;
+	@Output() plusClicked = new EventEmitter<IProductOutput>();
+	@Output() minusClicked = new EventEmitter<IProductOutput>();
+	@Output() productClicked = new EventEmitter<IProductInput>();
+	@Input() products?: IProductInput[] | null;
 
 	trackByFn(index: number) {
 		return index;
 	}
 
-	emitProductClick(product: IProductToSelect) {
+	emitProductClick(product: IProductInput) {
 		this.productClicked.emit(product);
 	}
 
-	emitPlusClick(productChanged: IProductChanged) {
-		this.plusClicked.emit(productChanged);
+	emitPlusClick(product: IProductOutput) {
+		this.plusClicked.emit(product);
 	}
 
-	emitMinusClick(productChanged: IProductChanged) {
-		this.minusClicked.emit(productChanged);
+	emitMinusClick(product: IProductOutput) {
+		this.minusClicked.emit(product);
 	}
 }

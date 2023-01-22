@@ -1,13 +1,15 @@
-<ul class="categories-select">
-	<li class="category" *ngFor="let category of categories; let i = index; trackBy: trackByFn">
-		<input
-			class="input"
-			type="radio"
-			[value]="category.id"
-			[id]="category.id + i"
-			[ngModel]="selectedCategory"
-			(change)="emitSelectedCategoryChange(category.id)"
-		/>
-		<label class="label" [for]="category.id + i">{{ category.name }}</label>
-	</li>
-</ul>
+<div class="categories-select">
+	<ul class="categories">
+		<li class="category" *ngFor="let category of categories; let i = index; trackBy: trackByFn">
+			<input
+				class="input"
+				type="radio"
+				[value]="category.id"
+				[id]="category.id + i"
+				[ngModel]="selectedCategory"
+				(change)="emitSelectedCategoryChange(category.id)"
+			/>
+			<label class="label" [for]="category.id + i">{{ category.name }}</label>
+		</li>
+	</ul>
+</div>

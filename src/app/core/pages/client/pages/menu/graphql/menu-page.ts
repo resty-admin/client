@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
-import type * as Types from "@graphql";
 import { gql } from "apollo-angular";
 import * as Apollo from "apollo-angular";
+
+import type * as Types from "../../../../../../../graphql";
 export type MenuPageCategoriesQueryVariables = Types.Exact<{
 	skip?: Types.InputMaybe<Types.Scalars["Int"]>;
 	take?: Types.InputMaybe<Types.Scalars["Int"]>;
@@ -31,29 +32,6 @@ export interface MenuPageProductsQuery {
 		page: number;
 		totalCount: number;
 		data?: { __typename?: "ProductEntity"; id: string; name: string; price: number }[] | null;
-	};
-}
-
-export type MenuPageOrderQueryVariables = Types.Exact<{
-	orderId: Types.Scalars["String"];
-}>;
-
-export interface MenuPageOrderQuery {
-	__typename?: "Query";
-	order: {
-		__typename?: "ActiveOrderEntity";
-		id: string;
-		productsToOrders?:
-			| {
-					__typename?: "ProductToOrderEntity";
-					id: string;
-					count: number;
-					status: Types.ProductToOrderStatusEnum;
-					user: { __typename?: "UserEntity"; id: string };
-					product: { __typename?: "ProductEntity"; id: string; name: string; price: number };
-					attributes?: { __typename?: "AttributesEntity"; id: string; name: string; price: number }[] | null;
-			  }[]
-			| null;
 	};
 }
 
@@ -99,42 +77,6 @@ export const MenuPageProductsDocument = gql`
 })
 export class MenuPageProductsGQL extends Apollo.Query<MenuPageProductsQuery, MenuPageProductsQueryVariables> {
 	override document = MenuPageProductsDocument;
-
-	constructor(apollo: Apollo.Apollo) {
-		super(apollo);
-	}
-}
-export const MenuPageOrderDocument = gql`
-	query MenuPageOrder($orderId: String!) {
-		order(id: $orderId) {
-			id
-			productsToOrders {
-				id
-				count
-				status
-				user {
-					id
-				}
-				product {
-					id
-					name
-					price
-				}
-				attributes {
-					id
-					name
-					price
-				}
-			}
-		}
-	}
-`;
-
-@Injectable({
-	providedIn: "root"
-})
-export class MenuPageOrderGQL extends Apollo.Query<MenuPageOrderQuery, MenuPageOrderQueryVariables> {
-	override document = MenuPageOrderDocument;
 
 	constructor(apollo: Apollo.Apollo) {
 		super(apollo);

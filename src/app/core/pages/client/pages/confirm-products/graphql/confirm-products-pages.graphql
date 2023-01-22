@@ -1,28 +1,9 @@
-query ConfirmProductsPage($orderId: String!) {
-	order(id: $orderId) {
-		id
-		place {
+query ConfirmProductsPage {
+	products {
+		data {
 			id
-		}
-		productsToOrders {
-			id
-			count
-			status
-			user {
-				id
-			}
-			product {
-				id
-				name
-				description
-				price
-				isHide
-			}
-			attributes {
-				id
-				name
-				price
-			}
+			name
+			price
 		}
 	}
 }

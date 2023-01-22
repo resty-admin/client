@@ -33,11 +33,10 @@ export class HeaderComponent implements OnChanges {
 	constructor(private readonly _routerService: RouterService) {}
 
 	ngOnChanges(changes: ISimpleChanges<HeaderComponent>) {
-		if (changes.activeOrder && changes.activeOrder.currentValue) {
-			this.activeOrderLink = CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(
-				ORDER_ID,
-				changes.activeOrder.currentValue.id
-			);
+		if (changes.activeOrder) {
+			this.activeOrderLink = changes.activeOrder.currentValue
+				? CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, changes.activeOrder.currentValue.id)
+				: "";
 		}
 	}
 

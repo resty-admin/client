@@ -12,8 +12,8 @@
 		}
 
 		.links {
-			display: flex;
-			column-gap: rem(15);
+			display: grid;
+			row-gap: rem(5);
 			.date,
 			.table {
 				display: flex;

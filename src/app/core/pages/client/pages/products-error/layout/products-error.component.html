@@ -5,7 +5,7 @@
 	<ul class="products">
 		<li class="product" *ngFor="let product of products$ | async; trackBy: trackByFn">
 			<a class="link" [routerLink]="product.id">
-				<app-preview-product [product]="product"></app-preview-product>
+				<!--				<app-product [product]="product"></app-product>-->
 			</a>
 		</li>
 	</ul>

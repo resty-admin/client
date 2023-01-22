@@ -1,64 +1,25 @@
 import { Injectable } from "@angular/core";
-import type * as Types from "@graphql";
 import { gql } from "apollo-angular";
 import * as Apollo from "apollo-angular";
-export type ConfirmProductsPageQueryVariables = Types.Exact<{
-	orderId: Types.Scalars["String"];
-}>;
+
+import type * as Types from "../../../../../../../graphql";
+export type ConfirmProductsPageQueryVariables = Types.Exact<Record<string, never>>;
 
 export interface ConfirmProductsPageQuery {
 	__typename?: "Query";
-	order: {
-		__typename?: "ActiveOrderEntity";
-		id: string;
-		place: { __typename?: "PlaceEntity"; id: string };
-		productsToOrders?:
-			| {
-					__typename?: "ProductToOrderEntity";
-					id: string;
-					count: number;
-					status: Types.ProductToOrderStatusEnum;
-					user: { __typename?: "UserEntity"; id: string };
-					product: {
-						__typename?: "ProductEntity";
-						id: string;
-						name: string;
-						description?: string | null;
-						price: number;
-						isHide: boolean;
-					};
-					attributes?: { __typename?: "AttributesEntity"; id: string; name: string; price: number }[] | null;
-			  }[]
-			| null;
+	products: {
+		__typename?: "PaginatedProduct";
+		data?: { __typename?: "ProductEntity"; id: string; name: string; price: number }[] | null;
 	};
 }
 
 export const ConfirmProductsPageDocument = gql`
-	query ConfirmProductsPage($orderId: String!) {
-		order(id: $orderId) {
-			id
-			place {
+	query ConfirmProductsPage {
+		products {
+			data {
 				id
-			}
-			productsToOrders {
-				id
-				count
-				status
-				user {
-					id
-				}
-				product {
-					id
-					name
-					description
-					price
-					isHide
-				}
-				attributes {
-					id
-					name
-					price
-				}
+				name
+				price
 			}
 		}
 	}

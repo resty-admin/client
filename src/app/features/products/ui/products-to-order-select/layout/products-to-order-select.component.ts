@@ -3,12 +3,13 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { FormBuilder } from "@angular/forms";
 import type { ISimpleChanges } from "@shared/interfaces";
 
-import type {
-	IProductToOrderToSelect,
-	IProductToOrderWithSelected,
-	IProductToOrderWithSelectedByStatus
-} from "../interfaces";
+import type { IProductToOrderToSelectInput } from "../interfaces";
 
+export type IProductToOrderWithSelected = IProductToOrderToSelectInput & { selected: boolean };
+export interface IProductToOrderWithSelectedByStatus {
+	status: any;
+	productsToOrders: IProductToOrderWithSelected[];
+}
 @Component({
 	selector: "app-products-to-order-select",
 	templateUrl: "./products-to-order-select.component.html",
@@ -18,7 +19,7 @@ import type {
 export class ProductsToOrderSelectComponent implements OnChanges {
 	@Output() selectedProductsToOrdersChange = new EventEmitter<string[]>();
 	@Input() selectedProductsToOrders?: string[] | null;
-	@Input() productsToOrders?: IProductToOrderToSelect[] | null;
+	@Input() productsToOrders?: IProductToOrderToSelectInput[] | null;
 
 	productsToOrdersWithSelected: IProductToOrderWithSelected[] = [];
 

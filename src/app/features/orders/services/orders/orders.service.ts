@@ -1,5 +1,7 @@
 import { Injectable } from "@angular/core";
-import type { AddProductToOrderInput, CreateOrderInput, RemoveProductFromOrderInput, UpdateOrderInput } from "@graphql";
+import type { IStoreProductToOrder } from "@features/products";
+import type { IProductOutput } from "@features/products";
+import type { ConfirmProductToOrderInput, CreateOrderInput, UpdateOrderInput } from "@graphql";
 
 import {
 	AddProductToOrderGQL,
@@ -7,6 +9,7 @@ import {
 	AddUserToOrderGQL,
 	CloseOrderGQL,
 	ConfirmOrderGQL,
+	ConfirmProductsToOrdersGQL,
 	CreateOrderGQL,
 	CreatePaymentOrderLinkGQL,
 	DeleteOrderGQL,
@@ -20,6 +23,8 @@ import { OrdersRepository } from "../../repositories";
 @Injectable({ providedIn: "root" })
 export class OrdersService {
 	readonly activeOrderId$ = this._ordersRepository.activeOrderId$;
+	readonly productsToOrders$ = this._ordersRepository.productsToOrders$;
+	readonly tableId$ = this._ordersRepository.tableId$;
 
 	constructor(
 		private readonly _ordersRepository: OrdersRepository,
@@ -33,12 +38,29 @@ export class OrdersService {
 		private readonly _addProductToOrderGQL: AddProductToOrderGQL,
 		private readonly _removeProductFromOrderGQL: RemoveProductFromOrderGQL,
 		private readonly _confirmOrderGQL: ConfirmOrderGQL,
+		private readonly _confirmProductsToOrders: ConfirmProductsToOrdersGQL,
 		private readonly _setManualPayForProductsInOrderGQL: SetManualPayForProductsInOrderGQL,
 		private readonly _createPaymentOrderLinkGQL: CreatePaymentOrderLinkGQL
 	) {}
 
 	setActiveOrderId(orderId?: string) {
 		return this._ordersRepository.setActiveOrderId(orderId);
+	}
+
+	setTableId(tableId?: string) {
+		return this._ordersRepository.setTableId(tableId);
+	}
+
+	setProductsToOrders(productsToOrders: IStoreProductToOrder[]) {
+		this._ordersRepository.setProductsToOrders(productsToOrders);
+	}
+
+	addProductToOrder(productToOrder: IProductOutput) {
+		this._ordersRepository.addProductToOrder(productToOrder);
+	}
+
+	removeProductFromOrder(productToOrder: IProductOutput) {
+		this._ordersRepository.removeProductToOrder(productToOrder);
 	}
 
 	createOrder(order: CreateOrderInput) {
@@ -69,16 +91,12 @@ export class OrdersService {
 		return this._removeTableFromOrdeGQL.mutate({ orderId });
 	}
 
-	addProductToOrder(productToOrder: AddProductToOrderInput) {
-		return this._addProductToOrderGQL.mutate({ productToOrder });
-	}
-
-	removeProductFromOrder(productFromOrder: RemoveProductFromOrderInput) {
-		return this._removeProductFromOrderGQL.mutate({ productFromOrder });
-	}
-
 	confirmOrder(orderId: string) {
 		return this._confirmOrderGQL.mutate({ orderId });
+	}
+
+	confirmProductsToOrders(productsToOrders: ConfirmProductToOrderInput[]) {
+		return this._confirmProductsToOrders.mutate({ productsToOrders });
 	}
 
 	setManualPayForProductsInOrderGQL(productToOrderIds: string[]) {

@@ -20,27 +20,3 @@ query MenuPageProducts($skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) 
 		totalCount
 	}
 }
-
-query MenuPageOrder($orderId: String!) {
-	order(id: $orderId) {
-		id
-		productsToOrders {
-			id
-			count
-			status
-			user {
-				id
-			}
-			product {
-				id
-				name
-				price
-			}
-			attributes {
-				id
-				name
-				price
-			}
-		}
-	}
-}

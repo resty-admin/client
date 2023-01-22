@@ -53,10 +53,6 @@ export const CLIENT_ROUTES = {
 		path: `active-orders/${ORDER_ID}`,
 		absolutePath: `/active-orders/${ORDER_ID}`
 	},
-	CONFIRM_PRODUCTS: {
-		path: `active-orders/${ORDER_ID}/confirm-products`,
-		absolutePath: `/active-orders/${ORDER_ID}/confirm-products`
-	},
 	HISTORY_ORDER: {
 		path: `history-orders/${ORDER_ID}`,
 		absolutePath: `/history-orders/${ORDER_ID}`
@@ -112,6 +108,10 @@ export const CLIENT_ROUTES = {
 	PRODUCTS: {
 		path: `categories/${CATEGORY_ID}/products`,
 		absolutePath: `/places/${PLACE_ID}/menu/categories/${CATEGORY_ID}/products`
+	},
+	CONFIRM_PRODUCTS: {
+		path: `places/${PLACE_ID}/confirm-products`,
+		absolutePath: `/places/${PLACE_ID}/confirm-products`
 	},
 	SCHEMA: {
 		path: `places/${PLACE_ID}/schema`,

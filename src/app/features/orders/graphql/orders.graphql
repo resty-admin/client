@@ -54,6 +54,12 @@ mutation ConfirmOrder($orderId: String!) {
 	}
 }
 
+mutation ConfirmProductsToOrders($productsToOrders: [ConfirmProductToOrderInput!]!) {
+	confirmProductsToOrders(productsToOrders: $productsToOrders) {
+		id
+	}
+}
+
 mutation SetManualPayForProductsInOrder($productToOrderIds: [String!]!) {
 	setManualPayForProductsInOrder(productToOrderIds: $productToOrderIds) {
 		id

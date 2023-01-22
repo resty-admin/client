@@ -1,7 +1,9 @@
-import type { ProductEntity, ProductToOrderEntity, UserEntity } from "@graphql";
+import type { ProductToOrderEntity } from "@graphql";
+import type { ProductEntity, UserEntity } from "@graphql";
 
-export interface IProductToOrder {
+export interface IProductToOrderToSelectInput {
 	id: ProductToOrderEntity["id"];
+	status: ProductToOrderEntity["status"];
 	paidStatus: ProductToOrderEntity["paidStatus"];
 	user: {
 		name: UserEntity["name"];

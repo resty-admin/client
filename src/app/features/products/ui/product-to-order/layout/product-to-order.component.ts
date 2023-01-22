@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 import { ProductToOrderPaidStatusEnum } from "@graphql";
 
-import type { IProductToOrder } from "../interfaces";
+import type { IProductToOrderInput } from "../interfaces";
 
 @Component({
 	selector: "app-product-to-order",
@@ -10,7 +10,7 @@ import type { IProductToOrder } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductToOrderComponent {
-	@Input() productToOrder?: IProductToOrder | null;
+	@Input() productToOrder?: IProductToOrderInput | null;
 	@Input() isActive = false;
 
 	readonly productToOrderPaidStatus = ProductToOrderPaidStatusEnum;

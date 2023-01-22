@@ -1856,6 +1856,85 @@
 			},
 			{
 				"kind": "INPUT_OBJECT",
+				"name": "ConfirmProductToOrderInput",
+				"description": null,
+				"fields": null,
+				"inputFields": [
+					{
+						"name": "attributesIds",
+						"description": null,
+						"type": {
+							"kind": "LIST",
+							"name": null,
+							"ofType": {
+								"kind": "NON_NULL",
+								"name": null,
+								"ofType": {
+									"kind": "SCALAR",
+									"name": "String",
+									"ofType": null
+								}
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "count",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "Float",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "orderId",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "productId",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					}
+				],
+				"interfaces": null,
+				"enumValues": null,
+				"possibleTypes": null
+			},
+			{
+				"kind": "INPUT_OBJECT",
 				"name": "ConnectPaymentSystemToPlaceInput",
 				"description": null,
 				"fields": null,
@@ -3879,6 +3958,47 @@
 						"deprecationReason": null
 					},
 					{
+						"name": "confirmProductsToOrders",
+						"description": null,
+						"args": [
+							{
+								"name": "productsToOrders",
+								"description": null,
+								"type": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "LIST",
+										"name": null,
+										"ofType": {
+											"kind": "NON_NULL",
+											"name": null,
+											"ofType": {
+												"kind": "INPUT_OBJECT",
+												"name": "ConfirmProductToOrderInput",
+												"ofType": null
+											}
+										}
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							}
+						],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "OBJECT",
+								"name": "ActiveOrderEntity",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "connectPaymentSystemToPlace",
 						"description": null,
 						"args": [
@@ -5789,8 +5909,8 @@
 							"kind": "NON_NULL",
 							"name": null,
 							"ofType": {
-								"kind": "SCALAR",
-								"name": "Boolean",
+								"kind": "OBJECT",
+								"name": "PlaceEntity",
 								"ofType": null
 							}
 						},
@@ -9998,16 +10118,32 @@
 						"description": null,
 						"args": [
 							{
+								"name": "filtersArgs",
+								"description": null,
+								"type": {
+									"kind": "LIST",
+									"name": null,
+									"ofType": {
+										"kind": "NON_NULL",
+										"name": null,
+										"ofType": {
+											"kind": "INPUT_OBJECT",
+											"name": "FiltersArgsDto",
+											"ofType": null
+										}
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
 								"name": "id",
 								"description": null,
 								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "String",
-										"ofType": null
-									}
+									"kind": "SCALAR",
+									"name": "String",
+									"ofType": null
 								},
 								"defaultValue": null,
 								"isDeprecated": false,

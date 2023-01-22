@@ -2,20 +2,18 @@ import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
+import type { IProductInput, IProductOutput } from "@features/products";
 import { ProductDialogComponent } from "@features/products";
-import type { IProductToSelect } from "@features/products/ui/products-select/interfaces";
-import { ProductToOrderStatusEnum } from "@graphql";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { CATEGORY_ID, ORDER_ID, PLACE_ID } from "@shared/constants";
+import { CATEGORY_ID, PLACE_ID } from "@shared/constants";
 import { CLIENT_ROUTES } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { DialogService } from "@shared/ui/dialog";
-import { filter, lastValueFrom, map, ReplaySubject, switchMap, take, tap } from "rxjs";
+import { lastValueFrom, map, ReplaySubject, switchMap, take, tap } from "rxjs";
 
 import { MENU_PAGE_I18N } from "../constants";
-import { MenuPageCategoriesGQL, MenuPageOrderGQL, MenuPageProductsGQL } from "../graphql";
-import type { IProductChanged } from "../interfaces";
+import { MenuPageCategoriesGQL, MenuPageProductsGQL } from "../graphql";
 
 @UntilDestroy()
 @Component({
@@ -28,7 +26,6 @@ export class MenuComponent implements OnInit, OnDestroy {
 	readonly menuPageI18n = MENU_PAGE_I18N;
 	private readonly _menuPageCategoriesQuery = this._menuPageCategoriesGQL.watch();
 	private readonly _menuPageProductsQuery = this._menuPageProductsGQL.watch();
-	private readonly _menuPageOrderQuery = this._menuPageOrderGQL.watch();
 	private readonly _selectedCategorySubject = new ReplaySubject<string>();
 	readonly selectedCategory$ = this._selectedCategorySubject.asObservable();
 	readonly categories$ = this._menuPageCategoriesQuery.valueChanges.pipe(
@@ -52,21 +49,11 @@ export class MenuComponent implements OnInit, OnDestroy {
 			this._menuPageProductsQuery.valueChanges.pipe(
 				map((result) => result.data.products.data),
 				switchMap((products) =>
-					this._menuPageOrderQuery.valueChanges.pipe(
-						map((result) => result.data.order),
-						map((order) =>
+					this._ordersService.productsToOrders$.pipe(
+						map((productsToOrders) =>
 							(products || []).map((product) => ({
 								...product,
-								productsToOrders: (order.productsToOrders || [])
-									.filter(
-										(productToOrder) =>
-											productToOrder.product.id === product.id &&
-											productToOrder.status === ProductToOrderStatusEnum.Added
-									)
-									.map((productToOrder) => ({
-										...productToOrder,
-										attributes: productToOrder.attributes || []
-									}))
+								productsToOrders: productsToOrders.filter((productToOrder) => productToOrder.productId === product.id)
 							}))
 						)
 					)
@@ -78,7 +65,6 @@ export class MenuComponent implements OnInit, OnDestroy {
 	constructor(
 		private readonly _menuPageCategoriesGQL: MenuPageCategoriesGQL,
 		private readonly _menuPageProductsGQL: MenuPageProductsGQL,
-		private readonly _menuPageOrderGQL: MenuPageOrderGQL,
 		private readonly _ordersService: OrdersService,
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
@@ -112,19 +98,6 @@ export class MenuComponent implements OnInit, OnDestroy {
 			routerLink: CLIENT_ROUTES.CREATE_ORDER.absolutePath.replace(PLACE_ID, placeId)
 		});
 
-		const orderId = await lastValueFrom(
-			this._ordersService.activeOrderId$.pipe(
-				filter((orderId) => Boolean(orderId)),
-				take(1)
-			)
-		);
-
-		if (!orderId) {
-			return;
-		}
-
-		await this._menuPageOrderQuery.refetch({ orderId });
-
 		await this._menuPageCategoriesQuery.setVariables({
 			filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
 		});
@@ -132,15 +105,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 		this._actionsService.setAction({
 			label: "Подвтердить",
 			func: async () => {
-				const activeOrderId = await lastValueFrom(this._ordersService.activeOrderId$.pipe(take(1)));
-
-				if (!activeOrderId) {
-					return;
-				}
-
-				await this._routerService.navigateByUrl(
-					CLIENT_ROUTES.CONFIRM_PRODUCTS.absolutePath.replace(ORDER_ID, activeOrderId)
-				);
+				await this._routerService.navigateByUrl(CLIENT_ROUTES.CONFIRM_PRODUCTS.absolutePath.replace(PLACE_ID, placeId));
 			}
 		});
 	}
@@ -153,7 +118,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 		);
 	}
 
-	async openProductDialog(data: IProductToSelect) {
+	async openProductDialog(data: IProductInput) {
 		const result = await lastValueFrom(this._dialogService.open(ProductDialogComponent, { data }).afterClosed$);
 
 		if (!result) {
@@ -163,40 +128,12 @@ export class MenuComponent implements OnInit, OnDestroy {
 		await this.addProductToOrder({ productId: result.product.id, attributesIds: [] });
 	}
 
-	async removeProductFromOrder({ productId, attributesIds }: IProductChanged) {
-		const activeOrderId = await lastValueFrom(this._ordersService.activeOrderId$.pipe(take(1)));
-
-		if (!activeOrderId) {
-			return;
-		}
-
-		await lastValueFrom(
-			this._ordersService.removeProductFromOrder({
-				productId,
-				orderId: activeOrderId,
-				attrs: attributesIds
-			})
-		);
-
-		await this._menuPageOrderQuery.refetch();
+	async removeProductFromOrder(productOutput: IProductOutput) {
+		this._ordersService.removeProductFromOrder(productOutput);
 	}
 
-	async addProductToOrder({ productId, attributesIds }: IProductChanged) {
-		const activeOrderId = await lastValueFrom(this._ordersService.activeOrderId$.pipe(take(1)));
-
-		if (!activeOrderId) {
-			return;
-		}
-
-		await lastValueFrom(
-			this._ordersService.addProductToOrder({
-				productId,
-				orderId: activeOrderId,
-				attrs: attributesIds
-			})
-		);
-
-		await this._menuPageOrderQuery.refetch();
+	async addProductToOrder(productOutput: IProductOutput) {
+		this._ordersService.addProductToOrder(productOutput);
 	}
 
 	ngOnDestroy() {

@@ -3,11 +3,11 @@ import { NgModule } from "@angular/core";
 import { CounterModule } from "@shared/ui/counter";
 import { ImageModule } from "@shared/ui/image";
 
-import { PreviewProductComponent } from "./layout/preview-product.component";
+import { ProductComponent } from "./layout/product.component";
 
 @NgModule({
-	declarations: [PreviewProductComponent],
+	declarations: [ProductComponent],
 	imports: [CommonModule, ImageModule, CounterModule],
-	exports: [PreviewProductComponent]
+	exports: [ProductComponent]
 })
-export class PreviewProductModule {}
+export class ProductModule {}

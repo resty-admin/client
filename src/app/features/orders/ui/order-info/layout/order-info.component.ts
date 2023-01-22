@@ -38,10 +38,8 @@ export class OrderInfoComponent implements OnChanges {
 		this.dateInfo = dateStatuses.includes(type) ? dateName || "Выберите время" : "";
 		this.tableStatus = tableStauses.has(type) ? tableStatus : "";
 
-		if (!table) {
-			return;
-		}
-
-		this.tableLink = CLIENT_ROUTES.TABLES.absolutePath.replace(PLACE_ID, place.id).replace(HALL_ID, table?.hall.id);
+		this.tableLink = table
+			? CLIENT_ROUTES.TABLES.absolutePath.replace(PLACE_ID, place.id).replace(HALL_ID, table?.hall.id)
+			: CLIENT_ROUTES.HALLS.absolutePath.replace(PLACE_ID, place.id);
 	}
 }

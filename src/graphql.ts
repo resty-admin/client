@@ -186,6 +186,13 @@ export enum CompanyStatusEnum {
 	Rejected = "REJECTED"
 }
 
+export interface ConfirmProductToOrderInput {
+	attributesIds?: InputMaybe<Scalars["String"][]>;
+	count: Scalars["Float"];
+	orderId: Scalars["String"];
+	productId: Scalars["String"];
+}
+
 export interface ConnectPaymentSystemToPlaceInput {
 	paymentSystem: Scalars["String"];
 	place: Scalars["String"];
@@ -364,6 +371,7 @@ export interface Mutation {
 	closeOrder: Scalars["String"];
 	closeShift: Scalars["String"];
 	confirmOrder: ActiveOrderEntity;
+	confirmProductsToOrders: ActiveOrderEntity;
 	connectPaymentSystemToPlace: PlaceToPaymentSystemEntity;
 	createAccountingSystem: AccountingSystemEntity;
 	createAttr: AttributesEntity;
@@ -419,7 +427,7 @@ export interface Mutation {
 	updateOrder: ActiveOrderEntity;
 	updatePaymentSystem: PaymentSystemEntity;
 	updatePlace: PlaceEntity;
-	updatePlaceVerification: Scalars["Boolean"];
+	updatePlaceVerification: PlaceEntity;
 	updateProduct: ProductEntity;
 	updateShift: ActiveShiftEntity;
 	updateTable: TableEntity;
@@ -466,6 +474,10 @@ export interface MutationCloseShiftArgs {
 
 export interface MutationConfirmOrderArgs {
 	orderId: Scalars["String"];
+}
+
+export interface MutationConfirmProductsToOrdersArgs {
+	productsToOrders: ConfirmProductToOrderInput[];
 }
 
 export interface MutationConnectPaymentSystemToPlaceArgs {
@@ -1160,7 +1172,8 @@ export interface QueryTablesArgs {
 }
 
 export interface QueryUserArgs {
-	id: Scalars["String"];
+	filtersArgs?: InputMaybe<FiltersArgsDto[]>;
+	id?: InputMaybe<Scalars["String"]>;
 }
 
 export interface QueryUsersArgs {

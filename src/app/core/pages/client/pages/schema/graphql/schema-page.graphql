@@ -23,12 +23,3 @@ query SchemaPageTables($skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) 
 		totalCount
 	}
 }
-
-query SchemaPageOrder($orderId: String!) {
-	order(id: $orderId) {
-		id
-		table {
-			id
-		}
-	}
-}
