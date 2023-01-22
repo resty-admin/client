@@ -11,14 +11,15 @@
 		column-gap: rem(16);
 		row-gap: rem(8);
 		grid-template-areas:
-			"image label status"
-			"image address address"
-			"image time time";
+			"image image image"
+			"label label status"
+			"address address address"
+			"time time time";
 		grid-template-columns: auto 1fr auto;
 		.image {
 			grid-area: image;
-			width: rem(72);
-			height: rem(96);
+			//width: rem(72);
+			height: rem(150);
 
 			@include image() {
 				border-radius: rem(12);
@@ -54,7 +55,7 @@
 				line-height: rem(24);
 				color: var(--dark);
 
-				@include noWrap ();
+				@include noWrap();
 			}
 			&.time {
 				grid-area: time;

@@ -1,3 +1,4 @@
+export * from "./confirm-product";
 export * from "./product";
 export * from "./product-dialog";
 export * from "./product-to-order";

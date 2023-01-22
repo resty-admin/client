@@ -15,6 +15,7 @@ export interface ConfirmProductsPageQuery {
 					id: string;
 					name: string;
 					price: number;
+					description?: string | null;
 					file?: { __typename?: "FileEntity"; id: string; url: string } | null;
 			  }[]
 			| null;
@@ -28,6 +29,7 @@ export const ConfirmProductsPageDocument = gql`
 				id
 				name
 				price
+				description
 				file {
 					id
 					url

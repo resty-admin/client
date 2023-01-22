@@ -10,17 +10,19 @@
 			background-color: var(--light-grey);
 			border-radius: rem(12);
 			align-items: center;
-			gap: rem(10);
-			padding: rem(8) rem(8) rem(15);
+			gap: rem(5);
+			padding: rem(8);
 			grid-template-areas:
-				"image image image"
-				"name name price"
-				"description description counter";
+				"image name name"
+				"image description description"
+				"divider divider divider"
+				"price cal counter";
 			grid-template-columns: auto 1fr auto;
 			.image {
 				grid-area: image;
-				//width: rem(56);
-				height: rem(150);
+				width: rem(56);
+				height: rem(56);
+				align-self: start;
 
 				@include image() {
 					border-radius: rem(12);
@@ -42,7 +44,6 @@
 				font-size: rem(16);
 				line-height: rem(24);
 				color: var(--primary);
-				justify-self: end;
 			}
 			.divider {
 				grid-area: divider;
@@ -61,11 +62,12 @@
 				color: var(--dark-t);
 				max-width: 80%;
 				text-align: left;
+
+				@include noWrap();
 			}
 			.counter {
 				grid-area: counter;
 				justify-self: end;
-				align-self: end;
 			}
 			&.active {
 				border-color: var(--primary);

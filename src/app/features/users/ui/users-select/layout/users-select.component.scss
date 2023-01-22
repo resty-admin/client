@@ -16,9 +16,10 @@
 				font-size: rem(14);
 				line-height: rem(24);
 				cursor: pointer;
+				background-color: var(--light-grey);
 				&.active {
 					border-color: var(--primary);
-					color: var(--primary);
+					//color: var(--primary);
 				}
 			}
 			.checkbox {
@@ -30,7 +31,7 @@
 				opacity: 0%;
 				&:checked ~ .label {
 					border-color: var(--primary);
-					color: var(--primary);
+					//color: var(--primary);
 				}
 			}
 		}

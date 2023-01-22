@@ -9,15 +9,14 @@
 		padding: rem(8);
 		row-gap: rem(8);
 		grid-template-areas:
-			"image name"
-			"image .";
+			"image image"
+			"name name";
 		column-gap: rem(16);
 		grid-template-columns: auto 1fr;
 
 		.image {
 			grid-area: image;
-			width: rem(72);
-			height: rem(72);
+			height: rem(150);
 
 			@include image() {
 				border-radius: rem(12);

@@ -4,6 +4,7 @@ query ConfirmProductsPage {
 			id
 			name
 			price
+			description
 			file {
 				id
 				url
