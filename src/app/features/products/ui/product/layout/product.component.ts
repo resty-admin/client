@@ -21,8 +21,6 @@ export class ProductComponent implements OnChanges {
 			return;
 		}
 
-		console.log(changes.product?.currentValue?.productsToOrders);
-
 		this.count = (this.product?.productsToOrders || []).reduce(
 			(count, productToOrder) => count + productToOrder.count,
 			0

@@ -10,7 +10,7 @@
 			background-color: var(--light-grey);
 			border-radius: rem(12);
 			align-items: center;
-			gap: rem(8);
+			gap: rem(5);
 			padding: rem(8);
 			grid-template-areas:
 				"image name name"
@@ -22,6 +22,7 @@
 				grid-area: image;
 				width: rem(56);
 				height: rem(56);
+				align-self: start;
 
 				@include image() {
 					border-radius: rem(12);
@@ -60,6 +61,9 @@
 				grid-area: description;
 				color: var(--dark-t);
 				max-width: 80%;
+				text-align: left;
+
+				@include noWrap ();
 			}
 			.counter {
 				grid-area: counter;

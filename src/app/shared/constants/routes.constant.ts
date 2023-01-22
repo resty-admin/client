@@ -86,8 +86,8 @@ export const CLIENT_ROUTES = {
 		absolutePath: `/places/${PLACE_ID}/connect-to-table`
 	},
 	CONNECT_TO_ORDER: {
-		path: `places/${PLACE_ID}/connect-to-order`,
-		absolutePath: `/places/${PLACE_ID}/connect-to-order`
+		path: `connect-to-order`,
+		absolutePath: `/connect-to-order`
 	},
 	CREATE_ORDER: {
 		path: `places/${PLACE_ID}/create-order`,

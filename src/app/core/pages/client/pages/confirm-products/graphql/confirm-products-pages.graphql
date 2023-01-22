@@ -4,6 +4,10 @@ query ConfirmProductsPage {
 			id
 			name
 			price
+			file {
+				id
+				url
+			}
 		}
 	}
 }

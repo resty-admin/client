@@ -3,11 +3,11 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
 import { FormControl } from "@ngneat/reactive-forms";
-import { PLACE_ID } from "@shared/constants";
+import { ORDER_ID } from "@shared/constants";
 import { CLIENT_ROUTES } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
-import { lastValueFrom } from "rxjs";
+import { lastValueFrom, map } from "rxjs";
 
 import { CONNECT_TO_ORDER_PAGE_I18N } from "../constants";
 
@@ -29,22 +29,24 @@ export class ConnectToOrderComponent implements OnInit, OnDestroy {
 	) {}
 
 	ngOnInit() {
-		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
-
-		if (!placeId) {
-			return;
-		}
-
 		this._breadcrumbsService.setBreadcrumb({
-			routerLink: CLIENT_ROUTES.CREATE_ORDER.absolutePath.replace(PLACE_ID, placeId)
+			routerLink: CLIENT_ROUTES.PLACES.absolutePath
 		});
 
 		this._actionsService.setAction({
 			label: "Подключиться",
 			func: async () => {
-				await lastValueFrom(this._ordersService.addUserToOrder(Number.parseInt(`${this.codeControl.value}`)));
+				const order = await lastValueFrom(
+					this._ordersService
+						.addUserToOrder(Number.parseInt(`${this.codeControl.value}`))
+						.pipe(map((result) => result.data?.addUserToOrder))
+				);
 
-				await this._routerService.navigateByUrl(CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, placeId));
+				if (!order) {
+					return;
+				}
+
+				await this._routerService.navigateByUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, order.id));
 			}
 		});
 	}

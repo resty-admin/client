@@ -36,19 +36,11 @@ export interface SchemaPageTablesQuery {
 					__typename?: "TableEntity";
 					id: string;
 					name: string;
+					file?: { __typename?: "FileEntity"; id: string; url: string } | null;
 					hall: { __typename?: "HallEntity"; id: string; name: string };
 			  }[]
 			| null;
 	};
-}
-
-export type SchemaPageOrderQueryVariables = Types.Exact<{
-	orderId: Types.Scalars["String"];
-}>;
-
-export interface SchemaPageOrderQuery {
-	__typename?: "Query";
-	order: { __typename?: "ActiveOrderEntity"; id: string; table?: { __typename?: "TableEntity"; id: string } | null };
 }
 
 export const SchemaPageHallsDocument = gql`
@@ -80,6 +72,10 @@ export const SchemaPageTablesDocument = gql`
 			data {
 				id
 				name
+				file {
+					id
+					url
+				}
 				hall {
 					id
 					name
@@ -96,27 +92,6 @@ export const SchemaPageTablesDocument = gql`
 })
 export class SchemaPageTablesGQL extends Apollo.Query<SchemaPageTablesQuery, SchemaPageTablesQueryVariables> {
 	override document = SchemaPageTablesDocument;
-
-	constructor(apollo: Apollo.Apollo) {
-		super(apollo);
-	}
-}
-export const SchemaPageOrderDocument = gql`
-	query SchemaPageOrder($orderId: String!) {
-		order(id: $orderId) {
-			id
-			table {
-				id
-			}
-		}
-	}
-`;
-
-@Injectable({
-	providedIn: "root"
-})
-export class SchemaPageOrderGQL extends Apollo.Query<SchemaPageOrderQuery, SchemaPageOrderQueryVariables> {
-	override document = SchemaPageOrderDocument;
 
 	constructor(apollo: Apollo.Apollo) {
 		super(apollo);

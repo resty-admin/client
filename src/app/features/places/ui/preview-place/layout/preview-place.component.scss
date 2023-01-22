@@ -48,10 +48,13 @@
 				height: rem(15);
 			}
 			.text {
+				flex: 1;
 				font-weight: 400;
 				font-size: rem(14);
 				line-height: rem(24);
 				color: var(--dark);
+
+				@include noWrap ();
 			}
 			&.time {
 				grid-area: time;

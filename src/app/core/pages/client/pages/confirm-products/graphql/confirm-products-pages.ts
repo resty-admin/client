@@ -9,7 +9,15 @@ export interface ConfirmProductsPageQuery {
 	__typename?: "Query";
 	products: {
 		__typename?: "PaginatedProduct";
-		data?: { __typename?: "ProductEntity"; id: string; name: string; price: number }[] | null;
+		data?:
+			| {
+					__typename?: "ProductEntity";
+					id: string;
+					name: string;
+					price: number;
+					file?: { __typename?: "FileEntity"; id: string; url: string } | null;
+			  }[]
+			| null;
 	};
 }
 
@@ -20,6 +28,10 @@ export const ConfirmProductsPageDocument = gql`
 				id
 				name
 				price
+				file {
+					id
+					url
+				}
 			}
 		}
 	}

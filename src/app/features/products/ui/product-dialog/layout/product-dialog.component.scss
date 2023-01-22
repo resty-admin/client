@@ -19,7 +19,7 @@
 				"textarea textarea textarea";
 			row-gap: rem(12);
 			column-gap: rem(12);
-			grid-template-columns: auto 1fr 1fr;
+			grid-template-columns: 1fr auto auto;
 
 			@include pagePadding();
 			.name {
