@@ -2,9 +2,9 @@
 @import "../functions/rem.function";
 
 @mixin pagePadding {
-	padding: rem(42) rem(16) rem(84);
+	padding: rem(24) rem(16) rem(84);
 
 	@include desktop() {
-		padding: rem(67) rem(25);
+		padding: rem(48) rem(25);
 	}
 }

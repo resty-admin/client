@@ -1,10 +1,10 @@
-<div class="skeleton-halls-select">
+<div class="halls-select">
 	<ul class="halls">
 		<li class="hall">
-			<app-skeleton [theme]="{ height: '30px', width: '120px' }"></app-skeleton>
-		</li>
-		<li class="hall">
-			<app-skeleton [theme]="{ height: '30px', width: '120px' }"></app-skeleton>
+			<div class="link">
+				<app-image class="image" [remote]="true" placeholder="hall"></app-image>
+				<app-skeleton class="label" [theme]="{ width: '44px', height: '24px' }"></app-skeleton>
+			</div>
 		</li>
 	</ul>
 </div>

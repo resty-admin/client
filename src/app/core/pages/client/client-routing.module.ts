@@ -71,12 +71,28 @@ export const CLIENT_ROUTES: Route[] = [
 					import("./pages/connect-to-order/connect-to-order.module").then((m) => m.ConnectToOrderModule)
 			},
 			{
-				..._SHARED_CLIENT_ROUTES.MENU,
-				loadChildren: () => import("./pages/menu/menu.module").then((m) => m.MenuModule)
+				..._SHARED_CLIENT_ROUTES.CATEGORIES,
+				loadChildren: () => import("./pages/categories/categories.module").then((m) => m.CategoriesModule)
 			},
 			{
-				..._SHARED_CLIENT_ROUTES.SCHEMA,
-				loadChildren: () => import("./pages/schema/schema.module").then((m) => m.SchemaModule)
+				..._SHARED_CLIENT_ROUTES.CATEGORY,
+				redirectTo: _SHARED_CLIENT_ROUTES.PRODUCTS.path
+			},
+			{
+				..._SHARED_CLIENT_ROUTES.PRODUCTS,
+				loadChildren: () => import("./pages/products/products.module").then((m) => m.ProductsModule)
+			},
+			{
+				..._SHARED_CLIENT_ROUTES.HALLS,
+				loadChildren: () => import("./pages/halls/halls.module").then((m) => m.HallsModule)
+			},
+			{
+				..._SHARED_CLIENT_ROUTES.HALL,
+				redirectTo: _SHARED_CLIENT_ROUTES.TABLES.path
+			},
+			{
+				..._SHARED_CLIENT_ROUTES.TABLES,
+				loadChildren: () => import("./pages/tables/tables.module").then((m) => m.TablesModule)
 			},
 			{
 				..._SHARED_CLIENT_ROUTES.WELCOME,

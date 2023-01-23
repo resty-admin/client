@@ -5,7 +5,7 @@
 		height: 100%;
 		display: grid;
 		grid-template-rows: auto auto auto 1fr auto;
-		row-gap: rem(10);
+		row-gap: rem(12);
 
 		@include pagePadding();
 

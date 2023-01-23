@@ -1,0 +1,5 @@
+<div class="menu-page" *transloco="let t; read: categoriesPageI18n">
+	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
+
+	<app-categories-select [categories]="categories$ | async"></app-categories-select>
+</div>

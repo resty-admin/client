@@ -3,12 +3,12 @@
 @include page() {
 	.products-page {
 		display: grid;
-		row-gap: rem(24);
+		row-gap: rem(12);
 
 		@include pagePadding();
 		.products {
 			display: grid;
-			grid-gap: rem(10);
+			grid-gap: rem(12);
 
 			@include desktop() {
 				grid-template-columns: 1fr 1fr;

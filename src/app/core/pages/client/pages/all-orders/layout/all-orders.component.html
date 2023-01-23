@@ -1,15 +1,6 @@
 <div class="all-orders-page" *transloco="let t; read: allOrdersPageI18n">
 	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 
-	<ng-template #skeleton>
-		<li class="active-order">
-			<app-skeleton-order></app-skeleton-order>
-		</li>
-		<li class="active-order">
-			<app-skeleton-order></app-skeleton-order>
-		</li>
-	</ng-template>
-
 	<ul class="active-orders">
 		<ng-container *ngIf="orders$ | async as orders; else skeleton">
 			<li class="active-order" *ngFor="let order of orders; trackBy: trackByFn">
@@ -23,8 +14,14 @@
 	<h1 appTypography theme="1" class="title">{{ t("history") }}</h1>
 
 	<ul class="history-orders">
-		<li class="history-order" *ngFor="let historyOrder of historyOrders$ | async; trackBy: trackByFn">
-			<app-order-preview [order]="historyOrder"></app-order-preview>
-		</li>
+		<ng-container *ngIf="historyOrders$ | async as historyOrders; else skeleton">
+			<li class="history-order" *ngFor="let historyOrder of historyOrders; trackBy: trackByFn">
+				<app-order-preview [order]="historyOrder"></app-order-preview>
+			</li>
+		</ng-container>
 	</ul>
 </div>
+
+<ng-template #skeleton>
+	<app-skeleton-order></app-skeleton-order>
+</ng-template>

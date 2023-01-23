@@ -93,40 +93,32 @@ export const CLIENT_ROUTES = {
 		path: `places/${PLACE_ID}/create-order`,
 		absolutePath: `/places/${PLACE_ID}/create-order`
 	},
-	MENU: {
-		path: `places/${PLACE_ID}/menu`,
-		absolutePath: `/places/${PLACE_ID}/menu`
-	},
 	CATEGORIES: {
-		path: `categories`,
-		absolutePath: `/places/${PLACE_ID}/menu/categories`
+		path: `places/${PLACE_ID}/categories`,
+		absolutePath: `/places/${PLACE_ID}/categories`
 	},
 	CATEGORY: {
-		path: `categories/${CATEGORY_ID}`,
-		absolutePath: `/places/${PLACE_ID}/menu/categories/${CATEGORY_ID}`
+		path: `places/${PLACE_ID}/categories/${CATEGORY_ID}`,
+		absolutePath: `/places/${PLACE_ID}/categories/${CATEGORY_ID}`
 	},
 	PRODUCTS: {
-		path: `categories/${CATEGORY_ID}/products`,
-		absolutePath: `/places/${PLACE_ID}/menu/categories/${CATEGORY_ID}/products`
+		path: `places/${PLACE_ID}/categories/${CATEGORY_ID}/products`,
+		absolutePath: `/places/${PLACE_ID}/categories/${CATEGORY_ID}/products`
 	},
 	CONFIRM_PRODUCTS: {
 		path: `places/${PLACE_ID}/confirm-products`,
 		absolutePath: `/places/${PLACE_ID}/confirm-products`
 	},
-	SCHEMA: {
-		path: `places/${PLACE_ID}/schema`,
-		absolutePath: `/places/${PLACE_ID}/schema`
-	},
 	HALLS: {
-		path: `halls`,
-		absolutePath: `/places/${PLACE_ID}/schema/halls`
+		path: `places/${PLACE_ID}/halls`,
+		absolutePath: `/places/${PLACE_ID}/halls`
 	},
 	HALL: {
-		path: `halls/${HALL_ID}`,
-		absolutePath: `/places/${PLACE_ID}/schema/halls/${HALL_ID}`
+		path: `places/${PLACE_ID}/halls/${HALL_ID}`,
+		absolutePath: `/places/${PLACE_ID}/halls/${HALL_ID}`
 	},
 	TABLES: {
-		path: `halls/${HALL_ID}/tables`,
-		absolutePath: `/places/${PLACE_ID}/schema/halls/${HALL_ID}/tables`
+		path: `places/${PLACE_ID}/halls/${HALL_ID}/tables`,
+		absolutePath: `/places/${PLACE_ID}/halls/${HALL_ID}/tables`
 	}
 };

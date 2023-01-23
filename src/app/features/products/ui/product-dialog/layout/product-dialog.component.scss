@@ -16,8 +16,7 @@
 				"name name price"
 				"description description description"
 				"attrGroups attrGroups attrGroups";
-			row-gap: rem(12);
-			column-gap: rem(12);
+			gap: rem(12);
 			grid-template-columns: 1fr auto auto;
 
 			@include pagePadding();

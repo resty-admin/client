@@ -56,8 +56,8 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		this.schemaRouterLink = CLIENT_ROUTES.SCHEMA.absolutePath.replace(PLACE_ID, placeId);
-		this.menuRouterLink = CLIENT_ROUTES.MENU.absolutePath.replace(PLACE_ID, placeId);
+		this.schemaRouterLink = CLIENT_ROUTES.HALLS.absolutePath.replace(PLACE_ID, placeId);
+		this.menuRouterLink = CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, placeId);
 
 		this._actionsService.setAction({
 			label: "Подключиться к заказу",

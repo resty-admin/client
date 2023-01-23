@@ -1,15 +1,10 @@
 <div class="categories-select" *ngIf="categories?.length; else skeleton">
 	<ul class="categories">
 		<li class="category" *ngFor="let category of categories; let i = index; trackBy: trackByFn">
-			<input
-				class="input"
-				type="radio"
-				[value]="category.id"
-				[id]="category.id + i"
-				[ngModel]="selectedCategory"
-				(change)="emitSelectedCategoryChange(category.id)"
-			/>
-			<label class="label" [for]="category.id + i">{{ category.name }}</label>
+			<a class="link" [routerLink]="category.id">
+				<app-image class="image" [remote]="true" placeholder="category"></app-image>
+				<p class="label">{{ category.name }}</p>
+			</a>
 		</li>
 	</ul>
 </div>

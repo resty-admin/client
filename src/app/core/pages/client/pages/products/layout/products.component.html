@@ -1,0 +1,10 @@
+<div class="menu-page" *transloco="let t; read: productsPageI18n">
+	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
+
+	<app-products-select
+		[products]="products$ | async"
+		(plusClicked)="addProductToOrder($event)"
+		(minusClicked)="removeProductFromOrder($event)"
+		(productClicked)="openProductDialog($event)"
+	></app-products-select>
+</div>

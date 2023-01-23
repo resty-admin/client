@@ -10,7 +10,7 @@
 			"image image"
 			"tips tips";
 		grid-template-columns: 1fr 1fr;
-		row-gap: rem(24);
+		row-gap: rem(12);
 
 		@include pagePadding();
 

@@ -4,11 +4,11 @@
 	.active-order {
 		@include pagePadding();
 		display: grid;
-		row-gap: rem(24);
+		row-gap: rem(12);
 
 		.products {
 			display: grid;
-			row-gap: rem(24);
+			row-gap: rem(12);
 		}
 	}
 }

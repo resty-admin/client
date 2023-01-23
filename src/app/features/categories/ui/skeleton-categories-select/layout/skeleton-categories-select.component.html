@@ -1,10 +1,10 @@
-<div class="skeleton-categories-select">
+<div class="categories-select">
 	<ul class="categories">
 		<li class="category">
-			<app-skeleton [theme]="{ height: '30px', width: '120px' }"></app-skeleton>
-		</li>
-		<li class="category">
-			<app-skeleton [theme]="{ height: '30px', width: '120px' }"></app-skeleton>
+			<div class="link">
+				<app-image class="image" [remote]="true" placeholder="category"></app-image>
+				<app-skeleton class="label" [theme]="{ width: '', height: '' }"></app-skeleton>
+			</div>
 		</li>
 	</ul>
 </div>

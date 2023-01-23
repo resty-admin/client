@@ -12,7 +12,7 @@
 		.content {
 			display: grid;
 			align-self: start;
-			row-gap: rem(24);
+			row-gap: rem(12);
 			grid-template-areas:
 				"label status"
 				"datepicker datepicker"

@@ -1,6 +1,7 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActionsService } from "@features/app";
+import { AuthService } from "@features/auth";
 import { OrdersService } from "@features/orders";
 import type { ActiveOrderEntity } from "@graphql";
 import { ProductToOrderStatusEnum } from "@graphql";
@@ -51,7 +52,8 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _actionsService: ActionsService,
 		private readonly _ordersService: OrdersService,
-		private readonly _socketIoService: SocketIoService
+		private readonly _socketIoService: SocketIoService,
+		private readonly _authService: AuthService
 	) {}
 
 	trackByFn(index: number) {
@@ -78,19 +80,29 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 				await this._activeOrderPageQuery.refetch();
 			});
 
-		this.order$.pipe(untilDestroyed(this)).subscribe((order) => {
+		lastValueFrom(this.order$.pipe(take(1))).then((order) => {
 			this._breadcrumbsService.setBreadcrumb({
 				label: "В меню",
 				routerLink: CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, order.place.id)
 			});
 		});
 
-		await this._activeOrderPageQuery.setVariables({ orderId });
+		lastValueFrom(this._authService.me$.pipe(take(1))).then((user) => {
+			if (!user) {
+				return;
+			}
 
-		await this.setAction();
+			this.setSelectedUsers([...this.selectedUsers, user.id]);
+		});
+
+		this._activeOrderPageQuery.setVariables({ orderId }).then();
+
+		this.setAction().then();
 	}
 
 	async setSelectedUsers(usersIds: string[]) {
+		this.selectedUsers = usersIds;
+
 		const { productsToOrders } = await lastValueFrom(this.order$.pipe(take(1)));
 
 		this.selectedProductsToOrders = (productsToOrders || [])

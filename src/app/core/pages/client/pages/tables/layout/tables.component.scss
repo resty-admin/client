@@ -1,0 +1,10 @@
+@import "/src/assets/scss/abstractions";
+
+@include page() {
+	.schema-page {
+		display: grid;
+		row-gap: rem(12);
+
+		@include pagePadding();
+	}
+}

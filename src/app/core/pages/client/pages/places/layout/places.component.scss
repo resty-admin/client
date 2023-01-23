@@ -3,12 +3,12 @@
 @include page() {
 	.places-page {
 		display: grid;
-		row-gap: rem(12);
+		grid-gap: rem(12);
 
 		@include pagePadding();
 		.places {
 			display: grid;
-			grid-gap: rem(10);
+			grid-gap: rem(12);
 
 			@include desktop() {
 				grid-template-columns: 1fr 1fr 1fr;
