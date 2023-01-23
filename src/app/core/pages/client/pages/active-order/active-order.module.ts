@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
-import { OrderInfoModule } from "@features/orders";
+import { OrderInfoModule, SkeletonActiveOrderModule } from "@features/orders";
 import { PreviewPlaceModule } from "@features/places";
 import { ProductsToOrderSelectModule, ProductToOrderModule } from "@features/products";
 import { PreviewTableModule } from "@features/tables";
@@ -30,7 +30,8 @@ import { ACTIVE_ORDER_PROVIDERS } from "./providers";
 		PreviewTableModule,
 		PreviewPlaceModule,
 		ProductsToOrderSelectModule,
-		OrderInfoModule
+		OrderInfoModule,
+		SkeletonActiveOrderModule
 	],
 	exports: [ActiveOrderComponent],
 	providers: ACTIVE_ORDER_PROVIDERS

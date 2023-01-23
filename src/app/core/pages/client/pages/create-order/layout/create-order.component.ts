@@ -62,7 +62,6 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 		this._actionsService.setAction({
 			label: "Подключиться к заказу",
 			func: async () => {
-				const placeId = this._routerService.getParams(PLACE_ID.slice(1));
 				await this._routerService.navigateByUrl(CLIENT_ROUTES.CONNECT_TO_ORDER.absolutePath.replace(PLACE_ID, placeId));
 			}
 		});

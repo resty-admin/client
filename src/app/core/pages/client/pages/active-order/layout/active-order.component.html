@@ -1,5 +1,5 @@
 <ng-container *transloco="let t; read: activeOrderPageI18n">
-	<div class="active-order" *ngIf="order$ | async as order">
+	<div class="active-order" *ngIf="order$ | async as order; else skeleton">
 		<app-order-info class="order-info" [order]="order"></app-order-info>
 
 		<div class="products" *ngIf="order.productsToOrders?.length">
@@ -19,3 +19,7 @@
 		</div>
 	</div>
 </ng-container>
+
+<ng-template #skeleton>
+	<app-skeleton-active-order></app-skeleton-active-order>
+</ng-template>

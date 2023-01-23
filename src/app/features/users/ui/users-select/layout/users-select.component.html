@@ -1,5 +1,5 @@
 <div class="users-select" *transloco="let t; read: usersSelectI18n">
-	<ul class="users">
+	<ul class="users" *ngIf="users?.length; else skeleton">
 		<li class="user">
 			<button class="label" [class.active]="isAll" (click)="toggleAll()">{{ t("all") }}</button>
 		</li>
@@ -17,3 +17,7 @@
 		</li>
 	</ul>
 </div>
+
+<ng-template #skeleton>
+	<app-skeleton-users-select></app-skeleton-users-select>
+</ng-template>

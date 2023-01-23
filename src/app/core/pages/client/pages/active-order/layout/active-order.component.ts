@@ -116,6 +116,8 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 		this.selectedUsers = Object.entries(productsByUser)
 			.filter(([_, value]) => value)
 			.map(([key]) => key);
+
+		await this.setAction();
 	}
 
 	async setAction() {

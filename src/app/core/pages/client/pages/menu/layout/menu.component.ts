@@ -10,7 +10,7 @@ import { CLIENT_ROUTES } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { DialogService } from "@shared/ui/dialog";
-import { lastValueFrom, map, ReplaySubject, shareReplay, switchMap, tap } from "rxjs";
+import { lastValueFrom, map, ReplaySubject, shareReplay, switchMap, take, tap } from "rxjs";
 
 import { MENU_PAGE_I18N } from "../constants";
 import { MenuPageGQL } from "../graphql";
@@ -81,7 +81,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 		this._routerService
 			.selectParams(CATEGORY_ID.slice(1))
 			.pipe(untilDestroyed(this))
-			.subscribe(async (categoryId) => {
+			.subscribe((categoryId) => {
 				if (!categoryId) {
 					return;
 				}
@@ -93,12 +93,23 @@ export class MenuComponent implements OnInit, OnDestroy {
 			routerLink: CLIENT_ROUTES.CREATE_ORDER.absolutePath.replace(PLACE_ID, placeId)
 		});
 
-		await this._menuPageQuery.setVariables({
-			filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
-		});
+		this._menuPageQuery.setVariables({ filtersArgs: [{ key: "place.id", operator: "=", value: placeId }] }).then();
+
+		this.setAction().then();
+	}
+
+	async setAction() {
+		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
+
+		if (!placeId) {
+			return;
+		}
+
+		const productsToOrder = await lastValueFrom(this._ordersService.productsToOrders$.pipe(take(1)));
 
 		this._actionsService.setAction({
 			label: "Подвтердить",
+			disabled: productsToOrder.length === 0,
 			func: async () => {
 				await this._routerService.navigateByUrl(CLIENT_ROUTES.CONFIRM_PRODUCTS.absolutePath.replace(PLACE_ID, placeId));
 			}
@@ -125,10 +136,14 @@ export class MenuComponent implements OnInit, OnDestroy {
 
 	async removeProductFromOrder(productOutput: IProductOutput) {
 		this._ordersService.removeProductFromOrder(productOutput);
+
+		await this.setAction();
 	}
 
 	async addProductToOrder(productOutput: IProductOutput) {
 		this._ordersService.addProductToOrder(productOutput);
+
+		await this.setAction();
 	}
 
 	ngOnDestroy() {

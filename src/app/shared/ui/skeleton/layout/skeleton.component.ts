@@ -13,4 +13,5 @@ export class SkeletonComponent {
 	@Input() count: number = 1;
 
 	@Input() theme: NgxSkeletonLoaderConfigTheme | null = null;
+	@Input() loaderTheme: NgxSkeletonLoaderConfigTheme | null = null;
 }

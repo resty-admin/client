@@ -13,10 +13,9 @@
 			display: grid;
 			align-self: start;
 			grid-template-areas:
-				"name cal price"
+				"name name price"
 				"description description description"
-				"attrGroups attrGroups attrGroups"
-				"textarea textarea textarea";
+				"attrGroups attrGroups attrGroups";
 			row-gap: rem(12);
 			column-gap: rem(12);
 			grid-template-columns: 1fr auto auto;
@@ -44,14 +43,14 @@
 				color: var(--primary);
 				justify-self: end;
 			}
-			.cal {
-				justify-self: start;
-				grid-area: cal;
-				font-weight: 400;
-				font-size: rem(14);
-				line-height: rem(24);
-				color: var(--dark-t);
-			}
+			//.cal {
+			//	justify-self: start;
+			//	grid-area: cal;
+			//	font-weight: 400;
+			//	font-size: rem(14);
+			//	line-height: rem(24);
+			//	color: var(--dark-t);
+			//}
 			.attrGroups {
 				grid-area: attrGroups;
 				display: grid;
@@ -67,9 +66,9 @@
 					}
 				}
 			}
-			.textarea {
-				grid-area: textarea;
-			}
+			//.textarea {
+			//	grid-area: textarea;
+			//}
 		}
 
 		.footer {

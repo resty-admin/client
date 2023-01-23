@@ -7,7 +7,7 @@
 			<h2 class="description">{{ product.description }}</h2>
 
 			<p class="price">{{ product.price }} грн</p>
-			<p class="cal">250 гр</p>
+			<!--			<p class="cal">250 гр</p>-->
 
 			<div class="attrGroups">
 				<div class="attrGroup" *ngFor="let attrGroup of product.attrsGroups; trackBy: trackByFn">
@@ -22,11 +22,11 @@
 				</div>
 			</div>
 
-			<app-textarea
-				class="textarea"
-				[label]="f('description_label')"
-				[placeholder]="f('description_placeholder')"
-			></app-textarea>
+			<!--			<app-textarea-->
+			<!--				class="textarea"-->
+			<!--				[label]="f('description_label')"-->
+			<!--				[placeholder]="f('description_placeholder')"-->
+			<!--			></app-textarea>-->
 		</div>
 
 		<div class="footer">

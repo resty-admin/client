@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
 import type { IProductOutput } from "@features/products";
-import { UntilDestroy } from "@ngneat/until-destroy";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { CLIENT_ROUTES, ORDER_ID, PLACE_ID } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
@@ -53,49 +53,50 @@ export class ConfirmProductsComponent implements OnInit, OnDestroy {
 		return index;
 	}
 
-	async ngOnInit() {
-		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
-
-		if (!placeId) {
-			return;
-		}
-
+	ngOnInit() {
 		this._breadcrumbsService.setBreadcrumb({
-			routerLink: CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, placeId)
+			routerLink: CLIENT_ROUTES.CATEGORIES.absolutePath.replace(
+				PLACE_ID,
+				this._routerService.getParams(PLACE_ID.slice(1))
+			)
 		});
 
-		this._actionsService.setAction({
-			label: "Подтвердить",
-			func: async () => {
-				const orderId = await lastValueFrom(this._ordersService.activeOrderId$.pipe(take(1)));
+		this._ordersService.productsToOrders$.pipe(untilDestroyed(this)).subscribe((productsToOrder) => {
+			this._actionsService.setAction({
+				label: "Подтвердить",
+				disabled: productsToOrder.length === 0,
+				func: async () => {
+					const orderId = await lastValueFrom(this._ordersService.activeOrderId$.pipe(take(1)));
 
-				if (!orderId) {
-					await this._routerService.navigateByUrl(
-						`${CLIENT_ROUTES.CREATE_ORDER.absolutePath.replace(PLACE_ID, placeId)}?withData=true`
+					if (!orderId) {
+						await this._routerService.navigateByUrl(
+							`${CLIENT_ROUTES.CREATE_ORDER.absolutePath.replace(
+								PLACE_ID,
+								this._routerService.getParams(PLACE_ID.slice(1))
+							)}?withData=true`
+						);
+						return;
+					}
+
+					await lastValueFrom(
+						this._ordersService.confirmProductsToOrders(
+							(productsToOrder || []).map((productToOrder) => ({ ...productToOrder, orderId }))
+						)
 					);
-					return;
+
+					this._ordersService.setProductsToOrders([]);
+
+					await this._routerService.navigateByUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, orderId));
 				}
-
-				const productsToOrder = await lastValueFrom(this._ordersService.productsToOrders$.pipe(take(1)));
-
-				await lastValueFrom(
-					this._ordersService.confirmProductsToOrders(
-						(productsToOrder || []).map((productToOrder) => ({ ...productToOrder, orderId }))
-					)
-				);
-
-				this._ordersService.setProductsToOrders([]);
-
-				await this._routerService.navigateByUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, orderId));
-			}
+			});
 		});
 	}
 
-	async removeProductFromOrder(productOutput: IProductOutput) {
+	removeProductFromOrder(productOutput: IProductOutput) {
 		this._ordersService.removeProductFromOrder(productOutput);
 	}
 
-	async addProductToOrder(productOutput: IProductOutput) {
+	addProductToOrder(productOutput: IProductOutput) {
 		this._ordersService.addProductToOrder(productOutput);
 	}
 
