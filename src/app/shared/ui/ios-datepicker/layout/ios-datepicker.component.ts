@@ -1,10 +1,9 @@
-import type { AfterViewInit, OnChanges, OnInit } from "@angular/core";
+import type { AfterViewInit } from "@angular/core";
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, ViewChild } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { ControlValueAccessor } from "@shared/classes";
 import { getControlValueAccessorProviders } from "@shared/functions";
-import type { ISimpleChanges } from "@shared/interfaces";
 import type { Dayjs } from "dayjs";
 import * as dayjs from "dayjs";
 import * as localeData from "dayjs/plugin/localeData";
@@ -20,18 +19,15 @@ dayjs.extend(localeData);
 	providers: getControlValueAccessorProviders(IosDatepickerComponent),
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IosDatepickerComponent extends ControlValueAccessor<Dayjs> implements AfterViewInit, OnInit, OnChanges {
+export class IosDatepickerComponent extends ControlValueAccessor<Dayjs> implements AfterViewInit {
 	@ViewChild("monthsContainer") monthsContainer!: ElementRef;
 	@ViewChild("datesContainer") datesContainer!: ElementRef;
 	@ViewChild("hoursContainer") hoursContainer!: ElementRef;
 	@ViewChild("minutesContainer") minutesContainer!: ElementRef;
 
-	@Input() isTableActive?: boolean | null = undefined;
+	@Input() validationStatus: any;
 
 	isDropdownOpen = false;
-
-	isValid = false;
-	isInvalid = false;
 
 	readonly height = 50;
 
@@ -64,17 +60,6 @@ export class IosDatepickerComponent extends ControlValueAccessor<Dayjs> implemen
 
 	constructor(private readonly _changeDetectorReference: ChangeDetectorRef) {
 		super(dayjs());
-	}
-
-	override ngOnChanges(changes: ISimpleChanges<IosDatepickerComponent>) {
-		if (changes.isTableActive) {
-			const isBoolean = typeof changes.isTableActive.currentValue === "boolean";
-
-			this.isValid = Boolean(isBoolean && changes.isTableActive.currentValue);
-			this.isInvalid = Boolean(isBoolean && !changes.isTableActive.currentValue);
-		}
-
-		super.ngOnChanges(changes);
 	}
 
 	toggleDropdown() {

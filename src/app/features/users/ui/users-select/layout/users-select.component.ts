@@ -1,6 +1,7 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import { FormBuilder } from "@angular/forms";
+import { USERS_SELECT_I18N } from "@features/users/ui/users-select/constants";
 import type { ISimpleChanges } from "@shared/interfaces";
 
 import type { IUserToSelect } from "../interfaces";
@@ -15,6 +16,8 @@ export class UsersSelectComponent implements OnChanges {
 	@Output() selectedUsersChange = new EventEmitter<string[]>();
 	@Input() selectedUsers?: string[] | null;
 	@Input() users?: IUserToSelect[] | null;
+
+	readonly usersSelectI18n = USERS_SELECT_I18N;
 
 	usersWithSelected: (IUserToSelect & { selected: boolean })[] = [];
 

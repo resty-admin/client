@@ -1,13 +1,13 @@
-<div class="order-info">
-	<p class="table-status" *ngIf="tableStatus">{{ tableStatus }}</p>
+<div class="order-info" *transloco="let t; read: orderInfoI18n">
+	<p class="table-status" *ngIf="tableStatus">{{ t(tableStatus) }}</p>
 
 	<ul class="links">
 		<li class="table" *ngIf="tableInfo">
-			<span class="name">Стол: </span>
+			<span class="name">{{ t("table") }} </span>
 			<a class="link" [routerLink]="tableLink">{{ tableInfo }}</a>
 		</li>
 		<li class="date" *ngIf="dateInfo">
-			<span class="name">Дата: </span>
+			<span class="name">{{ t("date") }} </span>
 			<span class="link" href="">{{ dateInfo }}</span>
 		</li>
 	</ul>

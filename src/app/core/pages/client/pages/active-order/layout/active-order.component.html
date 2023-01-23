@@ -2,7 +2,7 @@
 	<div class="active-order" *ngIf="order$ | async as order">
 		<app-order-info class="order-info" [order]="order"></app-order-info>
 
-		<div class="products">
+		<div class="products" *ngIf="order.productsToOrders?.length">
 			<app-users-select
 				class="users-select"
 				[users]="order.users"

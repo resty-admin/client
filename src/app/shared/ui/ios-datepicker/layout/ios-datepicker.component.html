@@ -1,15 +1,9 @@
 <div class="ios-datepicker">
-	<app-input
-		class="input"
-		label="Дата"
-		placeholder="Выберите дату"
-		[readonly]="true"
-		(click)="toggleDropdown()"
-	></app-input>
+	<button class="date-button" (click)="toggleDropdown()">{{ formControl.value }}</button>
 
 	<div class="backdrop" [class.open]="isDropdownOpen" (click)="toggleDropdown()">
 		<div class="dropdown">
-			<div class="datepicker" [class.valid]="isValid" [class.invalid]="isInvalid" [ngStyle]="wrapperStyle">
+			<div [class]="'datepicker' + ' ' + validationStatus" [ngStyle]="wrapperStyle">
 				<div class="active-item" [ngStyle]="activeItemStyle"></div>
 
 				<ul class="list dates" [ngStyle]="listStyle" #datesContainer>

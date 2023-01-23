@@ -10,10 +10,10 @@ import { CLIENT_ROUTES } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { DialogService } from "@shared/ui/dialog";
-import { lastValueFrom, map, ReplaySubject, switchMap, take, tap } from "rxjs";
+import { lastValueFrom, map, ReplaySubject, shareReplay, switchMap, tap } from "rxjs";
 
 import { MENU_PAGE_I18N } from "../constants";
-import { MenuPageCategoriesGQL, MenuPageProductsGQL } from "../graphql";
+import { MenuPageGQL } from "../graphql";
 
 @UntilDestroy()
 @Component({
@@ -24,11 +24,11 @@ import { MenuPageCategoriesGQL, MenuPageProductsGQL } from "../graphql";
 })
 export class MenuComponent implements OnInit, OnDestroy {
 	readonly menuPageI18n = MENU_PAGE_I18N;
-	private readonly _menuPageCategoriesQuery = this._menuPageCategoriesGQL.watch();
-	private readonly _menuPageProductsQuery = this._menuPageProductsGQL.watch();
+	private readonly _menuPageQuery = this._menuPageGQL.watch();
 	private readonly _selectedCategorySubject = new ReplaySubject<string>();
 	readonly selectedCategory$ = this._selectedCategorySubject.asObservable();
-	readonly categories$ = this._menuPageCategoriesQuery.valueChanges.pipe(
+
+	readonly categories$ = this._menuPageQuery.valueChanges.pipe(
 		map((result) => result.data.categories.data),
 		tap(async (categories) => {
 			const { categoryId, placeId } = this._routerService.getParams();
@@ -40,18 +40,18 @@ export class MenuComponent implements OnInit, OnDestroy {
 			await this._routerService.navigateByUrl(
 				CLIENT_ROUTES.CATEGORY.absolutePath.replace(PLACE_ID, placeId).replace(CATEGORY_ID, categories[0].id)
 			);
-		})
+		}),
+		shareReplay({ refCount: true })
 	);
 
-	readonly products$ = this.selectedCategory$.pipe(
-		take(1),
-		switchMap(() =>
-			this._menuPageProductsQuery.valueChanges.pipe(
-				map((result) => result.data.products.data),
-				switchMap((products) =>
-					this._ordersService.productsToOrders$.pipe(
-						map((productsToOrders) =>
-							(products || []).map((product) => ({
+	readonly products$ = this.categories$.pipe(
+		switchMap((categories) =>
+			this._ordersService.productsToOrders$.pipe(
+				switchMap((productsToOrders) =>
+					this.selectedCategory$.pipe(
+						map((categoryId) => (categories || []).find((category) => category.id === categoryId)?.products || []),
+						map((products) =>
+							products.map((product) => ({
 								...product,
 								productsToOrders: productsToOrders.filter((productToOrder) => productToOrder.productId === product.id)
 							}))
@@ -63,8 +63,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 	);
 
 	constructor(
-		private readonly _menuPageCategoriesGQL: MenuPageCategoriesGQL,
-		private readonly _menuPageProductsGQL: MenuPageProductsGQL,
+		private readonly _menuPageGQL: MenuPageGQL,
 		private readonly _ordersService: OrdersService,
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
@@ -88,17 +87,13 @@ export class MenuComponent implements OnInit, OnDestroy {
 				}
 
 				this._selectedCategorySubject.next(categoryId);
-
-				await this._menuPageProductsQuery.setVariables({
-					filtersArgs: [{ key: "category.id", operator: "=", value: categoryId }]
-				});
 			});
 
 		this._breadcrumbsService.setBreadcrumb({
 			routerLink: CLIENT_ROUTES.CREATE_ORDER.absolutePath.replace(PLACE_ID, placeId)
 		});
 
-		await this._menuPageCategoriesQuery.setVariables({
+		await this._menuPageQuery.setVariables({
 			filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
 		});
 

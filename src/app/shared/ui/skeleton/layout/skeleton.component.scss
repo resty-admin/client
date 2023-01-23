@@ -1,0 +1,16 @@
+@import "src/assets/scss/abstractions";
+
+@include component() {
+	.skeleton {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		.skeleton-loader {
+			flex: 1;
+			display: flex;
+			align-items: center;
+		}
+	}
+}
+@include dark() {
+}

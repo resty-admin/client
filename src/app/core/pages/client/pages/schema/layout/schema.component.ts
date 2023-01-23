@@ -11,10 +11,10 @@ import type { DeepPartial } from "@shared/interfaces";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { DialogService } from "@shared/ui/dialog";
-import { filter, lastValueFrom, map, ReplaySubject, switchMap, take, tap } from "rxjs";
+import { filter, lastValueFrom, map, ReplaySubject, shareReplay, switchMap, take, tap } from "rxjs";
 
 import { SCHEMA_PAGE_I18N } from "../constants";
-import { SchemaPageHallsGQL, SchemaPageTablesGQL } from "../graphql";
+import { SchemaPageGQL } from "../graphql";
 
 @UntilDestroy()
 @Component({
@@ -25,11 +25,10 @@ import { SchemaPageHallsGQL, SchemaPageTablesGQL } from "../graphql";
 })
 export class SchemaComponent implements OnInit, OnDestroy {
 	readonly schemaPagei18n = SCHEMA_PAGE_I18N;
-	private readonly _schemaPageHallsQuery = this._scemaPageHallsGQL.watch();
-	private readonly _schemaPageTablesQuery = this._scemaPageTablesGQL.watch();
+	private readonly _schemaPageQuery = this._schemaPageGQL.watch();
 	private readonly _selectedHallSubject = new ReplaySubject<string>();
 	readonly selectedHall$ = this._selectedHallSubject.asObservable();
-	readonly halls$ = this._schemaPageHallsQuery.valueChanges.pipe(
+	readonly halls$ = this._schemaPageQuery.valueChanges.pipe(
 		map((result) => result.data.halls.data),
 		tap(async (halls) => {
 			const { hallId, placeId } = this._routerService.getParams();
@@ -41,17 +40,17 @@ export class SchemaComponent implements OnInit, OnDestroy {
 			await this._routerService.navigateByUrl(
 				CLIENT_ROUTES.HALL.absolutePath.replace(PLACE_ID, placeId).replace(HALL_ID, halls[0].id)
 			);
-		})
+		}),
+		shareReplay({ refCount: true })
 	);
 
-	readonly tables$ = this.selectedHall$.pipe(
-		take(1),
-		switchMap(() =>
-			this._schemaPageTablesQuery.valueChanges.pipe(
-				map((result) => result.data.tables.data),
-				switchMap((tables) =>
-					this._ordersService.tableId$.pipe(
-						map((tableId) => (tables || []).map((table) => ({ ...table, active: table.id === tableId })))
+	readonly tables$ = this.halls$.pipe(
+		switchMap((halls) =>
+			this._ordersService.tableId$.pipe(
+				switchMap((tableId) =>
+					this.selectedHall$.pipe(
+						map((hallId) => (halls || []).find((hall) => hall.id === hallId)?.tables || []),
+						map((tables) => tables.map((table) => ({ ...table, active: table.id === tableId })))
 					)
 				)
 			)
@@ -59,8 +58,7 @@ export class SchemaComponent implements OnInit, OnDestroy {
 	);
 
 	constructor(
-		private readonly _scemaPageHallsGQL: SchemaPageHallsGQL,
-		private readonly _scemaPageTablesGQL: SchemaPageTablesGQL,
+		private readonly _schemaPageGQL: SchemaPageGQL,
 		private readonly _ordersService: OrdersService,
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
@@ -84,10 +82,6 @@ export class SchemaComponent implements OnInit, OnDestroy {
 				}
 
 				this._selectedHallSubject.next(hallId);
-
-				await this._schemaPageTablesQuery.setVariables({
-					filtersArgs: [{ key: "hall.id", operator: "=", value: hallId }]
-				});
 			});
 
 		this._breadcrumbsService.setBreadcrumb({
@@ -105,7 +99,7 @@ export class SchemaComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		await this._schemaPageHallsQuery.setVariables({
+		await this._schemaPageQuery.setVariables({
 			filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
 		});
 	}

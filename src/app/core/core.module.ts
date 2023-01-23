@@ -19,6 +19,7 @@ import { ProgressBarModule } from "@shared/ui/progress-bar";
 import { SelectModule } from "@shared/ui/select";
 import { ToastrModule } from "@shared/ui/toastr";
 import { TooltipModule } from "@shared/ui/tooltip";
+import { NgxSkeletonLoaderModule } from "ngx-skeleton-loader";
 
 import {
 	API_CONFIG,
@@ -60,6 +61,7 @@ import { CORE_PROVIDERS } from "./providers";
 		CryptoModule.forRoot(CRYPTO_CONFIG),
 		ToastrModule.forRoot(TOASTR_CONFIG),
 		ErrorsModule.forRoot(ERRORS_CONFIG),
+		NgxSkeletonLoaderModule.forRoot({ animation: "progress" }),
 		DialogModule,
 		SelectModule.forRoot(SELECT_CONFIG),
 		TooltipModule.forRoot(),

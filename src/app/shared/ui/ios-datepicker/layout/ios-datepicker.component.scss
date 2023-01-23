@@ -2,6 +2,15 @@
 
 @include component() {
 	.ios-datepicker {
+		.date-button {
+			font-weight: 600;
+			font-size: rem(16);
+			line-height: rem(24);
+			text-decoration-line: underline;
+			text-underline-offset: rem(5);
+			color: var(--primary);
+		}
+
 		.backdrop {
 			position: fixed;
 			left: 0;
@@ -9,7 +18,7 @@
 			width: 100vw;
 			height: 100vh;
 			background-color: var(--dark-t);
-			z-index: 1;
+			z-index: 1052;
 			display: none;
 			&.open {
 				display: block;

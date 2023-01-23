@@ -40,7 +40,7 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 	readonly activeOrderPageI18n = ACTIVE_ORDER_PAGE_I18N;
 	readonly statuses = [ProductToOrderStatusEnum.Approved, ProductToOrderStatusEnum.WaitingForApprove];
 
-	private readonly _activeOrderPageQuery = this._activeOrderPageGQL.watch();
+	private readonly _activeOrderPageQuery = this._activeOrderPageGQL.watch(undefined, { fetchPolicy: "network-only" });
 	readonly order$ = this._activeOrderPageQuery.valueChanges.pipe(map((result) => result.data.order));
 
 	selectedUsers: string[] = [];
@@ -85,16 +85,9 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 			});
 		});
 
-		this._actionsService.setAction({
-			label: "Выбрать тип оплаты",
-			func: async () => {
-				await this._routerService.navigate([CLIENT_ROUTES.PAYMENT_TYPE.absolutePath.replace(ORDER_ID, orderId)], {
-					queryParams: { products: JSON.stringify(this.selectedProductsToOrders) }
-				});
-			}
-		});
-
 		await this._activeOrderPageQuery.setVariables({ orderId });
+
+		await this.setAction();
 	}
 
 	async setSelectedUsers(usersIds: string[]) {
@@ -103,6 +96,8 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 		this.selectedProductsToOrders = (productsToOrders || [])
 			.filter((productToOrder) => usersIds.includes(productToOrder.user.id))
 			.map((productToOrder) => productToOrder.id);
+
+		await this.setAction();
 	}
 
 	async setSelectedProductsToOrders(productsToOrdersIds: string[]) {
@@ -121,6 +116,24 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 		this.selectedUsers = Object.entries(productsByUser)
 			.filter(([_, value]) => value)
 			.map(([key]) => key);
+	}
+
+	async setAction() {
+		const orderId = this._routerService.getParams(ORDER_ID.slice(1));
+
+		if (!orderId) {
+			return;
+		}
+
+		this._actionsService.setAction({
+			label: "Выбрать тип оплаты",
+			disabled: this.selectedProductsToOrders.length === 0,
+			func: async () => {
+				await this._routerService.navigate([CLIENT_ROUTES.PAYMENT_TYPE.absolutePath.replace(ORDER_ID, orderId)], {
+					queryParams: { products: JSON.stringify(this.selectedProductsToOrders) }
+				});
+			}
+		});
 	}
 
 	ngOnDestroy() {

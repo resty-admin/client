@@ -1,5 +1,6 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { ORDER_INFO_I18N } from "@features/orders/ui/order-info/constants";
 import { OrderTypeEnum } from "@graphql";
 import { CLIENT_ROUTES, HALL_ID, PLACE_ID } from "@shared/constants";
 import type { ISimpleChanges } from "@shared/interfaces";
@@ -15,6 +16,8 @@ import type { IOrderInfo } from "../interfaces";
 })
 export class OrderInfoComponent implements OnChanges {
 	@Input() order?: IOrderInfo | null;
+
+	readonly orderInfoI18n = ORDER_INFO_I18N;
 
 	tableStatus = "";
 	tableInfo = "";

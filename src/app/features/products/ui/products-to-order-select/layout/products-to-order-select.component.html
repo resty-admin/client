@@ -1,9 +1,9 @@
-<ul class="products-to-orders-select">
+<ul class="products-to-orders-select" *transloco="let t; read: productsToOrderSelectI18n">
 	<li
 		class="products-to-orders-by-status"
 		*ngFor="let productToOrderWithSelectedByStatus of productsToOrdersWithSelectedByStatus; trackBy: trackByFn"
 	>
-		<p class="status">{{ productToOrderWithSelectedByStatus.status }}</p>
+		<p class="status">{{ t(productToOrderWithSelectedByStatus.status) }}</p>
 		<ul class="products-to-orders">
 			<li
 				class="product-to-order"
