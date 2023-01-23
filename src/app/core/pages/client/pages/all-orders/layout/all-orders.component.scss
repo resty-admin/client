@@ -16,13 +16,27 @@
 			}
 			.active-order,
 			.history-order {
-				.link {
-				}
-
 				&.history-order .link {
 					background-color: var(--light-grey);
 				}
 			}
+		}
+	}
+
+	.not-orders {
+		display: grid;
+		justify-content: center;
+		align-items: center;
+		.text {
+			font-weight: 400;
+			font-size: rem(20);
+			line-height: rem(32);
+			color: var(--dark-t);
+		}
+		.image {
+			margin: 0 auto;
+			width: rem(205);
+			height: rem(191);
 		}
 	}
 }

@@ -1,4 +1,9 @@
 <div class="all-orders-page" *transloco="let t; read: allOrdersPageI18n">
+	<div class="not-orders" *ngIf="false">
+		<app-image name="active-orders" class="image"></app-image>
+		<p class="text">У вас пока нет активных заказов</p>
+	</div>
+
 	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 
 	<ul class="active-orders">

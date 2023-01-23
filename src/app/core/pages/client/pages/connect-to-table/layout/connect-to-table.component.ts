@@ -4,6 +4,7 @@ import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
 import { OrderTypeEnum } from "@graphql";
 import { FormControl } from "@ngneat/reactive-forms";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { CLIENT_ROUTES, PLACE_ID } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
@@ -12,6 +13,7 @@ import { lastValueFrom } from "rxjs";
 import { CONNECT_TO_TABLE_PAGE_I18N } from "../constants";
 import { ConnectToTablePageGQL } from "../graphql";
 
+@UntilDestroy()
 @Component({
 	selector: "app-connect-to-table",
 	templateUrl: "./connect-to-table.component.html",
@@ -20,7 +22,7 @@ import { ConnectToTablePageGQL } from "../graphql";
 })
 export class ConnectToTableComponent implements OnInit, OnDestroy {
 	readonly connectToTableI18n = CONNECT_TO_TABLE_PAGE_I18N;
-	readonly codeControl = new FormControl<string>();
+	readonly codeControl = new FormControl<number>();
 
 	constructor(
 		private readonly _connectToTablePageGQL: ConnectToTablePageGQL,
@@ -48,11 +50,17 @@ export class ConnectToTableComponent implements OnInit, OnDestroy {
 			await this.connectToTable(code, this._routerService.getParams(PLACE_ID.slice(1)));
 		}
 
-		this._actionsService.setAction({
-			label: "Подключиться",
-			func: async () => {
-				await this.connectToTable(this.codeControl.value.toString(), this._routerService.getParams(PLACE_ID.slice(1)));
-			}
+		this.codeControl.valueChanges.pipe(untilDestroyed(this)).subscribe((code) => {
+			this._actionsService.setAction({
+				label: "Подключиться",
+				disabled: code?.toString().length !== 4,
+				func: async () => {
+					await this.connectToTable(
+						this.codeControl.value.toString(),
+						this._routerService.getParams(PLACE_ID.slice(1))
+					);
+				}
+			});
 		});
 	}
 

@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
 import { FormControl } from "@ngneat/reactive-forms";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { ORDER_ID } from "@shared/constants";
 import { CLIENT_ROUTES } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
@@ -11,6 +12,7 @@ import { lastValueFrom, map } from "rxjs";
 
 import { CONNECT_TO_ORDER_PAGE_I18N } from "../constants";
 
+@UntilDestroy()
 @Component({
 	selector: "app-connect-to-order",
 	templateUrl: "./connect-to-order.component.html",
@@ -19,7 +21,7 @@ import { CONNECT_TO_ORDER_PAGE_I18N } from "../constants";
 })
 export class ConnectToOrderComponent implements OnInit, OnDestroy {
 	readonly connectToOrderPageI18n = CONNECT_TO_ORDER_PAGE_I18N;
-	codeControl = new FormControl();
+	codeControl = new FormControl<number>();
 
 	constructor(
 		private readonly _routerService: RouterService,
@@ -33,22 +35,27 @@ export class ConnectToOrderComponent implements OnInit, OnDestroy {
 			routerLink: CLIENT_ROUTES.PLACES.absolutePath
 		});
 
-		this._actionsService.setAction({
-			label: "Подключиться",
-			func: async () => {
-				const order = await lastValueFrom(
-					this._ordersService
-						.addUserToOrder(Number.parseInt(`${this.codeControl.value}`))
-						.pipe(map((result) => result.data?.addUserToOrder))
-				);
-
-				if (!order) {
-					return;
+		this.codeControl.valueChanges.pipe(untilDestroyed(this)).subscribe((code) => {
+			this._actionsService.setAction({
+				label: "Подключиться",
+				disabled: code?.toString().length !== 4,
+				func: async () => {
+					await this.connectToOrder(code);
 				}
-
-				await this._routerService.navigateByUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, order.id));
-			}
+			});
 		});
+	}
+
+	async connectToOrder(code: number) {
+		const order = await lastValueFrom(
+			this._ordersService.addUserToOrder(Number.parseInt(`${code}`)).pipe(map((result) => result.data?.addUserToOrder))
+		);
+
+		if (!order) {
+			return;
+		}
+
+		await this._routerService.navigateByUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, order.id));
 	}
 
 	ngOnDestroy() {

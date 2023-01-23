@@ -87,12 +87,13 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 			});
 		});
 
-		lastValueFrom(this._authService.me$.pipe(take(1))).then((user) => {
+		lastValueFrom(this._authService.me$.pipe(take(1))).then(async (user) => {
 			if (!user) {
 				return;
 			}
 
-			this.setSelectedUsers([...this.selectedUsers, user.id]);
+			await this.setSelectedUsers([...this.selectedUsers, user.id]);
+			await this.setSelectedProductsToOrders(this.selectedProductsToOrders);
 		});
 
 		this._activeOrderPageQuery.setVariables({ orderId }).then();
@@ -102,11 +103,10 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 
 	async setSelectedUsers(usersIds: string[]) {
 		this.selectedUsers = usersIds;
-
 		const { productsToOrders } = await lastValueFrom(this.order$.pipe(take(1)));
 
 		this.selectedProductsToOrders = (productsToOrders || [])
-			.filter((productToOrder) => usersIds.includes(productToOrder.user.id))
+			.filter((productToOrder) => usersIds.includes(productToOrder.user.id) && productToOrder.paidStatus === "NOT_PAID")
 			.map((productToOrder) => productToOrder.id);
 
 		await this.setAction();
@@ -120,7 +120,10 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 				...usersMap,
 				[user.id]: (productsToOrders || [])
 					.filter((productToOrder) => productToOrder.user.id === user.id)
-					.every((productToOrder) => productsToOrdersIds.includes(productToOrder.id))
+					.every(
+						(productToOrder) =>
+							productsToOrdersIds.includes(productToOrder.id) && productToOrder.paidStatus === "NOT_PAID"
+					)
 			}),
 			{}
 		);
