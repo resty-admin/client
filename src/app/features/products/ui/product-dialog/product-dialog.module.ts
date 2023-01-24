@@ -8,6 +8,7 @@ import { ImageModule } from "@shared/ui/image";
 import { RadioButtonModule } from "@shared/ui/radio-button";
 import { TextareaModule } from "@shared/ui/textarea";
 
+import { SkeletonProductDialogModule } from "../skeleton-product-dialog";
 import { ProductDialogComponent } from "./layout/product-dialog.component";
 import { PRODUCT_DIALOG_PROVIDERS } from "./providers";
 
@@ -21,7 +22,8 @@ import { PRODUCT_DIALOG_PROVIDERS } from "./providers";
 		RadioButtonModule,
 		TextareaModule,
 		ButtonModule,
-		ReactiveFormsModule
+		ReactiveFormsModule,
+		SkeletonProductDialogModule
 	],
 	providers: PRODUCT_DIALOG_PROVIDERS,
 	exports: [ProductDialogComponent]

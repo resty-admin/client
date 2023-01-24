@@ -1,0 +1,21 @@
+<div class="all-orders-page" *transloco="let t; read: historyOrdersPageI18n">
+	<div class="not-orders" *ngIf="false">
+		<app-image name="active-orders" class="image"></app-image>
+		<p class="text">У вас пока нет активных заказов</p>
+	</div>
+	<h1 appTypography theme="1" class="title">{{ t("history") }}</h1>
+
+	<ul class="history-orders">
+		<ng-container *ngIf="historyOrders$ | async as historyOrders; else skeleton">
+			<li class="history-order" *ngFor="let historyOrder of historyOrders; trackBy: trackByFn">
+				<a class="link" [routerLink]="historyOrder.routerLink">
+					<app-order-preview [order]="historyOrder"></app-order-preview>
+				</a>
+			</li>
+		</ng-container>
+	</ul>
+</div>
+
+<ng-template #skeleton>
+	<app-skeleton-order></app-skeleton-order>
+</ng-template>

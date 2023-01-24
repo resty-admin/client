@@ -70,10 +70,10 @@ export class ConfirmProductsComponent implements OnInit, OnDestroy {
 
 					if (!orderId) {
 						await this._routerService.navigateByUrl(
-							`${CLIENT_ROUTES.CREATE_ORDER.absolutePath.replace(
+							CLIENT_ROUTES.CREATE_ORDER.absolutePath.replace(
 								PLACE_ID,
 								this._routerService.getParams(PLACE_ID.slice(1))
-							)}?withData=true`
+							)
 						);
 						return;
 					}

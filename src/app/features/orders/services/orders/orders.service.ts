@@ -4,16 +4,14 @@ import type { IProductOutput } from "@features/products";
 import type { ConfirmProductToOrderInput, CreateOrderInput, UpdateOrderInput } from "@graphql";
 
 import {
-	AddProductToOrderGQL,
 	AddTableToOrderGQL,
 	AddUserToOrderGQL,
+	CancelOrderGQL,
 	CloseOrderGQL,
-	ConfirmOrderGQL,
 	ConfirmProductsToOrdersGQL,
 	CreateOrderGQL,
 	CreatePaymentOrderLinkGQL,
 	DeleteOrderGQL,
-	RemoveProductFromOrderGQL,
 	RemoveTableFromOrderGQL,
 	SetManualPayForProductsInOrderGQL,
 	UpdateOrderGQL
@@ -35,12 +33,10 @@ export class OrdersService {
 		private readonly _addUserToOrderGQL: AddUserToOrderGQL,
 		private readonly _addTableToOrderGQL: AddTableToOrderGQL,
 		private readonly _removeTableFromOrdeGQL: RemoveTableFromOrderGQL,
-		private readonly _addProductToOrderGQL: AddProductToOrderGQL,
-		private readonly _removeProductFromOrderGQL: RemoveProductFromOrderGQL,
-		private readonly _confirmOrderGQL: ConfirmOrderGQL,
 		private readonly _confirmProductsToOrders: ConfirmProductsToOrdersGQL,
 		private readonly _setManualPayForProductsInOrderGQL: SetManualPayForProductsInOrderGQL,
-		private readonly _createPaymentOrderLinkGQL: CreatePaymentOrderLinkGQL
+		private readonly _createPaymentOrderLinkGQL: CreatePaymentOrderLinkGQL,
+		private readonly _cancelOrderGQL: CancelOrderGQL
 	) {}
 
 	setActiveOrderId(orderId?: string) {
@@ -91,10 +87,6 @@ export class OrdersService {
 		return this._removeTableFromOrdeGQL.mutate({ orderId });
 	}
 
-	confirmOrder(orderId: string) {
-		return this._confirmOrderGQL.mutate({ orderId });
-	}
-
 	confirmProductsToOrders(productsToOrders: ConfirmProductToOrderInput[]) {
 		return this._confirmProductsToOrders.mutate({ productsToOrders });
 	}
@@ -105,5 +97,9 @@ export class OrdersService {
 
 	createPaymentOrderLink(productsToOrders: string[]) {
 		return this._createPaymentOrderLinkGQL.mutate({ productsToOrders });
+	}
+
+	cancelOrder(orderId: string) {
+		return this._cancelOrderGQL.mutate({ orderId });
 	}
 }

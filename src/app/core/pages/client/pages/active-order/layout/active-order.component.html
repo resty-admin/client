@@ -17,6 +17,8 @@
 				(selectedProductsToOrdersChange)="setSelectedProductsToOrders($event)"
 			></app-products-to-order-select>
 		</div>
+
+		<button class="cancel-order" (click)="openCancelConfirmation(order)">Отменить заказ</button>
 	</div>
 </ng-container>
 

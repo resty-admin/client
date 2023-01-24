@@ -4,7 +4,7 @@ export const PAGES = [
 	{
 		label: "my_orders",
 		icon: "layers",
-		routerLink: CLIENT_ROUTES.ALL_ORDERS.absolutePath
+		routerLink: CLIENT_ROUTES.ACTIVE_ORDERS.absolutePath
 	},
 	{
 		label: "places",

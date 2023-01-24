@@ -38,11 +38,7 @@ export class HistoryOrderComponent implements OnInit, OnDestroy {
 		}))
 	);
 
-	readonly displayStatuses = [
-		ProductToOrderStatusEnum.Added,
-		ProductToOrderStatusEnum.WaitingForApprove,
-		ProductToOrderStatusEnum.Approved
-	];
+	readonly displayStatuses = [ProductToOrderStatusEnum.WaitingForApprove, ProductToOrderStatusEnum.Approved];
 
 	constructor(
 		private readonly _historyOrderPageGQL: HistoryOrderPageGQL,

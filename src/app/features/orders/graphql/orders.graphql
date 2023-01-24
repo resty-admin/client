@@ -36,24 +36,6 @@ mutation RemoveTableFromOrder($orderId: String!) {
 	}
 }
 
-mutation AddProductToOrder($productToOrder: AddProductToOrderInput!) {
-	addProductToOrder(productToOrder: $productToOrder) {
-		id
-	}
-}
-
-mutation RemoveProductFromOrder($productFromOrder: RemoveProductFromOrderInput!) {
-	removeProductFromOrder(productFromOrder: $productFromOrder) {
-		id
-	}
-}
-
-mutation ConfirmOrder($orderId: String!) {
-	confirmOrder(orderId: $orderId) {
-		id
-	}
-}
-
 mutation ConfirmProductsToOrders($productsToOrders: [ConfirmProductToOrderInput!]!) {
 	confirmProductsToOrders(productsToOrders: $productsToOrders) {
 		id
@@ -70,4 +52,8 @@ mutation CreatePaymentOrderLink($productsToOrders: [String!]!) {
 	createPaymentOrderLink(productsToOrders: $productsToOrders) {
 		link
 	}
+}
+
+mutation CancelOrder($orderId: String!) {
+	cancelOrder(orderId: $orderId)
 }

@@ -67,33 +67,6 @@ export interface RemoveTableFromOrderMutation {
 	removeTableFromOrder: { __typename?: "ActiveOrderEntity"; id: string };
 }
 
-export type AddProductToOrderMutationVariables = Types.Exact<{
-	productToOrder: Types.AddProductToOrderInput;
-}>;
-
-export interface AddProductToOrderMutation {
-	__typename?: "Mutation";
-	addProductToOrder: { __typename?: "ActiveOrderEntity"; id: string };
-}
-
-export type RemoveProductFromOrderMutationVariables = Types.Exact<{
-	productFromOrder: Types.RemoveProductFromOrderInput;
-}>;
-
-export interface RemoveProductFromOrderMutation {
-	__typename?: "Mutation";
-	removeProductFromOrder: { __typename?: "ActiveOrderEntity"; id: string };
-}
-
-export type ConfirmOrderMutationVariables = Types.Exact<{
-	orderId: Types.Scalars["String"];
-}>;
-
-export interface ConfirmOrderMutation {
-	__typename?: "Mutation";
-	confirmOrder: { __typename?: "ActiveOrderEntity"; id: string };
-}
-
 export type ConfirmProductsToOrdersMutationVariables = Types.Exact<{
 	productsToOrders: Types.ConfirmProductToOrderInput | Types.ConfirmProductToOrderInput[];
 }>;
@@ -119,6 +92,15 @@ export type CreatePaymentOrderLinkMutationVariables = Types.Exact<{
 export interface CreatePaymentOrderLinkMutation {
 	__typename?: "Mutation";
 	createPaymentOrderLink: { __typename?: "FondyLink"; link: string };
+}
+
+export type CancelOrderMutationVariables = Types.Exact<{
+	orderId: Types.Scalars["String"];
+}>;
+
+export interface CancelOrderMutation {
+	__typename?: "Mutation";
+	cancelOrder: string;
 }
 
 export const CreateOrderDocument = gql`
@@ -246,66 +228,6 @@ export class RemoveTableFromOrderGQL extends Apollo.Mutation<
 		super(apollo);
 	}
 }
-export const AddProductToOrderDocument = gql`
-	mutation AddProductToOrder($productToOrder: AddProductToOrderInput!) {
-		addProductToOrder(productToOrder: $productToOrder) {
-			id
-		}
-	}
-`;
-
-@Injectable({
-	providedIn: "root"
-})
-export class AddProductToOrderGQL extends Apollo.Mutation<
-	AddProductToOrderMutation,
-	AddProductToOrderMutationVariables
-> {
-	override document = AddProductToOrderDocument;
-
-	constructor(apollo: Apollo.Apollo) {
-		super(apollo);
-	}
-}
-export const RemoveProductFromOrderDocument = gql`
-	mutation RemoveProductFromOrder($productFromOrder: RemoveProductFromOrderInput!) {
-		removeProductFromOrder(productFromOrder: $productFromOrder) {
-			id
-		}
-	}
-`;
-
-@Injectable({
-	providedIn: "root"
-})
-export class RemoveProductFromOrderGQL extends Apollo.Mutation<
-	RemoveProductFromOrderMutation,
-	RemoveProductFromOrderMutationVariables
-> {
-	override document = RemoveProductFromOrderDocument;
-
-	constructor(apollo: Apollo.Apollo) {
-		super(apollo);
-	}
-}
-export const ConfirmOrderDocument = gql`
-	mutation ConfirmOrder($orderId: String!) {
-		confirmOrder(orderId: $orderId) {
-			id
-		}
-	}
-`;
-
-@Injectable({
-	providedIn: "root"
-})
-export class ConfirmOrderGQL extends Apollo.Mutation<ConfirmOrderMutation, ConfirmOrderMutationVariables> {
-	override document = ConfirmOrderDocument;
-
-	constructor(apollo: Apollo.Apollo) {
-		super(apollo);
-	}
-}
 export const ConfirmProductsToOrdersDocument = gql`
 	mutation ConfirmProductsToOrders($productsToOrders: [ConfirmProductToOrderInput!]!) {
 		confirmProductsToOrders(productsToOrders: $productsToOrders) {
@@ -364,6 +286,22 @@ export class CreatePaymentOrderLinkGQL extends Apollo.Mutation<
 	CreatePaymentOrderLinkMutationVariables
 > {
 	override document = CreatePaymentOrderLinkDocument;
+
+	constructor(apollo: Apollo.Apollo) {
+		super(apollo);
+	}
+}
+export const CancelOrderDocument = gql`
+	mutation CancelOrder($orderId: String!) {
+		cancelOrder(orderId: $orderId)
+	}
+`;
+
+@Injectable({
+	providedIn: "root"
+})
+export class CancelOrderGQL extends Apollo.Mutation<CancelOrderMutation, CancelOrderMutationVariables> {
+	override document = CancelOrderDocument;
 
 	constructor(apollo: Apollo.Apollo) {
 		super(apollo);

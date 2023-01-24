@@ -1,5 +1,5 @@
 <ng-container *transloco="let t; read: productPageI18n">
-	<div class="product-dialog" *ngIf="product$ | async as product">
+	<div class="product-dialog" *ngIf="product$ | async as product; else skeleton">
 		<app-image class="image" [remote]="true" [name]="product.file?.url" placeholder="product"></app-image>
 
 		<div class="content" *transloco="let f; read: formI18n">
@@ -36,3 +36,7 @@
 		</div>
 	</div>
 </ng-container>
+
+<ng-template #skeleton>
+	<app-skeleton-product-dialog></app-skeleton-product-dialog>
+</ng-template>

@@ -15,16 +15,20 @@ export const CLIENT_ROUTES: Route[] = [
 				loadChildren: () => import("./pages/profile/profile.module").then((m) => m.ProfileModule)
 			},
 			{
-				..._SHARED_CLIENT_ROUTES.ALL_ORDERS,
-				loadChildren: () => import("./pages/all-orders/all-orders.module").then((m) => m.AllOrdersModule)
-			},
-			{
-				..._SHARED_CLIENT_ROUTES.HISTORY_ORDER,
-				loadChildren: () => import("./pages/history-order/history-order.module").then((m) => m.HistoryOrderModule)
+				..._SHARED_CLIENT_ROUTES.ACTIVE_ORDERS,
+				loadChildren: () => import("./pages/active-orders/active-orders.module").then((m) => m.ActiveOrdersModule)
 			},
 			{
 				..._SHARED_CLIENT_ROUTES.ACTIVE_ORDER,
 				loadChildren: () => import("./pages/active-order/active-order.module").then((m) => m.ActiveOrderModule)
+			},
+			{
+				..._SHARED_CLIENT_ROUTES.HISTORY_ORDERS,
+				loadChildren: () => import("./pages/history-orders/history-orders.module").then((m) => m.HistoryOrdersModule)
+			},
+			{
+				..._SHARED_CLIENT_ROUTES.HISTORY_ORDER,
+				loadChildren: () => import("./pages/history-order/history-order.module").then((m) => m.HistoryOrderModule)
 			},
 			{
 				..._SHARED_CLIENT_ROUTES.CONFIRM_PRODUCTS,

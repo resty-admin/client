@@ -1,0 +1,7 @@
+query CreateOrderPage($orderId: String!, $filtersArgs: [FiltersArgsDto!]) {
+	order(id: $orderId, filtersArgs: $filtersArgs) {
+		id
+		code
+		type
+	}
+}

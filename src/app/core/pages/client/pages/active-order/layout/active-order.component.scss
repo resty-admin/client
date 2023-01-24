@@ -10,6 +10,15 @@
 			display: grid;
 			row-gap: rem(12);
 		}
+
+		.cancel-order {
+			text-align: left;
+			font-weight: 400;
+			font-size: rem(11);
+			line-height: rem(16);
+			text-decoration-line: underline;
+			color: var(--dark-grey);
+		}
 	}
 }
 @include dark() {

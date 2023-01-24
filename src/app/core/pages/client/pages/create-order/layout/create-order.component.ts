@@ -27,8 +27,6 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 	schemaRouterLink = "";
 	menuRouterLink = "";
 
-	withData = false;
-
 	constructor(
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
@@ -47,12 +45,6 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
 
 		if (!placeId) {
-			return;
-		}
-
-		this.withData = this._routerService.getQueryParams("withData");
-
-		if (this.withData) {
 			return;
 		}
 
@@ -80,29 +72,24 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 		}
 
 		try {
-			const result = await lastValueFrom(this._ordersService.createOrder({ type, place }));
+			const result = await lastValueFrom(
+				this._ordersService.createOrder({
+					type,
+					place,
+					productsToOrder: await lastValueFrom(this._ordersService.productsToOrders$.pipe(take(1)))
+				})
+			);
 
 			if (!result.data) {
 				return;
 			}
 
-			const { id: orderId } = result.data.createOrder;
+			const { id } = result.data.createOrder;
 
-			this._ordersService.setActiveOrderId(orderId);
+			this._ordersService.setActiveOrderId(id);
+			this._ordersService.setProductsToOrders([]);
 
-			if (this.withData) {
-				const productsToOrders = await lastValueFrom(this._ordersService.productsToOrders$.pipe(take(1)));
-
-				await lastValueFrom(
-					this._ordersService.confirmProductsToOrders(
-						(productsToOrders || []).map((productToOrder) => ({ ...productToOrder, orderId }))
-					)
-				);
-
-				this._ordersService.setProductsToOrders([]);
-			}
-
-			await this._routerService.navigateByUrl(routerLink.replace(ORDER_ID, orderId));
+			await this._routerService.navigateByUrl(routerLink.replace(ORDER_ID, id));
 		} catch (error) {
 			console.error(error);
 		}

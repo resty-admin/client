@@ -6,12 +6,21 @@ import { ButtonModule } from "@shared/ui/button";
 import { ImageModule } from "@shared/ui/image";
 import { IosDatepickerModule } from "@shared/ui/ios-datepicker";
 
+import { SkeletonTableDialogModule } from "../skeleton-table-dialog";
 import { TableDialogComponent } from "./layout/table-dialog.component";
 import { TABLE_DIALOG_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [TableDialogComponent],
-	imports: [CommonModule, ImageModule, IosDatepickerModule, ButtonModule, TranslocoModule, ReactiveFormsModule],
+	imports: [
+		CommonModule,
+		ImageModule,
+		IosDatepickerModule,
+		ButtonModule,
+		TranslocoModule,
+		ReactiveFormsModule,
+		SkeletonTableDialogModule
+	],
 	providers: TABLE_DIALOG_PROVIDERS,
 	exports: [TableDialogComponent]
 })

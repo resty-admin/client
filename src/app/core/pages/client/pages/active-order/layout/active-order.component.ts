@@ -2,14 +2,16 @@ import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActionsService } from "@features/app";
 import { AuthService } from "@features/auth";
-import { OrdersService } from "@features/orders";
+import { CancelConfirmationComponent, OrdersService } from "@features/orders";
 import type { ActiveOrderEntity } from "@graphql";
 import { ProductToOrderStatusEnum } from "@graphql";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { CLIENT_ROUTES, ORDER_ID, PLACE_ID } from "@shared/constants";
+import type { DeepPartial } from "@shared/interfaces";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { SocketIoService } from "@shared/modules/socket-io";
+import { DialogService } from "@shared/ui/dialog";
 import { lastValueFrom, map, take } from "rxjs";
 
 import { ACTIVE_ORDER_PAGE_I18N } from "../constants";
@@ -53,7 +55,8 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 		private readonly _actionsService: ActionsService,
 		private readonly _ordersService: OrdersService,
 		private readonly _socketIoService: SocketIoService,
-		private readonly _authService: AuthService
+		private readonly _authService: AuthService,
+		private readonly _dialogService: DialogService
 	) {}
 
 	trackByFn(index: number) {
@@ -151,6 +154,20 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 				});
 			}
 		});
+	}
+
+	async openCancelConfirmation(data: DeepPartial<ActiveOrderEntity>) {
+		const result = await lastValueFrom(this._dialogService.open(CancelConfirmationComponent, { data }).afterClosed$);
+
+		if (!result || !result.id) {
+			return;
+		}
+
+		await lastValueFrom(this._ordersService.cancelOrder(result.id));
+
+		this._ordersService.setActiveOrderId(undefined);
+
+		await this._routerService.navigateByUrl(CLIENT_ROUTES.PLACES.absolutePath);
 	}
 
 	ngOnDestroy() {

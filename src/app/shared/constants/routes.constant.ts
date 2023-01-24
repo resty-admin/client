@@ -45,13 +45,17 @@ export const CLIENT_ROUTES = {
 		path: "welcome",
 		absolutePath: "/welcome"
 	},
-	ALL_ORDERS: {
-		path: `all-orders`,
-		absolutePath: `/all-orders`
+	ACTIVE_ORDERS: {
+		path: `active-orders`,
+		absolutePath: `/active-orders`
 	},
 	ACTIVE_ORDER: {
 		path: `active-orders/${ORDER_ID}`,
 		absolutePath: `/active-orders/${ORDER_ID}`
+	},
+	HISTORY_ORDERS: {
+		path: `history-orders`,
+		absolutePath: `/history-orders`
 	},
 	HISTORY_ORDER: {
 		path: `history-orders/${ORDER_ID}`,

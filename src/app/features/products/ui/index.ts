@@ -6,3 +6,4 @@ export * from "./products-select";
 export * from "./products-to-order-select";
 export * from "./skeleton-confirm-product";
 export * from "./skeleton-product";
+export * from "./skeleton-product-dialog";
