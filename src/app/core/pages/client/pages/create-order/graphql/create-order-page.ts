@@ -4,7 +4,7 @@ import * as Apollo from "apollo-angular";
 
 import type * as Types from "../../../../../../../graphql";
 export type CreateOrderPageQueryVariables = Types.Exact<{
-	orderId: Types.Scalars["String"];
+	orderId?: Types.InputMaybe<Types.Scalars["String"]>;
 	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
 }>;
 
@@ -14,7 +14,7 @@ export interface CreateOrderPageQuery {
 }
 
 export const CreateOrderPageDocument = gql`
-	query CreateOrderPage($orderId: String!, $filtersArgs: [FiltersArgsDto!]) {
+	query CreateOrderPage($orderId: String, $filtersArgs: [FiltersArgsDto!]) {
 		order(id: $orderId, filtersArgs: $filtersArgs) {
 			id
 			code

@@ -1,11 +1,11 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
+import { ActiveOrderModule } from "@features/orders";
 import { DirectivesModule } from "@shared/modules/directives";
 import { I18nModule } from "@shared/modules/i18n";
 import { PipesModule } from "@shared/modules/pipes";
 import { ThemeModule } from "@shared/modules/theme";
 import { ActionsModule } from "@shared/ui/actions";
-import { ActiveOrderModule } from "@shared/ui/active-order";
 import { ButtonModule } from "@shared/ui/button";
 import { ChipModule } from "@shared/ui/chip";
 import { IconModule } from "@shared/ui/icon";

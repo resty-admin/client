@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
+import { AlreadyExistModule } from "@features/orders/ui/already-exist";
 import { TranslocoModule } from "@shared/modules/i18n";
 import { ButtonModule } from "@shared/ui/button";
 import { DialogModule } from "@shared/ui/dialog";
@@ -21,7 +22,8 @@ import { CREATE_ORDER_PAGE_PROVIDERS } from "./providers";
 		ButtonModule,
 		IconModule,
 		DialogModule,
-		TranslocoModule
+		TranslocoModule,
+		AlreadyExistModule
 	],
 	providers: CREATE_ORDER_PAGE_PROVIDERS
 })

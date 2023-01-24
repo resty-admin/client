@@ -43,13 +43,6 @@ export class ConnectToTableComponent implements OnInit, OnDestroy {
 			routerLink: CLIENT_ROUTES.CREATE_ORDER.absolutePath.replace(PLACE_ID, placeId)
 		});
 
-		const code = this._routerService.getQueryParams("code");
-
-		if (code) {
-			this.codeControl.setValue(code);
-			await this.connectToTable(code, this._routerService.getParams(PLACE_ID.slice(1)));
-		}
-
 		this.codeControl.valueChanges.pipe(untilDestroyed(this)).subscribe((code) => {
 			this._actionsService.setAction({
 				label: "Подключиться",
@@ -62,6 +55,8 @@ export class ConnectToTableComponent implements OnInit, OnDestroy {
 				}
 			});
 		});
+
+		this.codeControl.setValue(this._routerService.getQueryParams("code"));
 	}
 
 	async connectToTable(code: string, placeId: string) {

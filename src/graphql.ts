@@ -1165,7 +1165,7 @@ export interface QueryLanguagesArgs {
 
 export interface QueryOrderArgs {
 	filtersArgs?: InputMaybe<FiltersArgsDto[]>;
-	id: Scalars["String"];
+	id?: InputMaybe<Scalars["String"]>;
 }
 
 export interface QueryOrdersArgs {

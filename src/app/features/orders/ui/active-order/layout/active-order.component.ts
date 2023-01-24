@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
-import { ACTIVE_ORDER_I18N } from "@shared/ui/active-order/constants";
+import { ACTIVE_ORDER_I18N } from "@features/orders/ui/active-order/constants";
 
 import type { IActiveOrder } from "../interfaces";
 import { ACTIVE_ORDER_PROVIDERS } from "../providers";
