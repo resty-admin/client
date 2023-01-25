@@ -1,6 +1,7 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { HistoryOrdersPageGQL } from "@core/pages/client/pages/history-orders/graphql/history-orders-page";
+import { ActionsService } from "@features/app";
 import { AuthService } from "@features/auth";
 import { CLIENT_ROUTES, ORDER_ID } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
@@ -33,7 +34,8 @@ export class HistoryOrdersComponent implements OnInit, OnDestroy {
 		private readonly _historyOrdersPageGQL: HistoryOrdersPageGQL,
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _routerService: RouterService,
-		private readonly _authService: AuthService
+		private readonly _authService: AuthService,
+		private readonly _actionsService: ActionsService
 	) {}
 
 	trackByFn(index: number) {
@@ -49,12 +51,20 @@ export class HistoryOrdersComponent implements OnInit, OnDestroy {
 			return;
 		}
 
+		this._actionsService.setAction({
+			label: "Создать заказ",
+			func: () => {
+				this._routerService.navigateByUrl(CLIENT_ROUTES.PLACES.absolutePath);
+			}
+		});
+
 		await this._historyOrdersPageQuery.setVariables({
 			filtersArgs: [{ key: "users.id", operator: "=", value: user.id }]
 		});
 	}
 
 	ngOnDestroy() {
+		this._actionsService.setAction(null);
 		this._breadcrumbsService.setBreadcrumb(null);
 	}
 }

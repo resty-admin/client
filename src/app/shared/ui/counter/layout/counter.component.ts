@@ -15,7 +15,7 @@ export class CounterComponent implements OnChanges {
 	@Output() plusClicked = new EventEmitter();
 	@Output() minusClicked = new EventEmitter();
 	@Input() label = "";
-	@Input() value? = 0;
+	@Input() value?: number | null = 0;
 	@Input() theme: ICounterTheme = "1";
 
 	className = `app-counter ${THEME.replace(ANY_SYMBOL, this.theme)} ${!this.value && "add"}`;

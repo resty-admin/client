@@ -1,8 +1,8 @@
 import type { OnChanges } from "@angular/core";
-import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import { ORDER_INFO_I18N } from "@features/orders/ui/order-info/constants";
 import { OrderTypeEnum } from "@graphql";
-import { CLIENT_ROUTES, HALL_ID, PLACE_ID } from "@shared/constants";
+import { CLIENT_ROUTES, HALL_ID, PLACE_ID, TABLE_ID } from "@shared/constants";
 import type { ISimpleChanges } from "@shared/interfaces";
 import dayjs from "dayjs";
 
@@ -15,6 +15,7 @@ import type { IOrderInfo } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderInfoComponent implements OnChanges {
+	@Output() dateClicked = new EventEmitter<string>();
 	@Input() order?: IOrderInfo | null;
 
 	readonly orderInfoI18n = ORDER_INFO_I18N;
@@ -42,7 +43,14 @@ export class OrderInfoComponent implements OnChanges {
 		this.tableStatus = tableStauses.has(type) ? tableStatus : "";
 
 		this.tableLink = table
-			? CLIENT_ROUTES.TABLES.absolutePath.replace(PLACE_ID, place.id).replace(HALL_ID, table?.hall.id)
+			? CLIENT_ROUTES.TABLE.absolutePath
+					.replace(PLACE_ID, place.id)
+					.replace(HALL_ID, table?.hall.id)
+					.replace(TABLE_ID, table.id)
 			: CLIENT_ROUTES.HALLS.absolutePath.replace(PLACE_ID, place.id);
+	}
+
+	emitDateClicked(dateInfo: string) {
+		this.dateClicked.emit(dateInfo);
 	}
 }

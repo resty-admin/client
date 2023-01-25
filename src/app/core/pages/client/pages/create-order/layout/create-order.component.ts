@@ -108,10 +108,10 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		if (result === "navigate") {
+		if (result === "navigate" && order) {
 			await this._routerService.navigateByUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, order.id));
 			return;
-		} else if (result === "cancel") {
+		} else if (result === "cancel" && order) {
 			await lastValueFrom(this._ordersService.cancelOrder(order.id));
 			this._ordersService.setActiveOrderId(undefined);
 		}

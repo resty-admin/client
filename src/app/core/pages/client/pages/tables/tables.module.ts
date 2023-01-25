@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { TablesSelectModule } from "@features/tables";
+import { PreviewTableModule, SkeletonTableModule } from "@features/tables";
 import { I18nModule } from "@shared/modules/i18n";
 import { TypographyModule } from "@shared/ui/typography";
 
@@ -10,7 +10,7 @@ import { TablesRoutingModule } from "./tables-routing.module";
 
 @NgModule({
 	declarations: [TablesComponent],
-	imports: [CommonModule, TablesRoutingModule, I18nModule, TypographyModule, TablesSelectModule],
+	imports: [CommonModule, TablesRoutingModule, I18nModule, TypographyModule, PreviewTableModule, SkeletonTableModule],
 	providers: TABLES_PROVIDERS
 })
 export class TablesModule {}

@@ -1,8 +1,12 @@
 <ng-container *transloco="let t; read: activeOrderPageI18n">
 	<div class="active-order" *ngIf="order$ | async as order; else skeleton">
+		<button *ngIf="order.type === 'IN_PLACE'" class="bell" (click)="openCommandsDialog(order)">
+			<app-icon class="icon" name="bell"></app-icon>
+		</button>
+
 		<app-order-info class="order-info" [order]="order"></app-order-info>
 
-		<div class="products" *ngIf="order.productsToOrders?.length">
+		<div class="products">
 			<app-users-select
 				class="users-select"
 				[users]="order.users"
@@ -11,6 +15,7 @@
 			></app-users-select>
 
 			<app-products-to-order-select
+				*ngIf="order.productsToOrders?.length; else noProductsToOrders"
 				class="products-select"
 				[productsToOrders]="order.productsToOrders"
 				[(selectedProductsToOrders)]="selectedProductsToOrders"
@@ -18,10 +23,22 @@
 			></app-products-to-order-select>
 		</div>
 
-		<button class="cancel-order" (click)="openCancelConfirmation(order)">Отменить заказ</button>
+		<button *ngIf="order.isAllPaid; else close" class="close-order" (click)="openCloseConfirmation(order)">
+			Закрыть заказ
+		</button>
+		<ng-template #close>
+			<button class="cancel-order" (click)="openCancelConfirmation(order)">Отменить заказ</button>
+		</ng-template>
 	</div>
 </ng-container>
 
 <ng-template #skeleton>
 	<app-skeleton-active-order></app-skeleton-active-order>
+</ng-template>
+
+<ng-template #noProductsToOrders>
+	<div class="no-products-to-orders">
+		<app-image class="image" name="active-order"></app-image>
+		<p class="title">В этом заказе еще нет добавленных блюд</p>
+	</div>
 </ng-template>

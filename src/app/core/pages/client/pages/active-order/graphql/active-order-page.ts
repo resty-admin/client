@@ -9,7 +9,7 @@ export type ActiveOrderPageQueryVariables = Types.Exact<{
 
 export interface ActiveOrderPageQuery {
 	__typename?: "Query";
-	order: {
+	order?: {
 		__typename?: "ActiveOrderEntity";
 		id: string;
 		code: number;
@@ -60,7 +60,7 @@ export interface ActiveOrderPageQuery {
 					};
 			  }[]
 			| null;
-	};
+	} | null;
 }
 
 export const ActiveOrderPageDocument = gql`

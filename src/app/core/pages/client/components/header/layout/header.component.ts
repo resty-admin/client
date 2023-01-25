@@ -34,8 +34,9 @@ export class HeaderComponent implements OnChanges {
 
 	ngOnChanges(changes: ISimpleChanges<HeaderComponent>) {
 		if (changes.activeOrder) {
-			this.activeOrderLink = changes.activeOrder.currentValue
-				? CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, changes.activeOrder.currentValue.id)
+			const { currentValue } = changes.activeOrder;
+			this.activeOrderLink = currentValue
+				? CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, currentValue.id)
 				: "";
 		}
 	}

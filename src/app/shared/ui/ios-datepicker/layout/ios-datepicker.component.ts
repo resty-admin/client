@@ -1,5 +1,5 @@
 import type { AfterViewInit } from "@angular/core";
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, ViewChild } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, ViewChild } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { ControlValueAccessor } from "@shared/classes";
@@ -25,8 +25,6 @@ export class IosDatepickerComponent extends ControlValueAccessor<Dayjs> implemen
 	@ViewChild("hoursContainer") hoursContainer!: ElementRef;
 	@ViewChild("minutesContainer") minutesContainer!: ElementRef;
 
-	@Input() validationStatus: any;
-
 	isDropdownOpen = false;
 
 	readonly height = 50;
@@ -38,7 +36,7 @@ export class IosDatepickerComponent extends ControlValueAccessor<Dayjs> implemen
 
 	readonly months = dayjs.months();
 	readonly dates: number[] = new Array(dayjs().daysInMonth()).fill(null).map((_, index) => index + 1);
-	readonly hours = new Array(23).fill(null).map((_, index) => index);
+	readonly hours = new Array(24).fill(null).map((_, index) => index);
 	readonly minutes = new Array(12).fill(null).map((_, index) => index * 5);
 
 	readonly wrapperStyle = {
@@ -60,10 +58,6 @@ export class IosDatepickerComponent extends ControlValueAccessor<Dayjs> implemen
 
 	constructor(private readonly _changeDetectorReference: ChangeDetectorRef) {
 		super(dayjs());
-	}
-
-	toggleDropdown() {
-		this.isDropdownOpen = !this.isDropdownOpen;
 	}
 
 	private _handleScroll({ nativeElement }: ElementRef, formControl: FormControl<number>) {
@@ -127,10 +121,27 @@ export class IosDatepickerComponent extends ControlValueAccessor<Dayjs> implemen
 				}
 
 				this.formControl.setValue(
-					date.date(this.dates[dateIndex]).hour(this.hours[hourIndex]).minute(this.minutes[minuteIndex])
+					date
+						.month(monthIndex)
+						.date(this.dates[dateIndex])
+						.hour(this.hours[hourIndex])
+						.minute(this.minutes[minuteIndex])
 				);
 
 				this._changeDetectorReference.detectChanges();
 			});
+	}
+
+	override writeValue(value: dayjs.Dayjs) {
+		super.writeValue(value);
+
+		if (!value) {
+			return;
+		}
+
+		this.monthFormControl.setValue(value.month());
+		this.dateFormControl.setValue(value.date() - 1);
+		this.hourFormControl.setValue(value.hour());
+		this.minuteFormControl.setValue(value.minute());
 	}
 }

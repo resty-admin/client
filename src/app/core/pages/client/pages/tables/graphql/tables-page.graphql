@@ -12,3 +12,11 @@ query TablesPage($skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) {
 		totalCount
 	}
 }
+
+query TablesPageOrder($orderId: String) {
+	order(id: $orderId) {
+		table {
+			id
+		}
+	}
+}

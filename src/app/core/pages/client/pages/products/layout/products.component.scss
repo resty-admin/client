@@ -1,9 +1,14 @@
 @import "/src/assets/scss/abstractions";
 
 @include page() {
-	.menu-page {
+	.products-page {
 		display: grid;
 		row-gap: rem(12);
+
+		.products {
+			display: grid;
+			row-gap: rem(12);
+		}
 
 		@include pagePadding();
 	}

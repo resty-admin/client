@@ -3,6 +3,10 @@ query CategoriesPage($skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) {
 		data {
 			id
 			name
+			file {
+				id
+				url
+			}
 		}
 		page
 		totalCount

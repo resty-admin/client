@@ -1,8 +1,9 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { CANCEL_CONFIRMATION_I18N } from "@features/orders/ui/cancel-confirmation/constants";
-import type { ICancelConfirmationInput } from "@features/orders/ui/cancel-confirmation/interfaces";
 import { DialogRef } from "@ngneat/dialog";
+
+import { CANCEL_CONFIRMATION_I18N } from "../constants";
+import type { ICancelConfirmationInput } from "../interfaces";
 
 @Component({
 	selector: "app-cancel-confirmation",

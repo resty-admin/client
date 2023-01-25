@@ -9,12 +9,12 @@ export type ReferralLinkPageQueryVariables = Types.Exact<{
 
 export interface ReferralLinkPageQuery {
 	__typename?: "Query";
-	order: {
+	order?: {
 		__typename?: "ActiveOrderEntity";
 		type: Types.OrderTypeEnum;
 		code: number;
 		place: { __typename?: "PlaceEntity"; id: string };
-	};
+	} | null;
 }
 
 export const ReferralLinkPageDocument = gql`

@@ -6,6 +6,7 @@ import { OrdersService } from "@features/orders";
 import { CLIENT_ROUTES } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
 import type { IAction } from "@shared/ui/actions";
+import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
 import { catchError, lastValueFrom, map, of, switchMap, take, tap } from "rxjs";
 
@@ -58,7 +59,8 @@ export class ClientComponent implements OnInit {
 		private readonly _asideService: AsideService,
 		private readonly _ordersService: OrdersService,
 		private readonly _toastrService: ToastrService,
-		private readonly _changeDetectorRef: ChangeDetectorRef
+		private readonly _changeDetectorRef: ChangeDetectorRef,
+		private readonly _dialogService: DialogService
 	) {}
 
 	async ngOnInit() {

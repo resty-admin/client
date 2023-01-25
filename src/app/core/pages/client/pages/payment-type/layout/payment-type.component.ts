@@ -4,6 +4,7 @@ import { ActionsService } from "@features/app";
 import { AuthService } from "@features/auth/services";
 import { OrdersService } from "@features/orders";
 import { FormControl } from "@ngneat/reactive-forms";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { CLIENT_ROUTES, ORDER_ID } from "@shared/constants";
 import { ApiService } from "@shared/modules/api";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
@@ -13,14 +14,10 @@ import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map } from "rxjs";
 
 import { PAYMENT_TYPE_PAGE_I18N } from "../constants";
+import { PaymentType } from "../enums";
 import { PaymentTypePageGQL } from "../graphql";
 
-export enum PaymentType {
-	CASH = "cash",
-	TERMINAL = "terminal",
-	CARD = "card"
-}
-
+@UntilDestroy()
 @Component({
 	selector: "app-payment-type",
 	templateUrl: "./payment-type.component.html",
@@ -31,7 +28,24 @@ export class PaymentTypeComponent implements OnInit, OnDestroy {
 	readonly paymentTypePageI18n = PAYMENT_TYPE_PAGE_I18N;
 	private readonly paymentTypePageQuery = this._paymentTypeGQL.watch();
 
-	readonly order$ = this.paymentTypePageQuery.valueChanges.pipe(map((result) => result.data.order));
+	readonly order$ = this.paymentTypePageQuery.valueChanges.pipe(
+		map((result) => result.data.order),
+		map((order) => ({
+			...order,
+			totalPrice: (order?.productsToOrders || [])
+				.filter((productToOrder) =>
+					JSON.parse(this._routerService.getQueryParams("products") || "").includes(productToOrder.id)
+				)
+				.reduce(
+					(sum, productToOrder) =>
+						sum +
+						(productToOrder.product.price +
+							(productToOrder.attributes || []).reduce((_sum, attribute) => _sum + attribute.price, 0)) *
+							productToOrder.count,
+					0
+				)
+		}))
+	);
 
 	readonly paymentTypes: IRadioButtonOption[] = [
 		{ value: PaymentType.CASH, label: "Наличными" },
@@ -63,35 +77,40 @@ export class PaymentTypeComponent implements OnInit, OnDestroy {
 			routerLink: CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, orderId)
 		});
 
-		this._actionsService.setAction({
-			label: "Оплатить",
-			func: async () => {
-				const type = this.paymentTypeControl.value;
-				const products = JSON.parse(this._routerService.getQueryParams("products") || "");
-				const orderId = this._routerService.getParams(ORDER_ID.slice(1));
+		this.paymentTypeControl.valueChanges.pipe(untilDestroyed(this)).subscribe((value) => {
+			this._actionsService.setAction({
+				label: "Оплатить",
+				disabled: !value,
+				func: async () => {
+					const type = this.paymentTypeControl.value;
+					const products = JSON.parse(this._routerService.getQueryParams("products") || "");
+					const orderId = this._routerService.getParams(ORDER_ID.slice(1));
 
-				if (type === PaymentType.CARD) {
-					try {
-						const result = await lastValueFrom(this._ordersService.createPaymentOrderLink(products));
+					if (type === PaymentType.CARD) {
+						try {
+							const result = await lastValueFrom(this._ordersService.createPaymentOrderLink(products));
 
-						if (!result.data) {
-							return;
+							if (!result.data) {
+								return;
+							}
+
+							window.location.href = result.data.createPaymentOrderLink.link;
+						} catch (error) {
+							console.error(error);
 						}
+					} else {
+						try {
+							await lastValueFrom(this._ordersService.setManualPayForProductsInOrderGQL(products));
 
-						window.location.href = result.data.createPaymentOrderLink.link;
-					} catch (error) {
-						console.error(error);
-					}
-				} else {
-					try {
-						await lastValueFrom(this._ordersService.setManualPayForProductsInOrderGQL(products));
-
-						await this._routerService.navigateByUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, orderId));
-					} catch (error) {
-						console.error(error);
+							await this._routerService.navigateByUrl(
+								CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, orderId)
+							);
+						} catch (error) {
+							console.error(error);
+						}
 					}
 				}
-			}
+			});
 		});
 
 		await this.paymentTypePageQuery.setVariables({ orderId });

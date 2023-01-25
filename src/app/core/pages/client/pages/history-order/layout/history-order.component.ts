@@ -33,7 +33,7 @@ export class HistoryOrderComponent implements OnInit, OnDestroy {
 			...order,
 			productsToOrdersByType: this.displayStatuses.map((status) => ({
 				status,
-				productsToOrders: order.productsToOrders?.filter((productToOrder) => productToOrder.status === status)
+				productsToOrders: (order?.productsToOrders || []).filter((productToOrder) => productToOrder.status === status)
 			}))
 		}))
 	);
@@ -60,17 +60,12 @@ export class HistoryOrderComponent implements OnInit, OnDestroy {
 		}
 
 		this.order$.pipe(untilDestroyed(this)).subscribe((order) => {
+			if (!order || !order.place) {
+				return;
+			}
+
 			this._breadcrumbsService.setBreadcrumb({
 				routerLink: CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, order.place.id)
-			});
-
-			this._actionsService.setAction({
-				label: "Выбрать тип оплаты",
-				func: async () => {
-					await this._routerService.navigate([CLIENT_ROUTES.PAYMENT_TYPE.absolutePath.replace(ORDER_ID, order.id)], {
-						queryParams: { users: JSON.stringify(this.usersControl.value) }
-					});
-				}
 			});
 		});
 

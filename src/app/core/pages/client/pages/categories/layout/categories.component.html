@@ -1,5 +1,13 @@
-<div class="menu-page" *transloco="let t; read: categoriesPageI18n">
+<div class="categories-page" *transloco="let t; read: categoriesPageI18n">
 	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 
-	<app-categories-select [categories]="categories$ | async"></app-categories-select>
+	<ul class="categories">
+		<li class="category" *ngFor="let category of categories$ | async; let i = index; trackBy: trackByFn">
+			<a class="link" [routerLink]="category.id">
+				<app-preview-category [category]="category"></app-preview-category>
+			</a>
+		</li>
+	</ul>
 </div>
+
+<ng-template #skeleton> </ng-template>

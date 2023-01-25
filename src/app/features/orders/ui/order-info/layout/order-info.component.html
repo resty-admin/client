@@ -8,7 +8,7 @@
 		</li>
 		<li class="date" *ngIf="dateInfo">
 			<span class="name">{{ t("date") }} </span>
-			<span class="link" href="">{{ dateInfo }}</span>
+			<a class="link" [routerLink]="tableLink">{{ dateInfo }}</a>
 		</li>
 	</ul>
 </div>

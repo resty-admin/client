@@ -1,10 +1,20 @@
-<div class="menu-page" *transloco="let t; read: productsPageI18n">
+<div class="products-page" *transloco="let t; read: productsPageI18n">
 	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 
-	<app-products-select
-		[products]="products$ | async"
-		(plusClicked)="addProductToOrder($event)"
-		(minusClicked)="removeProductFromOrder($event)"
-		(productClicked)="openProductDialog($event)"
-	></app-products-select>
+	<ul class="products">
+		<ng-container *ngIf="products$ | async as products; else skeleton">
+			<li class="product" *ngFor="let product of products; trackBy: trackByFn">
+				<a class="link" [routerLink]="product.id">
+					<app-product
+						class="preview-product"
+						[product]="product"
+						(plusClicked)="addProductToOrder($event)"
+						(minusClicked)="removeProductFromOrder($event)"
+					></app-product>
+				</a>
+			</li>
+		</ng-container>
+	</ul>
+
+	<ng-template #skeleton> </ng-template>
 </div>

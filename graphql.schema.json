@@ -10065,13 +10065,9 @@
 							}
 						],
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "OBJECT",
-								"name": "ActiveOrderEntity",
-								"ofType": null
-							}
+							"kind": "OBJECT",
+							"name": "ActiveOrderEntity",
+							"ofType": null
 						},
 						"isDeprecated": false,
 						"deprecationReason": null

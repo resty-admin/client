@@ -1,0 +1,23 @@
+query TablePage($tableId: String!) {
+	table(id: $tableId) {
+		id
+		name
+		code
+		file {
+			id
+			url
+		}
+	}
+}
+
+query TablePageOrder($orderId: String) {
+	order(id: $orderId) {
+		startDate
+	}
+}
+
+query IsTableAvailableForReserve($body: IsTableAvailableInput!) {
+	isTableAvailableForReserve(body: $body) {
+		id
+	}
+}

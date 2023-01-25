@@ -1,0 +1,22 @@
+<ng-container *transloco="let t; read: tablePageI18n">
+	<div class="table-dialog" *ngIf="table$ | async as table; else skeleton">
+		<app-image class="image" [remote]="true" [name]="table.file?.url" placeholder="table"></app-image>
+
+		<div class="content">
+			<p class="label">{{ t("code") }} {{ table.code }}</p>
+			<p [class]="'status' + ' ' + validationStatus">{{ validationStatus ? t(validationStatus) : "" }}</p>
+
+			<app-input
+				appStopPropagation
+				class="datepicker"
+				label="Дата"
+				placeholder="Кликните что бы выбрать"
+				[value]="(date$ | async)?.format()"
+				[readonly]="true"
+				(click)="openIosDatepicker()"
+			></app-input>
+		</div>
+	</div>
+</ng-container>
+
+<ng-template #skeleton> </ng-template>

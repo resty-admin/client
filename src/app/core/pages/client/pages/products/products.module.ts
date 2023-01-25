@@ -1,9 +1,8 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
-import { CategoriesSelectModule, PreviewCategoryModule } from "@features/categories";
+import { PreviewCategoryModule } from "@features/categories";
 import { ProductModule } from "@features/products";
-import { ProductsSelectModule } from "@features/products/ui/products-select";
 import { I18nModule } from "@shared/modules/i18n";
 import { ButtonModule } from "@shared/ui/button";
 import { ImageModule } from "@shared/ui/image";
@@ -28,9 +27,7 @@ import { PRODUCTS_PROVIDERS } from "./providers";
 		PreviewCategoryModule,
 		ReactiveFormsModule,
 		ProductModule,
-		ButtonModule,
-		CategoriesSelectModule,
-		ProductsSelectModule
+		ButtonModule
 	],
 	providers: PRODUCTS_PROVIDERS
 })

@@ -10,5 +10,4 @@ import type { IPreviewTable } from "../interfaces";
 })
 export class PreviewTableComponent {
 	@Input() table?: IPreviewTable | null;
-	@Input() active = false;
 }

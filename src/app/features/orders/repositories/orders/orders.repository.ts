@@ -8,7 +8,6 @@ import { includeKeys } from "elf-sync-state";
 
 export interface IOrdersState {
 	activeOrderId?: string;
-	tableId?: string;
 	productsToOrders: IStoreProductToOrder[];
 }
 
@@ -16,7 +15,7 @@ export interface IOrdersState {
 export class OrdersRepository {
 	private readonly _store = createStore(
 		{ name: "orders" },
-		withProps<IOrdersState>({ activeOrderId: undefined, productsToOrders: [], tableId: undefined })
+		withProps<IOrdersState>({ activeOrderId: undefined, productsToOrders: [] })
 	);
 
 	private readonly _persist = persistState(this._store, {
@@ -27,15 +26,10 @@ export class OrdersRepository {
 	readonly store$ = this._store.pipe(select((store) => store));
 
 	readonly activeOrderId$ = this.store$.pipe(select((state) => state.activeOrderId));
-	readonly tableId$ = this.store$.pipe(select((state) => state.tableId));
 	readonly productsToOrders$ = this.store$.pipe(select((state) => state.productsToOrders));
 
 	setActiveOrderId(activeOrderId?: string) {
 		return this._store.update(setProp("activeOrderId", activeOrderId));
-	}
-
-	setTableId(tableId?: string) {
-		return this._store.update(setProp("tableId", tableId));
 	}
 
 	setProductsToOrders(productsToOrders: IStoreProductToOrder[]) {
@@ -54,7 +48,7 @@ export class OrdersRepository {
 				...productsToOrders.filter((productToOrder) => productToOrder !== findedProductToOrder),
 				{
 					...(findedProductToOrder || productOutput),
-					count: (findedProductToOrder?.count || 0) + 1
+					count: (findedProductToOrder?.count || 0) + (productOutput?.count || 1)
 				}
 			])
 		);

@@ -10,7 +10,7 @@ export type CreateOrderPageQueryVariables = Types.Exact<{
 
 export interface CreateOrderPageQuery {
 	__typename?: "Query";
-	order: { __typename?: "ActiveOrderEntity"; id: string; code: number; type: Types.OrderTypeEnum };
+	order?: { __typename?: "ActiveOrderEntity"; id: string; code: number; type: Types.OrderTypeEnum } | null;
 }
 
 export const CreateOrderPageDocument = gql`

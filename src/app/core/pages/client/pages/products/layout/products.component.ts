@@ -3,8 +3,7 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ProductsPageGQL } from "@core/pages/client/pages/products/graphql/products-page";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
-import type { IProductInput, IProductOutput } from "@features/products";
-import { ProductDialogComponent } from "@features/products";
+import type { IProductOutput } from "@features/products";
 import { UntilDestroy } from "@ngneat/until-destroy";
 import { CATEGORY_ID, PLACE_ID } from "@shared/constants";
 import { CLIENT_ROUTES } from "@shared/constants";
@@ -51,6 +50,10 @@ export class ProductsComponent implements OnInit, OnDestroy {
 		private readonly _dialogService: DialogService
 	) {}
 
+	trackByFn(index: number) {
+		return index;
+	}
+
 	async ngOnInit() {
 		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
 
@@ -91,16 +94,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
 				await this._routerService.navigateByUrl(CLIENT_ROUTES.CONFIRM_PRODUCTS.absolutePath.replace(PLACE_ID, placeId));
 			}
 		});
-	}
-
-	async openProductDialog(data: IProductInput) {
-		const result = await lastValueFrom(this._dialogService.open(ProductDialogComponent, { data }).afterClosed$);
-
-		if (!result) {
-			return;
-		}
-
-		await this.addProductToOrder({ productId: result.product.id, attributesIds: [] });
 	}
 
 	async removeProductFromOrder(productOutput: IProductOutput) {

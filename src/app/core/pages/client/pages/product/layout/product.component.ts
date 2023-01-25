@@ -1,0 +1,109 @@
+import type { OnDestroy, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { FORM_I18N } from "@core/constants";
+import { ActionsService } from "@features/app";
+import { OrdersService } from "@features/orders";
+import type { ProductEntity } from "@graphql";
+import { FormControl } from "@ngneat/reactive-forms";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { CATEGORY_ID, CLIENT_ROUTES, PLACE_ID } from "@shared/constants";
+import type { DeepAtLeast } from "@shared/interfaces";
+import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
+import { RouterService } from "@shared/modules/router";
+import { BehaviorSubject, map } from "rxjs";
+
+import { PRODUCT_PAGE_I18N } from "../constants";
+import { ProductPageGQL } from "../graphql";
+
+@UntilDestroy()
+@Component({
+	selector: "app-product",
+	templateUrl: "./product.component.html",
+	styleUrls: ["./product.component.scss"],
+	changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class ProductComponent implements OnInit, OnDestroy {
+	readonly productPageI18n = PRODUCT_PAGE_I18N;
+	readonly formI18n = FORM_I18N;
+	private readonly _productPageQuery = this._productsPageGQL.watch();
+	readonly attributesFormControl = new FormControl<string[]>();
+	readonly product$ = this._productPageQuery.valueChanges.pipe(
+		map((result) => result.data.product),
+		map((product) => ({
+			...product,
+			attrsGroups: product.attrsGroups?.map((attrGroup) => ({
+				...attrGroup,
+				attributes: attrGroup.attributes?.map((attr) => ({
+					...attr,
+					value: attr.id,
+					label: attr.name
+				}))
+			}))
+		}))
+	);
+
+	readonly countSubject = new BehaviorSubject(0);
+	readonly count$ = this.countSubject.asObservable();
+
+	data!: DeepAtLeast<ProductEntity, "id">;
+
+	constructor(
+		private readonly _routerService: RouterService,
+		private readonly _productsPageGQL: ProductPageGQL,
+		private readonly _ordersService: OrdersService,
+		private readonly _actionsService: ActionsService,
+		private readonly _breadcrumbsService: BreadcrumbsService
+	) {}
+
+	trackByFn(index: number) {
+		return index;
+	}
+
+	async ngOnInit() {
+		const { placeId, categoryId, productId } = this._routerService.getParams();
+
+		if (!productId) {
+			return;
+		}
+
+		await this._productPageQuery.setVariables({ productId });
+
+		this._breadcrumbsService.setBreadcrumb({
+			routerLink: CLIENT_ROUTES.PRODUCTS.absolutePath.replace(PLACE_ID, placeId).replace(CATEGORY_ID, categoryId)
+		});
+
+		this.countSubject
+			.asObservable()
+			.pipe(untilDestroyed(this))
+			.subscribe((count) => {
+				this._actionsService.setAction({
+					label: "Подтвердить",
+					disabled: !count,
+					func: async () => {
+						await this._ordersService.addProductToOrder({
+							productId,
+							attributesIds: this.attributesFormControl.value,
+							count: this.countSubject.getValue()
+						});
+
+						await this._routerService.navigateByUrl(
+							CLIENT_ROUTES.PRODUCTS.absolutePath.replace(PLACE_ID, placeId).replace(CATEGORY_ID, categoryId)
+						);
+					}
+				});
+			});
+	}
+
+	removeProductFromOrder() {
+		this.countSubject.next(this.countSubject.value - 1);
+	}
+
+	addProductToOrder() {
+		this.countSubject.next(this.countSubject.value + 1);
+	}
+
+	ngOnDestroy() {
+		this._actionsService.setAction(null);
+		this._breadcrumbsService.setBreadcrumb(null);
+	}
+}

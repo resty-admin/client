@@ -26,6 +26,15 @@ export interface TablesPageQuery {
 	};
 }
 
+export type TablesPageOrderQueryVariables = Types.Exact<{
+	orderId?: Types.InputMaybe<Types.Scalars["String"]>;
+}>;
+
+export interface TablesPageOrderQuery {
+	__typename?: "Query";
+	order?: { __typename?: "ActiveOrderEntity"; table?: { __typename?: "TableEntity"; id: string } | null } | null;
+}
+
 export const TablesPageDocument = gql`
 	query TablesPage($skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) {
 		tables(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
@@ -48,6 +57,26 @@ export const TablesPageDocument = gql`
 })
 export class TablesPageGQL extends Apollo.Query<TablesPageQuery, TablesPageQueryVariables> {
 	override document = TablesPageDocument;
+
+	constructor(apollo: Apollo.Apollo) {
+		super(apollo);
+	}
+}
+export const TablesPageOrderDocument = gql`
+	query TablesPageOrder($orderId: String) {
+		order(id: $orderId) {
+			table {
+				id
+			}
+		}
+	}
+`;
+
+@Injectable({
+	providedIn: "root"
+})
+export class TablesPageOrderGQL extends Apollo.Query<TablesPageOrderQuery, TablesPageOrderQueryVariables> {
+	override document = TablesPageOrderDocument;
 
 	constructor(apollo: Apollo.Apollo) {
 		super(apollo);

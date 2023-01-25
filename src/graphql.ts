@@ -1052,7 +1052,7 @@ export interface Query {
 	isTableAvailableForReserve: TableEntity;
 	language: LanguageEntity;
 	languages: LanguageEntity;
-	order: ActiveOrderEntity;
+	order?: Maybe<ActiveOrderEntity>;
 	orders: PaginatedActiveOrder;
 	paymentSystem: PaymentSystemEntity;
 	paymentSystems: PaginatedPaymentSystem;

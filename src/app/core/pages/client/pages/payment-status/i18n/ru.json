@@ -1,3 +1,9 @@
 {
-	"success": "Успешно"
+	"success_title": "Оплата прошла успешно!",
+	"success_subtitle": "Спасибо что выбрали нас",
+	"success_action": "Вернуться в заказ",
+	"error_title": "Оплата прошла успешно!",
+	"error_subtitle": "Попробуйте еще раз",
+	"error_action": "Выбратить тип оплаты",
+	"close_order": "Закрыть заказ"
 }

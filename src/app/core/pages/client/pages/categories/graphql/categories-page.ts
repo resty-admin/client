@@ -15,7 +15,14 @@ export interface CategoriesPageQuery {
 		__typename?: "PaginatedCategory";
 		page: number;
 		totalCount: number;
-		data?: { __typename?: "CategoryEntity"; id: string; name: string }[] | null;
+		data?:
+			| {
+					__typename?: "CategoryEntity";
+					id: string;
+					name: string;
+					file?: { __typename?: "FileEntity"; id: string; url: string } | null;
+			  }[]
+			| null;
 	};
 }
 
@@ -25,6 +32,10 @@ export const CategoriesPageDocument = gql`
 			data {
 				id
 				name
+				file {
+					id
+					url
+				}
 			}
 			page
 			totalCount

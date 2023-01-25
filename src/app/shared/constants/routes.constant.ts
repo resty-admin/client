@@ -1,4 +1,4 @@
-import { CATEGORY_ID, DYNAMIC_TOKEN, HALL_ID, ORDER_ID, PLACE_ID } from "./index";
+import { CATEGORY_ID, DYNAMIC_TOKEN, HALL_ID, ORDER_ID, PLACE_ID, PRODUCT_ID, TABLE_ID } from "./index";
 
 export const CLIENT_ROUTES = {
 	AUTH: {
@@ -62,20 +62,20 @@ export const CLIENT_ROUTES = {
 		absolutePath: `/history-orders/${ORDER_ID}`
 	},
 	REFERRAL_LINK: {
-		path: `orders/${ORDER_ID}/referral-link`,
-		absolutePath: `/orders/${ORDER_ID}/referral-link`
+		path: `active-orders/${ORDER_ID}/referral-link`,
+		absolutePath: `/active-orders/${ORDER_ID}/referral-link`
 	},
 	PRODUCTS_ERROR: {
-		path: `orders/${ORDER_ID}/products-error`,
-		absolutePath: `/orders/${ORDER_ID}/products-error`
+		path: `active-orders/${ORDER_ID}/products-error`,
+		absolutePath: `/active-orders/${ORDER_ID}/products-error`
 	},
 	PAYMENT_TYPE: {
-		path: `orders/${ORDER_ID}/payment-type`,
-		absolutePath: `/orders/${ORDER_ID}/payment-type`
+		path: `active-orders/${ORDER_ID}/payment-type`,
+		absolutePath: `/active-orders/${ORDER_ID}/payment-type`
 	},
 	PAYMENT_STATUS: {
-		path: `orders/${ORDER_ID}/payment-status`,
-		absolutePath: `/orders/${ORDER_ID}/payment-status`
+		path: `active-orders/${ORDER_ID}/payment-status`,
+		absolutePath: `/active-orders/${ORDER_ID}/payment-status`
 	},
 	PLACES: {
 		path: "places",
@@ -109,6 +109,10 @@ export const CLIENT_ROUTES = {
 		path: `places/${PLACE_ID}/categories/${CATEGORY_ID}/products`,
 		absolutePath: `/places/${PLACE_ID}/categories/${CATEGORY_ID}/products`
 	},
+	PRODUCT: {
+		path: `places/${PLACE_ID}/categories/${CATEGORY_ID}/products/${PRODUCT_ID}`,
+		absolutePath: `/places/${PLACE_ID}/categories/${CATEGORY_ID}/products/${PRODUCT_ID}`
+	},
 	CONFIRM_PRODUCTS: {
 		path: `places/${PLACE_ID}/confirm-products`,
 		absolutePath: `/places/${PLACE_ID}/confirm-products`
@@ -124,5 +128,9 @@ export const CLIENT_ROUTES = {
 	TABLES: {
 		path: `places/${PLACE_ID}/halls/${HALL_ID}/tables`,
 		absolutePath: `/places/${PLACE_ID}/halls/${HALL_ID}/tables`
+	},
+	TABLE: {
+		path: `places/${PLACE_ID}/halls/${HALL_ID}/tables/${TABLE_ID}`,
+		absolutePath: `/places/${PLACE_ID}/halls/${HALL_ID}/tables/${TABLE_ID}`
 	}
 };

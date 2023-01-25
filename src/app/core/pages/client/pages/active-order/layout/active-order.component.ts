@@ -2,9 +2,11 @@ import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActionsService } from "@features/app";
 import { AuthService } from "@features/auth";
+import { CommandsDialogComponent, CommandsService } from "@features/commands";
 import { CancelConfirmationComponent, OrdersService } from "@features/orders";
+import { CloseConfirmationComponent } from "@features/orders/ui/close-confirmation";
 import type { ActiveOrderEntity } from "@graphql";
-import { ProductToOrderStatusEnum } from "@graphql";
+import { ProductToOrderPaidStatusEnum, ProductToOrderStatusEnum } from "@graphql";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { CLIENT_ROUTES, ORDER_ID, PLACE_ID } from "@shared/constants";
 import type { DeepPartial } from "@shared/interfaces";
@@ -15,6 +17,7 @@ import { DialogService } from "@shared/ui/dialog";
 import { lastValueFrom, map, take } from "rxjs";
 
 import { ACTIVE_ORDER_PAGE_I18N } from "../constants";
+import type { ActiveOrderPageQuery } from "../graphql";
 import { ActiveOrderPageGQL } from "../graphql";
 
 export enum ORDERS_EVENTS {
@@ -44,7 +47,15 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 	readonly statuses = [ProductToOrderStatusEnum.Approved, ProductToOrderStatusEnum.WaitingForApprove];
 
 	private readonly _activeOrderPageQuery = this._activeOrderPageGQL.watch(undefined, { fetchPolicy: "network-only" });
-	readonly order$ = this._activeOrderPageQuery.valueChanges.pipe(map((result) => result.data.order));
+	readonly order$ = this._activeOrderPageQuery.valueChanges.pipe(
+		map((result) => result.data.order),
+		map((order) => ({
+			...(order as ActiveOrderEntity),
+			isAllPaid: (order?.productsToOrders || []).every(
+				(productToOrder) => productToOrder.paidStatus === ProductToOrderPaidStatusEnum.Paid
+			)
+		}))
+	);
 
 	selectedUsers: string[] = [];
 	selectedProductsToOrders: string[] = [];
@@ -56,11 +67,26 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 		private readonly _ordersService: OrdersService,
 		private readonly _socketIoService: SocketIoService,
 		private readonly _authService: AuthService,
-		private readonly _dialogService: DialogService
+		private readonly _dialogService: DialogService,
+		private readonly _commandsService: CommandsService
 	) {}
 
 	trackByFn(index: number) {
 		return index;
+	}
+
+	async openCommandsDialog(order: ActiveOrderPageQuery["order"]) {
+		const commandId = await lastValueFrom(
+			this._dialogService.open(CommandsDialogComponent, {
+				data: { placeId: order?.place.id }
+			}).afterClosed$
+		);
+
+		if (!commandId) {
+			return;
+		}
+
+		this._commandsService.emitCommand(commandId);
 	}
 
 	async ngOnInit() {
@@ -84,6 +110,10 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 			});
 
 		lastValueFrom(this.order$.pipe(take(1))).then((order) => {
+			if (!order || !order.place) {
+				return;
+			}
+
 			this._breadcrumbsService.setBreadcrumb({
 				label: "В меню",
 				routerLink: CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, order.place.id)
@@ -106,9 +136,13 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 
 	async setSelectedUsers(usersIds: string[]) {
 		this.selectedUsers = usersIds;
-		const { productsToOrders } = await lastValueFrom(this.order$.pipe(take(1)));
+		const order = await lastValueFrom(this.order$.pipe(take(1)));
 
-		this.selectedProductsToOrders = (productsToOrders || [])
+		if (!order) {
+			return;
+		}
+
+		this.selectedProductsToOrders = (order.productsToOrders || [])
 			.filter((productToOrder) => usersIds.includes(productToOrder.user.id) && productToOrder.paidStatus === "NOT_PAID")
 			.map((productToOrder) => productToOrder.id);
 
@@ -116,7 +150,13 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 	}
 
 	async setSelectedProductsToOrders(productsToOrdersIds: string[]) {
-		const { productsToOrders, users } = await lastValueFrom(this.order$.pipe(take(1)));
+		const order = await lastValueFrom(this.order$.pipe(take(1)));
+
+		if (!order) {
+			return;
+		}
+
+		const { productsToOrders, users } = order;
 
 		const productsByUser = (users || []).reduce(
 			(usersMap, user) => ({
@@ -164,6 +204,20 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 		}
 
 		await lastValueFrom(this._ordersService.cancelOrder(result.id));
+
+		this._ordersService.setActiveOrderId(undefined);
+
+		await this._routerService.navigateByUrl(CLIENT_ROUTES.PLACES.absolutePath);
+	}
+
+	async openCloseConfirmation(data: DeepPartial<ActiveOrderEntity>) {
+		const result = await lastValueFrom(this._dialogService.open(CloseConfirmationComponent, { data }).afterClosed$);
+
+		if (!result || !result.id) {
+			return;
+		}
+
+		await lastValueFrom(this._ordersService.closeOrder(result.id));
 
 		this._ordersService.setActiveOrderId(undefined);
 

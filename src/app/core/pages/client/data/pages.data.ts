@@ -10,15 +10,5 @@ export const PAGES = [
 		label: "places",
 		icon: "places",
 		routerLink: CLIENT_ROUTES.PLACES.absolutePath
-	},
-	{
-		label: "call_waiter",
-		icon: "waiter",
-		routerLink: "call-waiter"
-	},
-	{
-		label: "call_hookah",
-		icon: "hookah",
-		routerLink: "call-hookah"
 	}
 ];

@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
+import { CloseConfirmationModule } from "@features/orders/ui/close-confirmation";
 import { I18nModule } from "@shared/modules/i18n";
 import { ButtonModule } from "@shared/ui/button";
 import { IconModule } from "@shared/ui/icon";
@@ -19,7 +20,8 @@ import { PAYMENT_STATUS_PROVIDERS } from "./providers";
 		IconModule,
 		ImageModule,
 		ButtonModule,
-		I18nModule
+		I18nModule,
+		CloseConfirmationModule
 	],
 	providers: PAYMENT_STATUS_PROVIDERS
 })

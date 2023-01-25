@@ -1,3 +1,6 @@
 {
-	"success": "success"
+	"success_title": "Success title",
+	"success_subtitle": "Success subtitle",
+	"error_title": "Error title",
+	"error_subtitle": "Error subtitle"
 }

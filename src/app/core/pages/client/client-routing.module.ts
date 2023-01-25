@@ -79,24 +79,32 @@ export const CLIENT_ROUTES: Route[] = [
 				loadChildren: () => import("./pages/categories/categories.module").then((m) => m.CategoriesModule)
 			},
 			{
-				..._SHARED_CLIENT_ROUTES.CATEGORY,
-				redirectTo: _SHARED_CLIENT_ROUTES.PRODUCTS.path
-			},
-			{
 				..._SHARED_CLIENT_ROUTES.PRODUCTS,
 				loadChildren: () => import("./pages/products/products.module").then((m) => m.ProductsModule)
+			},
+			{
+				..._SHARED_CLIENT_ROUTES.PRODUCT,
+				loadChildren: () => import("./pages/product/product.module").then((m) => m.ProductModule)
+			},
+			{
+				..._SHARED_CLIENT_ROUTES.CATEGORY,
+				redirectTo: _SHARED_CLIENT_ROUTES.PRODUCTS.path
 			},
 			{
 				..._SHARED_CLIENT_ROUTES.HALLS,
 				loadChildren: () => import("./pages/halls/halls.module").then((m) => m.HallsModule)
 			},
 			{
-				..._SHARED_CLIENT_ROUTES.HALL,
-				redirectTo: _SHARED_CLIENT_ROUTES.TABLES.path
-			},
-			{
 				..._SHARED_CLIENT_ROUTES.TABLES,
 				loadChildren: () => import("./pages/tables/tables.module").then((m) => m.TablesModule)
+			},
+			{
+				..._SHARED_CLIENT_ROUTES.TABLE,
+				loadChildren: () => import("./pages/table/table.module").then((m) => m.TableModule)
+			},
+			{
+				..._SHARED_CLIENT_ROUTES.HALL,
+				redirectTo: _SHARED_CLIENT_ROUTES.TABLES.path
 			},
 			{
 				..._SHARED_CLIENT_ROUTES.WELCOME,

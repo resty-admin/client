@@ -15,8 +15,27 @@ export interface HallsPageQuery {
 		__typename?: "PaginatedHall";
 		page: number;
 		totalCount: number;
-		data?: { __typename?: "HallEntity"; id: string; name: string }[] | null;
+		data?:
+			| {
+					__typename?: "HallEntity";
+					id: string;
+					name: string;
+					file?: { __typename?: "FileEntity"; id: string; url: string } | null;
+			  }[]
+			| null;
 	};
+}
+
+export type HallsPageOrderQueryVariables = Types.Exact<{
+	orderId?: Types.InputMaybe<Types.Scalars["String"]>;
+}>;
+
+export interface HallsPageOrderQuery {
+	__typename?: "Query";
+	order?: {
+		__typename?: "ActiveOrderEntity";
+		table?: { __typename?: "TableEntity"; hall: { __typename?: "HallEntity"; id: string } } | null;
+	} | null;
 }
 
 export const HallsPageDocument = gql`
@@ -25,6 +44,10 @@ export const HallsPageDocument = gql`
 			data {
 				id
 				name
+				file {
+					id
+					url
+				}
 			}
 			page
 			totalCount
@@ -37,6 +60,28 @@ export const HallsPageDocument = gql`
 })
 export class HallsPageGQL extends Apollo.Query<HallsPageQuery, HallsPageQueryVariables> {
 	override document = HallsPageDocument;
+
+	constructor(apollo: Apollo.Apollo) {
+		super(apollo);
+	}
+}
+export const HallsPageOrderDocument = gql`
+	query HallsPageOrder($orderId: String) {
+		order(id: $orderId) {
+			table {
+				hall {
+					id
+				}
+			}
+		}
+	}
+`;
+
+@Injectable({
+	providedIn: "root"
+})
+export class HallsPageOrderGQL extends Apollo.Query<HallsPageOrderQuery, HallsPageOrderQueryVariables> {
+	override document = HallsPageOrderDocument;
 
 	constructor(apollo: Apollo.Apollo) {
 		super(apollo);

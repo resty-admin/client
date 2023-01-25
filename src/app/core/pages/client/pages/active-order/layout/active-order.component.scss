@@ -2,22 +2,65 @@
 
 @include page() {
 	.active-order {
+		position: relative;
+
 		@include pagePadding();
 		display: grid;
 		row-gap: rem(12);
+
+		.bell {
+			position: absolute;
+			right: rem(15);
+			top: rem(15);
+			width: rem(40);
+			height: rem(40);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border-radius: rem(8);
+			background-color: var(--primary);
+			.icon {
+				width: rem(20);
+				height: rem(20);
+			}
+
+			@include desktop() {
+				display: none;
+			}
+		}
 
 		.products {
 			display: grid;
 			row-gap: rem(12);
 		}
 
+		.close-order,
 		.cancel-order {
-			text-align: left;
+			text-align: center;
 			font-weight: 400;
 			font-size: rem(11);
 			line-height: rem(16);
 			text-decoration-line: underline;
 			color: var(--dark-grey);
+		}
+	}
+
+	.no-products-to-orders {
+		display: grid;
+		justify-content: center;
+		row-gap: rem(12);
+		.image {
+			width: rem(233);
+			height: rem(195);
+			justify-self: center;
+		}
+
+		.title {
+			font-weight: 400;
+			font-size: rem(20);
+			line-height: rem(32);
+			color: var(--dark-t);
+			text-align: center;
 		}
 	}
 }

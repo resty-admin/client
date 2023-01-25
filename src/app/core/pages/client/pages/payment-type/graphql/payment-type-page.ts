@@ -9,14 +9,37 @@ export type PaymentTypePageQueryVariables = Types.Exact<{
 
 export interface PaymentTypePageQuery {
 	__typename?: "Query";
-	order: { __typename?: "ActiveOrderEntity"; id: string; totalPrice?: number | null };
+	order?: {
+		__typename?: "ActiveOrderEntity";
+		id: string;
+		productsToOrders?:
+			| {
+					__typename?: "ProductToOrderEntity";
+					id: string;
+					count: number;
+					product: { __typename?: "ProductEntity"; id: string; price: number };
+					attributes?: { __typename?: "AttributesEntity"; id: string; price: number }[] | null;
+			  }[]
+			| null;
+	} | null;
 }
 
 export const PaymentTypePageDocument = gql`
 	query PaymentTypePage($orderId: String!) {
 		order(id: $orderId) {
 			id
-			totalPrice
+			productsToOrders {
+				id
+				product {
+					id
+					price
+				}
+				attributes {
+					id
+					price
+				}
+				count
+			}
 		}
 	}
 `;

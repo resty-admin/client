@@ -9,7 +9,7 @@ export type ClientPageQueryVariables = Types.Exact<{
 
 export interface ClientPageQuery {
 	__typename?: "Query";
-	order: { __typename?: "ActiveOrderEntity"; type: Types.OrderTypeEnum; id: string; code: number };
+	order?: { __typename?: "ActiveOrderEntity"; type: Types.OrderTypeEnum; id: string; code: number } | null;
 }
 
 export const ClientPageDocument = gql`

@@ -40,6 +40,10 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 		await this._categoriesPageQuery.setVariables({ filtersArgs: [{ key: "place.id", operator: "=", value: placeId }] });
 	}
 
+	trackByFn(index: number) {
+		return index;
+	}
+
 	ngOnDestroy() {
 		this._breadcrumbsService.setBreadcrumb(null);
 	}

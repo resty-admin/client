@@ -6,17 +6,17 @@
 		align-items: center;
 		padding: rem(8);
 		row-gap: rem(8);
+		border: rem(1) solid transparent;
 		grid-template-areas:
-			"image name"
-			"image status";
+			"image image"
+			"name status";
 		background-color: var(--light-grey);
 		border-radius: rem(12);
 		column-gap: rem(16);
 		grid-template-columns: auto 1fr;
 		.image {
 			grid-area: image;
-			width: rem(72);
-			height: rem(96);
+			height: rem(150);
 
 			@include image() {
 				border-radius: rem(12);
@@ -31,12 +31,19 @@
 		}
 		.status {
 			grid-area: status;
-			align-self: start;
+			justify-self: end;
 			.text {
 				font-weight: 400;
 				font-size: rem(14);
 				line-height: rem(24);
 				color: var(--dark);
+			}
+		}
+
+		&.active {
+			border-color: var(--primary);
+			.name {
+				color: var(--primary);
 			}
 		}
 	}

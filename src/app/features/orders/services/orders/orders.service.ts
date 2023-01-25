@@ -22,7 +22,6 @@ import { OrdersRepository } from "../../repositories";
 export class OrdersService {
 	readonly activeOrderId$ = this._ordersRepository.activeOrderId$;
 	readonly productsToOrders$ = this._ordersRepository.productsToOrders$;
-	readonly tableId$ = this._ordersRepository.tableId$;
 
 	constructor(
 		private readonly _ordersRepository: OrdersRepository,
@@ -41,10 +40,6 @@ export class OrdersService {
 
 	setActiveOrderId(orderId?: string) {
 		return this._ordersRepository.setActiveOrderId(orderId);
-	}
-
-	setTableId(tableId?: string) {
-		return this._ordersRepository.setTableId(tableId);
 	}
 
 	setProductsToOrders(productsToOrders: IStoreProductToOrder[]) {

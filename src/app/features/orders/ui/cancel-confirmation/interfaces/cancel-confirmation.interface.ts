@@ -1,4 +1,7 @@
+import type { ActiveOrderEntity } from "@graphql";
+
 export interface ICancelConfirmationInput {
-	code: string;
-	id: string;
+	code: ActiveOrderEntity["code"];
+	id: ActiveOrderEntity["id"];
+	type: ActiveOrderEntity["type"];
 }
