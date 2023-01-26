@@ -123,7 +123,7 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 
 		this.selectedProductsToOrders = (order.productsToOrders || [])
 			.filter(
-				(productToOrder: any) => usersIds.includes(productToOrder.user.id) && productToOrder.paidStatus === "NOT_PAID"
+				(productToOrder: any) => usersIds.includes(productToOrder.user.id) && productToOrder.paidStatus !== "PAID"
 			)
 			.map((productToOrder: any) => productToOrder.id);
 
