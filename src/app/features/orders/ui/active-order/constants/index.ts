@@ -1,1 +1,1 @@
-export * from "./active-order-i18n.constant";
+export * from "./active-order.constant";

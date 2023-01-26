@@ -9,6 +9,8 @@
 		[activeOrder]="activeOrder$ | async"
 		[actions]="profileActions"
 		[isAsideOpen]="isAsideOpen$ | async"
+		[productsToOrders]="productsToOrders$ | async"
+		[activePlaceId]="activePlaceId$ | async"
 		(burgerClicked)="toggleAside()"
 	></app-header>
 

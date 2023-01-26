@@ -8,27 +8,30 @@ import { includeKeys } from "elf-sync-state";
 
 export interface IOrdersState {
 	activeOrderId?: string;
+	activePlaceId?: string;
 	productsToOrders: IStoreProductToOrder[];
 }
 
 @Injectable({ providedIn: "root" })
 export class OrdersRepository {
-	private readonly _store = createStore(
-		{ name: "orders" },
-		withProps<IOrdersState>({ activeOrderId: undefined, productsToOrders: [] })
-	);
+	private readonly _store = createStore({ name: "orders" }, withProps<IOrdersState>({ productsToOrders: [] }));
 
 	constructor() {
 		persistState(this._store, {
 			storage: LocalforageService.storage,
-			source: () => this._store.pipe(includeKeys(["activeOrderId", "productsToOrders"]))
+			source: () => this._store.pipe(includeKeys(["activeOrderId", "activePlaceId", "productsToOrders"]))
 		});
 	}
 
 	readonly store$ = this._store.pipe(select((store) => store));
 
 	readonly activeOrderId$ = this.store$.pipe(select((state) => state.activeOrderId));
+	readonly activePlaceId$ = this.store$.pipe(select((state) => state.activePlaceId));
 	readonly productsToOrders$ = this.store$.pipe(select((state) => state.productsToOrders));
+
+	setActivePlaceId(activePlaceId?: string) {
+		return this._store.update(setProp("activePlaceId", activePlaceId));
+	}
 
 	setActiveOrderId(activeOrderId?: string) {
 		return this._store.update(setProp("activeOrderId", activeOrderId));
@@ -38,7 +41,7 @@ export class OrdersRepository {
 		this._store.update(setProp("productsToOrders", productsToOrders));
 	}
 
-	addProductToOrder(productOutput: IProductOutput) {
+	addProductToOrder(productOutput: IStoreProductToOrder) {
 		const { productsToOrders } = this._store.getValue();
 
 		const findedProductToOrder = productsToOrders.find(

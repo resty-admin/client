@@ -71,7 +71,8 @@ export class ProductComponent implements OnInit, OnDestroy {
 						await this._ordersService.addProductToOrder({
 							productId,
 							attributesIds: this.attributesFormControl.value,
-							count: this.countSubject.getValue()
+							count: this.countSubject.getValue(),
+							placeId: this._routerService.getParams(PLACE_ID.slice(1)) || ""
 						});
 
 						await this._routerService.navigateByUrl(

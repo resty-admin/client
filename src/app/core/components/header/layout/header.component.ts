@@ -1,6 +1,6 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
-import { CLIENT_ROUTES, ORDER_ID } from "@shared/constants";
+import { CLIENT_ROUTES, ORDER_ID, PLACE_ID } from "@shared/constants";
 import type { ISimpleChanges } from "@shared/interfaces";
 import type { IAction } from "@shared/ui/actions";
 
@@ -22,10 +22,13 @@ export class HeaderComponent implements OnChanges {
 	@Input() isAsideOpen?: boolean | null;
 	@Input() user?: IHeaderUser | null;
 	@Input() activeOrder?: IHeaderActiveOrder | null;
+	@Input() productsToOrders: any[] | null = [];
+	@Input() activePlaceId?: string | null = "";
 
 	@Input() actions?: IAction[] | null = [];
 
 	activeOrderLink = "";
+	basketLink = "";
 
 	readonly clientRoutes = CLIENT_ROUTES;
 
@@ -35,6 +38,13 @@ export class HeaderComponent implements OnChanges {
 			this.activeOrderLink = currentValue
 				? CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, currentValue.id)
 				: "";
+		}
+
+		if (changes.activePlaceId) {
+			this.basketLink = CLIENT_ROUTES.CONFIRM_PRODUCTS.absolutePath.replace(
+				PLACE_ID,
+				changes.activePlaceId.currentValue || ""
+			);
 		}
 	}
 

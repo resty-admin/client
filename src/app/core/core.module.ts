@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { JwtModule } from "@auth0/angular-jwt";
 import { ActiveOrderModule } from "@features/orders";
+import { BasketModule } from "@features/orders/ui/basket";
 import { ApiModule } from "@shared/modules/api";
 import { ApolloModule } from "@shared/modules/apollo";
 import { CookiesModule } from "@shared/modules/cookies";
@@ -81,7 +82,8 @@ import { CORE_PROVIDERS } from "./providers";
 		ActiveOrderModule,
 		LinkModule,
 		ButtonModule,
-		ActionsModule
+		ActionsModule,
+		BasketModule
 	],
 	providers: CORE_PROVIDERS,
 	exports: [CoreComponent]

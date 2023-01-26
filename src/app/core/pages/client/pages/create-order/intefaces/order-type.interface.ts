@@ -5,4 +5,5 @@ export interface IOrderType {
 	type: OrderTypeEnum;
 	image: string;
 	routerLink: string;
+	disabled: boolean;
 }

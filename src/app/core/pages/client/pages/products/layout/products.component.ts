@@ -72,11 +72,17 @@ export class ProductsComponent implements OnInit, OnDestroy {
 	}
 
 	removeProductFromOrder(productOutput: IProductOutput) {
-		this._ordersService.removeProductFromOrder(productOutput);
+		this._ordersService.removeProductFromOrder({
+			...productOutput,
+			placeId: this._routerService.getParams(PLACE_ID.slice(1)) || ""
+		});
 	}
 
 	addProductToOrder(productOutput: IProductOutput) {
-		this._ordersService.addProductToOrder(productOutput);
+		this._ordersService.addProductToOrder({
+			...productOutput,
+			placeId: this._routerService.getParams(PLACE_ID.slice(1)) || ""
+		});
 	}
 
 	ngOnDestroy() {

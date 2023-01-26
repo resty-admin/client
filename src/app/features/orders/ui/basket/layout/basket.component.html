@@ -1,0 +1,7 @@
+<ng-container *transloco="let t; read: basket">
+	<a *ngIf="count && link" class="basket" [routerLink]="link">
+		<p class="name">Корзина</p>
+		<hr class="divider" />
+		<p class="count">{{ count }} продуктов</p>
+	</a>
+</ng-container>

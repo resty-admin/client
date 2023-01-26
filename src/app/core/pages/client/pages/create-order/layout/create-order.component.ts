@@ -11,7 +11,7 @@ import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
 import { DialogService } from "@shared/ui/dialog";
-import { lastValueFrom, map, take } from "rxjs";
+import { lastValueFrom, map, shareReplay, take } from "rxjs";
 
 import { CREATE_ORDER_PAGE } from "../constants";
 import { ORDER_TYPES } from "../data";
@@ -34,6 +34,11 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 
 	schemaRouterLink = "";
 	menuRouterLink = "";
+
+	readonly withData$ = this._ordersService.productsToOrders$.pipe(
+		map((productsToOrders) => productsToOrders.length > 0),
+		shareReplay({ refCount: true })
+	);
 
 	constructor(
 		readonly sharedService: SharedService,
@@ -88,11 +93,7 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 			]
 		});
 
-		if (!order.data.order) {
-			return;
-		}
-
-		this._ordersService.setActiveOrderId(order.data.order.id);
+		this._ordersService.setActiveOrderId(order.data.order?.id);
 	}
 
 	async createOrder({ type, routerLink }: IOrderType) {
@@ -126,7 +127,18 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 				this._ordersService.createOrder({
 					type,
 					place,
-					productsToOrder: await lastValueFrom(this._ordersService.productsToOrders$.pipe(take(1)))
+					productsToOrder: await lastValueFrom(
+						this._ordersService.productsToOrders$.pipe(
+							take(1),
+							map((productsToOrder) =>
+								productsToOrder.map((productToOrder) => ({
+									productId: productToOrder.productId,
+									count: productToOrder.count,
+									attributesIds: productToOrder.attributesIds
+								}))
+							)
+						)
+					)
 				})
 			);
 

@@ -31,10 +31,10 @@ export class PreviewProductComponent implements OnChanges {
 	}
 
 	emitMinusClick(productId: string) {
-		this.minusClicked.emit({ productId, attributesIds: [] });
+		this.minusClicked.emit({ productId, attributesIds: [], count: 1 });
 	}
 
 	emitPlusClick(productId: string) {
-		this.plusClicked.emit({ productId, attributesIds: [] });
+		this.plusClicked.emit({ productId, attributesIds: [], count: 1 });
 	}
 }

@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import type { IStoreProductToOrder } from "@features/products";
-import type { IProductOutput } from "@features/products";
 import type { ConfirmProductToOrderInput, CreateOrderInput, UpdateOrderInput } from "@graphql";
 
 import {
@@ -21,6 +20,7 @@ import { OrdersRepository } from "../../repositories";
 @Injectable({ providedIn: "root" })
 export class OrdersService {
 	readonly activeOrderId$ = this._ordersRepository.activeOrderId$;
+	readonly activePlaceId$ = this._ordersRepository.activePlaceId$;
 	readonly productsToOrders$ = this._ordersRepository.productsToOrders$;
 
 	constructor(
@@ -38,6 +38,10 @@ export class OrdersService {
 		private readonly _cancelOrderGQL: CancelOrderGQL
 	) {}
 
+	setActivePlaceId(placeId?: string) {
+		return this._ordersRepository.setActivePlaceId(placeId);
+	}
+
 	setActiveOrderId(orderId?: string) {
 		return this._ordersRepository.setActiveOrderId(orderId);
 	}
@@ -46,11 +50,11 @@ export class OrdersService {
 		this._ordersRepository.setProductsToOrders(productsToOrders);
 	}
 
-	addProductToOrder(productToOrder: IProductOutput) {
+	addProductToOrder(productToOrder: IStoreProductToOrder) {
 		this._ordersRepository.addProductToOrder(productToOrder);
 	}
 
-	removeProductFromOrder(productToOrder: IProductOutput) {
+	removeProductFromOrder(productToOrder: IStoreProductToOrder) {
 		this._ordersRepository.removeProductToOrder(productToOrder);
 	}
 

@@ -26,6 +26,16 @@ export class CoreComponent implements OnInit {
 		shareReplay({ refCount: true })
 	);
 
+	readonly activePlaceId$ = this._ordersService.activePlaceId$.pipe(shareReplay({ refCount: true }));
+
+	readonly productsToOrders$ = this.activePlaceId$.pipe(
+		switchMap((placeId) =>
+			this._ordersService.productsToOrders$.pipe(
+				map((productsToOrders) => productsToOrders.filter((productToOrder) => productToOrder.placeId === placeId))
+			)
+		)
+	);
+
 	readonly activeOrder$ = this._ordersService.activeOrderId$.pipe(
 		switchMap((orderId) =>
 			orderId

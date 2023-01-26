@@ -15,7 +15,7 @@ export const REFERRAL_LINK_ROUTES: INavigationSkeletonRoute[] = [
 			animation: REFERRAL_LINK_PAGE
 		},
 		resolve: {
-			order: ReferralLinkResolver
+			activeOrder: ReferralLinkResolver
 		},
 		skeleton: {
 			component: ReferralLinkSkeletonComponent

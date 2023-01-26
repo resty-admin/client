@@ -73,11 +73,9 @@ export class ConfirmProductsComponent implements OnInit, OnDestroy {
 						return;
 					}
 
-					await lastValueFrom(
-						this._ordersService.confirmProductsToOrders(
-							(productsToOrder || []).map((productToOrder) => ({ ...productToOrder, orderId }))
-						)
-					);
+					const data = (productsToOrder || []).map((productToOrder) => ({ ...productToOrder, orderId }));
+
+					await lastValueFrom(this._ordersService.confirmProductsToOrders(data));
 
 					this._ordersService.setProductsToOrders([]);
 
@@ -88,11 +86,17 @@ export class ConfirmProductsComponent implements OnInit, OnDestroy {
 	}
 
 	removeProductFromOrder(productOutput: IProductOutput) {
-		this._ordersService.removeProductFromOrder(productOutput);
+		this._ordersService.removeProductFromOrder({
+			...productOutput,
+			placeId: this._routerService.getParams(PLACE_ID.slice(1)) || ""
+		});
 	}
 
 	addProductToOrder(productOutput: IProductOutput) {
-		this._ordersService.addProductToOrder(productOutput);
+		this._ordersService.addProductToOrder({
+			...productOutput,
+			placeId: this._routerService.getParams(PLACE_ID.slice(1)) || ""
+		});
 	}
 
 	ngOnDestroy() {

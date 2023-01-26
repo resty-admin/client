@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
-import { ACTIVE_ORDER_I18N } from "@features/orders/ui/active-order/constants";
 
+import { ACTIVE_ORDER } from "../constants";
 import type { IActiveOrder } from "../interfaces";
 import { ACTIVE_ORDER_PROVIDERS } from "../providers";
 
@@ -12,7 +12,7 @@ import { ACTIVE_ORDER_PROVIDERS } from "../providers";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActiveOrderComponent {
-	readonly activeOrderI18n = ACTIVE_ORDER_I18N;
+	readonly activeOrderI18n = ACTIVE_ORDER;
 	@Input() activeOrder?: IActiveOrder | null;
 	@Input() activeOrderLink: string = "";
 }
