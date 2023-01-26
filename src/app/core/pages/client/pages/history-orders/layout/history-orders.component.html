@@ -2,8 +2,8 @@
 	<h1 appTypography theme="1" class="title">{{ t("history") }}</h1>
 
 	<ul class="history-orders">
-		<ng-container *ngIf="historyOrders$ | async as historyOrders; else skeleton">
-			<ng-container *ngIf="historyOrders.length; else skeleton">
+		<ng-container *ngIf="historyOrders$ | async as historyOrders; else noOrders">
+			<ng-container *ngIf="historyOrders.length; else noOrders">
 				<li class="history-order" *ngFor="let historyOrder of historyOrders; trackBy: sharedService.trackByFn">
 					<a class="link" [routerLink]="historyOrder.routerLink">
 						<app-preview-order [order]="historyOrder"></app-preview-order>
@@ -14,9 +14,9 @@
 	</ul>
 </div>
 
-<ng-template #skeleton>
+<ng-template #noOrders>
 	<div class="not-orders">
 		<app-image name="active-orders" class="image"></app-image>
-		<p class="text">У вас пока нет активных заказов</p>
+		<p class="text">У вас пока нет завершенных заказов</p>
 	</div>
 </ng-template>

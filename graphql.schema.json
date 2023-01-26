@@ -1217,6 +1217,18 @@
 				"description": null,
 				"fields": [
 					{
+						"name": "accountingSystemsFields",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "SCALAR",
+							"name": "JSONObject",
+							"ofType": null
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "file",
 						"description": null,
 						"args": [],
@@ -1324,6 +1336,18 @@
 				"description": null,
 				"fields": null,
 				"inputFields": [
+					{
+						"name": "accountingSystemsFields",
+						"description": null,
+						"type": {
+							"kind": "SCALAR",
+							"name": "JSONObject",
+							"ofType": null
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
 					{
 						"name": "file",
 						"description": null,
@@ -5173,6 +5197,55 @@
 						"deprecationReason": null
 					},
 					{
+						"name": "emitCommand",
+						"description": null,
+						"args": [
+							{
+								"name": "commandId",
+								"description": null,
+								"type": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "SCALAR",
+										"name": "String",
+										"ofType": null
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
+								"name": "tableId",
+								"description": null,
+								"type": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "SCALAR",
+										"name": "String",
+										"ofType": null
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							}
+						],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "forgotPassword",
 						"description": null,
 						"args": [
@@ -5666,7 +5739,73 @@
 						"deprecationReason": null
 					},
 					{
+						"name": "syncCategories",
+						"description": null,
+						"args": [
+							{
+								"name": "placeId",
+								"description": null,
+								"type": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "SCALAR",
+										"name": "String",
+										"ofType": null
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							}
+						],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "syncHalls",
+						"description": null,
+						"args": [
+							{
+								"name": "placeId",
+								"description": null,
+								"type": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "SCALAR",
+										"name": "String",
+										"ofType": null
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							}
+						],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "syncProducts",
 						"description": null,
 						"args": [
 							{
@@ -8523,6 +8662,18 @@
 				"description": null,
 				"fields": [
 					{
+						"name": "accountingSystemsFields",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "SCALAR",
+							"name": "JSONObject",
+							"ofType": null
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "attrsGroups",
 						"description": null,
 						"args": [],
@@ -8658,6 +8809,18 @@
 				"description": null,
 				"fields": null,
 				"inputFields": [
+					{
+						"name": "accountingSystemsFields",
+						"description": null,
+						"type": {
+							"kind": "SCALAR",
+							"name": "JSONObject",
+							"ofType": null
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
 					{
 						"name": "attrsGroups",
 						"description": null,
@@ -9674,55 +9837,6 @@
 							"ofType": {
 								"kind": "OBJECT",
 								"name": "CompanyEntity",
-								"ofType": null
-							}
-						},
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
-					{
-						"name": "emitCommand",
-						"description": null,
-						"args": [
-							{
-								"name": "commandId",
-								"description": null,
-								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "String",
-										"ofType": null
-									}
-								},
-								"defaultValue": null,
-								"isDeprecated": false,
-								"deprecationReason": null
-							},
-							{
-								"name": "tableId",
-								"description": null,
-								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "String",
-										"ofType": null
-									}
-								},
-								"defaultValue": null,
-								"isDeprecated": false,
-								"deprecationReason": null
-							}
-						],
-						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "String",
 								"ofType": null
 							}
 						},

@@ -7,6 +7,7 @@ import { ButtonModule } from "@shared/ui/button";
 import { CounterModule } from "@shared/ui/counter";
 import { ImageModule } from "@shared/ui/image";
 import { RadioButtonModule } from "@shared/ui/radio-button";
+import { SkeletonModule } from "@shared/ui/skeleton";
 import { TextareaModule } from "@shared/ui/textarea";
 import { TypographyModule } from "@shared/ui/typography";
 
@@ -28,7 +29,8 @@ import { PRODUCT_PROVIDERS } from "./providers";
 		PreviewCategoryModule,
 		ReactiveFormsModule,
 		ButtonModule,
-		CounterModule
+		CounterModule,
+		SkeletonModule
 	],
 	providers: PRODUCT_PROVIDERS
 })

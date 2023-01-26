@@ -7,6 +7,7 @@ import { ButtonModule } from "@shared/ui/button";
 import { ImageModule } from "@shared/ui/image";
 import { InputModule } from "@shared/ui/input";
 import { IosDatepickerModule } from "@shared/ui/ios-datepicker";
+import { SkeletonModule } from "@shared/ui/skeleton";
 import { TypographyModule } from "@shared/ui/typography";
 
 import { TABLE_COMPONENTS } from "./components";
@@ -26,7 +27,8 @@ import { TableRoutingModule } from "./table-routing.module";
 		ReactiveFormsModule,
 		InputModule,
 		DirectivesModule,
-		ButtonModule
+		ButtonModule,
+		SkeletonModule
 	],
 	providers: TABLE_PROVIDERS
 })

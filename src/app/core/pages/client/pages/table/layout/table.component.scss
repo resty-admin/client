@@ -1,7 +1,7 @@
 @import "/src/assets/scss/abstractions/index";
 
 @include page() {
-	.table-dialog {
+	.table {
 		height: 100%;
 		display: grid;
 		grid-template-rows: auto 1fr auto;
@@ -14,9 +14,7 @@
 			row-gap: rem(12);
 			grid-template-areas:
 				"label status"
-				"datepicker datepicker"
-				"description description"
-				"submit submit";
+				"datepicker datepicker";
 
 			@include pagePadding();
 

@@ -128,6 +128,7 @@ export interface AttributesGroupEntityInput {
 
 export interface CategoryEntity {
 	__typename?: "CategoryEntity";
+	accountingSystemsFields?: Maybe<Scalars["JSONObject"]>;
 	file?: Maybe<FileEntity>;
 	id: Scalars["String"];
 	isHide: Scalars["Boolean"];
@@ -137,6 +138,7 @@ export interface CategoryEntity {
 }
 
 export interface CategoryEntityInput {
+	accountingSystemsFields?: InputMaybe<Scalars["JSONObject"]>;
 	file?: InputMaybe<FileEntityInput>;
 	isHide: Scalars["Boolean"];
 	name: Scalars["String"];
@@ -423,6 +425,7 @@ export interface Mutation {
 	deleteShift: Scalars["String"];
 	deleteTable: Scalars["String"];
 	deleteUser: Scalars["String"];
+	emitCommand: Scalars["String"];
 	forgotPassword: Scalars["String"];
 	getAccessToken: PlaceToAccountingSystemEntity;
 	getMerchantLoginAndCodeLink: Link;
@@ -436,7 +439,9 @@ export interface Mutation {
 	setPaidStatusForProductsInOrder: ProductToOrderEntity[];
 	signIn: AccessToken;
 	signUp: AccessToken;
+	syncCategories: Scalars["String"];
 	syncHalls: Scalars["String"];
+	syncProducts: Scalars["String"];
 	syncTables: Scalars["String"];
 	telegram: AccessToken;
 	updateAccountingSystem: AccountingSystemEntity;
@@ -619,6 +624,11 @@ export interface MutationDeleteUserArgs {
 	userId: Scalars["String"];
 }
 
+export interface MutationEmitCommandArgs {
+	commandId: Scalars["String"];
+	tableId: Scalars["String"];
+}
+
 export interface MutationForgotPasswordArgs {
 	body: ForgotPasswordInput;
 }
@@ -672,7 +682,15 @@ export interface MutationSignUpArgs {
 	body: SignUpInput;
 }
 
+export interface MutationSyncCategoriesArgs {
+	placeId: Scalars["String"];
+}
+
 export interface MutationSyncHallsArgs {
+	placeId: Scalars["String"];
+}
+
+export interface MutationSyncProductsArgs {
 	placeId: Scalars["String"];
 }
 
@@ -975,6 +993,7 @@ export interface PosterAccessCodeInput {
 
 export interface ProductEntity {
 	__typename?: "ProductEntity";
+	accountingSystemsFields?: Maybe<Scalars["JSONObject"]>;
 	attrsGroups?: Maybe<AttributesGroupEntity[]>;
 	category: CategoryEntity;
 	description?: Maybe<Scalars["String"]>;
@@ -986,6 +1005,7 @@ export interface ProductEntity {
 }
 
 export interface ProductEntityInput {
+	accountingSystemsFields?: InputMaybe<Scalars["JSONObject"]>;
 	attrsGroups?: InputMaybe<AttributesGroupEntityInput[]>;
 	category: CategoryEntityInput;
 	description?: InputMaybe<Scalars["String"]>;
@@ -1044,7 +1064,6 @@ export interface Query {
 	commands: PaginatedCommand;
 	companies: PaginatedCompany;
 	company: CompanyEntity;
-	emitCommand: Scalars["String"];
 	getMe: AccessToken;
 	hall: HallEntity;
 	halls: PaginatedHall;
@@ -1126,11 +1145,6 @@ export interface QueryCompaniesArgs {
 
 export interface QueryCompanyArgs {
 	id: Scalars["String"];
-}
-
-export interface QueryEmitCommandArgs {
-	commandId: Scalars["String"];
-	tableId: Scalars["String"];
 }
 
 export interface QueryHallArgs {

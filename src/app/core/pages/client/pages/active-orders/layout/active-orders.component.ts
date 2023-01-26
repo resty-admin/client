@@ -6,6 +6,7 @@ import { CLIENT_ROUTES } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
+import type { Observable } from "rxjs";
 import { map } from "rxjs";
 
 import { ACTIVE_ORDERS_PAGE } from "../constants";
@@ -19,7 +20,7 @@ import { ACTIVE_ORDERS_PAGE } from "../constants";
 export class ActiveOrdersComponent implements OnInit, OnDestroy {
 	readonly activeOrdersPage = ACTIVE_ORDERS_PAGE;
 	readonly historyOrdersLink = CLIENT_ROUTES.HISTORY_ORDERS.absolutePath;
-	readonly activeOrders$: any = this._activatedRoute.data.pipe(map((data) => data["activeOrders"]));
+	readonly activeOrders$: Observable<any> = this._activatedRoute.data.pipe(map((data) => data["activeOrders"]));
 
 	constructor(
 		readonly sharedService: SharedService,

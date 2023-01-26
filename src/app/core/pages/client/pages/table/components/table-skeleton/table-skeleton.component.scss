@@ -1,6 +1,58 @@
-@import "/src/assets/scss/abstractions";
+@import "/src/assets/scss/abstractions/index";
 
 @include page() {
+	.table-skeleton {
+		height: 100%;
+		display: grid;
+		grid-template-rows: auto 1fr auto;
+		.image {
+			height: rem(183);
+		}
+		.content {
+			display: grid;
+			align-self: start;
+			row-gap: rem(24);
+			grid-template-areas:
+				"label status"
+				"datepicker datepicker";
+
+			@include pagePadding();
+
+			.label {
+				grid-area: label;
+				height: rem(32);
+				width: rem(150);
+			}
+
+			.status {
+				grid-area: status;
+				height: rem(16);
+				width: rem(100);
+				justify-self: end;
+			}
+
+			.chips {
+				grid-area: chips;
+				display: flex;
+				gap: rem(5);
+			}
+
+			.datepicker {
+				grid-area: datepicker;
+				.label {
+					height: rem(16);
+					width: rem(50);
+				}
+				.input {
+					margin-top: rem(12);
+					width: 100%;
+					height: rem(50);
+				}
+			}
+		}
+	}
+}
+@include dark() {
 	.table-skeleton {
 	}
 }
