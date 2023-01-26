@@ -61,7 +61,7 @@ export class CoreComponent implements OnInit {
 		untilDestroyed(this),
 		startWith(this._router),
 		filter((event) => event instanceof NavigationStart),
-		map((event) => !(event as NavigationStart).url.includes("auth")),
+		map((event) => !(event as NavigationStart).url.includes("/auth")),
 		shareReplay({ refCount: true })
 	);
 
