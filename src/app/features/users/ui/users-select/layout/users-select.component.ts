@@ -1,8 +1,8 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
-import { USERS_SELECT_I18N } from "@features/users/ui/users-select/constants";
 import type { ISimpleChanges } from "@shared/interfaces";
 
+import { USERS_SELECT_I18N } from "../constants";
 import type { IUserToSelect } from "../interfaces";
 
 @Component({

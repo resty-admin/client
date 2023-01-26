@@ -5,7 +5,7 @@ import { ActionsService } from "@features/app";
 import { AuthService } from "@features/auth";
 import { CommandsDialogComponent, CommandsService } from "@features/commands";
 import { CancelConfirmationComponent, OrdersService } from "@features/orders";
-import { CloseConfirmationComponent } from "@features/orders/ui/close-confirmation";
+import { CloseConfirmationComponent } from "@features/orders/ui";
 import type { ActiveOrderEntity } from "@graphql";
 import { ProductToOrderStatusEnum } from "@graphql";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";

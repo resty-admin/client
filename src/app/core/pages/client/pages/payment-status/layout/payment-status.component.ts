@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
-import { CloseConfirmationComponent } from "@features/orders/ui/close-confirmation";
+import { CloseConfirmationComponent } from "@features/orders";
 import { CLIENT_ROUTES, ORDER_ID } from "@shared/constants";
 import { PaymentType } from "@shared/enums";
 import { RouterService } from "@shared/modules/router";

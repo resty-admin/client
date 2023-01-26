@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { PreviewPlaceModule } from "@features/places";
 import { ProductToOrderModule } from "@features/products";
 import { PreviewTableModule } from "@features/tables";
-import { UsersSelectModule } from "@features/users/ui/users-select/users-select.module";
+import { UsersSelectModule } from "@features/users";
 import { TranslocoModule } from "@shared/modules/i18n";
 import { ButtonModule } from "@shared/ui/button";
 import { IconModule } from "@shared/ui/icon";
