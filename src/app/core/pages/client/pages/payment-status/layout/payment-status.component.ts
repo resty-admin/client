@@ -1,17 +1,18 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { PaymentStatusPageGQL } from "@core/pages/client/pages/payment-status/graphql";
+import { ActivatedRoute } from "@angular/router";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
 import { CloseConfirmationComponent } from "@features/orders/ui/close-confirmation";
-import { ProductToOrderPaidStatusEnum } from "@graphql";
-import { ORDER_ID } from "@shared/constants";
-import { CLIENT_ROUTES } from "@shared/constants";
+import { CLIENT_ROUTES, ORDER_ID } from "@shared/constants";
+import { PaymentType } from "@shared/enums";
 import { RouterService } from "@shared/modules/router";
 import { DialogService } from "@shared/ui/dialog";
-import { lastValueFrom, map, shareReplay, take } from "rxjs";
+import type { Observable } from "rxjs";
+import { lastValueFrom, map, take } from "rxjs";
 
 import { PAYMENT_STATUS_PAGE_I18N } from "../constants";
+import { PaymentStatusPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-payment-status",
@@ -24,22 +25,12 @@ export class PaymentStatusComponent implements OnInit, OnDestroy {
 
 	private readonly _paymentStatusQuery = this._paymentStautsGQL.watch();
 
-	paymentType: "error" | "success" = "success";
+	paymentType: PaymentType = PaymentType.SUCCESS;
 
-	readonly order$ = this._paymentStatusQuery.valueChanges.pipe(
-		map((result) => result.data.order),
-		shareReplay({ refCount: true })
-	);
-
-	readonly isALlPaid$ = this.order$.pipe(
-		map((order) =>
-			(order?.productsToOrders || []).every(
-				(productToOrder) => productToOrder.paidStatus === ProductToOrderPaidStatusEnum.Paid
-			)
-		)
-	);
+	readonly order$: Observable<any> = this._activatedRoute.data.pipe(map((data) => data["order"]));
 
 	constructor(
+		private readonly _activatedRoute: ActivatedRoute,
 		private readonly _paymentStautsGQL: PaymentStatusPageGQL,
 		private readonly _ordersService: OrdersService,
 		private readonly _routerService: RouterService,

@@ -1,17 +1,13 @@
-<div class="places-page" *transloco="let t; read: placesPageI18n">
-	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
+<ng-container *transloco="let t; read: placesPageI18n">
+	<div class="places-page">
+		<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 
-	<ul class="places">
-		<ng-container *ngIf="places$ | async as places; else skeleton">
+		<ul class="places">
 			<li class="place" *ngFor="let place of places$ | async; trackBy: trackByFn">
 				<a class="link" [routerLink]="place.id">
 					<app-preview-place [place]="place"></app-preview-place>
 				</a>
 			</li>
-		</ng-container>
-	</ul>
-</div>
-
-<ng-template #skeleton>
-	<app-skeleton-place></app-skeleton-place>
-</ng-template>
+		</ul>
+	</div>
+</ng-container>

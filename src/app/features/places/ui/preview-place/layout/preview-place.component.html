@@ -1,5 +1,5 @@
 <ng-container *transloco="let t; read: previewPlaceI18n">
-	<div class="place" *ngIf="place">
+	<div class="preview-place" *ngIf="place">
 		<app-image class="image" [remote]="true" [name]="place.file?.url" placeholder="place"></app-image>
 		<span class="label">{{ place.name }}</span>
 		<span class="status">{{ t(place.status) }}</span>

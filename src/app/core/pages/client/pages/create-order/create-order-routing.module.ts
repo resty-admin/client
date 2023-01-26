@@ -1,13 +1,21 @@
 import { NgModule } from "@angular/core";
-import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
+import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
+import { CreateOrderSkeletonComponent } from "./components";
 import { CreateOrderComponent } from "./layout/create-order.component";
+import { CreateOrderResolver } from "./resolvers";
 
-export const CREATE_ORDER_ROUTES: Route[] = [
+export const CREATE_ORDER_ROUTES: INavigationSkeletonRoute[] = [
 	{
 		path: "",
-		component: CreateOrderComponent
+		component: CreateOrderComponent,
+		resolve: {
+			places: CreateOrderResolver
+		},
+		skeleton: {
+			component: CreateOrderSkeletonComponent
+		}
 	}
 ];
 

@@ -8,6 +8,10 @@ import type { Observable } from "rxjs";
 export class RouterService {
 	constructor(private readonly _routerRepository: RouterRepository, private readonly _router: Router) {}
 
+	getUrl() {
+		return this._router.url;
+	}
+
 	navigate(commands: string[], extras?: NavigationExtras) {
 		return this._router.navigate(commands, extras);
 	}

@@ -1,26 +1,3 @@
 <div class="client">
-	<app-header
-		class="header"
-		[activeOrder]="activeOrder$ | async"
-		[actions]="profileActions"
-		[user]="user$ | async"
-		[isAsideOpen]="isAsideOpen$ | async"
-		(burgerClicked)="toggleAside()"
-	></app-header>
-
-	<main class="main">
-		<app-aside
-			class="aside"
-			[activeOrder]="activeOrder$ | async"
-			[user]="user$ | async"
-			[class.open]="isAsideOpen$ | async"
-			(closeClicked)="toggleAside()"
-		></app-aside>
-
-		<div class="pages">
-			<router-outlet></router-outlet>
-
-			<app-footer class="footer"></app-footer>
-		</div>
-	</main>
+	<router-outlet></router-outlet>
 </div>

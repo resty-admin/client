@@ -6,7 +6,7 @@
 			<ng-container *ngIf="historyOrders.length; else skeleton">
 				<li class="history-order" *ngFor="let historyOrder of historyOrders; trackBy: trackByFn">
 					<a class="link" [routerLink]="historyOrder.routerLink">
-						<app-order-preview [order]="historyOrder"></app-order-preview>
+						<app-preview-order [order]="historyOrder"></app-preview-order>
 					</a>
 				</li>
 			</ng-container>

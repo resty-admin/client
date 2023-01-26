@@ -1,6 +1,5 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
-import { FormBuilder } from "@angular/forms";
 import type { ISimpleChanges } from "@shared/interfaces";
 
 import { PRODUCTS_TO_ORDER_SELECT_I18N } from "../constants";
@@ -29,8 +28,6 @@ export class ProductsToOrderSelectComponent implements OnChanges {
 	productsToOrdersWithSelected: IProductToOrderWithSelected[] = [];
 
 	productsToOrdersWithSelectedByStatus: IProductToOrderWithSelectedByStatus[] = [];
-
-	constructor(private readonly _formBuilder: FormBuilder) {}
 
 	ngOnChanges(changes: ISimpleChanges<ProductsToOrderSelectComponent>) {
 		if (!(changes.productsToOrders?.currentValue || changes.selectedProductsToOrders?.currentValue)) {

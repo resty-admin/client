@@ -1,40 +1,36 @@
 <ng-container *transloco="let t; read: activeOrderPageI18n">
-	<div class="active-order" *ngIf="order$ | async as order; else skeleton">
-		<button *ngIf="order.type === 'IN_PLACE'" class="bell" (click)="openCommandsDialog(order)">
+	<div class="active-order" *ngIf="activeOrder$ | async as activeOrder">
+		<button *ngIf="activeOrder.type === 'IN_PLACE'" class="bell" (click)="openCommandsDialog(activeOrder)">
 			<app-icon class="icon" name="bell"></app-icon>
 		</button>
 
-		<app-order-info class="order-info" [order]="order"></app-order-info>
+		<app-order-info class="order-info" [order]="activeOrder"></app-order-info>
 
 		<div class="products">
 			<app-users-select
 				class="users-select"
-				[users]="order.users"
+				[users]="activeOrder.users"
 				[(selectedUsers)]="selectedUsers"
 				(selectedUsersChange)="setSelectedUsers($event)"
 			></app-users-select>
 
 			<app-products-to-order-select
-				*ngIf="order.productsToOrders?.length; else noProductsToOrders"
+				*ngIf="activeOrder.productsToOrders?.length; else noProductsToOrders"
 				class="products-select"
-				[productsToOrders]="order.productsToOrders"
+				[productsToOrders]="activeOrder.productsToOrders"
 				[(selectedProductsToOrders)]="selectedProductsToOrders"
 				(selectedProductsToOrdersChange)="setSelectedProductsToOrders($event)"
 			></app-products-to-order-select>
 		</div>
 
-		<button *ngIf="order.isAllPaid; else close" class="close-order" (click)="openCloseConfirmation(order)">
-			Закрыть заказ
+		<button
+			class="close-order"
+			(click)="activeOrder.isAllPaid ? openCloseConfirmation(activeOrder) : openCancelConfirmation(activeOrder)"
+		>
+			{{ activeOrder.isAllPaid ? "Закрыть заказ" : "Отменить заказ" }}
 		</button>
-		<ng-template #close>
-			<button class="cancel-order" (click)="openCancelConfirmation(order)">Отменить заказ</button>
-		</ng-template>
 	</div>
 </ng-container>
-
-<ng-template #skeleton>
-	<app-skeleton-active-order></app-skeleton-active-order>
-</ng-template>
 
 <ng-template #noProductsToOrders>
 	<div class="no-products-to-orders">

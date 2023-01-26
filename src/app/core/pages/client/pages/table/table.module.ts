@@ -9,12 +9,13 @@ import { InputModule } from "@shared/ui/input";
 import { IosDatepickerModule } from "@shared/ui/ios-datepicker";
 import { TypographyModule } from "@shared/ui/typography";
 
+import { TABLE_COMPONENTS } from "./components";
 import { TableComponent } from "./layout/table.component";
 import { TABLE_PROVIDERS } from "./providers";
 import { TableRoutingModule } from "./table-routing.module";
 
 @NgModule({
-	declarations: [TableComponent],
+	declarations: [TableComponent, ...TABLE_COMPONENTS],
 	imports: [
 		CommonModule,
 		TableRoutingModule,

@@ -1,0 +1,10 @@
+@import "/src/assets/scss/abstractions/index";
+
+@include component() {
+	.confirm-product-skseleton {
+	}
+}
+@include dark() {
+	.confirm-product-skseleton {
+	}
+}

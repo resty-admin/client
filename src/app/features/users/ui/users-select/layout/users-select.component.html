@@ -1,23 +1,17 @@
 <div class="users-select" *transloco="let t; read: usersSelectI18n">
-	<ul class="users" *ngIf="users?.length; else skeleton">
-		<li class="user" *ngIf="(users?.length || 0) < 1">
-			<button class="label" [class.active]="isAll" (click)="toggleAll()">{{ t("all") }}</button>
-		</li>
-		<li class="user" *ngFor="let user of usersWithSelected; let i = index; trackBy: trackByFn">
-			<input
-				class="checkbox"
-				type="checkbox"
-				[id]="'user_' + user.id"
-				[name]="'user_' + user.id"
-				[value]="user.id"
-				[(ngModel)]="user.selected"
-				(change)="emitChange()"
-			/>
-			<label class="label" [for]="i">{{ user.name }}</label>
-		</li>
-	</ul>
+	<li class="user" *ngIf="usersWithSelected.length < 1">
+		<button class="label" [class.active]="isAll" (click)="toggleAll()">{{ t("all") }}</button>
+	</li>
+	<li class="user" *ngFor="let user of usersWithSelected; let i = index; trackBy: trackByFn">
+		<input
+			class="checkbox"
+			type="checkbox"
+			[id]="'user_' + user.id"
+			[name]="'user_' + user.id"
+			[value]="user.id"
+			[(ngModel)]="user.selected"
+			(change)="emitChange()"
+		/>
+		<label class="label" [for]="i">{{ user.name }}</label>
+	</li>
 </div>
-
-<ng-template #skeleton>
-	<app-skeleton-users-select></app-skeleton-users-select>
-</ng-template>

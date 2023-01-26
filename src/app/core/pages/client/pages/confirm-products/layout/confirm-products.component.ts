@@ -1,5 +1,6 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
 import type { IProductOutput } from "@features/products";
@@ -7,10 +8,9 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { CLIENT_ROUTES, ORDER_ID, PLACE_ID } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
-import { lastValueFrom, map, switchMap, take } from "rxjs";
+import { lastValueFrom, map, take } from "rxjs";
 
 import { CONFIRM_PRODUCTS_PAGE_I18N } from "../constants";
-import { ConfirmProductsPageGQL } from "../graphql";
 
 @UntilDestroy()
 @Component({
@@ -21,28 +21,11 @@ import { ConfirmProductsPageGQL } from "../graphql";
 })
 export class ConfirmProductsComponent implements OnInit, OnDestroy {
 	readonly confirmProductsPageI18n = CONFIRM_PRODUCTS_PAGE_I18N;
-	private readonly _confirmProductsPageQuery = this._confirmProductsPageGQL.watch();
-	private readonly _products$ = this._confirmProductsPageQuery.valueChanges.pipe(
-		map((result) => result.data.products.data)
-	);
 
-	readonly products$ = this._products$.pipe(
-		switchMap((products) =>
-			this._ordersService.productsToOrders$.pipe(
-				map((productsToOrders) =>
-					(products || [])
-						.map((product) => ({
-							...product,
-							productsToOrders: productsToOrders.filter((productToOrder) => productToOrder.productId === product.id)
-						}))
-						.filter((product) => product.productsToOrders.length)
-				)
-			)
-		)
-	);
+	readonly products$ = this._activatedRoute.data.pipe(map((data) => data["products"]));
 
 	constructor(
-		private readonly _confirmProductsPageGQL: ConfirmProductsPageGQL,
+		private readonly _activatedRoute: ActivatedRoute,
 		private readonly _routerService: RouterService,
 		private readonly _actionsService: ActionsService,
 		private readonly _breadcrumbsService: BreadcrumbsService,

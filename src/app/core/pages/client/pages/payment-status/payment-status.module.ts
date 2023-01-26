@@ -7,12 +7,13 @@ import { IconModule } from "@shared/ui/icon";
 import { ImageModule } from "@shared/ui/image";
 import { TypographyModule } from "@shared/ui/typography";
 
+import { PAYMENT_STATUS_COMPONENTS } from "./components";
 import { PaymentStatusComponent } from "./layout/payment-status.component";
 import { PaymentStatusRoutingModule } from "./payment-status-routing.module";
 import { PAYMENT_STATUS_PROVIDERS } from "./providers";
 
 @NgModule({
-	declarations: [PaymentStatusComponent],
+	declarations: [PaymentStatusComponent, ...PAYMENT_STATUS_COMPONENTS],
 	imports: [
 		CommonModule,
 		PaymentStatusRoutingModule,

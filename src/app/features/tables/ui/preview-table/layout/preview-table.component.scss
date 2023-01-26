@@ -1,7 +1,7 @@
 @import "/src/assets/scss/abstractions/index";
 
 @include component() {
-	.table {
+	.preview-table {
 		display: grid;
 		background-color: var(--light-grey);
 		border: rem(1) solid transparent;
@@ -40,7 +40,7 @@
 	}
 }
 @include dark() {
-	.table {
+	.preview-table {
 		background-color: var(--dark-grey);
 		.content .label {
 			color: var(--light);

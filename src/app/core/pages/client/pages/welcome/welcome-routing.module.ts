@@ -1,10 +1,10 @@
 import { NgModule } from "@angular/core";
-import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
+import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
 import { WelcomeComponent } from "./layout/welcome.component";
 
-export const WELCOME_ROUTES: Route[] = [
+export const WELCOME_ROUTES: INavigationSkeletonRoute[] = [
 	{
 		path: "",
 		component: WelcomeComponent

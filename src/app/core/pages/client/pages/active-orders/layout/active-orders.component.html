@@ -7,18 +7,12 @@
 	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 
 	<ul class="active-orders">
-		<ng-container *ngIf="activeOrders$ | async as orders; else skeleton">
-			<li class="active-order" *ngFor="let order of orders; trackBy: trackByFn">
-				<a class="link" [routerLink]="order.routerLink">
-					<app-order-preview [isActive]="true" [order]="order"></app-order-preview>
-				</a>
-			</li>
-		</ng-container>
+		<li class="active-order" *ngFor="let activeOrder of activeOrders$ | async; trackBy: trackByFn">
+			<a class="link" [routerLink]="activeOrder.routerLink">
+				<app-preview-order [isActive]="true" [order]="activeOrder"></app-preview-order>
+			</a>
+		</li>
 	</ul>
 
 	<a appButton theme="2" [routerLink]="historyOrdersLink">{{ t("history") }}</a>
 </div>
-
-<ng-template #skeleton>
-	<app-skeleton-order></app-skeleton-order>
-</ng-template>

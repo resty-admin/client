@@ -4,7 +4,7 @@
 	<h1 [class]="'title' + ' ' + paymentType">{{ t(paymentType + "_title") }}</h1>
 	<h1 class="subtitle">{{ t(paymentType + "_subtitle") }}</h1>
 
-	<button class="close-order" appButton theme="2" *ngIf="isALlPaid$ | async" (click)="openCloseConfirmation()">
+	<button class="close-order" appButton theme="2" *ngIf="(order$ | async).isAllPaid" (click)="openCloseConfirmation()">
 		Закрыть заказ
 	</button>
 </div>

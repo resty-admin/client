@@ -1,7 +1,7 @@
 @import "/src/assets/scss/abstractions";
 
 @include component() {
-	.app-confirmation-dialog {
+	.already-exist {
 		display: grid;
 		padding: rem(57) rem(32);
 		row-gap: rem(32);
@@ -25,7 +25,7 @@
 	}
 }
 @include dark() {
-	.app-confirmation-dialog .value {
+	.already-exist .value {
 		color: var(--light);
 	}
 }

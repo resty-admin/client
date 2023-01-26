@@ -12,7 +12,6 @@ import { CLIENT_ROUTES } from "@shared/constants";
 import { CryptoService } from "@shared/modules/crypto";
 import { JwtService } from "@shared/modules/jwt";
 import { RouterService } from "@shared/modules/router";
-import { ToastrService } from "@shared/ui/toastr";
 import type { Observable } from "rxjs";
 import { catchError, map, of, tap } from "rxjs";
 
@@ -54,8 +53,7 @@ export class AuthService {
 		private readonly _cryptoService: CryptoService,
 		private readonly _authRepository: AuthRepository,
 		private readonly _jwtService: JwtService,
-		private readonly _routerService: RouterService,
-		private readonly _toastrService: ToastrService
+		private readonly _routerService: RouterService
 	) {}
 
 	private _getBodyWithEncryptedPassword<T extends { password: string }>(body: T) {

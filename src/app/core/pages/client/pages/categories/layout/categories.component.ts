@@ -1,5 +1,6 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { PLACE_ID } from "@shared/constants";
 import { CLIENT_ROUTES } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
@@ -18,9 +19,10 @@ import { CategoriesPageGQL } from "../graphql";
 export class CategoriesComponent implements OnInit, OnDestroy {
 	readonly categoriesPageI18n = CATEGORIES_PAGE_I18N;
 	private readonly _categoriesPageQuery = this._categoriesPageGQL.watch();
-	readonly categories$ = this._categoriesPageQuery.valueChanges.pipe(map((result) => result.data.categories.data));
+	readonly categories$: any = this._activatedRoute.data.pipe(map((data) => data["categories"]));
 
 	constructor(
+		private readonly _activatedRoute: ActivatedRoute,
 		private readonly _categoriesPageGQL: CategoriesPageGQL,
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService

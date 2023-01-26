@@ -2,21 +2,10 @@
 	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 
 	<ul class="tables">
-		<ng-template #skeleton>
-			<li class="table">
-				<app-skeleton-table></app-skeleton-table>
-			</li>
-			<li class="table">
-				<app-skeleton-table></app-skeleton-table>
-			</li>
-		</ng-template>
-
-		<ng-container *ngIf="tables$ | async as tables; else skeleton">
-			<li class="table" *ngFor="let table of tables; trackBy: trackByFn">
-				<a class="link" [routerLink]="table.id">
-					<app-preview-table class="preview-table" [table]="table"></app-preview-table>
-				</a>
-			</li>
-		</ng-container>
+		<li class="table" *ngFor="let table of tables$ | async; trackBy: trackByFn">
+			<a class="link" [routerLink]="table.id">
+				<app-preview-table class="preview-table" [table]="table"></app-preview-table>
+			</a>
+		</li>
 	</ul>
 </div>

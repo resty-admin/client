@@ -18,10 +18,12 @@ export class OrdersRepository {
 		withProps<IOrdersState>({ activeOrderId: undefined, productsToOrders: [] })
 	);
 
-	private readonly _persist = persistState(this._store, {
-		storage: LocalforageService.storage,
-		source: () => this._store.pipe(includeKeys(["activeOrderId", "productsToOrders"]))
-	});
+	constructor() {
+		persistState(this._store, {
+			storage: LocalforageService.storage,
+			source: () => this._store.pipe(includeKeys(["activeOrderId", "productsToOrders"]))
+		});
+	}
 
 	readonly store$ = this._store.pipe(select((store) => store));
 

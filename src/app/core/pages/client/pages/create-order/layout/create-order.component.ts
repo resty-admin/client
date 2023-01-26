@@ -1,6 +1,5 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { CreateOrderPageGQL } from "@core/pages/client/pages/create-order/graphql";
 import { ActionsService } from "@features/app";
 import { AuthService } from "@features/auth/services";
 import { OrdersService } from "@features/orders";
@@ -15,6 +14,7 @@ import { lastValueFrom, map, take } from "rxjs";
 
 import { CREATE_ORDER_PAGE_I18N } from "../constants";
 import { ORDER_TYPES } from "../data";
+import { CreateOrderPageGQL } from "../graphql";
 import type { IOrderType } from "../intefaces";
 
 @Component({

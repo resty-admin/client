@@ -1,39 +1,27 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { ActionsService } from "@features/app";
 import { AuthService } from "@features/auth";
 import { CommandsDialogComponent, CommandsService } from "@features/commands";
 import { CancelConfirmationComponent, OrdersService } from "@features/orders";
 import { CloseConfirmationComponent } from "@features/orders/ui/close-confirmation";
 import type { ActiveOrderEntity } from "@graphql";
-import { ProductToOrderPaidStatusEnum, ProductToOrderStatusEnum } from "@graphql";
+import { ProductToOrderStatusEnum } from "@graphql";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { CLIENT_ROUTES, ORDER_ID, PLACE_ID } from "@shared/constants";
+import { ORDERS_EVENTS } from "@shared/enums";
 import type { DeepPartial } from "@shared/interfaces";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { SocketIoService } from "@shared/modules/socket-io";
 import { DialogService } from "@shared/ui/dialog";
+import type { Observable } from "rxjs";
 import { lastValueFrom, map, take } from "rxjs";
 
 import { ACTIVE_ORDER_PAGE_I18N } from "../constants";
 import type { ActiveOrderPageQuery } from "../graphql";
 import { ActiveOrderPageGQL } from "../graphql";
-
-export enum ORDERS_EVENTS {
-	CREATED = "ORDER_CREATED",
-	CLOSED = "ORDER_CLOSED",
-	CANCELED = "ORDER_CANCELED",
-	CONFIRM = "ORDER_CONFIRM",
-	REJECTED = "ORDER_REJECTED",
-	APPROVED = "ORDER_APPROVED",
-	WAITING_FOR_MANUAL_PAY = "ORDER_WAITING_FOR_MANUAL_PAY",
-	USER_ADDED = "ORDER_USER_ADDED",
-	TABLE_ADDED = "ORDER_TABLE_ADDED",
-	TABLE_APPROVED = "ORDER_TABLE_APPROVED",
-	TABLE_REJECTED = "ORDER_TABLE_REJECTED",
-	TABLE_REMOVED = "ORDER_TABLE_REMOVED"
-}
 
 @UntilDestroy()
 @Component({
@@ -47,19 +35,12 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 	readonly statuses = [ProductToOrderStatusEnum.Approved, ProductToOrderStatusEnum.WaitingForApprove];
 
 	private readonly _activeOrderPageQuery = this._activeOrderPageGQL.watch(undefined, { fetchPolicy: "network-only" });
-	readonly order$ = this._activeOrderPageQuery.valueChanges.pipe(
-		map((result) => result.data.order),
-		map((order) => ({
-			...(order as ActiveOrderEntity),
-			isAllPaid: (order?.productsToOrders || []).every(
-				(productToOrder) => productToOrder.paidStatus === ProductToOrderPaidStatusEnum.Paid
-			)
-		}))
-	);
+	readonly activeOrder$: Observable<any> = this._activatedRoute.data.pipe(map((data) => data["activeOrder"]));
 
 	selectedUsers: string[] = [];
 	selectedProductsToOrders: string[] = [];
 	constructor(
+		private readonly _activatedRoute: ActivatedRoute,
 		private readonly _activeOrderPageGQL: ActiveOrderPageGQL,
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
@@ -109,7 +90,7 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 				await this._activeOrderPageQuery.refetch();
 			});
 
-		lastValueFrom(this.order$.pipe(take(1))).then((order) => {
+		lastValueFrom(this.activeOrder$.pipe(take(1))).then((order) => {
 			if (!order || !order.place) {
 				return;
 			}
@@ -136,21 +117,23 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 
 	async setSelectedUsers(usersIds: string[]) {
 		this.selectedUsers = usersIds;
-		const order = await lastValueFrom(this.order$.pipe(take(1)));
+		const order = await lastValueFrom(this.activeOrder$.pipe(take(1)));
 
 		if (!order) {
 			return;
 		}
 
 		this.selectedProductsToOrders = (order.productsToOrders || [])
-			.filter((productToOrder) => usersIds.includes(productToOrder.user.id) && productToOrder.paidStatus === "NOT_PAID")
-			.map((productToOrder) => productToOrder.id);
+			.filter(
+				(productToOrder: any) => usersIds.includes(productToOrder.user.id) && productToOrder.paidStatus === "NOT_PAID"
+			)
+			.map((productToOrder: any) => productToOrder.id);
 
 		await this.setAction();
 	}
 
 	async setSelectedProductsToOrders(productsToOrdersIds: string[]) {
-		const order = await lastValueFrom(this.order$.pipe(take(1)));
+		const order = await lastValueFrom(this.activeOrder$.pipe(take(1)));
 
 		if (!order) {
 			return;
@@ -159,12 +142,12 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 		const { productsToOrders, users } = order;
 
 		const productsByUser = (users || []).reduce(
-			(usersMap, user) => ({
+			(usersMap: any, user: any) => ({
 				...usersMap,
 				[user.id]: (productsToOrders || [])
-					.filter((productToOrder) => productToOrder.user.id === user.id)
+					.filter((productToOrder: any) => productToOrder.user.id === user.id)
 					.every(
-						(productToOrder) =>
+						(productToOrder: any) =>
 							productsToOrdersIds.includes(productToOrder.id) && productToOrder.paidStatus === "NOT_PAID"
 					)
 			}),

@@ -1,6 +1,5 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
-import { FormBuilder } from "@angular/forms";
 import { USERS_SELECT_I18N } from "@features/users/ui/users-select/constants";
 import type { ISimpleChanges } from "@shared/interfaces";
 
@@ -22,8 +21,6 @@ export class UsersSelectComponent implements OnChanges {
 	usersWithSelected: (IUserToSelect & { selected: boolean })[] = [];
 
 	isAll: boolean = false;
-
-	constructor(private readonly _formBuilder: FormBuilder) {}
 
 	toggleAll() {
 		this.isAll = !this.isAll;

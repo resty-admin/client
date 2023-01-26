@@ -1,5 +1,6 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { FORM_I18N } from "@core/constants";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
@@ -10,6 +11,7 @@ import { CATEGORY_ID, CLIENT_ROUTES, PLACE_ID } from "@shared/constants";
 import type { DeepAtLeast } from "@shared/interfaces";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
+import type { Observable } from "rxjs";
 import { BehaviorSubject, map } from "rxjs";
 
 import { PRODUCT_PAGE_I18N } from "../constants";
@@ -27,20 +29,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 	readonly formI18n = FORM_I18N;
 	private readonly _productPageQuery = this._productsPageGQL.watch();
 	readonly attributesFormControl = new FormControl<string[]>();
-	readonly product$ = this._productPageQuery.valueChanges.pipe(
-		map((result) => result.data.product),
-		map((product) => ({
-			...product,
-			attrsGroups: product.attrsGroups?.map((attrGroup) => ({
-				...attrGroup,
-				attributes: attrGroup.attributes?.map((attr) => ({
-					...attr,
-					value: attr.id,
-					label: attr.name
-				}))
-			}))
-		}))
-	);
+	readonly product$: Observable<any> = this._activatedRoute.data.pipe(map((data) => data["product"]));
 
 	readonly countSubject = new BehaviorSubject(0);
 	readonly count$ = this.countSubject.asObservable();
@@ -48,6 +37,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 	data!: DeepAtLeast<ProductEntity, "id">;
 
 	constructor(
+		private readonly _activatedRoute: ActivatedRoute,
 		private readonly _routerService: RouterService,
 		private readonly _productsPageGQL: ProductPageGQL,
 		private readonly _ordersService: OrdersService,

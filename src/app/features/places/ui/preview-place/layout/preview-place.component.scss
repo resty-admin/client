@@ -1,7 +1,7 @@
 @import "/src/assets/scss/abstractions/index";
 
 @include component() {
-	.place {
+	.preview-place {
 		background-color: var(--light-grey);
 		border-radius: rem(12);
 		display: grid;
@@ -67,7 +67,7 @@
 	}
 }
 @include dark() {
-	.place {
+	.preview-place {
 		background-color: var(--dark-grey);
 		.label {
 			color: var(--light);

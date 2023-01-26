@@ -1,0 +1,10 @@
+@import "/src/assets/scss/abstractions";
+
+@include page() {
+	.active-order-skeleton {
+	}
+}
+@include dark() {
+	.active-order-skeleton {
+	}
+}

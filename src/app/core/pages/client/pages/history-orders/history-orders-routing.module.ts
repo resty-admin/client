@@ -1,13 +1,21 @@
 import { NgModule } from "@angular/core";
-import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
+import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
+import { HistoryOrdersSkeletonComponent } from "./components";
 import { HistoryOrdersComponent } from "./layout/history-orders.component";
+import { HistoryOrdersResolver } from "./resolvers";
 
-export const HISTORY_ORDERS_ROUTES: Route[] = [
+export const HISTORY_ORDERS_ROUTES: INavigationSkeletonRoute[] = [
 	{
 		path: "",
-		component: HistoryOrdersComponent
+		component: HistoryOrdersComponent,
+		resolve: {
+			activeOrders: HistoryOrdersResolver
+		},
+		skeleton: {
+			component: HistoryOrdersSkeletonComponent
+		}
 	}
 ];
 

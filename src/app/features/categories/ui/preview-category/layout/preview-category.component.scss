@@ -1,7 +1,7 @@
 @import "/src/assets/scss/abstractions/index";
 
 @include component() {
-	.category {
+	.preview-category {
 		display: flex;
 		align-items: center;
 		gap: rem(16);
@@ -25,7 +25,7 @@
 	}
 }
 @include dark() {
-	.category {
+	.preview-category {
 		background-color: var(--dark-grey);
 		.name {
 			color: var(--light);

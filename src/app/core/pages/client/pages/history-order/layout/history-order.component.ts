@@ -1,8 +1,7 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { ActionsService } from "@features/app";
-import { OrdersService } from "@features/orders";
-import { ProductToOrderStatusEnum } from "@graphql";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { ORDER_ID, PLACE_ID } from "@shared/constants";
@@ -27,22 +26,11 @@ export class HistoryOrderComponent implements OnInit, OnDestroy {
 	readonly clientRoutes = CLIENT_ROUTES;
 	readonly usersControl = new FormControl([]);
 	private readonly _historyOrderPageQuery = this._historyOrderPageGQL.watch();
-	readonly order$ = this._historyOrderPageQuery.valueChanges.pipe(
-		map((result) => result.data.order),
-		map((order) => ({
-			...order,
-			productsToOrdersByType: this.displayStatuses.map((status) => ({
-				status,
-				productsToOrders: (order?.productsToOrders || []).filter((productToOrder) => productToOrder.status === status)
-			}))
-		}))
-	);
-
-	readonly displayStatuses = [ProductToOrderStatusEnum.WaitingForApprove, ProductToOrderStatusEnum.Approved];
+	readonly order$ = this._activatedRoute.data.pipe(map((data) => data["historyOrder"]));
 
 	constructor(
+		private readonly _activatedRoute: ActivatedRoute,
 		private readonly _historyOrderPageGQL: HistoryOrderPageGQL,
-		private readonly _ordersService: OrdersService,
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _actionsService: ActionsService

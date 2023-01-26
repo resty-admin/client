@@ -1,13 +1,21 @@
 import { NgModule } from "@angular/core";
-import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
+import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
+import { ReferralLinkSkeletonComponent } from "./components";
 import { ReferralLinkComponent } from "./layout/referral-link.component";
+import { ReferralLinkResolver } from "./resolvers";
 
-export const REFERRAL_LINK_ROUTES: Route[] = [
+export const REFERRAL_LINK_ROUTES: INavigationSkeletonRoute[] = [
 	{
 		path: "",
-		component: ReferralLinkComponent
+		component: ReferralLinkComponent,
+		resolve: {
+			order: ReferralLinkResolver
+		},
+		skeleton: {
+			component: ReferralLinkSkeletonComponent
+		}
 	}
 ];
 

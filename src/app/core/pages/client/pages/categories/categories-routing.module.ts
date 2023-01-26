@@ -1,13 +1,21 @@
 import { NgModule } from "@angular/core";
-import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
+import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
+import { CategoriesSkeletonComponent } from "./components";
 import { CategoriesComponent } from "./layout/categories.component";
+import { CategoriesResolver } from "./resolvers";
 
-export const CATEGORIES_ROUTES: Route[] = [
+export const CATEGORIES_ROUTES: INavigationSkeletonRoute[] = [
 	{
 		path: "",
-		component: CategoriesComponent
+		component: CategoriesComponent,
+		resolve: {
+			categories: CategoriesResolver
+		},
+		skeleton: {
+			component: CategoriesSkeletonComponent
+		}
 	}
 ];
 

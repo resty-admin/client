@@ -2,19 +2,15 @@
 	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 
 	<ul class="products">
-		<ng-container *ngIf="products$ | async as products; else skeleton">
-			<li class="product" *ngFor="let product of products; trackBy: trackByFn">
-				<a class="link" [routerLink]="product.id">
-					<app-product
-						class="preview-product"
-						[product]="product"
-						(plusClicked)="addProductToOrder($event)"
-						(minusClicked)="removeProductFromOrder($event)"
-					></app-product>
-				</a>
-			</li>
-		</ng-container>
+		<li class="product" *ngFor="let product of products$ | async; trackBy: trackByFn">
+			<a class="link" [routerLink]="product.id">
+				<app-preview-product
+					class="preview-product"
+					[product]="product"
+					(plusClicked)="addProductToOrder($event)"
+					(minusClicked)="removeProductFromOrder($event)"
+				></app-preview-product>
+			</a>
+		</li>
 	</ul>
-
-	<ng-template #skeleton> </ng-template>
 </div>

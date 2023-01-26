@@ -1,5 +1,5 @@
 <ng-container *transloco="let t; read: tablePageI18n">
-	<div class="table-dialog" *ngIf="table$ | async as table; else skeleton">
+	<div class="table-dialog" *ngIf="table$ | async as table">
 		<app-image class="image" [remote]="true" [name]="table.file?.url" placeholder="table"></app-image>
 
 		<div class="content">
@@ -18,5 +18,3 @@
 		</div>
 	</div>
 </ng-container>
-
-<ng-template #skeleton> </ng-template>

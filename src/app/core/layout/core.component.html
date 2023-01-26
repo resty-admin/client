@@ -2,7 +2,30 @@
 	<app-cookies></app-cookies>
 	<app-progress-bar class="progress-bar"></app-progress-bar>
 
-	<div class="pages">
-		<router-outlet></router-outlet>
-	</div>
+	<app-header
+		*ngIf="isClient$ | async"
+		class="header"
+		[activeOrder]="activeOrder$ | async"
+		[actions]="profileActions"
+		[isAsideOpen]="isAsideOpen$ | async"
+		(burgerClicked)="toggleAside()"
+	></app-header>
+
+	<main class="main">
+		<app-aside
+			*ngIf="isClient$ | async"
+			class="aside"
+			[activeOrder]="activeOrder$ | async"
+			[class.open]="isAsideOpen$ | async"
+			(closeClicked)="toggleAside()"
+		></app-aside>
+
+		<app-navigation-skeleton class="navigation-skeleton">
+			<div class="pages">
+				<router-outlet></router-outlet>
+			</div>
+
+			<app-footer class="footer"></app-footer>
+		</app-navigation-skeleton>
+	</main>
 </div>

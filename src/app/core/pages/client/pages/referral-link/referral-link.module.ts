@@ -8,12 +8,13 @@ import { ImageModule } from "@shared/ui/image";
 import { InputModule } from "@shared/ui/input";
 import { TypographyModule } from "@shared/ui/typography";
 
+import { REFERRAL_LINK_COMPONENTS } from "./components";
 import { ReferralLinkComponent } from "./layout/referral-link.component";
 import { REFERRAL_LINK_PROVIDERS } from "./providers";
 import { ReferralLinkRoutingModule } from "./referral-link-routing.module";
 
 @NgModule({
-	declarations: [ReferralLinkComponent],
+	declarations: [ReferralLinkComponent, ...REFERRAL_LINK_COMPONENTS],
 	imports: [
 		CommonModule,
 		ReferralLinkRoutingModule,

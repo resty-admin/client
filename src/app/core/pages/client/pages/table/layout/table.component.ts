@@ -1,5 +1,6 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
 import { OrderTypeEnum } from "@graphql";
@@ -11,6 +12,7 @@ import { DialogService } from "@shared/ui/dialog";
 import { IosDatepickerDialogComponent } from "@shared/ui/ios-datepicker-dialog";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
+import type { Observable } from "rxjs";
 import { BehaviorSubject, catchError, filter, lastValueFrom, map, of, shareReplay, switchMap, take, tap } from "rxjs";
 
 import { TABLE_PAGE_I18N } from "../constants";
@@ -28,7 +30,7 @@ export type IValidationStatus = "invalid" | "loading" | "valid";
 export class TableComponent implements OnInit, OnDestroy {
 	readonly tablePageI18n = TABLE_PAGE_I18N;
 	private readonly _tablePageQuery = this._tablePageGQL.watch();
-	readonly table$ = this._tablePageQuery.valueChanges.pipe(map((result) => result.data.table));
+	readonly table$: Observable<any> = this._activatedRoute.data.pipe(map((data) => data["table"]));
 	private readonly _dateSubject = new BehaviorSubject<Dayjs | undefined>(undefined);
 	readonly date$ = this._dateSubject.asObservable().pipe(shareReplay({ refCount: true }));
 
@@ -43,6 +45,7 @@ export class TableComponent implements OnInit, OnDestroy {
 	startDate?: Dayjs;
 
 	constructor(
+		private readonly _activatedRoute: ActivatedRoute,
 		private readonly _tablePageGQL: TablePageGQL,
 		private readonly _tablePageOrderGQL: TablePageOrderGQL,
 		private readonly _routerService: RouterService,

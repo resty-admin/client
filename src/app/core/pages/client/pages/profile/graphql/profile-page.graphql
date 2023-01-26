@@ -1,6 +1,0 @@
-query ProfilePage($userId: String!) {
-	user(id: $userId) {
-		id
-		name
-	}
-}

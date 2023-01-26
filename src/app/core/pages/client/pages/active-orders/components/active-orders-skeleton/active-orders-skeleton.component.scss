@@ -1,0 +1,18 @@
+@import "/src/assets/scss/abstractions";
+
+@include page() {
+	.active-orders-skeleton {
+		display: grid;
+		grid-gap: rem(12);
+
+		@include pagePadding();
+		.active-orders {
+			display: grid;
+			grid-gap: rem(12);
+
+			@include desktop() {
+				grid-template-columns: 1fr 1fr 1fr;
+			}
+		}
+	}
+}

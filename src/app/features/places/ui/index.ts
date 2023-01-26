@@ -1,2 +1,2 @@
 export * from "./preview-place";
-export * from "./skeleton-place";
+export * from "./preview-place-skeleton";

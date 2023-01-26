@@ -1,0 +1,10 @@
+@import "/src/assets/scss/abstractions/index";
+
+@include component() {
+	.users-select-skeleton {
+	}
+}
+@include dark() {
+	.users-select-skeleton {
+	}
+}

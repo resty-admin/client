@@ -1,5 +1,6 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { ProductsPageGQL } from "@core/pages/client/pages/products/graphql/products-page";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
@@ -9,8 +10,7 @@ import { CATEGORY_ID, PLACE_ID } from "@shared/constants";
 import { CLIENT_ROUTES } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
-import { DialogService } from "@shared/ui/dialog";
-import { lastValueFrom, map, ReplaySubject, switchMap, take } from "rxjs";
+import { lastValueFrom, map, take } from "rxjs";
 
 import { PRODUCTS_PAGE_I18N } from "../constants";
 
@@ -24,30 +24,16 @@ import { PRODUCTS_PAGE_I18N } from "../constants";
 export class ProductsComponent implements OnInit, OnDestroy {
 	readonly productsPageI18n = PRODUCTS_PAGE_I18N;
 	private readonly _productsPageQuery = this._productsPageGQL.watch();
-	private readonly _selectedCategorySubject = new ReplaySubject<string>();
-	readonly selectedCategory$ = this._selectedCategorySubject.asObservable();
 
-	readonly products$ = this._ordersService.productsToOrders$.pipe(
-		switchMap((productsToOrders) =>
-			this._productsPageQuery.valueChanges.pipe(
-				map((result) => result.data.products.data),
-				map((products) =>
-					(products || []).map((product) => ({
-						...product,
-						productsToOrders: productsToOrders.filter((productToOrder) => productToOrder.productId === product.id)
-					}))
-				)
-			)
-		)
-	);
+	readonly products$ = this._activatedRoute.data.pipe(map((data) => data["products"]));
 
 	constructor(
+		private readonly _activatedRoute: ActivatedRoute,
 		private readonly _productsPageGQL: ProductsPageGQL,
 		private readonly _ordersService: OrdersService,
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
-		private readonly _actionsService: ActionsService,
-		private readonly _dialogService: DialogService
+		private readonly _actionsService: ActionsService
 	) {}
 
 	trackByFn(index: number) {

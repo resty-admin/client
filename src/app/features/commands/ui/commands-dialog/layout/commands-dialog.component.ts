@@ -1,8 +1,9 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { CommandsDialogGQL } from "@features/commands/ui/commands-dialog/graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { map } from "rxjs";
+
+import { CommandsDialogGQL } from "../graphql";
 
 @Component({
 	selector: "app-commands-dialog",

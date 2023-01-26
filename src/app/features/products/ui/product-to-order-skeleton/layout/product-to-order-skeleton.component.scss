@@ -1,0 +1,10 @@
+@import "/src/assets/scss/abstractions/index";
+
+@include component() {
+	.product-to-order-skeleton {
+	}
+}
+@include dark() {
+	.product-to-order-skeleton {
+	}
+}

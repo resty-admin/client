@@ -1,8 +1,9 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { ActionsService } from "@features/app";
 import { AuthService } from "@features/auth";
-import { CLIENT_ROUTES, ORDER_ID } from "@shared/constants";
+import { CLIENT_ROUTES } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { lastValueFrom, map, take } from "rxjs";
@@ -20,17 +21,10 @@ export class ActiveOrdersComponent implements OnInit, OnDestroy {
 	readonly activeOrdersPageI18n = ACTIVE_ORDERS_PAGE_I18N;
 	readonly historyOrdersLink = CLIENT_ROUTES.HISTORY_ORDERS.absolutePath;
 	private readonly _activeOrdersPageQuery = this._activeOrdersPageGQL.watch();
-	readonly activeOrders$ = this._activeOrdersPageQuery.valueChanges.pipe(
-		map((result) => result.data.orders.data),
-		map((orders) =>
-			(orders || []).map((order) => ({
-				...order,
-				routerLink: CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, order.id)
-			}))
-		)
-	);
+	readonly activeOrders$: any = this._activatedRoute.data.pipe(map((data) => data["activeOrders"]));
 
 	constructor(
+		private readonly _activatedRoute: ActivatedRoute,
 		private readonly _activeOrdersPageGQL: ActiveOrdersPageGQL,
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _actionsService: ActionsService,

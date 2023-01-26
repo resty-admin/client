@@ -1,26 +1,34 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { JwtModule } from "@auth0/angular-jwt";
+import { ActiveOrderModule } from "@features/orders";
 import { ApiModule } from "@shared/modules/api";
 import { ApolloModule } from "@shared/modules/apollo";
 import { CookiesModule } from "@shared/modules/cookies";
 import { CryptoModule } from "@shared/modules/crypto";
+import { DirectivesModule } from "@shared/modules/directives";
 import { ErrorsModule } from "@shared/modules/errors";
 import { I18nModule } from "@shared/modules/i18n";
+import { PipesModule } from "@shared/modules/pipes";
 import { SocketIoModule } from "@shared/modules/socket-io";
 import { StoreModule } from "@shared/modules/store";
 import { ThemeModule } from "@shared/modules/theme";
+import { ActionsModule } from "@shared/ui/actions";
+import { ButtonModule } from "@shared/ui/button";
 import { CodeInputModule } from "@shared/ui/code-input";
 import { DialogModule } from "@shared/ui/dialog";
 import { FileModule } from "@shared/ui/file";
 import { IconModule } from "@shared/ui/icon";
 import { ImageModule } from "@shared/ui/image";
+import { LinkModule } from "@shared/ui/link";
+import { NavigationSkeletonModule } from "@shared/ui/navigation-skeleton";
 import { ProgressBarModule } from "@shared/ui/progress-bar";
 import { SelectModule } from "@shared/ui/select";
 import { ToastrModule } from "@shared/ui/toastr";
 import { TooltipModule } from "@shared/ui/tooltip";
 import { NgxSkeletonLoaderModule } from "ngx-skeleton-loader";
 
+import { CORE_COMPONENTS } from "./components";
 import {
 	API_CONFIG,
 	APOLLO_CONFIG,
@@ -43,7 +51,7 @@ import { CoreComponent } from "./layout/core.component";
 import { CORE_PROVIDERS } from "./providers";
 
 @NgModule({
-	declarations: [CoreComponent],
+	declarations: [CoreComponent, ...CORE_COMPONENTS],
 	imports: [
 		BrowserModule.withServerTransition(BROWSER_MODULE_CONFIG),
 		CoreRoutingModule,
@@ -66,7 +74,14 @@ import { CORE_PROVIDERS } from "./providers";
 		SelectModule.forRoot(SELECT_CONFIG),
 		TooltipModule.forRoot(),
 		CodeInputModule.forRoot(CODE_INPUT_CONFIG),
-		CookiesModule
+		CookiesModule,
+		NavigationSkeletonModule,
+		PipesModule,
+		DirectivesModule,
+		ActiveOrderModule,
+		LinkModule,
+		ButtonModule,
+		ActionsModule
 	],
 	providers: CORE_PROVIDERS,
 	exports: [CoreComponent]

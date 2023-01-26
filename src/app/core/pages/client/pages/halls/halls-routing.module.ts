@@ -1,13 +1,21 @@
 import { NgModule } from "@angular/core";
-import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
+import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
+import { HallsSkeletonComponent } from "./components";
 import { HallsComponent } from "./layout/halls.component";
+import { HallsResolver } from "./resolvers";
 
-export const HALLS_ROUTES: Route[] = [
+export const HALLS_ROUTES: INavigationSkeletonRoute[] = [
 	{
 		path: "",
-		component: HallsComponent
+		component: HallsComponent,
+		resolve: {
+			halls: HallsResolver
+		},
+		skeleton: {
+			component: HallsSkeletonComponent
+		}
 	}
 ];
 

@@ -1,13 +1,21 @@
 import { NgModule } from "@angular/core";
-import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
+import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
+import { TableSkeletonComponent } from "./components";
 import { TableComponent } from "./layout/table.component";
+import { TableResolver } from "./resolvers";
 
-export const TABLE_ROUTES: Route[] = [
+export const TABLE_ROUTES: INavigationSkeletonRoute[] = [
 	{
 		path: "",
-		component: TableComponent
+		component: TableComponent,
+		resolve: {
+			halls: TableResolver
+		},
+		skeleton: {
+			component: TableSkeletonComponent
+		}
 	}
 ];
 

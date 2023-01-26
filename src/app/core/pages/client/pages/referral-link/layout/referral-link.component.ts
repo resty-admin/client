@@ -1,8 +1,8 @@
 import { Clipboard } from "@angular/cdk/clipboard";
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { ActionsService } from "@features/app";
-import { OrdersService } from "@features/orders";
 import { OrderTypeEnum } from "@graphql";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { PLACE_ID } from "@shared/constants";
@@ -10,10 +10,10 @@ import { CLIENT_ROUTES } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { ToastrService } from "@shared/ui/toastr";
-import { filter, map, switchMap } from "rxjs";
+import type { Observable } from "rxjs";
+import { map } from "rxjs";
 
 import { REFERRAL_LINK_PAGE_I18N } from "../constants";
-import { ReferralLinkPageGQL } from "../graphql";
 
 @UntilDestroy()
 @Component({
@@ -24,17 +24,12 @@ import { ReferralLinkPageGQL } from "../graphql";
 })
 export class ReferralLinkComponent implements OnInit, OnDestroy {
 	readonly referralLinkPageI18n = REFERRAL_LINK_PAGE_I18N;
-	readonly activeOrder$ = this._ordersService.activeOrderId$.pipe(
-		filter((orderId) => Boolean(orderId)),
-		switchMap((orderId) => this._referralLinkPageGQL.watch({ orderId: orderId! }).valueChanges),
-		map((result) => result.data.order)
-	);
+	readonly activeOrder$: Observable<any> = this._activatedRoute.data.pipe(map((data) => data["activeOrder"]));
 
 	constructor(
-		private readonly _referralLinkPageGQL: ReferralLinkPageGQL,
+		private readonly _activatedRoute: ActivatedRoute,
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
-		private readonly _ordersService: OrdersService,
 		private readonly _actionsService: ActionsService,
 		private readonly _toastrService: ToastrService,
 		private readonly _clipboard: Clipboard
@@ -47,7 +42,7 @@ export class ReferralLinkComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
-		this.activeOrder$.pipe(untilDestroyed(this)).subscribe((order) => {
+		this.activeOrder$.pipe(untilDestroyed(this)).subscribe((order: any) => {
 			if (!order) {
 				return;
 			}
@@ -61,14 +56,14 @@ export class ReferralLinkComponent implements OnInit, OnDestroy {
 				[OrderTypeEnum.Pickup]: CLIENT_ROUTES.CATEGORIES.absolutePath,
 				[OrderTypeEnum.Delivery]: CLIENT_ROUTES.CATEGORIES.absolutePath,
 				[OrderTypeEnum.InPlace]: CLIENT_ROUTES.CATEGORIES.absolutePath
-			}[order.type];
+			}[order.type as OrderTypeEnum];
 
 			const label = {
 				[OrderTypeEnum.Reserve]: "Выбрать стол",
 				[OrderTypeEnum.Pickup]: "Выбрать блюда",
 				[OrderTypeEnum.Delivery]: "Выбрать блюда",
 				[OrderTypeEnum.InPlace]: "Выбрать блюда"
-			}[order.type];
+			}[order.type as OrderTypeEnum];
 
 			this._actionsService.setAction({
 				label,

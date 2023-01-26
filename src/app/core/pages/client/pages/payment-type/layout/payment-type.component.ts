@@ -1,16 +1,15 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { PAYMENT_TYPES } from "@core/pages/client/pages/payment-type/data";
 import { ActionsService } from "@features/app";
-import { AuthService } from "@features/auth/services";
 import { OrdersService } from "@features/orders";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { CLIENT_ROUTES, ORDER_ID } from "@shared/constants";
-import { ApiService } from "@shared/modules/api";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
-import type { IRadioButtonOption } from "@shared/ui/radio-button";
-import { ToastrService } from "@shared/ui/toastr";
+import type { Observable } from "rxjs";
 import { lastValueFrom, map } from "rxjs";
 
 import { PAYMENT_TYPE_PAGE_I18N } from "../constants";
@@ -28,42 +27,19 @@ export class PaymentTypeComponent implements OnInit, OnDestroy {
 	readonly paymentTypePageI18n = PAYMENT_TYPE_PAGE_I18N;
 	private readonly paymentTypePageQuery = this._paymentTypeGQL.watch();
 
-	readonly order$ = this.paymentTypePageQuery.valueChanges.pipe(
-		map((result) => result.data.order),
-		map((order) => ({
-			...order,
-			totalPrice: (order?.productsToOrders || [])
-				.filter((productToOrder) =>
-					JSON.parse(this._routerService.getQueryParams("products") || "").includes(productToOrder.id)
-				)
-				.reduce(
-					(sum, productToOrder) =>
-						sum +
-						(productToOrder.product.price +
-							(productToOrder.attributes || []).reduce((_sum, attribute) => _sum + attribute.price, 0)) *
-							productToOrder.count,
-					0
-				)
-		}))
-	);
+	readonly paymentTypes = PAYMENT_TYPES;
 
-	readonly paymentTypes: IRadioButtonOption[] = [
-		{ value: PaymentType.CASH, label: "Наличными" },
-		{ value: PaymentType.TERMINAL, label: "Терминалом" },
-		{ value: PaymentType.CARD, label: `Картой` }
-	];
+	readonly order$: Observable<any> = this._activatedRoute.data.pipe(map((data) => data["order"]));
 
 	readonly paymentTypeControl = new FormControl();
 
 	constructor(
+		private readonly _activatedRoute: ActivatedRoute,
 		private readonly _paymentTypeGQL: PaymentTypePageGQL,
 		private readonly _ordersService: OrdersService,
-		private readonly _apiService: ApiService,
 		private readonly _routerService: RouterService,
 		private readonly _actionsService: ActionsService,
-		private readonly _breadcrumbsService: BreadcrumbsService,
-		private readonly _toastrService: ToastrService,
-		private readonly _authService: AuthService
+		private readonly _breadcrumbsService: BreadcrumbsService
 	) {}
 
 	async ngOnInit() {

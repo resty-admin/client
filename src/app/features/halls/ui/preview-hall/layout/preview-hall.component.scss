@@ -1,7 +1,7 @@
 @import "/src/assets/scss/abstractions/index";
 
 @include component() {
-	.hall {
+	.preview-hall {
 		display: grid;
 		align-items: center;
 		padding: rem(8);
@@ -49,7 +49,7 @@
 	}
 }
 @include dark() {
-	.hall {
+	.preview-hall {
 		background-color: var(--dark-grey);
 		.label {
 			color: white;
