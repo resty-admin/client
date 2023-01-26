@@ -27,7 +27,7 @@ export class TelegramComponent implements OnInit {
 				try {
 					await lastValueFrom(this._authService.telegram(telegramUser));
 
-					await this._routerService.navigateByUrl(CLIENT_ROUTES.CLIENT.absolutePath);
+					await this._routerService.navigateByUrl(CLIENT_ROUTES.PLACES.absolutePath);
 				} catch (error) {
 					console.error(error);
 				}
