@@ -1,9 +1,9 @@
-<ng-container *transloco="let t; read: placesPageI18n">
+<ng-container *transloco="let t; read: placesPage">
 	<div class="places-page">
 		<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 
 		<ul class="places">
-			<li class="place" *ngFor="let place of places$ | async; trackBy: trackByFn">
+			<li class="place" *ngFor="let place of places$ | async; trackBy: sharedService.trackByFn">
 				<a class="link" [routerLink]="place.id">
 					<app-preview-place [place]="place"></app-preview-place>
 				</a>

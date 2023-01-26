@@ -1,8 +1,8 @@
-<div class="tables-page" *transloco="let t; read: tablesPagei18n">
+<div class="tables-page" *transloco="let t; read: tablesPage">
 	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 
 	<ul class="tables">
-		<li class="table" *ngFor="let table of tables$ | async; trackBy: trackByFn">
+		<li class="table" *ngFor="let table of tables$ | async; trackBy: sharedService.trackByFn">
 			<a class="link" [routerLink]="table.id">
 				<app-preview-table class="preview-table" [table]="table"></app-preview-table>
 			</a>

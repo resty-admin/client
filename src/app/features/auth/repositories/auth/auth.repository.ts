@@ -25,6 +25,7 @@ export class AuthRepository {
 	});
 
 	readonly store$ = this._store.pipe(select((store) => store));
+	readonly = this._store.pipe(select((store) => store));
 
 	updateAccessToken(accessToken?: string) {
 		return this._store.update(setProp(ACCESS_TOKEN, accessToken));

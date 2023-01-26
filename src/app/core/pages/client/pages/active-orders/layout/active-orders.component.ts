@@ -2,14 +2,13 @@ import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { ActionsService } from "@features/app";
-import { AuthService } from "@features/auth";
 import { CLIENT_ROUTES } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
-import { lastValueFrom, map, take } from "rxjs";
+import { SharedService } from "@shared/services";
+import { map } from "rxjs";
 
-import { ACTIVE_ORDERS_PAGE_I18N } from "../constants";
-import { ActiveOrdersPageGQL } from "../graphql";
+import { ACTIVE_ORDERS_PAGE } from "../constants";
 
 @Component({
 	selector: "app-active-orders",
@@ -18,25 +17,19 @@ import { ActiveOrdersPageGQL } from "../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActiveOrdersComponent implements OnInit, OnDestroy {
-	readonly activeOrdersPageI18n = ACTIVE_ORDERS_PAGE_I18N;
+	readonly activeOrdersPage = ACTIVE_ORDERS_PAGE;
 	readonly historyOrdersLink = CLIENT_ROUTES.HISTORY_ORDERS.absolutePath;
-	private readonly _activeOrdersPageQuery = this._activeOrdersPageGQL.watch();
 	readonly activeOrders$: any = this._activatedRoute.data.pipe(map((data) => data["activeOrders"]));
 
 	constructor(
+		readonly sharedService: SharedService,
 		private readonly _activatedRoute: ActivatedRoute,
-		private readonly _activeOrdersPageGQL: ActiveOrdersPageGQL,
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _actionsService: ActionsService,
-		private readonly _routerService: RouterService,
-		private readonly _authService: AuthService
+		private readonly _routerService: RouterService
 	) {}
 
-	trackByFn(index: number) {
-		return index;
-	}
-
-	async ngOnInit() {
+	ngOnInit() {
 		this._breadcrumbsService.setBreadcrumb({ routerLink: CLIENT_ROUTES.PLACES.absolutePath });
 
 		this._actionsService.setAction({
@@ -44,16 +37,6 @@ export class ActiveOrdersComponent implements OnInit, OnDestroy {
 			func: async () => {
 				await this._routerService.navigateByUrl(CLIENT_ROUTES.PLACES.absolutePath);
 			}
-		});
-
-		const user = await lastValueFrom(this._authService.me$.pipe(take(1)));
-
-		if (!user) {
-			return;
-		}
-
-		await this._activeOrdersPageQuery.setVariables({
-			filtersArgs: [{ key: "users.id", operator: "=[]", value: user.id }]
 		});
 	}
 

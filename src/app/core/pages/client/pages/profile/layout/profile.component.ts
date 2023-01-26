@@ -1,6 +1,6 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { FORM_I18N } from "@core/constants";
+import { FORM } from "@core/constants";
 import { ActionsService } from "@features/app";
 import { AuthService } from "@features/auth/services";
 import { FormBuilder } from "@ngneat/reactive-forms";
@@ -9,7 +9,7 @@ import { CLIENT_ROUTES } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { lastValueFrom } from "rxjs";
 
-import { PROFILE_PAGE_I18N } from "../constants";
+import { PROFILE_PAGE } from "../constants";
 import type { IProfileForm } from "../interfaces";
 
 @UntilDestroy()
@@ -20,8 +20,8 @@ import type { IProfileForm } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfileComponent implements OnInit, OnDestroy {
-	readonly formI18n = FORM_I18N;
-	readonly profilePageI18n = PROFILE_PAGE_I18N;
+	readonly form = FORM;
+	readonly profilePage = PROFILE_PAGE;
 	readonly user$ = this._authService.me$;
 
 	readonly formGroup = this._formBuilder.group<IProfileForm>({

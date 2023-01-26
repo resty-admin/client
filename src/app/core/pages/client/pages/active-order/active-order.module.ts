@@ -1,12 +1,13 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
-import { CancelConfirmationModule, OrderInfoModule } from "@features/orders";
+import { CancelConfirmationModule, OrderInfoModule, OrderInfoSkeletonModule } from "@features/orders";
 import { CloseConfirmationModule } from "@features/orders/ui";
 import { PreviewPlaceModule } from "@features/places";
 import { ProductsToOrderSelectModule, ProductToOrderModule } from "@features/products";
+import { ProductsToOrderSelectSkeletonModule } from "@features/products/ui/products-to-order-select-skeleton";
 import { PreviewTableModule } from "@features/tables";
-import { UsersSelectModule } from "@features/users";
+import { UsersSelectModule, UsersSelectSkeletonModule } from "@features/users";
 import { TranslocoModule } from "@shared/modules/i18n";
 import { ButtonModule } from "@shared/ui/button";
 import { IconModule } from "@shared/ui/icon";
@@ -36,7 +37,10 @@ import { ACTIVE_ORDER_PROVIDERS } from "./providers";
 		OrderInfoModule,
 		CancelConfirmationModule,
 		CloseConfirmationModule,
-		ImageModule
+		ImageModule,
+		OrderInfoSkeletonModule,
+		UsersSelectSkeletonModule,
+		ProductsToOrderSelectSkeletonModule
 	],
 	exports: [ActiveOrderComponent],
 	providers: ACTIVE_ORDER_PROVIDERS

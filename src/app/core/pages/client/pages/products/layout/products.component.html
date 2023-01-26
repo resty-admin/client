@@ -1,8 +1,8 @@
-<div class="products-page" *transloco="let t; read: productsPageI18n">
+<div class="products-page" *transloco="let t; read: productsPage">
 	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 
 	<ul class="products">
-		<li class="product" *ngFor="let product of products$ | async; trackBy: trackByFn">
+		<li class="product" *ngFor="let product of products$ | async; trackBy: sharedService.trackByFn">
 			<a class="link" [routerLink]="product.id">
 				<app-preview-product
 					class="preview-product"

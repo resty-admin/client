@@ -1,18 +1,18 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { ProductsPageGQL } from "@core/pages/client/pages/products/graphql/products-page";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
 import type { IProductOutput } from "@features/products";
-import { UntilDestroy } from "@ngneat/until-destroy";
-import { CATEGORY_ID, PLACE_ID } from "@shared/constants";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { PLACE_ID } from "@shared/constants";
 import { CLIENT_ROUTES } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
-import { lastValueFrom, map, take } from "rxjs";
+import { SharedService } from "@shared/services";
+import { map, switchMap } from "rxjs";
 
-import { PRODUCTS_PAGE_I18N } from "../constants";
+import { PRODUCTS_PAGE } from "../constants";
 
 @UntilDestroy()
 @Component({
@@ -22,76 +22,61 @@ import { PRODUCTS_PAGE_I18N } from "../constants";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductsComponent implements OnInit, OnDestroy {
-	readonly productsPageI18n = PRODUCTS_PAGE_I18N;
-	private readonly _productsPageQuery = this._productsPageGQL.watch();
+	readonly productsPage = PRODUCTS_PAGE;
 
-	readonly products$ = this._activatedRoute.data.pipe(map((data) => data["products"]));
+	readonly products$ = this._activatedRoute.data.pipe(
+		map((data) => data["products"]),
+		switchMap((products) =>
+			this._ordersService.productsToOrders$.pipe(
+				map((productsToOrders) =>
+					products.map((product: any) => ({
+						...product,
+						productsToOrders: productsToOrders.filter((productToOrder) => productToOrder.productId === product.id)
+					}))
+				)
+			)
+		)
+	);
 
 	constructor(
+		readonly sharedService: SharedService,
 		private readonly _activatedRoute: ActivatedRoute,
-		private readonly _productsPageGQL: ProductsPageGQL,
 		private readonly _ordersService: OrdersService,
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _actionsService: ActionsService
 	) {}
 
-	trackByFn(index: number) {
-		return index;
-	}
+	ngOnInit() {
+		const { placeId, categoryId } = this._routerService.getParams();
 
-	async ngOnInit() {
-		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
-
-		if (!placeId) {
+		if (!placeId || !categoryId) {
 			return;
 		}
 
-		const categoryId = this._routerService.getParams(CATEGORY_ID.slice(1));
-
-		if (!categoryId) {
-			return;
-		}
+		this._ordersService.productsToOrders$.pipe(untilDestroyed(this)).subscribe((productsToOrder) => {
+			this._actionsService.setAction({
+				label: "Подвтердить",
+				disabled: productsToOrder.length === 0,
+				func: async () => {
+					await this._routerService.navigateByUrl(
+						CLIENT_ROUTES.CONFIRM_PRODUCTS.absolutePath.replace(PLACE_ID, placeId)
+					);
+				}
+			});
+		});
 
 		this._breadcrumbsService.setBreadcrumb({
 			routerLink: CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, placeId)
 		});
-
-		this._productsPageQuery
-			.setVariables({ filtersArgs: [{ key: "category.id", operator: "=", value: categoryId }] })
-			.then();
-
-		this.setAction().then();
 	}
 
-	async setAction() {
-		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
-
-		if (!placeId) {
-			return;
-		}
-
-		const productsToOrder = await lastValueFrom(this._ordersService.productsToOrders$.pipe(take(1)));
-
-		this._actionsService.setAction({
-			label: "Подвтердить",
-			disabled: productsToOrder.length === 0,
-			func: async () => {
-				await this._routerService.navigateByUrl(CLIENT_ROUTES.CONFIRM_PRODUCTS.absolutePath.replace(PLACE_ID, placeId));
-			}
-		});
-	}
-
-	async removeProductFromOrder(productOutput: IProductOutput) {
+	removeProductFromOrder(productOutput: IProductOutput) {
 		this._ordersService.removeProductFromOrder(productOutput);
-
-		await this.setAction();
 	}
 
-	async addProductToOrder(productOutput: IProductOutput) {
+	addProductToOrder(productOutput: IProductOutput) {
 		this._ordersService.addProductToOrder(productOutput);
-
-		await this.setAction();
 	}
 
 	ngOnDestroy() {

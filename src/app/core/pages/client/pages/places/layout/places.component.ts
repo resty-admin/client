@@ -5,9 +5,10 @@ import { ActionsService } from "@features/app";
 import { CLIENT_ROUTES } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
+import { SharedService } from "@shared/services";
 import { map } from "rxjs";
 
-import { PLACES_PAGE_I18N } from "../constants";
+import { PLACES_PAGE } from "../constants";
 
 @Component({
 	selector: "app-places",
@@ -16,19 +17,16 @@ import { PLACES_PAGE_I18N } from "../constants";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlacesComponent implements OnInit, OnDestroy {
-	readonly placesPageI18n = PLACES_PAGE_I18N;
+	readonly placesPage = PLACES_PAGE;
 	readonly places$: any = this._activatedRoute.data.pipe(map((data) => data["places"]));
 
 	constructor(
+		readonly sharedService: SharedService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _actionsService: ActionsService,
 		private readonly _routerService: RouterService,
 		private readonly _activatedRoute: ActivatedRoute
 	) {}
-
-	trackByFn(index: number) {
-		return index;
-	}
 
 	ngOnInit() {
 		this._actionsService.setAction({

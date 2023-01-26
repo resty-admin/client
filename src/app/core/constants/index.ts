@@ -1,1 +1,1 @@
-export * from "./form-i18n.constant";
+export * from "./form.constant";

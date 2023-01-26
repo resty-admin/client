@@ -1,28 +1,25 @@
 import { Injectable } from "@angular/core";
 import type { Resolve } from "@angular/router";
-import { OrdersService } from "@features/orders";
+import type { ActivatedRouteSnapshot } from "@angular/router";
+import { CATEGORY_ID } from "@shared/constants";
 import type { Observable } from "rxjs";
-import { map, switchMap } from "rxjs";
+import { map, of } from "rxjs";
 
 import { ProductsPageGQL } from "../../graphql";
 
 @Injectable({ providedIn: "root" })
 export class ProductsResolver implements Resolve<any> {
-	constructor(private _productsPageGQL: ProductsPageGQL, private readonly _ordersService: OrdersService) {}
+	constructor(private _productsPageGQL: ProductsPageGQL) {}
 
-	resolve(): Observable<any> {
-		return this._ordersService.productsToOrders$.pipe(
-			switchMap((productsToOrders) =>
-				this._productsPageGQL.watch().valueChanges.pipe(
-					map((result) => result.data.products.data),
-					map((products) =>
-						(products || []).map((product) => ({
-							...product,
-							productsToOrders: productsToOrders.filter((productToOrder) => productToOrder.productId === product.id)
-						}))
-					)
-				)
-			)
-		);
+	resolve(activatedRouteSnapshot: ActivatedRouteSnapshot): Observable<any | null> {
+		const categoryId = activatedRouteSnapshot.paramMap.get(CATEGORY_ID.slice(1));
+
+		if (!categoryId) {
+			return of(null);
+		}
+
+		const filtersArgs = [{ key: "category.id", operator: "=", value: categoryId }];
+
+		return this._productsPageGQL.watch({ filtersArgs }).valueChanges.pipe(map((result) => result.data.products.data));
 	}
 }

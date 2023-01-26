@@ -1,6 +1,7 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import type { ISimpleChanges } from "@shared/interfaces";
+import { SharedService } from "@shared/services";
 
 import type { IProductInput, IProductOutput } from "../interfaces";
 @Component({
@@ -16,6 +17,8 @@ export class PreviewProductComponent implements OnChanges {
 
 	count = 0;
 
+	constructor(readonly sharedService: SharedService) {}
+
 	ngOnChanges(changes: ISimpleChanges<PreviewProductComponent>) {
 		if (!changes.product || !changes.product.currentValue) {
 			return;
@@ -25,10 +28,6 @@ export class PreviewProductComponent implements OnChanges {
 			(count, productToOrder) => count + productToOrder.count,
 			0
 		);
-	}
-
-	trackByFn(index: number) {
-		return index;
 	}
 
 	emitMinusClick(productId: string) {

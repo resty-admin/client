@@ -2,9 +2,17 @@
 
 @include component() {
 	.products-to-order-select-skeleton {
+		display: grid;
+		row-gap: rem(12);
+		.products-to-orders-by-status {
+			display: grid;
+			row-gap: rem(12);
+			.products-to-orders {
+				display: grid;
+				row-gap: rem(12);
+			}
+		}
 	}
 }
 @include dark() {
-	.products-to-order-select-skeleton {
-	}
 }

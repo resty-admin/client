@@ -1,7 +1,7 @@
-<div class="products-page" *transloco="let t; read: confirmProductsPageI18n">
+<div class="products-page" *transloco="let t; read: confirmProductsPage">
 	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 	<ul class="products">
-		<li class="product" *ngFor="let product of products$ | async; trackBy: trackByFn">
+		<li class="product" *ngFor="let product of products$ | async; trackBy: sharedService.trackByFn">
 			<app-confirm-product
 				[product]="product"
 				(minusClicked)="removeProductFromOrder($event)"

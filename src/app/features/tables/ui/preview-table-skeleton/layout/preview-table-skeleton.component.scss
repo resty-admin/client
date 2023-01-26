@@ -2,9 +2,39 @@
 
 @include component() {
 	.preview-table-skeleton {
+		display: grid;
+		align-items: center;
+		padding: rem(8);
+		row-gap: rem(8);
+		border: rem(1) solid transparent;
+		grid-template-areas:
+			"image image"
+			"name status";
+		background-color: var(--light-grey);
+		border-radius: rem(12);
+		column-gap: rem(16);
+		grid-template-columns: auto 1fr;
+		.image {
+			grid-area: image;
+			height: rem(150);
+
+			@include image() {
+				border-radius: rem(12);
+			}
+		}
+		.name {
+			grid-area: name;
+			width: rem(60);
+			height: rem(24);
+		}
+		.status {
+			grid-area: status;
+			justify-self: end;
+		}
 	}
 }
 @include dark() {
 	.preview-table-skeleton {
+		background-color: var(--dark-grey);
 	}
 }

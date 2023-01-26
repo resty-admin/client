@@ -3,6 +3,7 @@ import { RouterModule } from "@angular/router";
 import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
 import { ProductsSkeletonComponent } from "./components";
+import { PRODUCTS_PAGE } from "./constants";
 import { ProductsComponent } from "./layout/products.component";
 import { ProductsResolver } from "./resolvers";
 
@@ -10,6 +11,9 @@ export const PRODUCTS_ROUTES: INavigationSkeletonRoute[] = [
 	{
 		path: "",
 		component: ProductsComponent,
+		data: {
+			animation: PRODUCTS_PAGE
+		},
 		resolve: {
 			products: ProductsResolver
 		},

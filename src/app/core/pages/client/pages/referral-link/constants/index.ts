@@ -1,1 +1,1 @@
-export * from "./referral-link-page-i18n.constant";
+export * from "./referral-link-page.constant";

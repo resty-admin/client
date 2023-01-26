@@ -1,6 +1,7 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import type { ISimpleChanges } from "@shared/interfaces";
+import { SharedService } from "@shared/services";
 
 import { PRODUCTS_TO_ORDER_SELECT_I18N } from "../constants";
 import type { IProductToOrderToSelectInput } from "../interfaces";
@@ -29,6 +30,8 @@ export class ProductsToOrderSelectComponent implements OnChanges {
 
 	productsToOrdersWithSelectedByStatus: IProductToOrderWithSelectedByStatus[] = [];
 
+	constructor(readonly sharedService: SharedService) {}
+
 	ngOnChanges(changes: ISimpleChanges<ProductsToOrderSelectComponent>) {
 		if (!(changes.productsToOrders?.currentValue || changes.selectedProductsToOrders?.currentValue)) {
 			return;
@@ -55,10 +58,6 @@ export class ProductsToOrderSelectComponent implements OnChanges {
 				});
 			}
 		}
-	}
-
-	trackByFn(index: number) {
-		return index;
 	}
 
 	emitChange() {

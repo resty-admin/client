@@ -1,1 +1,1 @@
-export * from "./header-i18n.constant";
+export * from "./header.constant";

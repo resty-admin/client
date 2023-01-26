@@ -125,7 +125,7 @@ export class AuthService {
 
 	async signOut() {
 		this._authRepository.updateUser(undefined);
-		this.updateAccessToken(undefined);
+		await this.updateAccessToken(undefined);
 		await this._routerService.navigateByUrl(CLIENT_ROUTES.SIGN_IN.absolutePath);
 	}
 }

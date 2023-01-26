@@ -1,8 +1,8 @@
-<ng-container *transloco="let t; read: productPageI18n">
+<ng-container *transloco="let t; read: productPage">
 	<div class="product-dialog" *ngIf="product$ | async as product">
 		<app-image class="image" [remote]="true" [name]="product.file?.url" placeholder="product"></app-image>
 
-		<div class="content" *transloco="let f; read: formI18n">
+		<div class="content" *transloco="let f; read: form">
 			<h1 class="name">{{ product.name }}</h1>
 			<h2 class="description">{{ product.description }}</h2>
 
@@ -18,7 +18,7 @@
 			<!--			<p class="cal">250 гр</p>-->
 
 			<div class="attrGroups">
-				<div class="attrGroup" *ngFor="let attrGroup of product.attrsGroups; trackBy: trackByFn">
+				<div class="attrGroup" *ngFor="let attrGroup of product.attrsGroups; trackBy: sharedService.trackByFn">
 					<p class="label">{{ attrGroup.name }}</p>
 
 					<app-radio-button

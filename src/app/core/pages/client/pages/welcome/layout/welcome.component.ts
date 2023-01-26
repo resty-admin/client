@@ -1,6 +1,6 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { FORM_I18N } from "@core/constants";
+import { FORM } from "@core/constants";
 import { ActionsService } from "@features/app";
 import { AuthService } from "@features/auth/services";
 import { FormControl } from "@ngneat/reactive-forms";
@@ -8,7 +8,7 @@ import { CLIENT_ROUTES } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
 import { lastValueFrom } from "rxjs";
 
-import { WELCOME_PAGE_I18N } from "../constants";
+import { WELCOME_PAGE } from "../constants";
 
 @Component({
 	selector: "app-welcome",
@@ -17,8 +17,8 @@ import { WELCOME_PAGE_I18N } from "../constants";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WelcomeComponent implements OnInit, OnDestroy {
-	readonly welcomePageI18n = WELCOME_PAGE_I18N;
-	readonly formI18n = FORM_I18N;
+	readonly welcomePage = WELCOME_PAGE;
+	readonly form = FORM;
 	readonly nameControl = new FormControl<string>();
 
 	constructor(

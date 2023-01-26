@@ -1,7 +1,7 @@
 @import "/src/assets/scss/abstractions/index";
 
 @include component() {
-	.product-skeleton {
+	.preview-product-skeleton {
 		display: grid;
 		border: rem(1) solid transparent;
 		background-color: var(--light-grey);
@@ -16,7 +16,6 @@
 		grid-template-columns: auto 1fr auto;
 		.image {
 			grid-area: image;
-			//width: rem(56);
 			height: rem(150);
 
 			@include image() {
@@ -25,51 +24,31 @@
 		}
 		.name {
 			grid-area: name;
-			font-weight: 500;
-			font-size: rem(14);
-			line-height: rem(24);
-			color: var(--dark);
-			text-align: left;
-
-			@include noWrap();
+			height: rem(24);
+			width: rem(100);
 		}
 		.price {
 			grid-area: price;
-			font-weight: 500;
-			font-size: rem(16);
-			line-height: rem(24);
-			color: var(--primary);
-			justify-self: end;
-		}
-		.divider {
-			grid-area: divider;
-			height: rem(1);
-			background-color: var(--dark-b);
+			height: rem(24);
+			width: rem(50);
 		}
 		.cal {
 			grid-area: cal;
-			font-weight: 400;
-			font-size: rem(12);
-			line-height: rem(16);
-			color: var(--dark-t);
 		}
 		.description {
 			grid-area: description;
-			color: var(--dark-t);
-			max-width: 80%;
-			text-align: left;
 		}
 		.counter {
 			grid-area: counter;
 			justify-self: end;
 			align-self: end;
-		}
-		&.active {
-			border-color: var(--primary);
+			width: rem(36);
+			height: rem(36);
 		}
 	}
 }
 @include dark() {
-	.preview-product {
+	.preview-product-skeleton {
+		background-color: var(--dark-grey);
 	}
 }

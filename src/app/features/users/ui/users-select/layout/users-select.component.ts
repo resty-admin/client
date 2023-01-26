@@ -1,8 +1,9 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import type { ISimpleChanges } from "@shared/interfaces";
+import { SharedService } from "@shared/services";
 
-import { USERS_SELECT_I18N } from "../constants";
+import { USERS_SELECT } from "../constants";
 import type { IUserToSelect } from "../interfaces";
 
 @Component({
@@ -16,11 +17,13 @@ export class UsersSelectComponent implements OnChanges {
 	@Input() selectedUsers?: string[] | null;
 	@Input() users?: IUserToSelect[] | null;
 
-	readonly usersSelectI18n = USERS_SELECT_I18N;
+	readonly usersSelect = USERS_SELECT;
 
 	usersWithSelected: (IUserToSelect & { selected: boolean })[] = [];
 
 	isAll: boolean = false;
+
+	constructor(readonly sharedService: SharedService) {}
 
 	toggleAll() {
 		this.isAll = !this.isAll;
@@ -46,10 +49,6 @@ export class UsersSelectComponent implements OnChanges {
 		const selectedusers = this.usersWithSelected.filter((user) => user.selected).map((user) => user.id);
 
 		this.isAll = selectedusers.length === (this.users || []).length;
-	}
-
-	trackByFn(index: number) {
-		return index;
 	}
 
 	emitChange() {

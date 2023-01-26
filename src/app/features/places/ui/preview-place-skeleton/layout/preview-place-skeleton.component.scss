@@ -26,9 +26,13 @@
 		}
 		.label {
 			grid-area: label;
+			width: rem(150);
+			height: rem(24);
 		}
 		.status {
 			grid-area: status;
+			width: rem(60);
+			height: rem(16);
 		}
 		.time,
 		.address {
@@ -41,6 +45,7 @@
 			}
 			.text {
 				flex: 1;
+				height: rem(24);
 			}
 			&.time {
 				grid-area: time;

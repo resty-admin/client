@@ -5,6 +5,7 @@
 		border-radius: rem(12);
 		padding: rem(15);
 		display: grid;
+		row-gap: rem(6);
 		grid-template-areas:
 			"name sum"
 			"type type"
@@ -14,18 +15,11 @@
 
 		.name {
 			grid-area: name;
-			font-weight: 500;
-			font-size: rem(16);
-			line-height: rem(24);
-			color: var(--dark);
 		}
 		.sum {
 			grid-area: sum;
 			justify-self: end;
-			font-weight: 500;
-			font-size: rem(16);
-			line-height: rem(24);
-			color: var(--dark);
+			width: rem(40);
 		}
 		.type,
 		.time,
@@ -40,10 +34,7 @@
 			}
 
 			.text {
-				font-weight: 500;
-				font-size: rem(14);
-				line-height: rem(24);
-				color: var(--dark);
+				flex: 1;
 			}
 
 			&.type {

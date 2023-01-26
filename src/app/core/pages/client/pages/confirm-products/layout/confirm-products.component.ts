@@ -8,9 +8,10 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { CLIENT_ROUTES, ORDER_ID, PLACE_ID } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
-import { lastValueFrom, map, take } from "rxjs";
+import { SharedService } from "@shared/services";
+import { lastValueFrom, map, switchMap, take } from "rxjs";
 
-import { CONFIRM_PRODUCTS_PAGE_I18N } from "../constants";
+import { CONFIRM_PRODUCTS_PAGE } from "../constants";
 
 @UntilDestroy()
 @Component({
@@ -20,21 +21,32 @@ import { CONFIRM_PRODUCTS_PAGE_I18N } from "../constants";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConfirmProductsComponent implements OnInit, OnDestroy {
-	readonly confirmProductsPageI18n = CONFIRM_PRODUCTS_PAGE_I18N;
+	readonly confirmProductsPage = CONFIRM_PRODUCTS_PAGE;
 
-	readonly products$ = this._activatedRoute.data.pipe(map((data) => data["products"]));
+	readonly products$ = this._activatedRoute.data.pipe(
+		map((data) => data["products"]),
+		switchMap((products: any[]) =>
+			this._ordersService.productsToOrders$.pipe(
+				map((productsToOrders) =>
+					(products || [])
+						.map((product) => ({
+							...product,
+							productsToOrders: productsToOrders.filter((productToOrder) => productToOrder.productId === product.id)
+						}))
+						.filter((product) => product.productsToOrders.length)
+				)
+			)
+		)
+	);
 
 	constructor(
+		readonly sharedService: SharedService,
 		private readonly _activatedRoute: ActivatedRoute,
 		private readonly _routerService: RouterService,
 		private readonly _actionsService: ActionsService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _ordersService: OrdersService
 	) {}
-
-	trackByFn(index: number) {
-		return index;
-	}
 
 	ngOnInit() {
 		this._breadcrumbsService.setBreadcrumb({

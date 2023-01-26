@@ -13,7 +13,7 @@ import { ToastrService } from "@shared/ui/toastr";
 import type { Observable } from "rxjs";
 import { map } from "rxjs";
 
-import { REFERRAL_LINK_PAGE_I18N } from "../constants";
+import { REFERRAL_LINK_PAGE } from "../constants";
 
 @UntilDestroy()
 @Component({
@@ -23,7 +23,7 @@ import { REFERRAL_LINK_PAGE_I18N } from "../constants";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReferralLinkComponent implements OnInit, OnDestroy {
-	readonly referralLinkPageI18n = REFERRAL_LINK_PAGE_I18N;
+	readonly referralLinkPage = REFERRAL_LINK_PAGE;
 	readonly activeOrder$: Observable<any> = this._activatedRoute.data.pipe(map((data) => data["activeOrder"]));
 
 	constructor(

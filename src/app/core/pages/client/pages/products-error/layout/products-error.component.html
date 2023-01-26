@@ -1,9 +1,9 @@
-<div class="products-error" *transloco="let t; read: productsErrorPageI18n">
+<div class="products-error" *transloco="let t; read: productsErrorPage">
 	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 	<h2 class="subtitle">{{ t("description") }}</h2>
 
 	<ul class="products">
-		<li class="product" *ngFor="let product of products$ | async; trackBy: trackByFn">
+		<li class="product" *ngFor="let product of products$ | async; trackBy: sharedService.trackByFn">
 			<a class="link" [routerLink]="product.id">
 				<!--				<app-product [product]="product"></app-product>-->
 			</a>

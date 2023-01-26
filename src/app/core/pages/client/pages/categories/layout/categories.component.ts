@@ -5,10 +5,10 @@ import { PLACE_ID } from "@shared/constants";
 import { CLIENT_ROUTES } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
+import { SharedService } from "@shared/services";
 import { map } from "rxjs";
 
-import { CATEGORIES_PAGE_I18N } from "../constants";
-import { CategoriesPageGQL } from "../graphql";
+import { CATEGORIES_PAGE } from "../constants";
 
 @Component({
 	selector: "app-categories",
@@ -17,18 +17,17 @@ import { CategoriesPageGQL } from "../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoriesComponent implements OnInit, OnDestroy {
-	readonly categoriesPageI18n = CATEGORIES_PAGE_I18N;
-	private readonly _categoriesPageQuery = this._categoriesPageGQL.watch();
+	readonly categoriesPage = CATEGORIES_PAGE;
 	readonly categories$: any = this._activatedRoute.data.pipe(map((data) => data["categories"]));
 
 	constructor(
+		readonly sharedService: SharedService,
 		private readonly _activatedRoute: ActivatedRoute,
-		private readonly _categoriesPageGQL: CategoriesPageGQL,
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService
 	) {}
 
-	async ngOnInit() {
+	ngOnInit() {
 		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
 
 		if (!placeId) {
@@ -38,12 +37,6 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 		this._breadcrumbsService.setBreadcrumb({
 			routerLink: CLIENT_ROUTES.CREATE_ORDER.absolutePath.replace(PLACE_ID, placeId)
 		});
-
-		await this._categoriesPageQuery.setVariables({ filtersArgs: [{ key: "place.id", operator: "=", value: placeId }] });
-	}
-
-	trackByFn(index: number) {
-		return index;
 	}
 
 	ngOnDestroy() {

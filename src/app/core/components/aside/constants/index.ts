@@ -1,1 +1,1 @@
-export * from "./aside-i18n.constant";
+export * from "./aside.constant";

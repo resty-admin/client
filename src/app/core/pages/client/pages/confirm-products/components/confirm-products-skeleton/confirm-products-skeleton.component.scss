@@ -2,5 +2,17 @@
 
 @include page() {
 	.confirm-products-skeleton {
+		display: grid;
+		row-gap: rem(12);
+
+		@include pagePadding();
+		.products {
+			display: grid;
+			grid-gap: rem(12);
+
+			@include desktop() {
+				grid-template-columns: 1fr 1fr;
+			}
+		}
 	}
 }

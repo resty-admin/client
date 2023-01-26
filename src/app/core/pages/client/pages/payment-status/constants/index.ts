@@ -1,1 +1,1 @@
-export * from "./payment-status-page-i18n.constant";
+export * from "./payment-status-page.constant";

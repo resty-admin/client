@@ -15,11 +15,12 @@ import type { DeepPartial } from "@shared/interfaces";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { SocketIoService } from "@shared/modules/socket-io";
+import { SharedService } from "@shared/services";
 import { DialogService } from "@shared/ui/dialog";
 import type { Observable } from "rxjs";
 import { lastValueFrom, map, take } from "rxjs";
 
-import { ACTIVE_ORDER_PAGE_I18N } from "../constants";
+import { ACTIVE_ORDER_PAGE } from "../constants";
 import type { ActiveOrderPageQuery } from "../graphql";
 import { ActiveOrderPageGQL } from "../graphql";
 
@@ -31,7 +32,7 @@ import { ActiveOrderPageGQL } from "../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActiveOrderComponent implements OnInit, OnDestroy {
-	readonly activeOrderPageI18n = ACTIVE_ORDER_PAGE_I18N;
+	readonly activeOrderPage = ACTIVE_ORDER_PAGE;
 	readonly statuses = [ProductToOrderStatusEnum.Approved, ProductToOrderStatusEnum.WaitingForApprove];
 
 	private readonly _activeOrderPageQuery = this._activeOrderPageGQL.watch(undefined, { fetchPolicy: "network-only" });
@@ -40,6 +41,7 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 	selectedUsers: string[] = [];
 	selectedProductsToOrders: string[] = [];
 	constructor(
+		readonly sharedService: SharedService,
 		private readonly _activatedRoute: ActivatedRoute,
 		private readonly _activeOrderPageGQL: ActiveOrderPageGQL,
 		private readonly _routerService: RouterService,
@@ -51,10 +53,6 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 		private readonly _dialogService: DialogService,
 		private readonly _commandsService: CommandsService
 	) {}
-
-	trackByFn(index: number) {
-		return index;
-	}
 
 	async openCommandsDialog(order: ActiveOrderPageQuery["order"]) {
 		const commandId = await lastValueFrom(

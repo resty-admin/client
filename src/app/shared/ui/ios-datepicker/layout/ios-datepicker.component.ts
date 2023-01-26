@@ -4,6 +4,7 @@ import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { ControlValueAccessor } from "@shared/classes";
 import { getControlValueAccessorProviders } from "@shared/functions";
+import { SharedService } from "@shared/services";
 import type { Dayjs } from "dayjs";
 import * as dayjs from "dayjs";
 import * as localeData from "dayjs/plugin/localeData";
@@ -56,7 +57,7 @@ export class IosDatepickerComponent extends ControlValueAccessor<Dayjs> implemen
 		top: `calc(50% - ${this.height / 2}px)`
 	};
 
-	constructor(private readonly _changeDetectorReference: ChangeDetectorRef) {
+	constructor(private readonly _changeDetectorReference: ChangeDetectorRef, readonly sharedService: SharedService) {
 		super(dayjs());
 	}
 
@@ -79,10 +80,6 @@ export class IosDatepickerComponent extends ControlValueAccessor<Dayjs> implemen
 					nativeElement.scrollTo({ top, behavior: "smooth" });
 				}
 			});
-	}
-
-	trackByFn(index: number) {
-		return index;
 	}
 
 	scrollTo(htmluListElement: HTMLUListElement, index: number) {

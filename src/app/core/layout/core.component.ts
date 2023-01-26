@@ -8,7 +8,7 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { CLIENT_ROUTES } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
 import type { IAction } from "@shared/ui/actions";
-import { catchError, filter, map, of, shareReplay, switchMap, tap } from "rxjs";
+import { catchError, filter, lastValueFrom, map, of, shareReplay, startWith, switchMap, take, tap } from "rxjs";
 
 import { CorePageGQL } from "../graphql";
 
@@ -21,7 +21,11 @@ import { CorePageGQL } from "../graphql";
 })
 export class CoreComponent implements OnInit {
 	readonly isAsideOpen$ = this._asideService.isOpen$;
-	readonly user$ = this._authService.me$;
+	readonly user$ = this._authService.me$.pipe(
+		filter((user) => Boolean(user)),
+		shareReplay({ refCount: true })
+	);
+
 	readonly activeOrder$ = this._ordersService.activeOrderId$.pipe(
 		switchMap((orderId) =>
 			orderId
@@ -55,6 +59,7 @@ export class CoreComponent implements OnInit {
 
 	readonly isClient$ = this._router.events.pipe(
 		untilDestroyed(this),
+		startWith(this._router),
 		filter((event) => event instanceof NavigationStart),
 		map((event) => !(event as NavigationStart).url.includes("auth")),
 		shareReplay({ refCount: true })
@@ -71,14 +76,13 @@ export class CoreComponent implements OnInit {
 	) {}
 
 	async ngOnInit() {
-		console.log("CORE");
-		// const user = await lastValueFrom(this.user$.pipe(take(1)));
-		//
-		// if (!user || user.name) {
-		// 	return;
-		// }
-		//
-		// await this._routerService.navigateByUrl(CLIENT_ROUTES.WELCOME.absolutePath);
+		const user = await lastValueFrom(this.user$.pipe(take(1)));
+
+		if (!user || user.name) {
+			return;
+		}
+
+		await this._routerService.navigateByUrl(CLIENT_ROUTES.WELCOME.absolutePath);
 	}
 
 	toggleAside() {

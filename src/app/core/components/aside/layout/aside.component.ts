@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import { CLIENT_ROUTES, ORDER_ID } from "@shared/constants";
+import { SharedService } from "@shared/services";
 
 import { PAGES } from "../../../pages/client/data";
-import { ASIDE_I18N } from "../constants";
+import { ASIDE } from "../constants";
 import type { IAsideUser } from "../interfaces";
 import type { IAsideActiveOrder } from "../interfaces";
 import { ASIDE_PROVIDERS } from "../providers";
@@ -16,7 +17,7 @@ import { ASIDE_PROVIDERS } from "../providers";
 })
 export class AsideComponent {
 	readonly orderId = ORDER_ID;
-	readonly asideI18n = ASIDE_I18N;
+	readonly aside = ASIDE;
 	@Output() closeClicked = new EventEmitter();
 	@Output() signOutClicked = new EventEmitter();
 	@Input() user?: IAsideUser | null;
@@ -26,9 +27,7 @@ export class AsideComponent {
 
 	readonly pages = PAGES;
 
-	trackByFn(index: number) {
-		return index;
-	}
+	constructor(readonly sharedService: SharedService) {}
 
 	emitSignOutClick() {
 		this.signOutClicked.emit();

@@ -1,7 +1,7 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { FORM_I18N } from "@core/constants";
+import { FORM } from "@core/constants";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
 import type { ProductEntity } from "@graphql";
@@ -11,10 +11,11 @@ import { CATEGORY_ID, CLIENT_ROUTES, PLACE_ID } from "@shared/constants";
 import type { DeepAtLeast } from "@shared/interfaces";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
+import { SharedService } from "@shared/services";
 import type { Observable } from "rxjs";
 import { BehaviorSubject, map } from "rxjs";
 
-import { PRODUCT_PAGE_I18N } from "../constants";
+import { PRODUCT_PAGE } from "../constants";
 import { ProductPageGQL } from "../graphql";
 
 @UntilDestroy()
@@ -25,8 +26,8 @@ import { ProductPageGQL } from "../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductComponent implements OnInit, OnDestroy {
-	readonly productPageI18n = PRODUCT_PAGE_I18N;
-	readonly formI18n = FORM_I18N;
+	readonly productPage = PRODUCT_PAGE;
+	readonly form = FORM;
 	private readonly _productPageQuery = this._productsPageGQL.watch();
 	readonly attributesFormControl = new FormControl<string[]>();
 	readonly product$: Observable<any> = this._activatedRoute.data.pipe(map((data) => data["product"]));
@@ -37,6 +38,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 	data!: DeepAtLeast<ProductEntity, "id">;
 
 	constructor(
+		readonly sharedService: SharedService,
 		private readonly _activatedRoute: ActivatedRoute,
 		private readonly _routerService: RouterService,
 		private readonly _productsPageGQL: ProductPageGQL,
@@ -44,10 +46,6 @@ export class ProductComponent implements OnInit, OnDestroy {
 		private readonly _actionsService: ActionsService,
 		private readonly _breadcrumbsService: BreadcrumbsService
 	) {}
-
-	trackByFn(index: number) {
-		return index;
-	}
 
 	async ngOnInit() {
 		const { placeId, categoryId, productId } = this._routerService.getParams();

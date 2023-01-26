@@ -1,8 +1,11 @@
-<div class="create-order" *transloco="let t; read: createOrderPageI18n">
+<div class="create-order" *transloco="let t; read: createOrderPage">
 	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 
 	<ul class="order-types">
-		<li [class]="'order-type ' + orderType.image" *ngFor="let orderType of orderTypes; trackBy: trackByFn">
+		<li
+			[class]="'order-type ' + orderType.image"
+			*ngFor="let orderType of orderTypes; trackBy: sharedService.trackByFn"
+		>
 			<button class="link" (click)="createOrder(orderType)">
 				<app-image class="image" [name]="orderType.image"></app-image>
 				<span class="label">{{ t(orderType.label) }}</span>

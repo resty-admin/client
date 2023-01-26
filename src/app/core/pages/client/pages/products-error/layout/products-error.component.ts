@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
+import { SharedService } from "@shared/services";
 import { map } from "rxjs";
 
-import { PRODUCTS_ERROR_PAGE_I18N } from "../constants";
+import { PRODUCTS_ERROR_PAGE } from "../constants";
 
 @Component({
 	selector: "app-products-error",
@@ -11,11 +12,7 @@ import { PRODUCTS_ERROR_PAGE_I18N } from "../constants";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductsErrorComponent {
-	readonly productsErrorPageI18n = PRODUCTS_ERROR_PAGE_I18N;
+	readonly productsErrorPage = PRODUCTS_ERROR_PAGE;
 	readonly products$ = this._activatedRoute.data.pipe(map((data) => data["products"]));
-	constructor(private readonly _activatedRoute: ActivatedRoute) {}
-
-	trackByFn(index: number) {
-		return index;
-	}
+	constructor(readonly sharedService: SharedService, private readonly _activatedRoute: ActivatedRoute) {}
 }

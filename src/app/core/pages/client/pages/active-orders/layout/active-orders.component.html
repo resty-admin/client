@@ -1,4 +1,4 @@
-<div class="all-orders-page" *transloco="let t; read: activeOrdersPageI18n">
+<div class="all-orders-page" *transloco="let t; read: activeOrdersPage">
 	<div class="not-orders" *ngIf="false">
 		<app-image name="active-orders" class="image"></app-image>
 		<p class="text">У вас пока нет активных заказов</p>
@@ -7,7 +7,7 @@
 	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 
 	<ul class="active-orders">
-		<li class="active-order" *ngFor="let activeOrder of activeOrders$ | async; trackBy: trackByFn">
+		<li class="active-order" *ngFor="let activeOrder of activeOrders$ | async; trackBy: sharedService.trackByFn">
 			<a class="link" [routerLink]="activeOrder.routerLink">
 				<app-preview-order [isActive]="true" [order]="activeOrder"></app-preview-order>
 			</a>

@@ -9,10 +9,11 @@ import { ORDER_ID, PLACE_ID } from "@shared/constants";
 import { CLIENT_ROUTES } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
+import { SharedService } from "@shared/services";
 import { DialogService } from "@shared/ui/dialog";
 import { lastValueFrom, map, take } from "rxjs";
 
-import { CREATE_ORDER_PAGE_I18N } from "../constants";
+import { CREATE_ORDER_PAGE } from "../constants";
 import { ORDER_TYPES } from "../data";
 import { CreateOrderPageGQL } from "../graphql";
 import type { IOrderType } from "../intefaces";
@@ -24,7 +25,7 @@ import type { IOrderType } from "../intefaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateOrderComponent implements OnInit, OnDestroy {
-	readonly createOrderPageI18n = CREATE_ORDER_PAGE_I18N;
+	readonly createOrderPage = CREATE_ORDER_PAGE;
 	readonly orderTypes = ORDER_TYPES;
 
 	private readonly _createOrderPageQuery = this._createOrderPageGQL.watch();
@@ -35,6 +36,7 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 	menuRouterLink = "";
 
 	constructor(
+		readonly sharedService: SharedService,
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _ordersService: OrdersService,
@@ -43,10 +45,6 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 		private readonly _dialogService: DialogService,
 		private readonly _createOrderPageGQL: CreateOrderPageGQL
 	) {}
-
-	trackByFn(index: number) {
-		return index;
-	}
 
 	async ngOnInit() {
 		const placeId = this._routerService.getParams(PLACE_ID.slice(1));

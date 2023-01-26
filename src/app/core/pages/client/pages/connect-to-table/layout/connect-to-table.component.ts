@@ -10,7 +10,7 @@ import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { lastValueFrom } from "rxjs";
 
-import { CONNECT_TO_TABLE_PAGE_I18N } from "../constants";
+import { CONNECT_TO_TABLE_PAGE } from "../constants";
 import { ConnectToTablePageGQL } from "../graphql";
 
 @UntilDestroy()
@@ -21,7 +21,7 @@ import { ConnectToTablePageGQL } from "../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConnectToTableComponent implements OnInit, OnDestroy {
-	readonly connectToTableI18n = CONNECT_TO_TABLE_PAGE_I18N;
+	readonly connectToTablePage = CONNECT_TO_TABLE_PAGE;
 	readonly codeControl = new FormControl<number>();
 
 	constructor(

@@ -4,7 +4,7 @@ import { CLIENT_ROUTES, ORDER_ID } from "@shared/constants";
 import type { ISimpleChanges } from "@shared/interfaces";
 import type { IAction } from "@shared/ui/actions";
 
-import { HEADER_I18N } from "../constants";
+import { HEADER } from "../constants";
 import type { IHeaderActiveOrder, IHeaderUser } from "../interfaces";
 import { HEADER_PROVIDERS } from "../providers";
 
@@ -17,7 +17,7 @@ import { HEADER_PROVIDERS } from "../providers";
 })
 export class HeaderComponent implements OnChanges {
 	readonly orderId = ORDER_ID;
-	readonly headerI18n = HEADER_I18N;
+	readonly header = HEADER;
 	@Output() burgerClicked = new EventEmitter();
 	@Input() isAsideOpen?: boolean | null;
 	@Input() user?: IHeaderUser | null;

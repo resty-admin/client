@@ -10,7 +10,7 @@ import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { lastValueFrom, map } from "rxjs";
 
-import { CONNECT_TO_ORDER_PAGE_I18N } from "../constants";
+import { CONNECT_TO_ORDER_PAGE } from "../constants";
 
 @UntilDestroy()
 @Component({
@@ -20,7 +20,7 @@ import { CONNECT_TO_ORDER_PAGE_I18N } from "../constants";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConnectToOrderComponent implements OnInit, OnDestroy {
-	readonly connectToOrderPageI18n = CONNECT_TO_ORDER_PAGE_I18N;
+	readonly connectToOrderPage = CONNECT_TO_ORDER_PAGE;
 	codeControl = new FormControl<number>();
 
 	constructor(

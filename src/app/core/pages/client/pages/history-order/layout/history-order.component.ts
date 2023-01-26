@@ -8,9 +8,10 @@ import { ORDER_ID, PLACE_ID } from "@shared/constants";
 import { CLIENT_ROUTES } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
+import { SharedService } from "@shared/services";
 import { map } from "rxjs";
 
-import { HISTORY_ORDER_PAGE_I18N } from "../constants";
+import { HISTORY_ORDER_PAGE } from "../constants";
 import { HistoryOrderPageGQL } from "../graphql";
 
 @UntilDestroy()
@@ -22,23 +23,20 @@ import { HistoryOrderPageGQL } from "../graphql";
 })
 export class HistoryOrderComponent implements OnInit, OnDestroy {
 	readonly placeId = PLACE_ID;
-	readonly historyOrderPageI18n = HISTORY_ORDER_PAGE_I18N;
+	readonly historyOrderPage = HISTORY_ORDER_PAGE;
 	readonly clientRoutes = CLIENT_ROUTES;
 	readonly usersControl = new FormControl([]);
 	private readonly _historyOrderPageQuery = this._historyOrderPageGQL.watch();
 	readonly order$ = this._activatedRoute.data.pipe(map((data) => data["historyOrder"]));
 
 	constructor(
+		readonly sharedService: SharedService,
 		private readonly _activatedRoute: ActivatedRoute,
 		private readonly _historyOrderPageGQL: HistoryOrderPageGQL,
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _actionsService: ActionsService
 	) {}
-
-	trackByFn(index: number) {
-		return index;
-	}
 
 	async ngOnInit() {
 		const orderId = this._routerService.getParams(ORDER_ID.slice(1));

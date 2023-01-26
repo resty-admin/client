@@ -1,4 +1,4 @@
-<aside class="aside" *transloco="let t; read: asideI18n">
+<aside class="aside" *transloco="let t; read: aside">
 	<a class="user" [routerLink]="clientRoutes.PROFILE.absolutePath" (click)="emitCloseClick()" *ngIf="user">
 		<div class="image">{{ user.name | initials }}</div>
 		<p class="name">{{ user.name }}</p>
@@ -13,7 +13,7 @@
 
 	<nav class="nav">
 		<ul class="pages">
-			<li class="page" *ngFor="let page of pages; trackBy: trackByFn">
+			<li class="page" *ngFor="let page of pages; trackBy: sharedService.trackByFn">
 				<a
 					appLink
 					routerLinkActive="active"

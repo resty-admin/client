@@ -11,7 +11,7 @@ import { DialogService } from "@shared/ui/dialog";
 import type { Observable } from "rxjs";
 import { lastValueFrom, map, take } from "rxjs";
 
-import { PAYMENT_STATUS_PAGE_I18N } from "../constants";
+import { PAYMENT_STATUS_PAGE } from "../constants";
 import { PaymentStatusPageGQL } from "../graphql";
 
 @Component({
@@ -21,7 +21,7 @@ import { PaymentStatusPageGQL } from "../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaymentStatusComponent implements OnInit, OnDestroy {
-	readonly paymentStatusPageI18n = PAYMENT_STATUS_PAGE_I18N;
+	readonly paymentStatusPage = PAYMENT_STATUS_PAGE;
 
 	private readonly _paymentStatusQuery = this._paymentStautsGQL.watch();
 

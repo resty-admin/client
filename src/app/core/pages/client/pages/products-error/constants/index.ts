@@ -1,1 +1,1 @@
-export * from "./products-error-page-i18n.constant";
+export * from "./products-error-page.constant";

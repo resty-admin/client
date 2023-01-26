@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
 import type { Resolve } from "@angular/router";
+import type { ActivatedRouteSnapshot } from "@angular/router";
 import { OrdersService } from "@features/orders";
+import { HALL_ID } from "@shared/constants";
 import type { Observable } from "rxjs";
 import { map, of, switchMap } from "rxjs";
 
@@ -14,8 +16,16 @@ export class TablesResolver implements Resolve<any> {
 		private readonly _tablesPageOrderGQL: TablesPageOrderGQL
 	) {}
 
-	resolve(): Observable<any> {
-		return this._tablesPageGQL.watch().valueChanges.pipe(
+	resolve(activatedRouteSnapshot: ActivatedRouteSnapshot): Observable<any> {
+		const hallId = activatedRouteSnapshot.paramMap.get(HALL_ID.slice(1));
+
+		if (!hallId) {
+			return of(null);
+		}
+
+		const filtersArgs = [{ key: "hall.id", operator: "=", value: hallId }];
+
+		return this._tablesPageGQL.watch({ filtersArgs }).valueChanges.pipe(
 			map((result) => result.data.tables.data),
 			switchMap((tables) =>
 				this._ordersService.activeOrderId$.pipe(

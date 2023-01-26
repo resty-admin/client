@@ -1,4 +1,4 @@
-<div class="payment-status" *transloco="let t; read: paymentStatusPageI18n">
+<div class="payment-status" *transloco="let t; read: paymentStatusPage">
 	<app-image class="image" [name]="'payment-' + paymentType"></app-image>
 
 	<h1 [class]="'title' + ' ' + paymentType">{{ t(paymentType + "_title") }}</h1>

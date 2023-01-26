@@ -7,14 +7,16 @@ import { ButtonModule } from "@shared/ui/button";
 import { IconModule } from "@shared/ui/icon";
 import { ImageModule } from "@shared/ui/image";
 import { RadioButtonModule } from "@shared/ui/radio-button";
+import { SkeletonModule } from "@shared/ui/skeleton";
 import { TypographyModule } from "@shared/ui/typography";
 
+import { PAYMENT_TYPE_COMPONENTS } from "./components";
 import { PaymentTypeComponent } from "./layout/payment-type.component";
 import { PaymentTypeRoutingModule } from "./payment-type-routing.module";
 import { PAYMENT_TYPE_PROVIDERS } from "./providers";
 
 @NgModule({
-	declarations: [PaymentTypeComponent],
+	declarations: [PaymentTypeComponent, ...PAYMENT_TYPE_COMPONENTS],
 	imports: [
 		CommonModule,
 		PaymentTypeRoutingModule,
@@ -25,7 +27,8 @@ import { PAYMENT_TYPE_PROVIDERS } from "./providers";
 		ButtonModule,
 		ReactiveFormsModule,
 		I18nModule,
-		PipesModule
+		PipesModule,
+		SkeletonModule
 	],
 	providers: PAYMENT_TYPE_PROVIDERS
 })

@@ -12,9 +12,8 @@ import { RouterService } from "@shared/modules/router";
 import type { Observable } from "rxjs";
 import { lastValueFrom, map } from "rxjs";
 
-import { PAYMENT_TYPE_PAGE_I18N } from "../constants";
+import { PAYMENT_TYPE_PAGE } from "../constants";
 import { PaymentType } from "../enums";
-import { PaymentTypePageGQL } from "../graphql";
 
 @UntilDestroy()
 @Component({
@@ -24,9 +23,7 @@ import { PaymentTypePageGQL } from "../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaymentTypeComponent implements OnInit, OnDestroy {
-	readonly paymentTypePageI18n = PAYMENT_TYPE_PAGE_I18N;
-	private readonly paymentTypePageQuery = this._paymentTypeGQL.watch();
-
+	readonly paymentTypePage = PAYMENT_TYPE_PAGE;
 	readonly paymentTypes = PAYMENT_TYPES;
 
 	readonly order$: Observable<any> = this._activatedRoute.data.pipe(map((data) => data["order"]));
@@ -35,7 +32,6 @@ export class PaymentTypeComponent implements OnInit, OnDestroy {
 
 	constructor(
 		private readonly _activatedRoute: ActivatedRoute,
-		private readonly _paymentTypeGQL: PaymentTypePageGQL,
 		private readonly _ordersService: OrdersService,
 		private readonly _routerService: RouterService,
 		private readonly _actionsService: ActionsService,
@@ -88,8 +84,6 @@ export class PaymentTypeComponent implements OnInit, OnDestroy {
 				}
 			});
 		});
-
-		await this.paymentTypePageQuery.setVariables({ orderId });
 	}
 
 	ngOnDestroy() {

@@ -1,4 +1,4 @@
-<ng-container *transloco="let t; read: activeOrderPageI18n">
+<ng-container *transloco="let t; read: activeOrderPage">
 	<div class="active-order" *ngIf="activeOrder$ | async as activeOrder">
 		<button *ngIf="activeOrder.type === 'IN_PLACE'" class="bell" (click)="openCommandsDialog(activeOrder)">
 			<app-icon class="icon" name="bell"></app-icon>

@@ -1,5 +1,5 @@
 import { getI18nProvider } from "@shared/i18n";
 
-import { PRODUCT_PAGE_I18N } from "../constants";
+import { PRODUCT_PAGE } from "../constants";
 
-export const PRODUCT_I18N_PROVIDER = getI18nProvider(PRODUCT_PAGE_I18N, (lang) => import(`../i18n/${lang}.json`));
+export const PRODUCT_I18N_PROVIDER = getI18nProvider(PRODUCT_PAGE, (lang) => import(`../i18n/${lang}.json`));

@@ -24,6 +24,8 @@
 		}
 		.name {
 			grid-area: name;
+			width: rem(60);
+			height: rem(24);
 		}
 		.status {
 			grid-area: status;
@@ -32,7 +34,7 @@
 	}
 }
 @include dark() {
-	.preview-hall {
+	.preview-hall-skeleton {
 		background-color: var(--dark-grey);
 	}
 }

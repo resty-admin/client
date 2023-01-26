@@ -1,24 +1,30 @@
 import { Injectable } from "@angular/core";
 import type { Resolve } from "@angular/router";
-import { RouterService } from "@shared/modules/router";
+import type { ActivatedRouteSnapshot } from "@angular/router";
+import { ORDER_ID } from "@shared/constants";
 import type { Observable } from "rxjs";
-import { map } from "rxjs";
+import { map, of } from "rxjs";
 
 import { PaymentTypePageGQL } from "../../graphql";
 
 @Injectable({ providedIn: "root" })
 export class PaymentTypeResolver implements Resolve<any> {
-	constructor(private _paymentTypePageGQL: PaymentTypePageGQL, private readonly _routerService: RouterService) {}
+	constructor(private _paymentTypePageGQL: PaymentTypePageGQL) {}
 
-	resolve(): Observable<any> {
-		return this._paymentTypePageGQL.watch().valueChanges.pipe(
+	resolve(activatedRouteSnapshot: ActivatedRouteSnapshot): Observable<any | null> {
+		const orderId = activatedRouteSnapshot.paramMap.get(ORDER_ID.slice(1));
+		const products = activatedRouteSnapshot.queryParamMap.get("products") || "";
+
+		if (!orderId) {
+			return of(null);
+		}
+
+		return this._paymentTypePageGQL.watch({ orderId }).valueChanges.pipe(
 			map((result) => result.data.order),
 			map((order) => ({
 				...order,
 				totalPrice: (order?.productsToOrders || [])
-					.filter((productToOrder) =>
-						JSON.parse(this._routerService.getQueryParams("products") || "").includes(productToOrder.id)
-					)
+					.filter((productToOrder) => JSON.parse(products).includes(productToOrder.id))
 					.reduce(
 						(sum, productToOrder) =>
 							sum +

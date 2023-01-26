@@ -15,8 +15,8 @@ import dayjs from "dayjs";
 import type { Observable } from "rxjs";
 import { BehaviorSubject, catchError, filter, lastValueFrom, map, of, shareReplay, switchMap, take, tap } from "rxjs";
 
-import { TABLE_PAGE_I18N } from "../constants";
-import { IsTableAvailableForReserveGQL, TablePageGQL, TablePageOrderGQL } from "../graphql";
+import { TABLE_PAGE } from "../constants";
+import { IsTableAvailableForReserveGQL, TablePageOrderGQL } from "../graphql";
 
 export type IValidationStatus = "invalid" | "loading" | "valid";
 
@@ -28,8 +28,7 @@ export type IValidationStatus = "invalid" | "loading" | "valid";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableComponent implements OnInit, OnDestroy {
-	readonly tablePageI18n = TABLE_PAGE_I18N;
-	private readonly _tablePageQuery = this._tablePageGQL.watch();
+	readonly tablePage = TABLE_PAGE;
 	readonly table$: Observable<any> = this._activatedRoute.data.pipe(map((data) => data["table"]));
 	private readonly _dateSubject = new BehaviorSubject<Dayjs | undefined>(undefined);
 	readonly date$ = this._dateSubject.asObservable().pipe(shareReplay({ refCount: true }));
@@ -46,7 +45,6 @@ export class TableComponent implements OnInit, OnDestroy {
 
 	constructor(
 		private readonly _activatedRoute: ActivatedRoute,
-		private readonly _tablePageGQL: TablePageGQL,
 		private readonly _tablePageOrderGQL: TablePageOrderGQL,
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
@@ -78,8 +76,6 @@ export class TableComponent implements OnInit, OnDestroy {
 		if (!tableId) {
 			return;
 		}
-
-		await this._tablePageQuery.setVariables({ tableId });
 
 		this.date$
 			.pipe(

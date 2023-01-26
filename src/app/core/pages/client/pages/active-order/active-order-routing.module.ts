@@ -3,6 +3,7 @@ import { RouterModule } from "@angular/router";
 import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
 import { ActiveOrderSkeletonComponent } from "./components";
+import { ACTIVE_ORDER_PAGE } from "./constants";
 import { ActiveOrderComponent } from "./layout/active-order.component";
 import { ActiveOrderResolver } from "./resolvers";
 
@@ -10,6 +11,9 @@ export const ACTIVE_ORDER_ROUTES: INavigationSkeletonRoute[] = [
 	{
 		path: "",
 		component: ActiveOrderComponent,
+		data: {
+			animation: ACTIVE_ORDER_PAGE
+		},
 		resolve: {
 			activeOrder: ActiveOrderResolver
 		},
