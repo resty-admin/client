@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import type { ISimpleChanges } from "@shared/interfaces";
 import { SharedService } from "@shared/services";
 
-import { PRODUCTS_TO_ORDER_SELECT_I18N } from "../constants";
+import { PRODUCTS_TO_ORDER_SELECT } from "../constants";
 import type { IProductToOrderToSelectInput } from "../interfaces";
 import { PRODUCTS_TO_ORDER_SELECT_PROVIDERS } from "../providers";
 
@@ -24,7 +24,7 @@ export class ProductsToOrderSelectComponent implements OnChanges {
 	@Input() selectedProductsToOrders?: string[] | null;
 	@Input() productsToOrders?: IProductToOrderToSelectInput[] | null;
 
-	readonly productsToOrderSelectI18n = PRODUCTS_TO_ORDER_SELECT_I18N;
+	readonly productsToOrderSelect = PRODUCTS_TO_ORDER_SELECT;
 
 	productsToOrdersWithSelected: IProductToOrderWithSelected[] = [];
 

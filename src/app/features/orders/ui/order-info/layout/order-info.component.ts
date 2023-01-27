@@ -1,6 +1,6 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
-import { ORDER_INFO_I18N } from "@features/orders/ui/order-info/constants";
+import { ORDER_INFO } from "@features/orders/ui/order-info/constants";
 import { OrderTypeEnum } from "@graphql";
 import { CLIENT_ROUTES, HALL_ID, PLACE_ID, TABLE_ID } from "@shared/constants";
 import type { ISimpleChanges } from "@shared/interfaces";
@@ -18,7 +18,7 @@ export class OrderInfoComponent implements OnChanges {
 	@Output() dateClicked = new EventEmitter<string>();
 	@Input() order?: IOrderInfo | null;
 
-	readonly orderInfoI18n = ORDER_INFO_I18N;
+	readonly orderInfo = ORDER_INFO;
 
 	tableStatus = "";
 	tableInfo = "";

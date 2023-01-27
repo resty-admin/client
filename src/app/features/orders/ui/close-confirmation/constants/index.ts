@@ -1,1 +1,1 @@
-export * from "./close-confirmation-i18n.constant";
+export * from "./close-confirmation.constant";

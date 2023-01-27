@@ -1,1 +1,1 @@
-export * from "./already-exist-i18n.constant";
+export * from "./already-exist.constant";

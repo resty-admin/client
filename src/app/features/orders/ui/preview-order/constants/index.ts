@@ -1,1 +1,1 @@
-export * from "./preview-order-i18n.constant";
+export * from "./preview-order.constant";
