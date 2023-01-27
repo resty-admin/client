@@ -92,10 +92,10 @@
 				margin-top: rem(12);
 				height: rem(150);
 				margin-left: rem(-20);
+				width: rem(155);
 
 				@include image() {
 					object-fit: contain;
-					width: rem(155);
 				}
 				@include desktop() {
 					width: rem(229);
