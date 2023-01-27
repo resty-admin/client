@@ -3,12 +3,16 @@ import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
 import { CLIENT_ROUTES as _SHARED_CLIENT_ROUTES } from "@shared/constants";
 
+import { CLIENT_PAGE } from "./constants";
 import { ClientComponent } from "./layout/client.component";
 
 export const CLIENT_ROUTES: Route[] = [
 	{
 		path: "",
 		component: ClientComponent,
+		data: {
+			animation: CLIENT_PAGE
+		},
 		children: [
 			{
 				..._SHARED_CLIENT_ROUTES.PROFILE,

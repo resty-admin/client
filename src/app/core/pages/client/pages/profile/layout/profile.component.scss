@@ -95,6 +95,7 @@
 
 				@include image() {
 					object-fit: contain;
+					width: rem(155);
 				}
 				@include desktop() {
 					width: rem(229);
@@ -102,7 +103,7 @@
 					grid-area: image;
 					margin-left: 0;
 
-					@include image () {
+					@include image() {
 						object-fit: cover;
 					}
 				}

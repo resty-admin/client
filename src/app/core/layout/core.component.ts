@@ -1,10 +1,11 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from "@angular/core";
-import { NavigationStart, Router } from "@angular/router";
+import { ChildrenOutletContexts, NavigationStart, Router } from "@angular/router";
 import { AsideService } from "@features/app";
 import { AuthService } from "@features/auth";
 import { OrdersService } from "@features/orders";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { routerAnimation } from "@shared/animations";
 import { CLIENT_ROUTES } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
 import type { IAction } from "@shared/ui/actions";
@@ -17,6 +18,7 @@ import { CorePageGQL } from "../graphql";
 	selector: "app-core",
 	templateUrl: "./core.component.html",
 	styleUrls: ["./core.component.scss"],
+	animations: [routerAnimation],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CoreComponent implements OnInit {
@@ -82,17 +84,24 @@ export class CoreComponent implements OnInit {
 		private readonly _asideService: AsideService,
 		private readonly _ordersService: OrdersService,
 		private readonly _changeDetectorRef: ChangeDetectorRef,
-		private readonly _router: Router
+		private readonly _router: Router,
+		private readonly _childrenOutletContexts: ChildrenOutletContexts
 	) {}
 
+	getRouteAnimationData() {
+		return this._childrenOutletContexts.getContext("primary")?.route?.snapshot?.data?.["animation"];
+	}
+
 	async ngOnInit() {
-		const user = await lastValueFrom(this.user$.pipe(take(1)));
+		try {
+			const user = await lastValueFrom(this.user$.pipe(take(1)));
 
-		if (!user || user.name) {
-			return;
-		}
+			if (!user || user.name) {
+				return;
+			}
 
-		await this._routerService.navigateByUrl(CLIENT_ROUTES.WELCOME.absolutePath);
+			await this._routerService.navigateByUrl(CLIENT_ROUTES.WELCOME.absolutePath);
+		} catch {}
 	}
 
 	toggleAside() {
