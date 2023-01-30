@@ -1,13 +1,12 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { FORM } from "@core/constants";
 import { ActionsService } from "@features/app";
 import { AuthService } from "@features/auth/services";
 import { FormBuilder } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { CLIENT_ROUTES } from "@shared/constants";
+import { CLIENT_ROUTES, FORM } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
-import { lastValueFrom } from "rxjs";
+import { from, switchMap, take } from "rxjs";
 
 import { PROFILE_PAGE } from "../constants";
 import type { IProfileForm } from "../interfaces";
@@ -49,16 +48,19 @@ export class ProfileComponent implements OnInit, OnDestroy {
 		this._breadcrumbsService.setBreadcrumb({ routerLink: CLIENT_ROUTES.PLACES.absolutePath });
 		this._actionsService.setAction({
 			label: "Подтвердить",
-			func: async () => {
-				await lastValueFrom(this._authService.updateMe(this.formGroup.value));
-
-				await this._authService.getMeQuery.refetch();
-			}
+			func: () =>
+				this._authService
+					.updateMe(this.formGroup.value)
+					.pipe(
+						take(1),
+						switchMap(() => from(this._authService.getMeQuery.refetch()))
+					)
+					.subscribe()
 		});
 	}
 
-	async deleteMe() {
-		await lastValueFrom(this._authService.deleteMe());
+	deleteMe() {
+		this._authService.deleteMe().pipe(take(1)).subscribe();
 	}
 
 	ngOnDestroy() {

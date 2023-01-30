@@ -1,6 +1,5 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
 import type { IProductOutput } from "@features/products";
@@ -9,10 +8,19 @@ import { CLIENT_ROUTES, ORDER_ID, PLACE_ID } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
-import { lastValueFrom, map, switchMap, take } from "rxjs";
+import { filter, map, switchMap, take, tap } from "rxjs";
 
 import { CONFIRM_PRODUCTS_PAGE } from "../constants";
-
+import { ConfirmProductsPageService } from "../services";
+//
+// map((productsToOrders) =>
+// 	(this.products || [])
+// 		.map((product) => ({
+// 			...product,
+// 			productsToOrders: productsToOrders.filter((productToOrder) => productToOrder.productId === product.id)
+// 		}))
+// 		.filter((product) => product.productsToOrders.length)
+// )
 @UntilDestroy()
 @Component({
 	selector: "app-confirm-products",
@@ -23,25 +31,13 @@ import { CONFIRM_PRODUCTS_PAGE } from "../constants";
 export class ConfirmProductsComponent implements OnInit, OnDestroy {
 	readonly confirmProductsPage = CONFIRM_PRODUCTS_PAGE;
 
-	readonly products$ = this._activatedRoute.data.pipe(
-		map((data) => data["products"]),
-		switchMap((products: any[]) =>
-			this._ordersService.productsToOrders$.pipe(
-				map((productsToOrders) =>
-					(products || [])
-						.map((product) => ({
-							...product,
-							productsToOrders: productsToOrders.filter((productToOrder) => productToOrder.productId === product.id)
-						}))
-						.filter((product) => product.productsToOrders.length)
-				)
-			)
-		)
+	readonly products$ = this._confirmProductsPageService.confirmProductsPageQuery.valueChanges.pipe(
+		map((result) => result.data.products.data as any)
 	);
 
 	constructor(
 		readonly sharedService: SharedService,
-		private readonly _activatedRoute: ActivatedRoute,
+		private readonly _confirmProductsPageService: ConfirmProductsPageService,
 		private readonly _routerService: RouterService,
 		private readonly _actionsService: ActionsService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
@@ -60,26 +56,41 @@ export class ConfirmProductsComponent implements OnInit, OnDestroy {
 			this._actionsService.setAction({
 				label: "Подтвердить",
 				disabled: productsToOrder.length === 0,
-				func: async () => {
-					const orderId = await lastValueFrom(this._ordersService.activeOrderId$.pipe(take(1)));
-
-					if (!orderId) {
-						await this._routerService.navigateByUrl(
-							CLIENT_ROUTES.CREATE_ORDER.absolutePath.replace(
-								PLACE_ID,
-								this._routerService.getParams(PLACE_ID.slice(1))
+				func: () => {
+					this._ordersService.activeOrderId$
+						.pipe(
+							take(1),
+							tap(async (orderId) => {
+								if (orderId) {
+									return;
+								}
+								await this._routerService.navigateByUrl(
+									CLIENT_ROUTES.CREATE_ORDER.absolutePath.replace(
+										PLACE_ID,
+										this._routerService.getParams(PLACE_ID.slice(1))
+									)
+								);
+							}),
+							filter((orderId) => Boolean(orderId)),
+							switchMap((orderId) =>
+								this._ordersService.confirmProductsToOrders(
+									(productsToOrder || []).map((productToOrder) => ({
+										...productToOrder,
+										orderId: orderId!
+									}))
+								)
 							)
-						);
-						return;
-					}
+						)
+						.subscribe(async (result) => {
+							if (!result.data?.confirmProductsToOrders) {
+								return;
+							}
 
-					const data = (productsToOrder || []).map((productToOrder) => ({ ...productToOrder, orderId }));
-
-					await lastValueFrom(this._ordersService.confirmProductsToOrders(data));
-
-					this._ordersService.setProductsToOrders([]);
-
-					await this._routerService.navigateByUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, orderId));
+							this._ordersService.setProductsToOrders([]);
+							await this._routerService.navigateByUrl(
+								CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, result.data.confirmProductsToOrders.id)
+							);
+						});
 				}
 			});
 		});

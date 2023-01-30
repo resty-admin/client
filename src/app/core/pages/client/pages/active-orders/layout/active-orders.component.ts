@@ -1,15 +1,14 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
 import { ActionsService } from "@features/app";
 import { CLIENT_ROUTES } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
-import type { Observable } from "rxjs";
 import { map } from "rxjs";
 
 import { ACTIVE_ORDERS_PAGE } from "../constants";
+import { ActiveOrdersPageService } from "../services";
 
 @Component({
 	selector: "app-active-orders",
@@ -20,11 +19,13 @@ import { ACTIVE_ORDERS_PAGE } from "../constants";
 export class ActiveOrdersComponent implements OnInit, OnDestroy {
 	readonly activeOrdersPage = ACTIVE_ORDERS_PAGE;
 	readonly historyOrdersLink = CLIENT_ROUTES.HISTORY_ORDERS.absolutePath;
-	readonly activeOrders$: Observable<any> = this._activatedRoute.data.pipe(map((data) => data["activeOrders"]));
+	readonly activeOrders$ = this._activeOrdersPageService.activeOrdersPageQuery.valueChanges.pipe(
+		map((result) => result.data.orders.data)
+	);
 
 	constructor(
 		readonly sharedService: SharedService,
-		private readonly _activatedRoute: ActivatedRoute,
+		private readonly _activeOrdersPageService: ActiveOrdersPageService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _actionsService: ActionsService,
 		private readonly _routerService: RouterService

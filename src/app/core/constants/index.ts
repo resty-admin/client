@@ -1,1 +1,1 @@
-export * from "./form.constant";
+export * from "./core-page.constant";

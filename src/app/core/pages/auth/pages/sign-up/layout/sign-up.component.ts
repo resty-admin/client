@@ -1,14 +1,13 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { FORM } from "@core/constants";
 import type { IAuthType } from "@features/auth/interfaces";
 import { AuthService } from "@features/auth/services";
 import { UserRoleEnum } from "@graphql";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { CLIENT_ROUTES, DYNAMIC_TOKEN } from "@shared/constants";
+import { CLIENT_ROUTES, DYNAMIC_TOKEN, FORM } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
-import { filter, lastValueFrom } from "rxjs";
+import { filter, take } from "rxjs";
 
 import { AUTH_TYPES } from "../../../data";
 import { SIGN_UP_PAGE } from "../constants";
@@ -64,15 +63,18 @@ export class SignUpComponent implements OnInit {
 		});
 	}
 
-	async signUp(body: ISignUp) {
-		const accessToken = await lastValueFrom(this._authService.signUp(body));
+	signUp(body: ISignUp) {
+		this._authService
+			.signUp(body)
+			.pipe(take(1))
+			.subscribe(async (accessToken) => {
+				if (!accessToken) {
+					return;
+				}
 
-		if (!accessToken) {
-			return;
-		}
-
-		await this._routerService.navigateByUrl(
-			CLIENT_ROUTES.VERIFICATION_CODE.absolutePath.replace(DYNAMIC_TOKEN, accessToken)
-		);
+				await this._routerService.navigateByUrl(
+					CLIENT_ROUTES.VERIFICATION_CODE.absolutePath.replace(DYNAMIC_TOKEN, accessToken)
+				);
+			});
 	}
 }

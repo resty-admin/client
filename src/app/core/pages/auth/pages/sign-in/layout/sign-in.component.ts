@@ -1,13 +1,12 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { FORM } from "@core/constants";
 import type { IAuthType } from "@features/auth/interfaces";
 import { AuthService } from "@features/auth/services";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { CLIENT_ROUTES } from "@shared/constants";
+import { CLIENT_ROUTES, FORM } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
-import { lastValueFrom } from "rxjs";
+import { take } from "rxjs";
 
 import { AUTH_TYPES } from "../../../data";
 import { SIGN_IN_PAGE } from "../constants";
@@ -48,13 +47,12 @@ export class SignInComponent implements OnInit {
 		});
 	}
 
-	async signIn(body: ISignIn) {
-		try {
-			await lastValueFrom(this._authService.signIn(body));
-		} catch (error) {
-			console.error(error);
-		}
-
-		await this._routerService.navigateByUrl(CLIENT_ROUTES.CLIENT.absolutePath);
+	signIn(body: ISignIn) {
+		this._authService
+			.signIn(body)
+			.pipe(take(1))
+			.subscribe(async () => {
+				await this._routerService.navigateByUrl(CLIENT_ROUTES.CLIENT.absolutePath);
+			});
 	}
 }

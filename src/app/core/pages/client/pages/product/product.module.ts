@@ -32,6 +32,7 @@ import { PRODUCT_PROVIDERS } from "./providers";
 		CounterModule,
 		SkeletonModule
 	],
+	exports: [ProductComponent],
 	providers: PRODUCT_PROVIDERS
 })
 export class ProductModule {}

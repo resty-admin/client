@@ -1,5 +1,5 @@
 <ng-container *transloco="let t; read: referralLinkPage">
-	<div class="referral-link" *ngIf="activeOrder$ | async as activeOrder">
+	<div class="referral-link" *ngIf="activeOrder">
 		<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 
 		<p class="description">{{ t("description") }}</p>

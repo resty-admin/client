@@ -1,5 +1,5 @@
-import { ConfirmProductsSkeletonComponent } from "./confirm-products-skeleton/confirm-products-skeleton.component";
+import { ConfirmProductsPageSkeletonComponent } from "./confirm-products-page-skeleton/confirm-products-page-skeleton.component";
 
-export const CONFIRM_PRODUCTS_COMPONENTS = [ConfirmProductsSkeletonComponent];
+export const CONFIRM_PRODUCTS_COMPONENTS = [ConfirmProductsPageSkeletonComponent];
 
-export * from "./confirm-products-skeleton/confirm-products-skeleton.component";
+export * from "./confirm-products-page-skeleton/confirm-products-page-skeleton.component";

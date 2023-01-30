@@ -1,6 +1,5 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
 import { ActionsService } from "@features/app";
 import { AuthService } from "@features/auth";
 import { CommandsDialogComponent, CommandsService } from "@features/commands";
@@ -8,21 +7,18 @@ import { CancelConfirmationComponent, OrdersService } from "@features/orders";
 import { CloseConfirmationComponent } from "@features/orders/ui";
 import type { ActiveOrderEntity } from "@graphql";
 import { ProductToOrderStatusEnum } from "@graphql";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { UntilDestroy } from "@ngneat/until-destroy";
 import { CLIENT_ROUTES, ORDER_ID, PLACE_ID } from "@shared/constants";
-import { ORDERS_EVENTS } from "@shared/enums";
 import type { DeepPartial } from "@shared/interfaces";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
-import { SocketIoService } from "@shared/modules/socket-io";
 import { SharedService } from "@shared/services";
 import { DialogService } from "@shared/ui/dialog";
-import type { Observable } from "rxjs";
-import { lastValueFrom, map, take } from "rxjs";
+import { filter, map, switchMap, take } from "rxjs";
 
 import { ACTIVE_ORDER_PAGE } from "../constants";
 import type { ActiveOrderPageQuery } from "../graphql";
-import { ActiveOrderPageGQL } from "../graphql";
+import { ActiveOrderPageService } from "../services";
 
 @UntilDestroy()
 @Component({
@@ -35,71 +31,42 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 	readonly activeOrderPage = ACTIVE_ORDER_PAGE;
 	readonly statuses = [ProductToOrderStatusEnum.Approved, ProductToOrderStatusEnum.WaitingForApprove];
 
-	private readonly _activeOrderPageQuery = this._activeOrderPageGQL.watch(undefined, { fetchPolicy: "network-only" });
-	readonly activeOrder$: Observable<any> = this._activatedRoute.data.pipe(map((data) => data["activeOrder"]));
+	readonly activeOrder$ = this._activeOrderPageService.activeOrderPageQuery.valueChanges.pipe(
+		map((result) => result.data.order)
+	);
 
 	selectedUsers: string[] = [];
 	selectedProductsToOrders: string[] = [];
+
+	isAllPaid = false;
+
 	constructor(
 		readonly sharedService: SharedService,
-		private readonly _activatedRoute: ActivatedRoute,
-		private readonly _activeOrderPageGQL: ActiveOrderPageGQL,
+		private readonly _activeOrderPageService: ActiveOrderPageService,
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _actionsService: ActionsService,
 		private readonly _ordersService: OrdersService,
-		private readonly _socketIoService: SocketIoService,
 		private readonly _authService: AuthService,
 		private readonly _dialogService: DialogService,
 		private readonly _commandsService: CommandsService
 	) {}
 
-	async openCommandsDialog(order: ActiveOrderPageQuery["order"]) {
-		const commandId = await lastValueFrom(
-			this._dialogService.open(CommandsDialogComponent, {
-				data: { placeId: order?.place.id }
-			}).afterClosed$
-		);
+	ngOnInit() {
+		// this.isAllPaid = (this.activeOrder?.productsToOrders || []).every(
+		// 	(productToOrder) => productToOrder.paidStatus === ProductToOrderPaidStatusEnum.Paid
+		// );
 
-		if (!commandId) {
-			return;
-		}
+		this._ordersService.setActiveOrderId(this._routerService.getParams(ORDER_ID.slice(1)));
 
-		this._commandsService.emitCommand(commandId);
-	}
-
-	async ngOnInit() {
-		const orderId = this._routerService.getParams(ORDER_ID.slice(1));
-
-		if (!orderId) {
-			return;
-		}
-
-		this._ordersService.setActiveOrderId(orderId);
-
-		this._socketIoService
-			.fromEvents<{ order: ActiveOrderEntity }>(Object.values(ORDERS_EVENTS))
-			.pipe(untilDestroyed(this))
-			.subscribe(async (data) => {
-				if (!data || !data.order || !orderId || orderId !== data.order.id) {
-					return;
-				}
-
-				await this._activeOrderPageQuery.refetch();
-			});
-
-		lastValueFrom(this.activeOrder$.pipe(take(1))).then((order) => {
-			if (!order || !order.place) {
-				return;
-			}
-
+		this.activeOrder$.pipe(take(1)).subscribe((activeOrder) => {
 			this._breadcrumbsService.setBreadcrumb({
 				label: "В меню",
-				routerLink: CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, order.place.id)
+				routerLink: CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, activeOrder!.place.id)
 			});
 		});
 
-		lastValueFrom(this._authService.me$.pipe(take(1))).then(async (user) => {
+		this._authService.me$.pipe(take(1)).subscribe(async (user) => {
 			if (!user) {
 				return;
 			}
@@ -108,58 +75,61 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 			await this.setSelectedProductsToOrders(this.selectedProductsToOrders);
 		});
 
-		this._activeOrderPageQuery.setVariables({ orderId }).then();
-
-		this.setAction().then();
+		this.setAction();
 	}
 
-	async setSelectedUsers(usersIds: string[]) {
-		this.selectedUsers = usersIds;
-		const order = await lastValueFrom(this.activeOrder$.pipe(take(1)));
-
-		if (!order) {
-			return;
-		}
-
-		this.selectedProductsToOrders = (order.productsToOrders || [])
-			.filter(
-				(productToOrder: any) => usersIds.includes(productToOrder.user.id) && productToOrder.paidStatus !== "PAID"
+	openCommandsDialog(order: ActiveOrderPageQuery["order"]) {
+		this._dialogService
+			.open(CommandsDialogComponent, {
+				data: { placeId: order?.place.id }
+			})
+			.afterClosed$.pipe(
+				take(1),
+				filter((commandId) => Boolean(commandId))
 			)
-			.map((productToOrder: any) => productToOrder.id);
-
-		await this.setAction();
+			.subscribe((commandId) => {
+				this._commandsService.emitCommand(commandId);
+			});
 	}
 
-	async setSelectedProductsToOrders(productsToOrdersIds: string[]) {
-		const order = await lastValueFrom(this.activeOrder$.pipe(take(1)));
+	setSelectedUsers(usersIds: string[]) {
+		this.selectedUsers = usersIds;
 
-		if (!order) {
-			return;
-		}
+		this.activeOrder$.pipe(take(1)).subscribe((activeOrder) => {
+			this.selectedProductsToOrders = (activeOrder?.productsToOrders || [])
+				.filter(
+					(productToOrder: any) => usersIds.includes(productToOrder.user.id) && productToOrder.paidStatus !== "PAID"
+				)
+				.map((productToOrder: any) => productToOrder.id);
 
-		const { productsToOrders, users } = order;
-
-		const productsByUser = (users || []).reduce(
-			(usersMap: any, user: any) => ({
-				...usersMap,
-				[user.id]: (productsToOrders || [])
-					.filter((productToOrder: any) => productToOrder.user.id === user.id)
-					.every(
-						(productToOrder: any) =>
-							productsToOrdersIds.includes(productToOrder.id) && productToOrder.paidStatus === "NOT_PAID"
-					)
-			}),
-			{}
-		);
-
-		this.selectedUsers = Object.entries(productsByUser)
-			.filter(([_, value]) => value)
-			.map(([key]) => key);
-
-		await this.setAction();
+			this.setAction();
+		});
 	}
 
-	async setAction() {
+	setSelectedProductsToOrders(productsToOrdersIds: string[]) {
+		this.activeOrder$.pipe(take(1)).subscribe((activeOrder) => {
+			const productsByUser = (activeOrder?.users || []).reduce(
+				(usersMap: any, user: any) => ({
+					...usersMap,
+					[user.id]: (activeOrder?.productsToOrders || [])
+						.filter((productToOrder: any) => productToOrder.user.id === user.id)
+						.every(
+							(productToOrder: any) =>
+								productsToOrdersIds.includes(productToOrder.id) && productToOrder.paidStatus === "NOT_PAID"
+						)
+				}),
+				{}
+			);
+
+			this.selectedUsers = Object.entries(productsByUser)
+				.filter(([_, value]) => value)
+				.map(([key]) => key);
+
+			this.setAction();
+		});
+	}
+
+	setAction() {
 		const orderId = this._routerService.getParams(ORDER_ID.slice(1));
 
 		if (!orderId) {
@@ -169,40 +139,41 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 		this._actionsService.setAction({
 			label: "Выбрать тип оплаты",
 			disabled: this.selectedProductsToOrders.length === 0,
-			func: async () => {
-				await this._routerService.navigate([CLIENT_ROUTES.PAYMENT_TYPE.absolutePath.replace(ORDER_ID, orderId)], {
+			func: () =>
+				this._routerService.navigate([CLIENT_ROUTES.PAYMENT_TYPE.absolutePath.replace(ORDER_ID, orderId)], {
 					queryParams: { products: JSON.stringify(this.selectedProductsToOrders) }
-				});
-			}
+				})
 		});
 	}
 
-	async openCancelConfirmation(data: DeepPartial<ActiveOrderEntity>) {
-		const result = await lastValueFrom(this._dialogService.open(CancelConfirmationComponent, { data }).afterClosed$);
+	openCancelConfirmation(data: DeepPartial<ActiveOrderEntity>) {
+		this._dialogService
+			.open(CancelConfirmationComponent, { data })
+			.afterClosed$.pipe(
+				take(1),
+				filter((result) => Boolean(result?.id)),
+				switchMap((result) => this._ordersService.cancelOrder(result.id))
+			)
+			.subscribe(async () => {
+				this._ordersService.setActiveOrderId(undefined);
 
-		if (!result || !result.id) {
-			return;
-		}
-
-		await lastValueFrom(this._ordersService.cancelOrder(result.id));
-
-		this._ordersService.setActiveOrderId(undefined);
-
-		await this._routerService.navigateByUrl(CLIENT_ROUTES.PLACES.absolutePath);
+				await this._routerService.navigateByUrl(CLIENT_ROUTES.PLACES.absolutePath);
+			});
 	}
 
-	async openCloseConfirmation(data: DeepPartial<ActiveOrderEntity>) {
-		const result = await lastValueFrom(this._dialogService.open(CloseConfirmationComponent, { data }).afterClosed$);
+	openCloseConfirmation(data: DeepPartial<ActiveOrderEntity>) {
+		this._dialogService
+			.open(CloseConfirmationComponent, { data })
+			.afterClosed$.pipe(
+				take(1),
+				filter((result) => Boolean(result?.id)),
+				switchMap((result) => this._ordersService.closeOrder(result.id))
+			)
+			.subscribe(async () => {
+				this._ordersService.setActiveOrderId(undefined);
 
-		if (!result || !result.id) {
-			return;
-		}
-
-		await lastValueFrom(this._ordersService.closeOrder(result.id));
-
-		this._ordersService.setActiveOrderId(undefined);
-
-		await this._routerService.navigateByUrl(CLIENT_ROUTES.PLACES.absolutePath);
+				await this._routerService.navigateByUrl(CLIENT_ROUTES.PLACES.absolutePath);
+			});
 	}
 
 	ngOnDestroy() {

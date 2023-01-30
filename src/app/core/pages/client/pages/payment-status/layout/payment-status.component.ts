@@ -1,18 +1,16 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
 import { CloseConfirmationComponent } from "@features/orders";
 import { CLIENT_ROUTES, ORDER_ID } from "@shared/constants";
-import { PaymentType } from "@shared/enums";
+import { PaymentStatus } from "@shared/enums";
 import { RouterService } from "@shared/modules/router";
 import { DialogService } from "@shared/ui/dialog";
-import type { Observable } from "rxjs";
-import { lastValueFrom, map, take } from "rxjs";
+import { filter, map, switchMap, take } from "rxjs";
 
 import { PAYMENT_STATUS_PAGE } from "../constants";
-import { PaymentStatusPageGQL } from "../graphql";
+import { PaymentStatusPageService } from "../services";
 
 @Component({
 	selector: "app-payment-status",
@@ -22,51 +20,46 @@ import { PaymentStatusPageGQL } from "../graphql";
 })
 export class PaymentStatusComponent implements OnInit, OnDestroy {
 	readonly paymentStatusPage = PAYMENT_STATUS_PAGE;
+	paymentStatus: PaymentStatus = PaymentStatus.SUCCESS;
+	order$ = this._paymentStatusPageService.paymentStatusPageQuery.valueChanges.pipe(map((result) => result.data.order));
 
-	private readonly _paymentStatusQuery = this._paymentStautsGQL.watch();
-
-	paymentType: PaymentType = PaymentType.SUCCESS;
-
-	readonly order$: Observable<any> = this._activatedRoute.data.pipe(map((data) => data["order"]));
+	isAllPaid = false;
 
 	constructor(
-		private readonly _activatedRoute: ActivatedRoute,
-		private readonly _paymentStautsGQL: PaymentStatusPageGQL,
+		private readonly _paymentStatusPageService: PaymentStatusPageService,
 		private readonly _ordersService: OrdersService,
 		private readonly _routerService: RouterService,
 		private readonly _actionsService: ActionsService,
 		private readonly _dialogService: DialogService
 	) {}
 
-	async ngOnInit() {
-		const orderId = this._routerService.getParams(ORDER_ID.slice(1));
-
-		if (!orderId) {
-			return;
-		}
+	ngOnInit() {
+		// this.isAllPaid = (this.order?.productsToOrders || []).every(
+		// 	(productToOrder) => productToOrder.paidStatus === ProductToOrderPaidStatusEnum.Paid
+		// );
 
 		this._actionsService.setAction({
 			label: "Вернуться в заказ",
-			func: () => this._routerService.navigateByUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, orderId))
+			func: () =>
+				this._routerService.navigateByUrl(
+					CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, this._routerService.getParams(ORDER_ID.slice(1)))
+				)
 		});
-
-		await this._paymentStatusQuery.setVariables({ orderId });
 	}
 
-	async openCloseConfirmation() {
-		const data = await lastValueFrom(this.order$.pipe(take(1)));
+	openCloseConfirmation() {
+		this._dialogService
+			.open(CloseConfirmationComponent, { data: this._routerService.getParams(ORDER_ID.slice(1)) })
+			.afterClosed$.pipe(
+				take(1),
+				filter((result) => Boolean(result)),
+				switchMap((result) => this._ordersService.closeOrder(result.id))
+			)
+			.subscribe(async () => {
+				this._ordersService.setActiveOrderId(undefined);
 
-		const result = await lastValueFrom(this._dialogService.open(CloseConfirmationComponent, { data }).afterClosed$);
-
-		if (!result || !result.id) {
-			return;
-		}
-
-		await lastValueFrom(this._ordersService.closeOrder(result.id));
-
-		this._ordersService.setActiveOrderId(undefined);
-
-		await this._routerService.navigateByUrl(CLIENT_ROUTES.PLACES.absolutePath);
+				await this._routerService.navigateByUrl(CLIENT_ROUTES.PLACES.absolutePath);
+			});
 	}
 
 	ngOnDestroy() {

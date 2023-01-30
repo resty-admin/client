@@ -4,14 +4,13 @@ import { ActionsService } from "@features/app";
 import { AuthService } from "@features/auth/services";
 import { OrdersService } from "@features/orders";
 import { AlreadyExistComponent } from "@features/orders/ui/already-exist";
-import { OrderTypeEnum } from "@graphql";
 import { ORDER_ID, PLACE_ID } from "@shared/constants";
 import { CLIENT_ROUTES } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
 import { DialogService } from "@shared/ui/dialog";
-import { lastValueFrom, map, shareReplay, take } from "rxjs";
+import { filter, from, map, shareReplay, switchMap, take } from "rxjs";
 
 import { CREATE_ORDER_PAGE } from "../constants";
 import { ORDER_TYPES } from "../data";
@@ -51,7 +50,7 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 		private readonly _createOrderPageGQL: CreateOrderPageGQL
 	) {}
 
-	async ngOnInit() {
+	ngOnInit() {
 		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
 
 		if (!placeId) {
@@ -63,98 +62,85 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 
 		this._actionsService.setAction({
 			label: "Подключиться к заказу",
-			func: async () => {
-				await this._routerService.navigateByUrl(CLIENT_ROUTES.CONNECT_TO_ORDER.absolutePath.replace(PLACE_ID, placeId));
-			}
+			func: () =>
+				this._routerService.navigateByUrl(CLIENT_ROUTES.CONNECT_TO_ORDER.absolutePath.replace(PLACE_ID, placeId))
 		});
 
 		this._breadcrumbsService.setBreadcrumb({
 			routerLink: CLIENT_ROUTES.PLACES.absolutePath
 		});
 
-		const user = await lastValueFrom(this._authService.me$.pipe(take(1)));
-
-		if (!user) {
-			return;
-		}
-
-		const order = await this._createOrderPageQuery.refetch({
-			filtersArgs: [
-				{
-					key: "place.id",
-					operator: "=",
-					value: placeId
-				},
-				{
-					key: "users.id",
-					operator: "=[]",
-					value: user.id
-				}
-			]
-		});
-
-		this._ordersService.setActiveOrderId(order.data.order?.id);
-	}
-
-	async createOrder({ type, routerLink }: IOrderType) {
-		const order = await lastValueFrom(this.order$.pipe(take(1)));
-
-		const result = order?.id
-			? await lastValueFrom(this._dialogService.open(AlreadyExistComponent, { data: order }).afterClosed$)
-			: "skip";
-
-		if (!result) {
-			return;
-		}
-
-		if (result === "navigate" && order) {
-			await this._routerService.navigateByUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, order.id));
-			return;
-		} else if (result === "cancel" && order) {
-			await lastValueFrom(this._ordersService.cancelOrder(order.id));
-			this._ordersService.setActiveOrderId(undefined);
-		}
-
-		const place = this._routerService.getParams(PLACE_ID.slice(1));
-
-		if (type === OrderTypeEnum.InPlace) {
-			await this._routerService.navigateByUrl(routerLink.replace(PLACE_ID, place));
-			return;
-		}
-
-		try {
-			const result = await lastValueFrom(
-				this._ordersService.createOrder({
-					type,
-					place,
-					productsToOrder: await lastValueFrom(
-						this._ordersService.productsToOrders$.pipe(
-							take(1),
-							map((productsToOrder) =>
-								productsToOrder.map((productToOrder) => ({
-									productId: productToOrder.productId,
-									count: productToOrder.count,
-									attributesIds: productToOrder.attributesIds
-								}))
-							)
-						)
-					)
-				})
-			);
-
-			if (!result.data) {
+		this._authService.me$.pipe(take(1)).subscribe(async (user) => {
+			if (!user) {
 				return;
 			}
 
-			const { id } = result.data.createOrder;
+			const order = await this._createOrderPageQuery.refetch({
+				filtersArgs: [
+					{
+						key: "place.id",
+						operator: "=",
+						value: placeId
+					},
+					{
+						key: "users.id",
+						operator: "=[]",
+						value: user.id
+					}
+				]
+			});
 
-			this._ordersService.setActiveOrderId(id);
-			this._ordersService.setProductsToOrders([]);
+			this._ordersService.setActiveOrderId(order.data.order?.id);
+		});
+	}
 
-			await this._routerService.navigateByUrl(routerLink.replace(ORDER_ID, id));
-		} catch (error) {
-			console.error(error);
-		}
+	createOrder({ type, routerLink }: IOrderType) {
+		const activeOrderUrl = CLIENT_ROUTES.ACTIVE_ORDER.absolutePath;
+
+		this.order$
+			.pipe(
+				take(1),
+				switchMap((order) =>
+					this._dialogService.open(AlreadyExistComponent, { data: order }).afterClosed$.pipe(
+						take(1),
+						filter((result) => Boolean(result)),
+						switchMap((result) =>
+							result === "navigate"
+								? from(this._routerService.navigateByUrl(activeOrderUrl.replace(ORDER_ID, order!.id)))
+								: result === "navigate"
+								? this._ordersService.cancelOrder(order!.id).pipe(map((result) => result.data?.cancelOrder))
+								: this._ordersService.productsToOrders$.pipe(
+										take(1),
+										switchMap((productsToOrder) =>
+											this._ordersService
+												.createOrder({
+													type,
+													place: this._routerService.getParams(PLACE_ID.slice(1)),
+													productsToOrder: productsToOrder.map((productToOrder) => ({
+														productId: productToOrder.productId,
+														count: productToOrder.count,
+														attributesIds: productToOrder.attributesIds
+													}))
+												})
+												.pipe(map((result) => result.data?.createOrder))
+										)
+								  )
+						),
+						take(1)
+					)
+				),
+				take(1)
+			)
+			.subscribe(async (result) => {
+				if (!result || typeof result === "boolean" || typeof result === "string") {
+					return;
+				}
+
+				this._ordersService.setActiveOrderId(result.id);
+				this._ordersService.setProductsToOrders([]);
+
+				await this._routerService.navigateByUrl(routerLink.replace(ORDER_ID, result.id));
+			});
 	}
 
 	ngOnDestroy() {

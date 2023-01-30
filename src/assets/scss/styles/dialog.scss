@@ -15,7 +15,7 @@ body {
 				@include desktop() {
 					border-radius: rem(24);
 					width: auto !important;
-					height: auto;
+					height: auto !important;
 				}
 				.ngneat-close-dialog {
 					top: rem(16);

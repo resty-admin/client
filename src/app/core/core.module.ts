@@ -49,7 +49,7 @@ import {
 } from "./configs";
 import { CoreRoutingModule } from "./core-routing.module";
 import { CoreComponent } from "./layout/core.component";
-import { CORE_PROVIDERS } from "./providers";
+import { CORE_PAGE_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [CoreComponent, ...CORE_COMPONENTS],
@@ -85,7 +85,7 @@ import { CORE_PROVIDERS } from "./providers";
 		ActionsModule,
 		BasketModule
 	],
-	providers: CORE_PROVIDERS,
+	providers: CORE_PAGE_PROVIDERS,
 	exports: [CoreComponent]
 })
 export class CoreModule {}

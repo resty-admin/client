@@ -8,7 +8,7 @@ import { ORDER_ID } from "@shared/constants";
 import { CLIENT_ROUTES } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
-import { lastValueFrom, map } from "rxjs";
+import { map, take } from "rxjs";
 
 import { CONNECT_TO_ORDER_PAGE } from "../constants";
 
@@ -39,25 +39,25 @@ export class ConnectToOrderComponent implements OnInit, OnDestroy {
 			this._actionsService.setAction({
 				label: "Подключиться",
 				disabled: code?.toString().length !== 4,
-				func: async () => {
-					await this.connectToOrder(code);
+				func: () => {
+					this._ordersService
+						.addUserToOrder(Number.parseInt(`${code}`))
+						.pipe(map((result) => result.data?.addUserToOrder))
+						.pipe(take(1))
+						.subscribe(async (order) => {
+							if (!order) {
+								return;
+							}
+
+							await this._routerService.navigateByUrl(
+								CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, order.id)
+							);
+						});
 				}
 			});
 		});
 
 		this.codeControl.setValue(this._routerService.getQueryParams("code"));
-	}
-
-	async connectToOrder(code: number) {
-		const order = await lastValueFrom(
-			this._ordersService.addUserToOrder(Number.parseInt(`${code}`)).pipe(map((result) => result.data?.addUserToOrder))
-		);
-
-		if (!order) {
-			return;
-		}
-
-		await this._routerService.navigateByUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, order.id));
 	}
 
 	ngOnDestroy() {

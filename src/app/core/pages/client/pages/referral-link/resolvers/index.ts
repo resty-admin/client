@@ -1,1 +1,1 @@
-export * from "./referral-link/referral-link.resolver";
+export * from "./referral-link-page/referral-link-page.resolver";

@@ -1,1 +1,1 @@
-export * from "./confirm-products/confirm-products.resolver";
+export * from "./confirm-products-page/confirm-products-page.resolver";

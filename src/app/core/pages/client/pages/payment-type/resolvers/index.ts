@@ -1,1 +1,1 @@
-export * from "./payment-type/payment-type.resolver";
+export * from "./payment-type-page/payment-type-page.resolver";

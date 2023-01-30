@@ -1,5 +1,5 @@
 <ng-container *transloco="let t; read: historyOrderPage">
-	<div class="active-order" *ngIf="order$ | async as order">
+	<div class="active-order" *ngIf="order">
 		<app-preview-place class="place" [place]="order.place"></app-preview-place>
 
 		<a>
@@ -12,7 +12,7 @@
 			<ul class="users-to-orders-by-type">
 				<li
 					class="user-to-order-by-type"
-					*ngFor="let productToOrderByType of order.productsToOrdersByType; trackBy: sharedService.trackByFn"
+					*ngFor="let productToOrderByType of productsToOrdersByType; trackBy: sharedService.trackByFn"
 				>
 					<ng-container *ngIf="productToOrderByType.productsToOrders?.length">
 						<p class="status">{{ productToOrderByType.status }}</p>

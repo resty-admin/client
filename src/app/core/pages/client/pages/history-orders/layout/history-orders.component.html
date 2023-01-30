@@ -1,17 +1,15 @@
 <div class="all-orders-page" *transloco="let t; read: historyOrdersPage">
 	<h1 appTypography theme="1" class="title">{{ t("history") }}</h1>
 
-	<ul class="history-orders">
-		<ng-container *ngIf="historyOrders$ | async as historyOrders; else noOrders">
-			<ng-container *ngIf="historyOrders.length; else noOrders">
-				<li class="history-order" *ngFor="let historyOrder of historyOrders; trackBy: sharedService.trackByFn">
-					<a class="link" [routerLink]="historyOrder.routerLink">
-						<app-preview-order [order]="historyOrder"></app-preview-order>
-					</a>
-				</li>
-			</ng-container>
-		</ng-container>
-	</ul>
+	<ng-container *ngIf="historyOrders$ | async as historyOrders; else noOrders">
+		<ul class="history-orders" *ngIf="historyOrders.length; else noOrders">
+			<li class="history-order" *ngFor="let historyOrder of historyOrders; trackBy: sharedService.trackByFn">
+				<a class="link" [routerLink]="historyOrder.id">
+					<app-preview-order [order]="historyOrder"></app-preview-order>
+				</a>
+			</li>
+		</ul>
+	</ng-container>
 </div>
 
 <ng-template #noOrders>

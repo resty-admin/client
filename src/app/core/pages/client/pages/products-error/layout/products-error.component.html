@@ -4,9 +4,7 @@
 
 	<ul class="products">
 		<li class="product" *ngFor="let product of products$ | async; trackBy: sharedService.trackByFn">
-			<a class="link" [routerLink]="product.id">
-				<!--				<app-product [product]="product"></app-product>-->
-			</a>
+			<a class="link" [routerLink]="product.id"> </a>
 		</li>
 	</ul>
 </div>

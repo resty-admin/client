@@ -4,6 +4,7 @@ import { PreviewProductModule } from "@features/products";
 import { I18nModule } from "@shared/modules/i18n";
 import { TypographyModule } from "@shared/ui/typography";
 
+import { ProductModule } from "../product/product.module";
 import { PRODUCTS_ERROR_COMPONENTS } from "./components";
 import { ProductsErrorComponent } from "./layout/products-error.component";
 import { ProductsErrorRoutingModule } from "./products-error-routing.module";
@@ -11,7 +12,14 @@ import { PRODUCTS_ERORR_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [ProductsErrorComponent, ...PRODUCTS_ERROR_COMPONENTS],
-	imports: [CommonModule, ProductsErrorRoutingModule, TypographyModule, I18nModule, PreviewProductModule],
+	imports: [
+		CommonModule,
+		ProductsErrorRoutingModule,
+		TypographyModule,
+		I18nModule,
+		PreviewProductModule,
+		ProductModule
+	],
 	providers: PRODUCTS_ERORR_PROVIDERS
 })
 export class ProductsErrorModule {}

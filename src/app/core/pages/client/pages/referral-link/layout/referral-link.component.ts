@@ -4,16 +4,15 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { ActionsService } from "@features/app";
 import { OrderTypeEnum } from "@graphql";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { UntilDestroy } from "@ngneat/until-destroy";
 import { PLACE_ID } from "@shared/constants";
 import { CLIENT_ROUTES } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { ToastrService } from "@shared/ui/toastr";
-import type { Observable } from "rxjs";
-import { map } from "rxjs";
 
 import { REFERRAL_LINK_PAGE } from "../constants";
+import type { ReferralLinkPageQuery } from "../graphql";
 
 @UntilDestroy()
 @Component({
@@ -24,7 +23,7 @@ import { REFERRAL_LINK_PAGE } from "../constants";
 })
 export class ReferralLinkComponent implements OnInit, OnDestroy {
 	readonly referralLinkPage = REFERRAL_LINK_PAGE;
-	readonly activeOrder$: Observable<any> = this._activatedRoute.data.pipe(map((data) => data["activeOrder"]));
+	activeOrder: ReferralLinkPageQuery["order"] | null = null;
 
 	constructor(
 		private readonly _activatedRoute: ActivatedRoute,
@@ -35,43 +34,41 @@ export class ReferralLinkComponent implements OnInit, OnDestroy {
 		private readonly _clipboard: Clipboard
 	) {}
 
+	ngOnInit() {
+		this.activeOrder = this._activatedRoute.snapshot.data["activeOrder"];
+
+		if (!this.activeOrder) {
+			return;
+		}
+
+		this._breadcrumbsService.setBreadcrumb({
+			routerLink: CLIENT_ROUTES.CREATE_ORDER.absolutePath.replace(PLACE_ID, this.activeOrder.place.id)
+		});
+
+		const url = {
+			[OrderTypeEnum.Reserve]: CLIENT_ROUTES.HALLS.absolutePath,
+			[OrderTypeEnum.Pickup]: CLIENT_ROUTES.CATEGORIES.absolutePath,
+			[OrderTypeEnum.Delivery]: CLIENT_ROUTES.CATEGORIES.absolutePath,
+			[OrderTypeEnum.InPlace]: CLIENT_ROUTES.CATEGORIES.absolutePath
+		}[this.activeOrder.type];
+
+		const label = {
+			[OrderTypeEnum.Reserve]: "Выбрать стол",
+			[OrderTypeEnum.Pickup]: "Выбрать блюда",
+			[OrderTypeEnum.Delivery]: "Выбрать блюда",
+			[OrderTypeEnum.InPlace]: "Выбрать блюда"
+		}[this.activeOrder.type];
+
+		this._actionsService.setAction({
+			label,
+			func: () => this._routerService.navigateByUrl(url.replace(PLACE_ID, this.activeOrder!.place.id))
+		});
+	}
+
 	copyCode(code: number) {
 		this._clipboard.copy(code.toString());
 
 		this._toastrService.success(undefined, { data: { title: "Успешно скопировано" } });
-	}
-
-	ngOnInit() {
-		this.activeOrder$.pipe(untilDestroyed(this)).subscribe((order: any) => {
-			if (!order) {
-				return;
-			}
-
-			this._breadcrumbsService.setBreadcrumb({
-				routerLink: CLIENT_ROUTES.CREATE_ORDER.absolutePath.replace(PLACE_ID, order.place.id)
-			});
-
-			const url = {
-				[OrderTypeEnum.Reserve]: CLIENT_ROUTES.HALLS.absolutePath,
-				[OrderTypeEnum.Pickup]: CLIENT_ROUTES.CATEGORIES.absolutePath,
-				[OrderTypeEnum.Delivery]: CLIENT_ROUTES.CATEGORIES.absolutePath,
-				[OrderTypeEnum.InPlace]: CLIENT_ROUTES.CATEGORIES.absolutePath
-			}[order.type as OrderTypeEnum];
-
-			const label = {
-				[OrderTypeEnum.Reserve]: "Выбрать стол",
-				[OrderTypeEnum.Pickup]: "Выбрать блюда",
-				[OrderTypeEnum.Delivery]: "Выбрать блюда",
-				[OrderTypeEnum.InPlace]: "Выбрать блюда"
-			}[order.type as OrderTypeEnum];
-
-			this._actionsService.setAction({
-				label,
-				func: async () => {
-					await this._routerService.navigateByUrl(url.replace(PLACE_ID, order.place.id));
-				}
-			});
-		});
 	}
 
 	ngOnDestroy() {

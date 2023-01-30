@@ -2,17 +2,18 @@ import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { ActionsService } from "@features/app";
+import { ProductToOrderStatusEnum } from "@graphql";
 import { FormControl } from "@ngneat/reactive-forms";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { ORDER_ID, PLACE_ID } from "@shared/constants";
+import { UntilDestroy } from "@ngneat/until-destroy";
+import { PLACE_ID } from "@shared/constants";
 import { CLIENT_ROUTES } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
-import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
-import { map } from "rxjs";
 
 import { HISTORY_ORDER_PAGE } from "../constants";
-import { HistoryOrderPageGQL } from "../graphql";
+import type { HistoryOrderPageQuery } from "../graphql";
+
+//
 
 @UntilDestroy()
 @Component({
@@ -22,40 +23,35 @@ import { HistoryOrderPageGQL } from "../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HistoryOrderComponent implements OnInit, OnDestroy {
+	readonly displayStatuses = [ProductToOrderStatusEnum.WaitingForApprove, ProductToOrderStatusEnum.Approved];
 	readonly placeId = PLACE_ID;
 	readonly historyOrderPage = HISTORY_ORDER_PAGE;
 	readonly clientRoutes = CLIENT_ROUTES;
 	readonly usersControl = new FormControl([]);
-	private readonly _historyOrderPageQuery = this._historyOrderPageGQL.watch();
-	readonly order$ = this._activatedRoute.data.pipe(map((data) => data["historyOrder"]));
+	order: HistoryOrderPageQuery["order"] | null = null;
+
+	productsToOrdersByType: any[] = [];
 
 	constructor(
 		readonly sharedService: SharedService,
 		private readonly _activatedRoute: ActivatedRoute,
-		private readonly _historyOrderPageGQL: HistoryOrderPageGQL,
-		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _actionsService: ActionsService
 	) {}
 
-	async ngOnInit() {
-		const orderId = this._routerService.getParams(ORDER_ID.slice(1));
+	ngOnInit() {
+		this.order = this._activatedRoute.snapshot.data["order"];
 
-		if (!orderId) {
-			return;
-		}
+		this.productsToOrdersByType = this.displayStatuses.map((status) => ({
+			status,
+			productsToOrders: (this.order?.productsToOrders || []).filter(
+				(productToOrder) => productToOrder.status === status
+			)
+		}));
 
-		this.order$.pipe(untilDestroyed(this)).subscribe((order) => {
-			if (!order || !order.place) {
-				return;
-			}
-
-			this._breadcrumbsService.setBreadcrumb({
-				routerLink: CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, order.place.id)
-			});
+		this._breadcrumbsService.setBreadcrumb({
+			routerLink: CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, this.order!.id)
 		});
-
-		await this._historyOrderPageQuery.setVariables({ orderId });
 	}
 
 	ngOnDestroy() {

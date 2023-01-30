@@ -1,21 +1,18 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { FORM } from "@core/constants";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
-import type { ProductEntity } from "@graphql";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { CATEGORY_ID, CLIENT_ROUTES, PLACE_ID } from "@shared/constants";
-import type { DeepAtLeast } from "@shared/interfaces";
+import { CATEGORY_ID, CLIENT_ROUTES, FORM, PLACE_ID } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
-import type { Observable } from "rxjs";
-import { BehaviorSubject, map } from "rxjs";
+import { BehaviorSubject } from "rxjs";
 
 import { PRODUCT_PAGE } from "../constants";
+import type { ProductPageQuery } from "../graphql";
 import { ProductPageGQL } from "../graphql";
 
 @UntilDestroy()
@@ -30,12 +27,10 @@ export class ProductComponent implements OnInit, OnDestroy {
 	readonly form = FORM;
 	private readonly _productPageQuery = this._productsPageGQL.watch();
 	readonly attributesFormControl = new FormControl<string[]>();
-	readonly product$: Observable<any> = this._activatedRoute.data.pipe(map((data) => data["product"]));
-
 	readonly countSubject = new BehaviorSubject(0);
 	readonly count$ = this.countSubject.asObservable();
 
-	data!: DeepAtLeast<ProductEntity, "id">;
+	product: ProductPageQuery["product"] | null = null;
 
 	constructor(
 		readonly sharedService: SharedService,
@@ -48,6 +43,8 @@ export class ProductComponent implements OnInit, OnDestroy {
 	) {}
 
 	async ngOnInit() {
+		this.product = this._activatedRoute.snapshot.data["product"];
+
 		const { placeId, categoryId, productId } = this._routerService.getParams();
 
 		if (!productId) {

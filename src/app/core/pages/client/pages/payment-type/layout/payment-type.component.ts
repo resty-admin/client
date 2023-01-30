@@ -1,19 +1,18 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { PAYMENT_TYPES } from "@core/pages/client/pages/payment-type/data";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { CLIENT_ROUTES, ORDER_ID } from "@shared/constants";
+import { PaymentType } from "@shared/enums";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
-import type { Observable } from "rxjs";
-import { lastValueFrom, map } from "rxjs";
+import { map, take } from "rxjs";
 
 import { PAYMENT_TYPE_PAGE } from "../constants";
-import { PaymentType } from "../enums";
+import { PAYMENT_TYPES } from "../data";
+import { PaymentTypePageService } from "../services";
 
 @UntilDestroy()
 @Component({
@@ -26,60 +25,72 @@ export class PaymentTypeComponent implements OnInit, OnDestroy {
 	readonly paymentTypePage = PAYMENT_TYPE_PAGE;
 	readonly paymentTypes = PAYMENT_TYPES;
 
-	readonly order$: Observable<any> = this._activatedRoute.data.pipe(map((data) => data["order"]));
+	readonly order$ = this._paymentTypePageService.paymentTypePageQuery.valueChanges.pipe(
+		map((result) => result.data.order)
+	);
+
+	totalPrice: number = 0;
 
 	readonly paymentTypeControl = new FormControl();
 
 	constructor(
-		private readonly _activatedRoute: ActivatedRoute,
+		private readonly _paymentTypePageService: PaymentTypePageService,
 		private readonly _ordersService: OrdersService,
 		private readonly _routerService: RouterService,
 		private readonly _actionsService: ActionsService,
 		private readonly _breadcrumbsService: BreadcrumbsService
 	) {}
 
-	async ngOnInit() {
-		const orderId = this._routerService.getParams(ORDER_ID.slice(1));
-
-		if (!orderId) {
-			return;
-		}
+	ngOnInit() {
+		// this.totalPrice = (this.order?.productsToOrders || [])
+		// 	.filter((productToOrder) =>
+		// 		JSON.parse(this._activatedRoute.snapshot.queryParamMap.get("products") || "").includes(productToOrder.id)
+		// 	)
+		// 	.reduce(
+		// 		(sum, productToOrder) =>
+		// 			sum +
+		// 			(productToOrder.product.price +
+		// 				(productToOrder.attributes || []).reduce((_sum, attribute) => _sum + attribute.price, 0)) *
+		// 				productToOrder.count,
+		// 		0
+		// 	);
 
 		this._breadcrumbsService.setBreadcrumb({
-			routerLink: CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, orderId)
+			routerLink: CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(
+				ORDER_ID,
+				this._routerService.getParams(ORDER_ID.slice(1))
+			)
 		});
 
 		this.paymentTypeControl.valueChanges.pipe(untilDestroyed(this)).subscribe((value) => {
 			this._actionsService.setAction({
 				label: "Оплатить",
 				disabled: !value,
-				func: async () => {
+				func: () => {
 					const type = this.paymentTypeControl.value;
 					const products = JSON.parse(this._routerService.getQueryParams("products") || "");
 					const orderId = this._routerService.getParams(ORDER_ID.slice(1));
 
 					if (type === PaymentType.CARD) {
-						try {
-							const result = await lastValueFrom(this._ordersService.createPaymentOrderLink(products));
+						this._ordersService
+							.createPaymentOrderLink(products)
+							.pipe(take(1))
+							.subscribe((result) => {
+								if (!result.data) {
+									return;
+								}
 
-							if (!result.data) {
-								return;
-							}
-
-							window.location.href = result.data.createPaymentOrderLink.link;
-						} catch (error) {
-							console.error(error);
-						}
+								window.location.href = result.data.createPaymentOrderLink.link;
+							});
 					} else {
-						try {
-							await lastValueFrom(this._ordersService.setManualPayForProductsInOrderGQL(products));
-
-							await this._routerService.navigateByUrl(
-								CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, orderId)
-							);
-						} catch (error) {
-							console.error(error);
-						}
+						this._ordersService
+							.setManualPayForProductsInOrderGQL(products)
+							.pipe(take(1))
+							.subscribe(async () => {
+								await this._routerService.navigateByUrl(
+									CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, orderId)
+								);
+							});
 					}
 				}
 			});

@@ -1,1 +1,1 @@
-export * from "./products-error/products-error.resolver";
+export * from "./products-error-page/products-error-page.resolver";

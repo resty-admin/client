@@ -9,7 +9,7 @@ import { routerAnimation } from "@shared/animations";
 import { CLIENT_ROUTES } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
 import type { IAction } from "@shared/ui/actions";
-import { catchError, filter, lastValueFrom, map, of, shareReplay, startWith, switchMap, take, tap } from "rxjs";
+import { catchError, filter, map, of, shareReplay, startWith, switchMap, take, tap } from "rxjs";
 
 import { CorePageGQL } from "../graphql";
 
@@ -56,16 +56,12 @@ export class CoreComponent implements OnInit {
 		{
 			label: "Профиль",
 			icon: "profile",
-			func: async () => {
-				await this._routerService.navigateByUrl(CLIENT_ROUTES.PROFILE.absolutePath);
-			}
+			func: () => this._routerService.navigateByUrl(CLIENT_ROUTES.PROFILE.absolutePath)
 		},
 		{
 			label: "Выйти",
 			icon: "exit",
-			func: async () => {
-				await this._authService.signOut();
-			}
+			func: () => this._authService.signOut()
 		}
 	];
 
@@ -92,16 +88,14 @@ export class CoreComponent implements OnInit {
 		return this._childrenOutletContexts.getContext("primary")?.route?.snapshot?.data?.["animation"];
 	}
 
-	async ngOnInit() {
-		try {
-			const user = await lastValueFrom(this.user$.pipe(take(1)));
-
+	ngOnInit() {
+		this.user$.pipe(take(1)).subscribe(async (user) => {
 			if (!user || user.name) {
 				return;
 			}
 
 			await this._routerService.navigateByUrl(CLIENT_ROUTES.WELCOME.absolutePath);
-		} catch {}
+		});
 	}
 
 	toggleAside() {

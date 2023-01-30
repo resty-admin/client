@@ -1,5 +1,5 @@
-import { TableSkeletonComponent } from "./table-skeleton/table-skeleton.component";
+import { TablePageSkeletonComponent } from "./table-page-skeleton/table-page-skeleton.component";
 
-export const TABLE_COMPONENTS = [TableSkeletonComponent];
+export const TABLE_COMPONENTS = [TablePageSkeletonComponent];
 
-export * from "./table-skeleton/table-skeleton.component";
+export * from "./table-page-skeleton/table-page-skeleton.component";

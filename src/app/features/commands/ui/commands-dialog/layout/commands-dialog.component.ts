@@ -1,8 +1,9 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
-import { map } from "rxjs";
+import { map, take } from "rxjs";
 
+import type { CommandsDialogQuery } from "../graphql";
 import { CommandsDialogGQL } from "../graphql";
 
 @Component({
@@ -12,26 +13,32 @@ import { CommandsDialogGQL } from "../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CommandsDialogComponent implements OnInit {
-	private readonly _commandsDialogQuery = this._commandsDialogGQL.watch();
-
-	readonly commands$ = this._commandsDialogQuery.valueChanges.pipe(map((result) => result.data.commands.data));
+	commands: CommandsDialogQuery["commands"]["data"];
 
 	constructor(private readonly _commandsDialogGQL: CommandsDialogGQL, private readonly _dialogRef: DialogRef) {}
 
-	async ngOnInit() {
+	ngOnInit() {
 		if (!this._dialogRef.data || !this._dialogRef.data.placeId) {
 			return;
 		}
 
-		await this._commandsDialogQuery.setVariables({
-			filtersArgs: [
-				{
-					key: "place.id",
-					operator: "=",
-					value: this._dialogRef.data.placeId
-				}
-			]
-		});
+		this._commandsDialogGQL
+			.fetch({
+				filtersArgs: [
+					{
+						key: "place.id",
+						operator: "=",
+						value: this._dialogRef.data.placeId
+					}
+				]
+			})
+			.pipe(
+				take(1),
+				map((result) => result.data.commands.data)
+			)
+			.subscribe((commands) => {
+				this.commands = commands;
+			});
 	}
 
 	closeDialog(commandId: string) {

@@ -1,10 +1,10 @@
 <div class="payment-status" *transloco="let t; read: paymentStatusPage">
-	<app-image class="image" [name]="'payment-' + paymentType"></app-image>
+	<app-image class="image" [name]="'payment-' + paymentStatus"></app-image>
 
-	<h1 [class]="'title' + ' ' + paymentType">{{ t(paymentType + "_title") }}</h1>
-	<h1 class="subtitle">{{ t(paymentType + "_subtitle") }}</h1>
+	<h1 [class]="'title' + ' ' + paymentStatus">{{ t(paymentStatus + "_title") }}</h1>
+	<h1 class="subtitle">{{ t(paymentStatus + "_subtitle") }}</h1>
 
-	<button class="close-order" appButton theme="2" *ngIf="(order$ | async).isAllPaid" (click)="openCloseConfirmation()">
+	<button class="close-order" appButton theme="2" *ngIf="isAllPaid" (click)="openCloseConfirmation()">
 		Закрыть заказ
 	</button>
 </div>

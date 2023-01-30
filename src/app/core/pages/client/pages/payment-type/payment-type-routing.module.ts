@@ -2,10 +2,10 @@ import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
-import { PaymentTypeSkeletonComponent } from "./components";
+import { PaymentTypePageSkeletonComponent } from "./components";
 import { PAYMENT_TYPE_PAGE } from "./constants";
 import { PaymentTypeComponent } from "./layout/payment-type.component";
-import { PaymentTypeResolver } from "./resolvers";
+import { PaymentTypePageResolver } from "./resolvers";
 
 export const PAYMENT_TYPE_ROUTES: INavigationSkeletonRoute[] = [
 	{
@@ -15,10 +15,10 @@ export const PAYMENT_TYPE_ROUTES: INavigationSkeletonRoute[] = [
 			animation: PAYMENT_TYPE_PAGE
 		},
 		resolve: {
-			order: PaymentTypeResolver
+			order: PaymentTypePageResolver
 		},
 		skeleton: {
-			component: PaymentTypeSkeletonComponent
+			component: PaymentTypePageSkeletonComponent
 		}
 	}
 ];

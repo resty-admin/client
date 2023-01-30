@@ -1,12 +1,11 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { FORM } from "@core/constants";
 import { ActionsService } from "@features/app";
 import { AuthService } from "@features/auth/services";
 import { FormControl } from "@ngneat/reactive-forms";
-import { CLIENT_ROUTES } from "@shared/constants";
+import { CLIENT_ROUTES, FORM } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
-import { lastValueFrom } from "rxjs";
+import { take } from "rxjs";
 
 import { WELCOME_PAGE } from "../constants";
 
@@ -30,16 +29,14 @@ export class WelcomeComponent implements OnInit, OnDestroy {
 	ngOnInit() {
 		this._actionsService.setAction({
 			label: "Подтвердить",
-			func: async () => {
-				try {
-					await lastValueFrom(this._authService.updateMe({ name: this.nameControl.value }));
-
-					await this._authService.getMeQuery.refetch();
-					await this._routerService.navigateByUrl(CLIENT_ROUTES.PLACES.absolutePath);
-				} catch (error) {
-					console.error(error);
-				}
-			}
+			func: () =>
+				this._authService
+					.updateMe({ name: this.nameControl.value })
+					.pipe(take(1))
+					.subscribe(async () => {
+						await this._authService.getMeQuery.refetch();
+						await this._routerService.navigateByUrl(CLIENT_ROUTES.PLACES.absolutePath);
+					})
 		});
 	}
 

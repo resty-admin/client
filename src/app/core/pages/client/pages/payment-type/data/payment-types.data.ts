@@ -1,4 +1,4 @@
-import { PaymentType } from "@core/pages/client/pages/payment-type/enums";
+import { PaymentType } from "@shared/enums";
 import type { IRadioButtonOption } from "@shared/ui/radio-button";
 
 export const PAYMENT_TYPES: IRadioButtonOption[] = [

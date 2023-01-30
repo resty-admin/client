@@ -4,7 +4,7 @@ import { AuthService } from "@features/auth/services";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { CLIENT_ROUTES } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
-import { lastValueFrom, map } from "rxjs";
+import { map, switchMap, take } from "rxjs";
 
 @UntilDestroy()
 @Component({
@@ -21,16 +21,12 @@ export class TelegramComponent implements OnInit {
 			.selectFragment()
 			.pipe(
 				untilDestroyed(this),
-				map((value) => JSON.parse(new URLSearchParams(value).get("user") || ""))
+				map((value) => JSON.parse(new URLSearchParams(value).get("user") || "")),
+				switchMap((telegramUser) => this._authService.telegram(telegramUser)),
+				take(1)
 			)
-			.subscribe(async (telegramUser) => {
-				try {
-					await lastValueFrom(this._authService.telegram(telegramUser));
-
-					await this._routerService.navigateByUrl(CLIENT_ROUTES.PLACES.absolutePath);
-				} catch (error) {
-					console.error(error);
-				}
+			.subscribe(async () => {
+				await this._routerService.navigateByUrl(CLIENT_ROUTES.PLACES.absolutePath);
 			});
 	}
 }

@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
 import { SharedService } from "@shared/services";
 import { map } from "rxjs";
 
 import { PRODUCTS_ERROR_PAGE } from "../constants";
+import { ProductsErrorPageService } from "../services";
 
 @Component({
 	selector: "app-products-error",
@@ -13,6 +13,12 @@ import { PRODUCTS_ERROR_PAGE } from "../constants";
 })
 export class ProductsErrorComponent {
 	readonly productsErrorPage = PRODUCTS_ERROR_PAGE;
-	readonly products$ = this._activatedRoute.data.pipe(map((data) => data["products"]));
-	constructor(readonly sharedService: SharedService, private readonly _activatedRoute: ActivatedRoute) {}
+	readonly products$ = this._productsErrorPageService.productsErrorPageQuery.valueChanges.pipe(
+		map((result) => result.data.products.data)
+	);
+
+	constructor(
+		readonly sharedService: SharedService,
+		private readonly _productsErrorPageService: ProductsErrorPageService
+	) {}
 }

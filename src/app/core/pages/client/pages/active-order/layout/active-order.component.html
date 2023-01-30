@@ -25,9 +25,9 @@
 
 		<button
 			class="close-order"
-			(click)="activeOrder.isAllPaid ? openCloseConfirmation(activeOrder) : openCancelConfirmation(activeOrder)"
+			(click)="isAllPaid ? openCloseConfirmation(activeOrder) : openCancelConfirmation(activeOrder)"
 		>
-			{{ activeOrder.isAllPaid ? "Закрыть заказ" : "Отменить заказ" }}
+			{{ isAllPaid ? "Закрыть заказ" : "Отменить заказ" }}
 		</button>
 	</div>
 </ng-container>

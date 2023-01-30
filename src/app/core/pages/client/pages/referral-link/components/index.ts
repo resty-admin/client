@@ -1,5 +1,5 @@
-import { ReferralLinkSkeletonComponent } from "./referral-link-skeleton/referral-link-skeleton.component";
+import { ReferralLinkPageSkeletonComponent } from "./referral-link-page-skeleton/referral-link-page-skeleton.component";
 
-export const REFERRAL_LINK_COMPONENTS = [ReferralLinkSkeletonComponent];
+export const REFERRAL_LINK_COMPONENTS = [ReferralLinkPageSkeletonComponent];
 
-export * from "./referral-link-skeleton/referral-link-skeleton.component";
+export * from "./referral-link-page-skeleton/referral-link-page-skeleton.component";

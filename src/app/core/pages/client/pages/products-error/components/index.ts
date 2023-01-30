@@ -1,5 +1,5 @@
-import { ProductsErrorSkeletonComponent } from "./products-error-skeleton/products-error-skeleton.component";
+import { ProductsErrorPageSkeletonComponent } from "./products-error-page-skeleton/products-error-page-skeleton.component";
 
-export const PRODUCTS_ERROR_COMPONENTS = [ProductsErrorSkeletonComponent];
+export const PRODUCTS_ERROR_COMPONENTS = [ProductsErrorPageSkeletonComponent];
 
-export * from "./products-error-skeleton/products-error-skeleton.component";
+export * from "./products-error-page-skeleton/products-error-page-skeleton.component";

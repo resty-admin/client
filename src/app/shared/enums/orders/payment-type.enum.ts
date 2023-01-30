@@ -1,4 +1,5 @@
 export enum PaymentType {
-	"ERROR" = "error",
-	"SUCCESS" = "success"
+	CASH = "cash",
+	TERMINAL = "terminal",
+	CARD = "card"
 }

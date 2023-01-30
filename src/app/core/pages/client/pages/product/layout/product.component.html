@@ -1,5 +1,5 @@
 <ng-container *transloco="let t; read: productPage">
-	<div class="product" *ngIf="product$ | async as product">
+	<div class="product" *ngIf="product">
 		<app-image class="image" [remote]="true" [name]="product.file?.url" placeholder="product"></app-image>
 
 		<div class="content" *transloco="let f; read: form">
@@ -24,6 +24,8 @@
 					<app-radio-button
 						theme="2"
 						class="radio"
+						bindValue="id"
+						bindLabel="name"
 						[options]="attrGroup.attributes"
 						[formControl]="attributesFormControl"
 					></app-radio-button>

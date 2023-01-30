@@ -12,10 +12,10 @@ import { DialogService } from "@shared/ui/dialog";
 import { IosDatepickerDialogComponent } from "@shared/ui/ios-datepicker-dialog";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
-import type { Observable } from "rxjs";
-import { BehaviorSubject, catchError, filter, lastValueFrom, map, of, shareReplay, switchMap, take, tap } from "rxjs";
+import { BehaviorSubject, catchError, filter, map, of, shareReplay, switchMap, take, tap } from "rxjs";
 
 import { TABLE_PAGE } from "../constants";
+import type { TablePageQuery } from "../graphql";
 import { IsTableAvailableForReserveGQL, TablePageOrderGQL } from "../graphql";
 
 export type IValidationStatus = "invalid" | "loading" | "valid";
@@ -29,7 +29,7 @@ export type IValidationStatus = "invalid" | "loading" | "valid";
 })
 export class TableComponent implements OnInit, OnDestroy {
 	readonly tablePage = TABLE_PAGE;
-	readonly table$: Observable<any> = this._activatedRoute.data.pipe(map((data) => data["table"]));
+	table: TablePageQuery["table"] | null = null;
 	private readonly _dateSubject = new BehaviorSubject<Dayjs | undefined>(undefined);
 	readonly date$ = this._dateSubject.asObservable().pipe(shareReplay({ refCount: true }));
 
@@ -55,22 +55,9 @@ export class TableComponent implements OnInit, OnDestroy {
 		private readonly _dialogService: DialogService
 	) {}
 
-	async openIosDatepicker() {
-		const date: Dayjs | undefined = await lastValueFrom(
-			this._dialogService.open(IosDatepickerDialogComponent, {
-				data: this._dateSubject.value,
-				windowClass: "ios-datepicker-dialog"
-			}).afterClosed$
-		);
+	ngOnInit() {
+		this.table = this._activatedRoute.snapshot.data["table"];
 
-		if (!date) {
-			return;
-		}
-
-		this._dateSubject.next(date);
-	}
-
-	async ngOnInit() {
 		const { placeId, hallId, tableId } = this._routerService.getParams();
 
 		if (!tableId) {
@@ -111,6 +98,22 @@ export class TableComponent implements OnInit, OnDestroy {
 		});
 	}
 
+	openIosDatepicker() {
+		this._dialogService
+			.open(IosDatepickerDialogComponent, {
+				data: this._dateSubject.value,
+				windowClass: "ios-datepicker-dialog"
+			})
+			.afterClosed$.pipe(take(1))
+			.subscribe((date) => {
+				if (!date) {
+					return;
+				}
+
+				this._dateSubject.next(date);
+			});
+	}
+
 	setAction() {
 		const tableId = this._routerService.getParams(TABLE_ID.slice(1));
 
@@ -122,30 +125,34 @@ export class TableComponent implements OnInit, OnDestroy {
 			label: "Подтвердить",
 			disabled: !this._dateSubject.getValue() || this.validationStatus !== "valid",
 			func: async () => {
-				const activeOrderId =
-					(await lastValueFrom(this._ordersService.activeOrderId$.pipe(take(1)))) ||
-					(await lastValueFrom(
-						this._ordersService
-							.createOrder({
-								place: this._routerService.getParams(PLACE_ID.slice(1)),
-								type: OrderTypeEnum.Reserve
-							})
-							.pipe(map((result) => result.data?.createOrder.id))
-					));
+				this._ordersService.activeOrderId$
+					.pipe(take(1))
+					.pipe(
+						take(1),
+						switchMap((orderId) =>
+							orderId
+								? of(orderId)
+								: this._ordersService
+										.createOrder({
+											place: this._routerService.getParams(PLACE_ID.slice(1)),
+											type: OrderTypeEnum.Reserve
+										})
+										.pipe(map((result) => result.data?.createOrder.id))
+						),
+						take(1),
+						filter((activeOrderId) => Boolean(activeOrderId)),
+						switchMap((activeOrderId) => this._ordersService.addTableToOrder(activeOrderId!, tableId)),
+						take(1)
+					)
+					.subscribe(async (tableResult) => {
+						if (!tableResult.data?.addTableToOrder.id) {
+							return;
+						}
 
-				if (!activeOrderId) {
-					return;
-				}
-
-				const tableResult = await lastValueFrom(this._ordersService.addTableToOrder(activeOrderId, tableId));
-
-				if (!tableResult.data) {
-					return;
-				}
-
-				const { id } = tableResult.data.addTableToOrder;
-
-				await this._routerService.navigateByUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, id));
+						await this._routerService.navigateByUrl(
+							CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, tableResult.data.addTableToOrder.id)
+						);
+					});
 			}
 		});
 	}

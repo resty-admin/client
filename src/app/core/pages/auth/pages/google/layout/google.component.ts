@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { AuthService } from "@features/auth/services";
 import { CLIENT_ROUTES } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
-import { lastValueFrom } from "rxjs";
+import { take } from "rxjs";
 
 @Component({
 	selector: "app-google",
@@ -14,19 +14,14 @@ import { lastValueFrom } from "rxjs";
 export class GoogleComponent implements OnInit {
 	constructor(private readonly _routerService: RouterService, private readonly _authService: AuthService) {}
 
-	async ngOnInit() {
+	ngOnInit() {
 		const googleUser = this._routerService.getParams();
 
-		if (!googleUser) {
-			return;
-		}
-
-		try {
-			await lastValueFrom(this._authService.google(googleUser));
-
-			await this._routerService.navigateByUrl(CLIENT_ROUTES.CLIENT.absolutePath);
-		} catch (error) {
-			console.error(error);
-		}
+		this._authService
+			.google(googleUser)
+			.pipe(take(1))
+			.subscribe(async () => {
+				await this._routerService.navigateByUrl(CLIENT_ROUTES.CLIENT.absolutePath);
+			});
 	}
 }
