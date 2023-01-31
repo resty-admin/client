@@ -1,14 +1,14 @@
-name: Deploy to Dev
+name: Deploy to Prod
 
 #on: [push]
 on:
   push:
     branches:
-      - dev
+      - main
 
 env:
   REGISTRY: "registry.digitalocean.com/resty-registry"
-  NGX_CLIENT: "dev-client"
+  NGX_CLIENT: "prod-client"
 
 jobs:
   deploy:
@@ -29,10 +29,10 @@ jobs:
           script: |
             cd /home/resty/client
             git fetch
-            git checkout dev
+            git checkout main
             git pull
             docker system prune -f --volumes
-            docker build --no-cache -f Dockerfile.dev -t $(echo $REGISTRY)/$(echo $NGX_CLIENT):latest .
+            docker build --no-cache -f Dockerfile -t $(echo $REGISTRY)/$(echo $NGX_CLIENT):latest .
 
             doctl registry login
             docker push $(echo $REGISTRY)/$(echo $NGX_CLIENT):latest
@@ -40,5 +40,5 @@ jobs:
             cd /home/resty/k8s
             kubectl apply -f cloudflared.yaml
             cd /home/resty/client
-            kubectl delete -f client.dev.k8s.yaml
-            kubectl apply -f client.dev.k8s.yaml
+            kubectl delete -f client.k8s.yaml
+            kubectl apply -f client.k8s.yaml

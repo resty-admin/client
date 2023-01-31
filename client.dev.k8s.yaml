@@ -2,20 +2,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: prod-client-k8s-deployment
+  name: dev-client-k8s-deployment
 spec:
   selector:
     matchLabels:
-      app: prod-client-k8s
+      app: dev-client-k8s
   replicas: 2
   template:
     metadata:
       labels:
-        app: prod-client-k8s
+        app: dev-client-k8s
     spec:
       containers:
-        - name: prod-client-k8s
-          image: registry.digitalocean.com/resty-registry/prod-client:latest
+        - name: dev-client-k8s
+          image: registry.digitalocean.com/resty-registry/dev-client:latest
           ports:
             - containerPort: 80
 ---
@@ -25,7 +25,7 @@ metadata:
   name: client-service
 spec:
   selector:
-    app: prod-client-k8s
+    app: dev-client-k8s
   ports:
     - protocol: TCP
       port: 8080
