@@ -1,0 +1,50 @@
+@import "/src/assets/scss/abstractions";
+
+@include page() {
+	.payment-type-skeleton {
+		display: grid;
+		grid-template-areas:
+			"title sum"
+			"subtitle subtitle"
+			"radio-button radio-button"
+			"image image"
+			"tips tips";
+		grid-template-columns: 1fr 1fr;
+		row-gap: rem(12);
+
+		@include pagePadding();
+
+		.sum {
+			grid-area: sum;
+			height: rem(40);
+			width: rem(120);
+		}
+
+		.subtitle {
+			grid-area: subtitle;
+			height: rem(24);
+			width: 40%;
+		}
+
+		.radio-button {
+			grid-area: radio-button;
+			display: grid;
+			row-gap: rem(6);
+			.input {
+				height: rem(40);
+			}
+		}
+
+		.image {
+			justify-self: center;
+			grid-area: image;
+			width: rem(250);
+			height: rem(250);
+		}
+
+		.tips {
+			grid-area: tips;
+			height: rem(32);
+		}
+	}
+}

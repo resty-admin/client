@@ -1,0 +1,31 @@
+@import "/src/assets/scss/abstractions";
+
+@include component() {
+	.close-confimration {
+		display: grid;
+		padding: rem(57) rem(32);
+		row-gap: rem(32);
+
+		.title {
+			width: 100%;
+
+			@include desktop() {
+				width: rem(400);
+			}
+		}
+
+		.active-order {
+			justify-self: start;
+		}
+
+		.actions {
+			display: flex;
+			column-gap: rem(4);
+		}
+	}
+}
+@include dark() {
+	.close-confimration .value {
+		color: var(--light);
+	}
+}

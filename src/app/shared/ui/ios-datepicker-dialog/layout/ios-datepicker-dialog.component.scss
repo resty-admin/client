@@ -1,0 +1,16 @@
+@import "src/assets/scss/abstractions";
+
+@include component() {
+	.ios-datepicker-dialog {
+		display: grid;
+		row-gap: rem(12);
+		padding: rem(12);
+		.button {
+			width: 100%;
+		}
+	}
+}
+@include dark() {
+	.ios-datepicker-dialog {
+	}
+}

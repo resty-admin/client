@@ -1,18 +1,26 @@
 @import "src/assets/scss/abstractions";
 
-@include component () {
+@include component() {
 	.ios-datepicker {
 		display: grid;
+		position: relative;
 		grid-auto-flow: column;
 		grid-template-columns: auto auto auto min-content auto;
-		position: relative;
 		width: 100%;
-		background-color: var(--dark-t);
+
+		&.valid .active-item {
+			background-color: var(--success-t);
+		}
+
+		&.invalid .active-item {
+			background-color: var(--danger-t);
+		}
 
 		.active-item {
 			position: absolute;
 			width: 100%;
 			background-color: var(--primary);
+			border-radius: rem(12);
 		}
 
 		.container {
@@ -37,7 +45,7 @@
 					display: flex;
 					align-items: center;
 					justify-content: center;
-					color: var(--secondary-hover);
+					color: var(--dark);
 					font-size: rem(24);
 					text-align: left;
 				}
@@ -57,8 +65,18 @@
 			align-items: center;
 			z-index: 1;
 			font-size: rem(24);
-			color: var(--secondary-hover);
-			transform: translateY(-rem(2));
+			color: var(--dark);
+			transform: translateY(-(rem(2)));
+		}
+	}
+}
+@include dark() {
+	.ios-datepicker {
+		.list .list-item .button {
+			color: var(--light);
+		}
+		.time-splitter {
+			color: var(--light);
 		}
 	}
 }

@@ -1,0 +1,16 @@
+query ProductsPage($skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) {
+	products(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
+		data {
+			id
+			name
+			description
+			price
+			file {
+				id
+				url
+			}
+		}
+		page
+		totalCount
+	}
+}

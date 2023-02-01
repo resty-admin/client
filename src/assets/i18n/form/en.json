@@ -1,0 +1,20 @@
+{
+	"edit": "Edit",
+	"create": "Create",
+	"add": "Add",
+	"submit": "Submit",
+	"name_label": "Name",
+	"name_placeholder": "Enter name",
+	"description_label": "Description",
+	"description_placeholder": "Enter description",
+	"code_label": "Code",
+	"code_placeholder": "Enter code",
+	"email_label": "Email",
+	"email_placeholder": "Enter emails",
+	"tel_label": "Tel",
+	"tel_placeholder": "Enter tel",
+	"password_label": "Password",
+	"password_placeholder": "Enter password",
+	"search_label": "Search",
+	"search_placeholder": "Start typing..."
+}

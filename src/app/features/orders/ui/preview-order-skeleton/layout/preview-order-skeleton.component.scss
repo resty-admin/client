@@ -1,0 +1,55 @@
+@import "/src/assets/scss/abstractions/index";
+
+@include component() {
+	.preview-order-skeleton {
+		border-radius: rem(12);
+		padding: rem(15);
+		display: grid;
+		row-gap: rem(6);
+		grid-template-areas:
+			"name sum"
+			"type type"
+			"time time"
+			"place place";
+		background-color: var(--light-grey);
+
+		.name {
+			grid-area: name;
+		}
+		.sum {
+			grid-area: sum;
+			justify-self: end;
+			width: rem(40);
+		}
+		.type,
+		.time,
+		.place {
+			display: flex;
+			align-items: center;
+			gap: rem(6);
+
+			.icon {
+				width: rem(15);
+				height: rem(15);
+			}
+
+			.text {
+				flex: 1;
+			}
+
+			&.type {
+				grid-area: type;
+			}
+			&.time {
+				grid-area: time;
+			}
+			&.place {
+				grid-area: place;
+			}
+		}
+	}
+}
+@include dark() {
+	.preview-order-skeleton {
+	}
+}

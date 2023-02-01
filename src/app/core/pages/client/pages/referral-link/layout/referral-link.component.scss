@@ -4,8 +4,36 @@
 	.referral-link {
 		height: 100%;
 		display: grid;
-		grid-template-rows: auto auto auto auto 1fr auto;
-		row-gap: rem(10);
+		grid-template-rows: auto auto auto 1fr auto;
+		row-gap: rem(12);
+
+		@include pagePadding();
+
+		.copy-button {
+			width: rem(40);
+			height: rem(40);
+			background-color: var(--primary);
+		}
+
+		.image {
+			width: rem(250);
+			height: rem(250);
+			margin: 0 auto;
+			align-self: center;
+
+			@include image() {
+				object-fit: contain;
+			}
+		}
+
+		.input {
+			&::ng-deep {
+				.app-input.theme-1 input {
+					font-size: rem(24);
+					font-weight: bold;
+				}
+			}
+		}
 
 		.subtitle {
 			font-weight: 600;
@@ -19,10 +47,6 @@
 			font-size: rem(14);
 			line-height: rem(24);
 			color: var(--dark);
-		}
-
-		.button {
-			width: 100%;
 		}
 
 		.products {

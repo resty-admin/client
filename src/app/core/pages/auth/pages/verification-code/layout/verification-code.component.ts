@@ -1,17 +1,15 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { Router } from "@angular/router";
-import { RouterRepository } from "@ngneat/elf-ng-router-store";
+import { AuthService } from "@features/auth/services";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { DYNAMIC_TOKEN } from "@shared/constants";
+import { CLIENT_ROUTES } from "@shared/constants";
+import { RouterService } from "@shared/modules/router";
 import { take } from "rxjs";
-import { DYNAMIC_TOKEN } from "src/app/shared/constants";
-import type { IVerifyCode } from "src/app/shared/interfaces";
-import { CLIENT_ROUTES } from "src/app/shared/routes";
 
-import { AuthService } from "../../../services";
+import { VERIFICATION_CODE_PAGE } from "../constants";
+import type { IVerificationCode } from "../interfaces";
 
-@UntilDestroy()
 @Component({
 	selector: "app-verification-code",
 	templateUrl: "./verification-code.component.html",
@@ -19,32 +17,29 @@ import { AuthService } from "../../../services";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VerificationCodeComponent implements OnInit {
-	readonly form = this._formBuilder.group<IVerifyCode>({
+	readonly verificationCodePage = VERIFICATION_CODE_PAGE;
+	readonly formGroup = this._formBuilder.group<IVerificationCode>({
 		verificationCode: 0
 	});
 
 	constructor(
 		private readonly _formBuilder: FormBuilder,
 		private readonly _authService: AuthService,
-		private readonly _router: Router,
-		private readonly _routerRepository: RouterRepository
+		private readonly _routerService: RouterService
 	) {}
 
-	ngOnInit() {
-		this._routerRepository
-			.selectParams(DYNAMIC_TOKEN)
-			.pipe(untilDestroyed(this))
-			.subscribe((accessToken) => {
-				this._authService.updateAccessToken(accessToken);
-			});
+	async ngOnInit() {
+		const dynamicToken = this._routerService.getParams(DYNAMIC_TOKEN.slice(1));
+
+		await this._authService.updateAccessToken(dynamicToken);
 	}
 
-	verifyCode(formValue: IVerifyCode) {
+	verifyCode({ verificationCode }: IVerificationCode) {
 		this._authService
-			.verifyCode(formValue)
+			.verifyCode(verificationCode)
 			.pipe(take(1))
 			.subscribe(async () => {
-				await this._router.navigateByUrl(CLIENT_ROUTES.CLIENT.absolutePath);
+				await this._routerService.navigateByUrl(CLIENT_ROUTES.CLIENT.absolutePath);
 			});
 	}
 }

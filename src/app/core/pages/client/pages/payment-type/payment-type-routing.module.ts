@@ -1,13 +1,25 @@
 import { NgModule } from "@angular/core";
-import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
+import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
+import { PaymentTypePageSkeletonComponent } from "./components";
+import { PAYMENT_TYPE_PAGE } from "./constants";
 import { PaymentTypeComponent } from "./layout/payment-type.component";
+import { PaymentTypePageResolver } from "./resolvers";
 
-export const PAYMENT_TYPE_ROUTES: Route[] = [
+export const PAYMENT_TYPE_ROUTES: INavigationSkeletonRoute[] = [
 	{
 		path: "",
-		component: PaymentTypeComponent
+		component: PaymentTypeComponent,
+		data: {
+			animation: PAYMENT_TYPE_PAGE
+		},
+		resolve: {
+			order: PaymentTypePageResolver
+		},
+		skeleton: {
+			component: PaymentTypePageSkeletonComponent
+		}
 	}
 ];
 

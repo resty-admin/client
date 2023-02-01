@@ -1,31 +1,38 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
-import { ButtonModule } from "src/app/shared/ui/button";
-import { CounterModule } from "src/app/shared/ui/counter";
-import { ImageModule } from "src/app/shared/ui/image";
-import { MultipleCheckboxModule } from "src/app/shared/ui/multiple-checkbox";
-import { RadioButtonModule } from "src/app/shared/ui/radio-button";
-import { TextareaModule } from "src/app/shared/ui/textarea";
-import { TypographyModule } from "src/app/shared/ui/typography";
+import { PreviewCategoryModule } from "@features/categories";
+import { I18nModule } from "@shared/modules/i18n";
+import { ButtonModule } from "@shared/ui/button";
+import { CounterModule } from "@shared/ui/counter";
+import { ImageModule } from "@shared/ui/image";
+import { RadioButtonModule } from "@shared/ui/radio-button";
+import { SkeletonModule } from "@shared/ui/skeleton";
+import { TextareaModule } from "@shared/ui/textarea";
+import { TypographyModule } from "@shared/ui/typography";
 
+import { PRODUCT_COMPONENTS } from "./components";
 import { ProductComponent } from "./layout/product.component";
 import { ProductRoutingModule } from "./product-routing.module";
+import { PRODUCT_PROVIDERS } from "./providers";
 
 @NgModule({
-	declarations: [ProductComponent],
+	declarations: [ProductComponent, ...PRODUCT_COMPONENTS],
 	imports: [
 		CommonModule,
 		ProductRoutingModule,
-		ReactiveFormsModule,
-		ImageModule,
 		TypographyModule,
-		ButtonModule,
-		TextareaModule,
+		I18nModule,
 		RadioButtonModule,
+		TextareaModule,
+		ImageModule,
+		PreviewCategoryModule,
+		ReactiveFormsModule,
+		ButtonModule,
 		CounterModule,
-		MultipleCheckboxModule
+		SkeletonModule
 	],
-	exports: [ProductComponent]
+	exports: [ProductComponent],
+	providers: PRODUCT_PROVIDERS
 })
 export class ProductModule {}

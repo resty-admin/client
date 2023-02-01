@@ -1,13 +1,25 @@
 import { NgModule } from "@angular/core";
-import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
+import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
+import { ProductsErrorPageSkeletonComponent } from "./components";
+import { PRODUCTS_ERROR_PAGE } from "./constants";
 import { ProductsErrorComponent } from "./layout/products-error.component";
+import { ProductsErrorPageResolver } from "./resolvers";
 
-export const PRODUCTS_ERROR_ROUTES: Route[] = [
+export const PRODUCTS_ERROR_ROUTES: INavigationSkeletonRoute[] = [
 	{
 		path: "",
-		component: ProductsErrorComponent
+		component: ProductsErrorComponent,
+		data: {
+			animation: PRODUCTS_ERROR_PAGE
+		},
+		resolve: {
+			products: ProductsErrorPageResolver
+		},
+		skeleton: {
+			component: ProductsErrorPageSkeletonComponent
+		}
 	}
 ];
 

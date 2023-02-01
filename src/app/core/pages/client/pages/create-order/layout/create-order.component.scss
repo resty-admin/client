@@ -1,0 +1,133 @@
+@import "/src/assets/scss/abstractions";
+
+@include page() {
+	.create-order {
+		display: grid;
+		row-gap: rem(12);
+
+		@include pagePadding();
+		.order-types {
+			display: grid;
+			grid-template-areas:
+				"in-place to-go"
+				"in-place booking"
+				"delivery booking";
+			grid-gap: rem(8);
+			grid-template-columns: 1fr 1fr;
+			.order-type {
+				.link {
+					position: relative;
+					display: block;
+					width: 100%;
+					border-radius: rem(20);
+					&:disabled {
+						opacity: 40%;
+					}
+					.label {
+						position: absolute;
+						left: rem(14);
+						bottom: rem(18);
+						font-weight: bold;
+						font-size: rem(16);
+						line-height: rem(24);
+						color: var(--light);
+					}
+					.image {
+						width: 100%;
+						height: 100%;
+
+						@include image() {
+							object-fit: contain;
+						}
+					}
+				}
+
+				&.in-place {
+					grid-area: in-place;
+					.link {
+						background: linear-gradient(180deg, var(--primary) 0%, #ff8a00 100%);
+						height: rem(184);
+					}
+				}
+				&.to-go {
+					grid-area: to-go;
+					.link {
+						height: rem(144);
+						background: linear-gradient(180deg, #1ec624 0%, #229b3c 100%);
+					}
+				}
+				&.delivery {
+					grid-area: delivery;
+					.link {
+						height: rem(144);
+						background: linear-gradient(180deg, #6fb6f8 0%, #357dd1 100%);
+					}
+				}
+				&.booking {
+					grid-area: booking;
+					.link {
+						height: rem(184);
+						background: linear-gradient(180deg, #986fef 0%, #704bc0 100%);
+					}
+				}
+			}
+		}
+
+		.links {
+			display: grid;
+			row-gap: rem(12);
+			.link {
+				position: relative;
+				height: rem(52);
+				background-color: var(--light-grey);
+				border-radius: rem(16);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				gap: rem(5);
+
+				.label {
+					font-size: rem(14);
+					line-height: rem(24);
+					font-weight: bold;
+					color: var(--dark);
+				}
+
+				.image {
+					position: absolute;
+					left: 0;
+					top: 0;
+					width: 100%;
+					height: 100%;
+					z-index: 0;
+				}
+
+				.icon {
+					width: rem(18);
+					height: rem(18);
+				}
+
+				&.menu {
+					.icon {
+					}
+					.label {
+						color: rgb(230 138 0);
+						//color: var(--primary);
+					}
+				}
+			}
+		}
+	}
+}
+@include dark() {
+	.create-order .links .link {
+		background-color: var(--dark-grey);
+		&.schema {
+			.label {
+				color: var(--light);
+			}
+			.icon {
+			}
+		}
+	}
+}

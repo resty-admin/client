@@ -1,0 +1,10 @@
+<div class="commands-dialog">
+	<ul class="commands">
+		<li class="command" *ngFor="let command of commands">
+			<button class="button" (click)="closeDialog(command.id)">
+				<p class="name">{{ command.name }}</p>
+				<p class="description">{{ command.description }}</p>
+			</button>
+		</li>
+	</ul>
+</div>

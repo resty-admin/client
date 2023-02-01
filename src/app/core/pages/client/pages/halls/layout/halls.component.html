@@ -1,17 +1,10 @@
-<div class="halls-page">
-	<h1 appTypography theme="1" class="title">Выберите зал</h1>
+<div class="halls-page" *transloco="let t; read: hallsPage">
+	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 
 	<ul class="halls">
-		<li class="hall" *ngFor="let hall of halls$ | async">
+		<li class="hall" *ngFor="let hall of halls$ | async; let i = index; trackBy: sharedService.trackByFn">
 			<a class="link" [routerLink]="hall.id">
-				<app-image class="image" [remote]="true" [name]="hall.file?.url" placeholder="hall"></app-image>
-				<div class="content">
-					<span class="label">{{ hall.name }}</span>
-					<div class="status">
-						<app-icon class="icon" name="smoking"></app-icon>
-						<span class="text">{{ hall.address }} Для курящих</span>
-					</div>
-				</div>
+				<app-preview-hall [hall]="hall"></app-preview-hall>
 			</a>
 		</li>
 	</ul>

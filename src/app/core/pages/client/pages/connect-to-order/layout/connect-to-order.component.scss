@@ -1,0 +1,37 @@
+@import "/src/assets/scss/abstractions/index";
+
+@include page() {
+	.connect-to-order {
+		display: grid;
+		justify-content: center;
+		row-gap: rem(12);
+
+		@include pagePadding();
+		.subtitle {
+			font-weight: 500;
+			font-size: rem(16);
+			line-height: rem(24);
+			color: var(--dark);
+		}
+
+		.image {
+			width: rem(250);
+			height: rem(250);
+			margin: 0 auto;
+
+			@include image () {
+				object-fit: contain;
+			}
+		}
+	}
+}
+@include dark() {
+	.connect-to-order {
+		.subtitle {
+			color: var(--light);
+		}
+		.or {
+			color: var(--light);
+		}
+	}
+}

@@ -1,0 +1,17 @@
+query PaymentTypePage($orderId: String!) {
+	order(id: $orderId) {
+		id
+		productsToOrders {
+			id
+			product {
+				id
+				price
+			}
+			attributes {
+				id
+				price
+			}
+			count
+		}
+	}
+}

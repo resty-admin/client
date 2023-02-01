@@ -1,0 +1,22 @@
+query TablesPage($skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) {
+	tables(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
+		data {
+			id
+			name
+			file {
+				id
+				url
+			}
+		}
+		page
+		totalCount
+	}
+}
+
+query TablesPageOrder($orderId: String) {
+	order(id: $orderId) {
+		table {
+			id
+		}
+	}
+}

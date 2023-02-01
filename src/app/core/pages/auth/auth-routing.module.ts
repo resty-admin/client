@@ -1,15 +1,19 @@
 import { NgModule } from "@angular/core";
 import type { Routes } from "@angular/router";
 import { RouterModule } from "@angular/router";
-import { CLIENT_ROUTES } from "src/app/shared/routes";
+import { JwtGuard } from "@features/auth";
+import { CLIENT_ROUTES } from "@shared/constants";
 
-import { JwtGuard } from "./guards";
+import { AUTH_PAGE } from "./constants";
 import { AuthComponent } from "./layout/auth.component";
 
 export const AUTH_ROUTES: Routes = [
 	{
 		path: "",
 		component: AuthComponent,
+		data: {
+			animation: AUTH_PAGE
+		},
 		children: [
 			{
 				...CLIENT_ROUTES.SIGN_IN,

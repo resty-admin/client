@@ -1,3 +1,5 @@
-import { AUTH_INITIALIZER } from "./auth-initializer.provider";
+import { AUTH_GUARDS } from "@features/auth/guards";
 
-export const AUTH_PROVIDERS = [AUTH_INITIALIZER];
+import { AUTH_I18N_PROVIDER } from "./auth-i18n.provider";
+
+export const AUTH_PROVIDERS = [AUTH_GUARDS, AUTH_I18N_PROVIDER];

@@ -1,27 +1,35 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { ButtonModule } from "src/app/shared/ui/button";
-import { ChipModule } from "src/app/shared/ui/chip";
-import { DatepickerModule } from "src/app/shared/ui/datepicker";
-import { IconModule } from "src/app/shared/ui/icon";
-import { ImageModule } from "src/app/shared/ui/image";
-import { TypographyModule } from "src/app/shared/ui/typography";
+import { ReactiveFormsModule } from "@angular/forms";
+import { DirectivesModule } from "@shared/modules/directives";
+import { I18nModule } from "@shared/modules/i18n";
+import { ButtonModule } from "@shared/ui/button";
+import { ImageModule } from "@shared/ui/image";
+import { InputModule } from "@shared/ui/input";
+import { IosDatepickerModule } from "@shared/ui/ios-datepicker";
+import { SkeletonModule } from "@shared/ui/skeleton";
+import { TypographyModule } from "@shared/ui/typography";
 
+import { TABLE_COMPONENTS } from "./components";
 import { TableComponent } from "./layout/table.component";
+import { TABLE_PROVIDERS } from "./providers";
 import { TableRoutingModule } from "./table-routing.module";
 
 @NgModule({
-	declarations: [TableComponent],
+	declarations: [TableComponent, ...TABLE_COMPONENTS],
 	imports: [
 		CommonModule,
 		TableRoutingModule,
-		ImageModule,
-		IconModule,
+		I18nModule,
 		TypographyModule,
-		ChipModule,
-		DatepickerModule,
-		ButtonModule
+		ImageModule,
+		IosDatepickerModule,
+		ReactiveFormsModule,
+		InputModule,
+		DirectivesModule,
+		ButtonModule,
+		SkeletonModule
 	],
-	exports: [TableComponent]
+	providers: TABLE_PROVIDERS
 })
 export class TableModule {}

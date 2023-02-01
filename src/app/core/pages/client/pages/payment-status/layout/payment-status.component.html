@@ -1,10 +1,10 @@
-<div class="payment-status">
-	<div class="container">
-		<app-image class="image" name="payment-success"></app-image>
+<div class="payment-status" *transloco="let t; read: paymentStatusPage">
+	<app-image class="image" [name]="'payment-' + paymentStatus"></app-image>
 
-		<h1 class="title">Оплата</h1>
-		<h2 class="subtitle">С вас будет списано два платежа</h2>
+	<h1 [class]="'title' + ' ' + paymentStatus">{{ t(paymentStatus + "_title") }}</h1>
+	<h1 class="subtitle">{{ t(paymentStatus + "_subtitle") }}</h1>
 
-		<a class="back" appButton theme="2" [routerLink]="backRouterLink">Вернуться в заказ</a>
-	</div>
+	<button class="close-order" appButton theme="2" *ngIf="isAllPaid" (click)="openCloseConfirmation()">
+		Закрыть заказ
+	</button>
 </div>

@@ -6,18 +6,20 @@
 
 	<ng-select
 		class="ng-select"
-		[class.has-value]="!!formControl.value"
+		[class.has-value]="hasValue$ | async"
 		[formControl]="formControl"
-		[items]="items"
+		[items]="options || []"
 		[clearable]="clearable"
 		(click)="$event.stopImmediatePropagation()"
 		[searchable]="searchable"
 		[addTag]="addTag"
-		[bindValue]="value"
+		[bindValue]="bindValue"
+		[bindLabel]="bindLabel"
 		[addTagText]="messages.addTagText"
 		[notFoundText]="messages.notFoundText"
 		[compareWith]="compareWith"
 		[placeholder]="placeholder"
+		[multiple]="multiple"
 	>
 		<ng-template ng-label-tmp let-item="item">
 			<ng-container

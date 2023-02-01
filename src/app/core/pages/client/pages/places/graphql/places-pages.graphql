@@ -1,0 +1,16 @@
+query PlacesPage($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
+	places(filtersArgs: $filtersArgs, take: $take, skip: $skip) {
+		page
+		totalCount
+		data {
+			id
+			name
+			status
+			address
+			file {
+				id
+				url
+			}
+		}
+	}
+}

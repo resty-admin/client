@@ -1,0 +1,4 @@
+<div class="preview-table" *ngIf="table" [class.active]="table.active">
+	<app-image class="image" [remote]="true" [name]="table.file?.url" placeholder="table"></app-image>
+	<span class="name">{{ table.name }}</span>
+</div>

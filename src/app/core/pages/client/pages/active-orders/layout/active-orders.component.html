@@ -1,0 +1,22 @@
+<div class="all-orders-page" *transloco="let t; read: activeOrdersPage">
+	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
+
+	<ng-container *ngIf="activeOrders$ | async as activeOrders">
+		<ul class="active-orders" *ngIf="activeOrders?.length; else noOrders">
+			<li class="active-order" *ngFor="let activeOrder of activeOrders; trackBy: sharedService.trackByFn">
+				<a class="link" [routerLink]="activeOrder.id">
+					<app-preview-order [isActive]="true" [order]="activeOrder"></app-preview-order>
+				</a>
+			</li>
+		</ul>
+	</ng-container>
+
+	<a appButton theme="2" [routerLink]="historyOrdersLink">{{ t("history") }}</a>
+</div>
+
+<ng-template #noOrders>
+	<div class="not-orders">
+		<app-image name="active-orders" class="image"></app-image>
+		<p class="text">У вас пока нет активных заказов</p>
+	</div>
+</ng-template>

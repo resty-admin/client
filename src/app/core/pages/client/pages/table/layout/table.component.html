@@ -1,23 +1,20 @@
-<div class="table-page" *ngIf="table$ | async as table">
-	<app-image class="image" [remote]="true" [name]="table.file.url" placeholder="table"></app-image>
+<ng-container *transloco="let t; read: tablePage">
+	<div class="table" *ngIf="table">
+		<app-image class="image" [remote]="true" [name]="table.file?.url" placeholder="table"></app-image>
 
-	<div class="info">
-		<p class="label">Столик {{ table.code }}</p>
-		<p class="status">{{ table.status }}</p>
+		<div class="content">
+			<p class="label">{{ t("code") }} {{ table.code }}</p>
+			<p [class]="'status' + ' ' + validationStatus">{{ validationStatus ? t(validationStatus) : "" }}</p>
 
-		<ul class="chips">
-			<li class="chip">
-				<app-chip>На 5 человек</app-chip>
-			</li>
-			<li class="chip">
-				<app-chip>Вид на море</app-chip>
-			</li>
-		</ul>
-
-		<app-datepicker class="datepicker"></app-datepicker>
-
-		<p class="description">Вам будет необходимо закрыть заказ к окончанию даты бронирования</p>
-
-		<app-button class="submit">Подтвердить</app-button>
+			<app-input
+				appStopPropagation
+				class="datepicker"
+				label="Дата"
+				placeholder="Кликните что бы выбрать"
+				[value]="(date$ | async)?.format()"
+				[readonly]="true"
+				(click)="openIosDatepicker()"
+			></app-input>
+		</div>
 	</div>
-</div>
+</ng-container>

@@ -1,0 +1,14 @@
+query ConfirmProductsPage($skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) {
+	products(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
+		data {
+			id
+			name
+			price
+			description
+			file {
+				id
+				url
+			}
+		}
+	}
+}

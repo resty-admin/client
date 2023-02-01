@@ -3,7 +3,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 
 import { ProductsComponent } from "./products.component";
 
-describe("ProductsComponent", () => {
+describe("CategoriesComponent", () => {
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
 			imports: [RouterTestingModule],

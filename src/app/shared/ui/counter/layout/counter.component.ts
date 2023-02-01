@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
-import { ControlValueAccessor } from "src/app/shared/classes";
-import { ANY_SYMBOL, THEME } from "src/app/shared/constants";
-import { getControlValueAccessorProviders } from "src/app/shared/functions";
+import type { OnChanges } from "@angular/core";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+import { ANY_SYMBOL, THEME } from "@shared/constants";
+import type { ISimpleChanges } from "@shared/interfaces";
 
 import { ICounterTheme } from "../interfaces";
 
@@ -9,26 +9,36 @@ import { ICounterTheme } from "../interfaces";
 	selector: "app-counter",
 	templateUrl: "./counter.component.html",
 	styleUrls: ["./counter.component.scss"],
-	providers: getControlValueAccessorProviders(CounterComponent),
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CounterComponent extends ControlValueAccessor<number> {
+export class CounterComponent implements OnChanges {
+	@Output() plusClicked = new EventEmitter();
+	@Output() minusClicked = new EventEmitter();
 	@Input() label = "";
+	@Input() value?: number | null = 0;
 	@Input() theme: ICounterTheme = "1";
 
-	constructor() {
-		super(0);
+	className = `app-counter ${THEME.replace(ANY_SYMBOL, this.theme)} ${!this.value && "add"}`;
+
+	setClassName(theme = this.theme, value = this.value) {
+		this.className = `app-counter ${THEME.replace(ANY_SYMBOL, theme)} ${!value && "add"}`;
 	}
 
-	get className() {
-		return `app-counter ${THEME.replace(ANY_SYMBOL, this.theme)}`;
+	ngOnChanges(changes: ISimpleChanges<CounterComponent>) {
+		if (changes.theme) {
+			this.setClassName(changes.theme.currentValue);
+		}
+
+		if (changes.value) {
+			this.setClassName(undefined, changes.value.currentValue);
+		}
 	}
 
-	minus() {
-		this.formControl.setValue(this.formControl.value - 1);
+	emitPlusClick() {
+		this.plusClicked.emit();
 	}
 
-	add() {
-		this.formControl.setValue(this.formControl.value + 1);
+	emitMinusClick() {
+		this.minusClicked.emit();
 	}
 }

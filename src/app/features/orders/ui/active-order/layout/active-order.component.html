@@ -1,0 +1,7 @@
+<ng-container *transloco="let t; read: activeOrderI18n">
+	<a *ngIf="activeOrder" [class]="'active-order' + ' ' + activeOrder.type" [routerLink]="activeOrderLink">
+		<p class="code">{{ t("order") }} №{{ activeOrder.code }}</p>
+		<hr class="divider" />
+		<p class="type">{{ t(activeOrder.type) }}</p>
+	</a>
+</ng-container>

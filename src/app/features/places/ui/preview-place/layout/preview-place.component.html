@@ -1,0 +1,15 @@
+<ng-container *transloco="let t; read: previewPlace">
+	<div class="preview-place" *ngIf="place">
+		<app-image class="image" [remote]="true" [name]="place.file?.url" placeholder="place"></app-image>
+		<span class="label">{{ place.name }}</span>
+		<span class="status">{{ t(place.status) }}</span>
+		<div class="address">
+			<app-icon class="icon" name="location"></app-icon>
+			<span class="text">{{ place.address }}</span>
+		</div>
+		<div class="time">
+			<app-icon class="icon" name="time"></app-icon>
+			<span class="text">{{ "12:00 - 14:00" }}</span>
+		</div>
+	</div>
+</ng-container>

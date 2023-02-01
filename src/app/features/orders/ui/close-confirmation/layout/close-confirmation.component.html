@@ -1,0 +1,10 @@
+<div class="close-confimration" *transloco="let t; read: closeConfirmation">
+	<h1 appTypography theme="2" class="title">{{ t("title") }}</h1>
+
+	<app-active-order class="active-order" [activeOrder]="data"></app-active-order>
+
+	<div class="actions">
+		<button appButton theme="1" class="cancel" (click)="closeDialog(undefined)">{{ t("no") }}</button>
+		<button appButton theme="4" class="submit" (click)="closeDialog(data)">{{ t("yes") }}</button>
+	</div>
+</div>

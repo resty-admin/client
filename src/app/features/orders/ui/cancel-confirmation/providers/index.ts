@@ -1,0 +1,3 @@
+import { CANCEL_CONFIRMATION_I18N_PROVIDER } from "./cancel-confirmation-i18n.provider";
+
+export const CANCEL_CONFIRMATION_PROVIDERS = [CANCEL_CONFIRMATION_I18N_PROVIDER];

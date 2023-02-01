@@ -1,0 +1,59 @@
+mutation CreateOrder($order: CreateOrderInput!) {
+	createOrder(order: $order) {
+		id
+	}
+}
+
+mutation UpdateOrder($order: UpdateOrderInput!) {
+	updateOrder(order: $order) {
+		id
+	}
+}
+
+mutation DeleteOrder($orderId: String!) {
+	deleteOrder(orderId: $orderId)
+}
+
+mutation CloseOrder($orderId: String!) {
+	closeOrder(orderId: $orderId)
+}
+
+mutation AddUserToOrder($code: Int!) {
+	addUserToOrder(code: $code) {
+		id
+	}
+}
+
+mutation AddTableToOrder($orderId: String!, $tableId: String!) {
+	addTableToOrder(orderId: $orderId, tableId: $tableId) {
+		id
+	}
+}
+
+mutation RemoveTableFromOrder($orderId: String!) {
+	removeTableFromOrder(orderId: $orderId) {
+		id
+	}
+}
+
+mutation ConfirmProductsToOrders($productsToOrders: [ConfirmProductToOrderInput!]!) {
+	confirmProductsToOrders(productsToOrders: $productsToOrders) {
+		id
+	}
+}
+
+mutation SetManualPayForProductsInOrder($productToOrderIds: [String!]!) {
+	setManualPayForProductsInOrder(productToOrderIds: $productToOrderIds) {
+		id
+	}
+}
+
+mutation CreatePaymentOrderLink($productsToOrders: [String!]!) {
+	createPaymentOrderLink(productsToOrders: $productsToOrders) {
+		link
+	}
+}
+
+mutation CancelOrder($orderId: String!) {
+	cancelOrder(orderId: $orderId)
+}

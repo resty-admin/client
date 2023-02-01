@@ -1,16 +1,18 @@
 import type { AfterViewInit } from "@angular/core";
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, ViewChild } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
-import { untilDestroyed } from "@ngneat/until-destroy";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { ControlValueAccessor } from "@shared/classes";
+import { getControlValueAccessorProviders } from "@shared/functions";
+import { SharedService } from "@shared/services";
 import type { Dayjs } from "dayjs";
 import * as dayjs from "dayjs";
 import * as localeData from "dayjs/plugin/localeData";
 import { combineLatest, debounceTime, distinctUntilChanged, fromEvent } from "rxjs";
-import { ControlValueAccessor } from "src/app/shared/classes";
-import { getControlValueAccessorProviders } from "src/app/shared/functions";
 
 dayjs.extend(localeData);
 
+@UntilDestroy()
 @Component({
 	selector: "app-ios-datepicker",
 	templateUrl: "./ios-datepicker.component.html",
@@ -24,6 +26,8 @@ export class IosDatepickerComponent extends ControlValueAccessor<Dayjs> implemen
 	@ViewChild("hoursContainer") hoursContainer!: ElementRef;
 	@ViewChild("minutesContainer") minutesContainer!: ElementRef;
 
+	isDropdownOpen = false;
+
 	readonly height = 50;
 
 	readonly monthFormControl = new FormControl<number>(dayjs().month());
@@ -33,7 +37,7 @@ export class IosDatepickerComponent extends ControlValueAccessor<Dayjs> implemen
 
 	readonly months = dayjs.months();
 	readonly dates: number[] = new Array(dayjs().daysInMonth()).fill(null).map((_, index) => index + 1);
-	readonly hours = new Array(23).fill(null).map((_, index) => index);
+	readonly hours = new Array(24).fill(null).map((_, index) => index);
 	readonly minutes = new Array(12).fill(null).map((_, index) => index * 5);
 
 	readonly wrapperStyle = {
@@ -53,29 +57,29 @@ export class IosDatepickerComponent extends ControlValueAccessor<Dayjs> implemen
 		top: `calc(50% - ${this.height / 2}px)`
 	};
 
-	constructor(private readonly _changeDetectorReference: ChangeDetectorRef) {
+	constructor(private readonly _changeDetectorReference: ChangeDetectorRef, readonly sharedService: SharedService) {
 		super(dayjs());
 	}
 
-	private _handleScroll({ nativeElement }: ElementRef, formControl: FormControl<any>) {
-		fromEvent(nativeElement, "scroll")
+	private _handleScroll({ nativeElement }: ElementRef, formControl: FormControl<number>) {
+		fromEvent<Event>(nativeElement, "scroll")
 			.pipe(untilDestroyed(this), debounceTime(50), distinctUntilChanged())
-			.subscribe((event: any) => {
-				const index = event.target.scrollTop / this.height;
+			.subscribe((event) => {
+				if (!event || !event.target) {
+					return;
+				}
+
+				const index = (<HTMLElement>event.target).scrollTop / this.height;
 				const top = Math.round(index) * this.height;
 
 				if (Number.isInteger(index)) {
 					formControl.setValue(index);
-				} else if (event.target.scrollHeight - top === this.height * 7) {
+				} else if ((<HTMLElement>event.target).scrollHeight - top === this.height * 7) {
 					formControl.setValue(Math.round(index));
 				} else {
 					nativeElement.scrollTo({ top, behavior: "smooth" });
 				}
 			});
-	}
-
-	trackByFn(index: number) {
-		return index;
 	}
 
 	scrollTo(htmluListElement: HTMLUListElement, index: number) {
@@ -114,10 +118,27 @@ export class IosDatepickerComponent extends ControlValueAccessor<Dayjs> implemen
 				}
 
 				this.formControl.setValue(
-					date.date(this.dates[dateIndex]).hour(this.hours[hourIndex]).minute(this.minutes[minuteIndex])
+					date
+						.month(monthIndex)
+						.date(this.dates[dateIndex])
+						.hour(this.hours[hourIndex])
+						.minute(this.minutes[minuteIndex])
 				);
 
 				this._changeDetectorReference.detectChanges();
 			});
+	}
+
+	override writeValue(value: dayjs.Dayjs) {
+		super.writeValue(value);
+
+		if (!value) {
+			return;
+		}
+
+		this.monthFormControl.setValue(value.month());
+		this.dateFormControl.setValue(value.date() - 1);
+		this.hourFormControl.setValue(value.hour());
+		this.minuteFormControl.setValue(value.minute());
 	}
 }

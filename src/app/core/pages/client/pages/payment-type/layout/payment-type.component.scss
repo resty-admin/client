@@ -10,15 +10,10 @@
 			"image image"
 			"tips tips";
 		grid-template-columns: 1fr 1fr;
-		row-gap: rem(24);
+		row-gap: rem(12);
 
-		.title {
-			grid-area: title;
-			font-weight: 700;
-			font-size: rem(32);
-			line-height: rem(40);
-			color: var(--dark);
-		}
+		@include pagePadding();
+
 		.sum {
 			grid-area: sum;
 			font-weight: 700;
@@ -43,8 +38,8 @@
 		.image {
 			justify-self: center;
 			grid-area: image;
-			width: rem(150);
-			height: rem(150);
+			width: rem(250);
+			height: rem(250);
 		}
 
 		.tips {
@@ -54,6 +49,14 @@
 			line-height: rem(32);
 			text-align: center;
 			color: var(--dark-t);
+		}
+	}
+}
+@include dark() {
+	.payment-type {
+		.tips,
+		.subtitle {
+			color: var(--light);
 		}
 	}
 }

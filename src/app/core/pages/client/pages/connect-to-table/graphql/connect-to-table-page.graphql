@@ -1,0 +1,5 @@
+mutation ConnectToTablePage($code: String!, $placeId: String!) {
+	getTableByCode(code: $code, placeId: $placeId) {
+		id
+	}
+}

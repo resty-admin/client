@@ -1,13 +1,25 @@
 import { NgModule } from "@angular/core";
-import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
+import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
+import { PlacesPageSkeletonComponent } from "./components";
+import { PLACES_PAGE } from "./constants";
 import { PlacesComponent } from "./layout/places.component";
+import { PlacesPageResolver } from "./resolvers";
 
-export const PLACES_ROUTES: Route[] = [
+export const PLACES_ROUTES: INavigationSkeletonRoute[] = [
 	{
 		path: "",
-		component: PlacesComponent
+		component: PlacesComponent,
+		data: {
+			animation: PLACES_PAGE
+		},
+		resolve: {
+			places: PlacesPageResolver
+		},
+		skeleton: {
+			component: PlacesPageSkeletonComponent
+		}
 	}
 ];
 

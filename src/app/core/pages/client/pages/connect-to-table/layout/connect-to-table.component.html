@@ -1,0 +1,8 @@
+<div class="connect-to-table" *transloco="let t; read: connectToTablePage">
+	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
+	<h2 class="subtitle">{{ t("description") }}</h2>
+
+	<app-code-input class="code-input" [formControl]="codeControl"></app-code-input>
+
+	<app-image class="image" name="connect-to-table"></app-image>
+</div>

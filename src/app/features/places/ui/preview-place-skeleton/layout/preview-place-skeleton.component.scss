@@ -1,0 +1,63 @@
+@import "/src/assets/scss/abstractions/index";
+
+@include component() {
+	.preview-place-skeleton {
+		background-color: var(--light-grey);
+		border-radius: rem(12);
+		display: grid;
+		justify-content: space-between;
+		align-items: center;
+		padding: rem(8);
+		column-gap: rem(16);
+		row-gap: rem(8);
+		grid-template-areas:
+			"image image image"
+			"label label status"
+			"address address address"
+			"time time time";
+		grid-template-columns: auto 1fr auto;
+		.image {
+			grid-area: image;
+			height: rem(150);
+
+			@include image() {
+				border-radius: rem(12);
+			}
+		}
+		.label {
+			grid-area: label;
+			width: rem(150);
+			height: rem(24);
+		}
+		.status {
+			grid-area: status;
+			width: rem(60);
+			height: rem(16);
+		}
+		.time,
+		.address {
+			display: flex;
+			align-items: center;
+			column-gap: rem(8);
+			.icon {
+				width: rem(15);
+				height: rem(15);
+			}
+			.text {
+				flex: 1;
+				height: rem(24);
+			}
+			&.time {
+				grid-area: time;
+			}
+			&.address {
+				grid-area: address;
+			}
+		}
+	}
+}
+@include dark() {
+	.preview-place-skeleton {
+		background-color: var(--dark-grey);
+	}
+}

@@ -1,28 +1,22 @@
-@import "/src/assets/scss/abstractions";
+@import "/src/assets/scss/abstractions/index";
 
 @include page() {
-	.table-page {
+	.table {
 		height: 100%;
-		padding-top: rem(141);
+		display: grid;
+		grid-template-rows: auto 1fr auto;
 		.image {
-			position: absolute;
-			left: 0;
-			top: 0;
-			width: 100%;
 			height: rem(183);
 		}
-
-		.info {
-			padding-top: rem(18);
+		.content {
 			display: grid;
+			align-self: start;
+			row-gap: rem(12);
 			grid-template-areas:
 				"label status"
-				"chips chips"
-				"datepicker datepicker"
-				"description description"
-				"submit submit";
-			grid-template-rows: auto auto auto auto 1fr;
-			row-gap: rem(12);
+				"datepicker datepicker";
+
+			@include pagePadding();
 
 			.label {
 				grid-area: label;
@@ -38,7 +32,15 @@
 				font-size: rem(14);
 				line-height: rem(24);
 				text-align: right;
-				color: var(--green);
+				&.valid {
+					color: var(--success);
+				}
+				&.invalid {
+					color: var(--danger);
+				}
+				&.loading {
+					color: var(--primary);
+				}
 			}
 
 			.chips {
@@ -49,14 +51,11 @@
 
 			.datepicker {
 				grid-area: datepicker;
-				height: rem(50);
-				margin-top: rem(36);
 			}
 
 			.description {
 				grid-area: description;
 				color: var(--dark);
-				margin-top: rem(36);
 				font-weight: 400;
 				font-size: 14px;
 				line-height: 24px;
@@ -72,17 +71,20 @@
 				}
 			}
 		}
+		.footer {
+			padding: rem(15);
+			.submit {
+				width: 100%;
+			}
+		}
 	}
 }
 @include dark() {
-	.table {
-		.info {
-			.label {
-				color: white;
-			}
-			.description {
-				color: var(--light);
-			}
+	.table-page .content {
+		.description,
+		.code,
+		.label {
+			color: var(--light);
 		}
 	}
 }

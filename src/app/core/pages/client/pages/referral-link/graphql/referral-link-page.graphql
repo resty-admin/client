@@ -1,0 +1,9 @@
+query ReferralLinkPage($orderId: String!) {
+	order(id: $orderId) {
+		type
+		code
+		place {
+			id
+		}
+	}
+}

@@ -1,5 +1,9 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { ProductsService } from "src/app/shared/modules/products";
+import { SharedService } from "@shared/services";
+import { map } from "rxjs";
+
+import { PRODUCTS_ERROR_PAGE } from "../constants";
+import { ProductsErrorPageService } from "../services";
 
 @Component({
 	selector: "app-products-error",
@@ -8,7 +12,13 @@ import { ProductsService } from "src/app/shared/modules/products";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductsErrorComponent {
-	products$ = this._productsService.products$;
+	readonly productsErrorPage = PRODUCTS_ERROR_PAGE;
+	readonly products$ = this._productsErrorPageService.productsErrorPageQuery.valueChanges.pipe(
+		map((result) => result.data.products.data)
+	);
 
-	constructor(private readonly _productsService: ProductsService) {}
+	constructor(
+		readonly sharedService: SharedService,
+		private readonly _productsErrorPageService: ProductsErrorPageService
+	) {}
 }

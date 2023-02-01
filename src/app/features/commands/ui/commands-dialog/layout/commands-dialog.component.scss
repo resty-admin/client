@@ -1,0 +1,39 @@
+@import "src/assets/scss/abstractions";
+
+@include component() {
+	.commands-dialog {
+		display: grid;
+		row-gap: rem(12);
+		padding: rem(84) rem(24);
+		.commands {
+			display: grid;
+			row-gap: rem(12);
+			.command {
+				.button {
+					display: grid;
+					text-align: left;
+					row-gap: rem(12);
+					width: 100%;
+					background-color: var(--light-grey);
+					border-radius: rem(12);
+					padding: rem(12);
+					.name {
+						font-weight: 500;
+						font-size: rem(16);
+						line-height: rem(24);
+						color: var(--dark);
+					}
+					.description {
+						width: 100%;
+						font-weight: 400;
+						font-size: rem(11);
+						line-height: rem(16);
+						color: var(--grey);
+					}
+				}
+			}
+		}
+	}
+}
+@include dark() {
+}

@@ -1,0 +1,4 @@
+<div class="preview-hall" *ngIf="hall" [class.active]="hall.active">
+	<app-image class="image" [remote]="true" [name]="hall.file?.url" placeholder="hall"></app-image>
+	<span class="name">{{ hall.name }}</span>
+</div>

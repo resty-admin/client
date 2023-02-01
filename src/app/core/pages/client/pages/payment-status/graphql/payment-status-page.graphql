@@ -1,0 +1,20 @@
+query PaymentStatusPage($orderId: String!) {
+	order(id: $orderId) {
+		id
+		code
+		type
+		productsToOrders {
+			id
+			paidStatus
+			product {
+				id
+				price
+			}
+			attributes {
+				id
+				price
+			}
+			count
+		}
+	}
+}

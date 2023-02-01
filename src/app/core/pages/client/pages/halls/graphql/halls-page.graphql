@@ -1,0 +1,24 @@
+query HallsPage($skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) {
+	halls(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
+		data {
+			id
+			name
+			file {
+				id
+				url
+			}
+		}
+		page
+		totalCount
+	}
+}
+
+query HallsPageOrder($orderId: String) {
+	order(id: $orderId) {
+		table {
+			hall {
+				id
+			}
+		}
+	}
+}

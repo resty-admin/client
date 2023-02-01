@@ -1,16 +1,27 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { ChipModule } from "src/app/shared/ui/chip";
-import { DatepickerModule } from "src/app/shared/ui/datepicker";
-import { ImageModule } from "src/app/shared/ui/image";
-import { TypographyModule } from "src/app/shared/ui/typography";
+import { PreviewTableModule } from "@features/tables";
+import { PreviewTableSkeletonModule } from "@features/tables/ui";
+import { I18nModule } from "@shared/modules/i18n";
+import { SkeletonModule } from "@shared/ui/skeleton";
+import { TypographyModule } from "@shared/ui/typography";
 
+import { TABLES_COMPONENTS } from "./components";
 import { TablesComponent } from "./layout/tables.component";
+import { TABLES_PROVIDERS } from "./providers";
 import { TablesRoutingModule } from "./tables-routing.module";
 
 @NgModule({
-	declarations: [TablesComponent],
-	imports: [CommonModule, TablesRoutingModule, TypographyModule, DatepickerModule, ImageModule, ChipModule],
-	exports: [TablesComponent]
+	declarations: [TablesComponent, ...TABLES_COMPONENTS],
+	imports: [
+		CommonModule,
+		TablesRoutingModule,
+		I18nModule,
+		TypographyModule,
+		PreviewTableModule,
+		PreviewTableSkeletonModule,
+		SkeletonModule
+	],
+	providers: TABLES_PROVIDERS
 })
 export class TablesModule {}

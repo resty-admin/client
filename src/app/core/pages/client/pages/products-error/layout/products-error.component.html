@@ -1,25 +1,10 @@
-<div class="products-error">
-	<!--	<app-icon></app-icon>-->
-	<h1 appTypography theme="1" class="title">К сожелению, данные позиции недоступны</h1>
-	<h2 class="subtitle">Вы можете удалить данные блюда или заменить их</h2>
+<div class="products-error" *transloco="let t; read: productsErrorPage">
+	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
+	<h2 class="subtitle">{{ t("description") }}</h2>
 
 	<ul class="products">
-		<li class="product" *ngFor="let product of products$ | async">
-			<a class="link" [routerLink]="product.id">
-				<app-image class="image" [remote]="true" [name]="product.file.url"></app-image>
-
-				<div class="content">
-					<p class="name">{{ product.name }}</p>
-					<p class="description">{{ product.description }}</p>
-
-					<hr class="divider" />
-
-					<p class="price">{{ product.price }}грн</p>
-					<p class="cal">250гр</p>
-
-					<button class="add">+</button>
-				</div>
-			</a>
+		<li class="product" *ngFor="let product of products$ | async; trackBy: sharedService.trackByFn">
+			<a class="link" [routerLink]="product.id"> </a>
 		</li>
 	</ul>
 </div>

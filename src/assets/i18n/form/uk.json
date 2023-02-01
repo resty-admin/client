@@ -1,0 +1,20 @@
+{
+	"edit": "Редактировать",
+	"create": "Создать",
+	"add": "Добавить",
+	"submit": "Подтвердиь",
+	"name_label": "Имя",
+	"name_placeholder": "Введите имя",
+	"description_label": "Описание",
+	"description_placeholder": "Введите описание",
+	"code_label": "Код",
+	"code_placeholder": "Введите код",
+	"email_label": "Почта",
+	"email_placeholder": "Введите почту",
+	"tel_label": "Телефон",
+	"tel_placeholder": "Введите телефон",
+	"password_label": "Пароль",
+	"password_placeholder": "Введите пароль",
+	"search_label": "Поиск",
+	"search_placeholder": "Начните писать..."
+}

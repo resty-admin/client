@@ -1,0 +1,9 @@
+query CommandsDialog($skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) {
+	commands(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
+		data {
+			id
+			name
+			description
+		}
+	}
+}

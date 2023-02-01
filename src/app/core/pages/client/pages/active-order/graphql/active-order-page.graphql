@@ -1,0 +1,66 @@
+query ActiveOrderPage($orderId: String!) {
+	order(id: $orderId) {
+		id
+		code
+		type
+		status
+		totalPrice
+		tableStatus
+		startDate
+		users {
+			id
+			name
+		}
+		place {
+			id
+			name
+			file {
+				id
+				url
+			}
+		}
+		table {
+			id
+			name
+			file {
+				id
+				url
+			}
+			hall {
+				id
+				name
+			}
+		}
+		productsToOrders {
+			id
+			count
+			status
+			paidStatus
+			user {
+				id
+				name
+			}
+			product {
+				id
+				name
+				description
+				price
+				file {
+					id
+					url
+				}
+				attrsGroups {
+					id
+					name
+					type
+					maxItemsForPick
+					attributes {
+						id
+						name
+						price
+					}
+				}
+			}
+		}
+	}
+}

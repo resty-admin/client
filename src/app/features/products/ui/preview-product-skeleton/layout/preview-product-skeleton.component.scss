@@ -1,0 +1,54 @@
+@import "/src/assets/scss/abstractions/index";
+
+@include component() {
+	.preview-product-skeleton {
+		display: grid;
+		border: rem(1) solid transparent;
+		background-color: var(--light-grey);
+		border-radius: rem(12);
+		align-items: center;
+		gap: rem(10);
+		padding: rem(8) rem(8) rem(15);
+		grid-template-areas:
+			"image image image"
+			"name name price"
+			"description description counter";
+		grid-template-columns: auto 1fr auto;
+		.image {
+			grid-area: image;
+			height: rem(150);
+
+			@include image() {
+				border-radius: rem(12);
+			}
+		}
+		.name {
+			grid-area: name;
+			height: rem(24);
+			width: rem(100);
+		}
+		.price {
+			grid-area: price;
+			height: rem(24);
+			width: rem(50);
+		}
+		.cal {
+			grid-area: cal;
+		}
+		.description {
+			grid-area: description;
+		}
+		.counter {
+			grid-area: counter;
+			justify-self: end;
+			align-self: end;
+			width: rem(36);
+			height: rem(36);
+		}
+	}
+}
+@include dark() {
+	.preview-product-skeleton {
+		background-color: var(--dark-grey);
+	}
+}
