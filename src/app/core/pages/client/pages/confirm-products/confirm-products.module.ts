@@ -9,7 +9,6 @@ import { TypographyModule } from "@shared/ui/typography";
 import { CONFIRM_PRODUCTS_COMPONENTS } from "./components";
 import { ConfirmProductsRoutingModule } from "./confirm-products-routing.module";
 import { ConfirmProductsComponent } from "./layout/confirm-products.component";
-import { CONFIRM_PRODUCTS_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [ConfirmProductsComponent, ...CONFIRM_PRODUCTS_COMPONENTS],
@@ -21,7 +20,6 @@ import { CONFIRM_PRODUCTS_PROVIDERS } from "./providers";
 		ConfirmProductModule,
 		SkeletonModule,
 		ConfirmProductSkeletonModule
-	],
-	providers: CONFIRM_PRODUCTS_PROVIDERS
+	]
 })
 export class ConfirmProductsModule {}

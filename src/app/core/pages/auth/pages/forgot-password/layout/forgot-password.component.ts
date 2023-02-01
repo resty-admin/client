@@ -2,13 +2,15 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import type { IAuthType } from "@features/auth/interfaces";
 import { AuthService } from "@features/auth/services";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
-import { CLIENT_ROUTES, FORM } from "@shared/constants";
+import { CLIENT_ROUTES } from "@shared/constants";
+import { AUTH_TYPES } from "@shared/data";
 import type { IRadioButtonOption } from "@shared/ui/radio-button";
 import { take } from "rxjs";
 
-import { AUTH_TYPES } from "../../../data";
-import { FORGOT_PASSWORD_PAGE } from "../constants";
-import type { IForgotPassword } from "../interfaces";
+export interface IForgotPassword {
+	email: string;
+	tel: string;
+}
 
 @Component({
 	selector: "app-forgot-password",
@@ -17,8 +19,6 @@ import type { IForgotPassword } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ForgotPasswordComponent {
-	readonly form = FORM;
-	readonly forgotPasswordPage = FORGOT_PASSWORD_PAGE;
 	readonly clientRoutes = CLIENT_ROUTES;
 
 	readonly typeControl = new FormControl<IAuthType>("email");

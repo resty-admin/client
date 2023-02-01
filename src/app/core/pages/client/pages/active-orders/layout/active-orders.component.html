@@ -1,5 +1,5 @@
-<div class="all-orders-page" *transloco="let t; read: activeOrdersPage">
-	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
+<div class="all-orders-page" *transloco="let t">
+	<h1 appTypography theme="1" class="title">{{ t("ACTIVE_ORDERS.TITLE") }}</h1>
 
 	<ng-container *ngIf="activeOrders$ | async as activeOrders">
 		<ul class="active-orders" *ngIf="activeOrders?.length; else noOrders">
@@ -11,12 +11,12 @@
 		</ul>
 	</ng-container>
 
-	<a appButton theme="2" [routerLink]="historyOrdersLink">{{ t("history") }}</a>
-</div>
+	<a appButton theme="2" [routerLink]="historyOrdersLink">{{ t("ACTIVE_ORDERS.HISTORY_ORDERS") }}</a>
 
-<ng-template #noOrders>
-	<div class="not-orders">
-		<app-image name="active-orders" class="image"></app-image>
-		<p class="text">У вас пока нет активных заказов</p>
-	</div>
-</ng-template>
+	<ng-template #noOrders>
+		<div class="not-orders">
+			<app-image name="active-orders" class="image"></app-image>
+			<p class="text">{{ t("ACTIVE_ORDERS.NOT_ORDERS") }}</p>
+		</div>
+	</ng-template>
+</div>

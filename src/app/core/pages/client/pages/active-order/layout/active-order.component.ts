@@ -16,9 +16,8 @@ import { SharedService } from "@shared/services";
 import { DialogService } from "@shared/ui/dialog";
 import { filter, map, switchMap, take } from "rxjs";
 
-import { ACTIVE_ORDER_PAGE } from "../constants";
 import type { ActiveOrderPageQuery } from "../graphql";
-import { ActiveOrderPageService } from "../services";
+import { ActiveOrderPageGQL } from "../graphql";
 
 @UntilDestroy()
 @Component({
@@ -28,12 +27,10 @@ import { ActiveOrderPageService } from "../services";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActiveOrderComponent implements OnInit, OnDestroy {
-	readonly activeOrderPage = ACTIVE_ORDER_PAGE;
 	readonly statuses = [ProductToOrderStatusEnum.Approved, ProductToOrderStatusEnum.WaitingForApprove];
 
-	readonly activeOrder$ = this._activeOrderPageService.activeOrderPageQuery.valueChanges.pipe(
-		map((result) => result.data.order)
-	);
+	readonly _activeOrderPageQuery = this._activeOrderPageGQL.watch();
+	readonly activeOrder$ = this._activeOrderPageQuery.valueChanges.pipe(map((result) => result.data.order));
 
 	selectedUsers: string[] = [];
 	selectedProductsToOrders: string[] = [];
@@ -42,7 +39,7 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 
 	constructor(
 		readonly sharedService: SharedService,
-		private readonly _activeOrderPageService: ActiveOrderPageService,
+		private readonly _activeOrderPageGQL: ActiveOrderPageGQL,
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _actionsService: ActionsService,
@@ -52,12 +49,15 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 		private readonly _commandsService: CommandsService
 	) {}
 
-	ngOnInit() {
+	async ngOnInit() {
+		const orderId = this._routerService.getParams(ORDER_ID.slice(1));
+		await this._activeOrderPageQuery.setVariables({ orderId });
+
 		// this.isAllPaid = (this.activeOrder?.productsToOrders || []).every(
 		// 	(productToOrder) => productToOrder.paidStatus === ProductToOrderPaidStatusEnum.Paid
 		// );
 
-		this._ordersService.setActiveOrderId(this._routerService.getParams(ORDER_ID.slice(1)));
+		this._ordersService.setActiveOrderId(orderId);
 
 		this.activeOrder$.pipe(take(1)).subscribe((activeOrder) => {
 			this._breadcrumbsService.setBreadcrumb({
@@ -137,7 +137,7 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 		}
 
 		this._actionsService.setAction({
-			label: "Выбрать тип оплаты",
+			label: "SELECT_PAYMENT_TYPE",
 			disabled: this.selectedProductsToOrders.length === 0,
 			func: () =>
 				this._routerService.navigate([CLIENT_ROUTES.PAYMENT_TYPE.absolutePath.replace(ORDER_ID, orderId)], {

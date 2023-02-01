@@ -1,8 +1,8 @@
-<ng-container *transloco="let t; read: referralLinkPage">
+<ng-container *transloco="let t">
 	<div class="referral-link" *ngIf="activeOrder">
-		<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
+		<h1 appTypography theme="1" class="title">{{ t("REFERRAL_LINK.TITLE") }}</h1>
 
-		<p class="description">{{ t("description") }}</p>
+		<p class="description">{{ t("REFERRAL_LINK.DESCRIPTION") }}</p>
 
 		<app-input class="input" [value]="activeOrder.code" [readonly]="true">
 			<button appIconButton class="copy-button" (click)="copyCode(activeOrder.code)" icon>
@@ -12,6 +12,6 @@
 
 		<app-image class="image" name="referral-link"></app-image>
 
-		<p class="products">{{ t("products") }}</p>
+		<p class="products">{{ t("REFERRAL_LINK.PRODUCTS") }}</p>
 	</div>
 </ng-container>

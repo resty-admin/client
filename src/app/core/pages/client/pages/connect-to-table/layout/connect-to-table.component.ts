@@ -10,7 +10,6 @@ import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { filter, switchMap, take } from "rxjs";
 
-import { CONNECT_TO_TABLE_PAGE } from "../constants";
 import { ConnectToTablePageGQL } from "../graphql";
 
 @UntilDestroy()
@@ -21,7 +20,6 @@ import { ConnectToTablePageGQL } from "../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConnectToTableComponent implements OnInit, OnDestroy {
-	readonly connectToTablePage = CONNECT_TO_TABLE_PAGE;
 	readonly codeControl = new FormControl<number>();
 
 	constructor(
@@ -45,7 +43,7 @@ export class ConnectToTableComponent implements OnInit, OnDestroy {
 
 		this.codeControl.valueChanges.pipe(untilDestroyed(this)).subscribe((code) => {
 			this._actionsService.setAction({
-				label: "Подключиться",
+				label: "CONNECT_TO_TABLE",
 				disabled: code?.toString().length !== 4,
 				func: () =>
 					this.connectToTable(this.codeControl.value.toString(), this._routerService.getParams(PLACE_ID.slice(1)))

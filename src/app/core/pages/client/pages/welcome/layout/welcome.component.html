@@ -1,13 +1,13 @@
-<div class="welcome-page" *transloco="let t; read: welcomePage">
-	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
+<div class="welcome-page" *transloco="let t">
+	<h1 appTypography theme="1" class="title">{{ t("WELCOME.TITLE") }}</h1>
 
-	<h2 appTypography theme="3" class="subtitle">{{ t("subtitle") }}</h2>
+	<h2 appTypography theme="3" class="subtitle">{{ t("WELCOME.SUBTITLE") }}</h2>
 
-	<ng-container *transloco="let f; read: form">
+	<ng-container>
 		<app-input
 			class="input"
-			[label]="f('name_label')"
-			[placeholder]="f('name_placeholder')"
+			[label]="t('FORM.NAME_LABEL')"
+			[placeholder]="t('FORM.NAME_PLACEHOLDER')"
 			[formControl]="nameControl"
 		></app-input>
 	</ng-container>

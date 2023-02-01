@@ -11,7 +11,6 @@ import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { ToastrService } from "@shared/ui/toastr";
 
-import { REFERRAL_LINK_PAGE } from "../constants";
 import type { ReferralLinkPageQuery } from "../graphql";
 
 @UntilDestroy()
@@ -22,7 +21,6 @@ import type { ReferralLinkPageQuery } from "../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReferralLinkComponent implements OnInit, OnDestroy {
-	readonly referralLinkPage = REFERRAL_LINK_PAGE;
 	activeOrder: ReferralLinkPageQuery["order"] | null = null;
 
 	constructor(
@@ -53,10 +51,10 @@ export class ReferralLinkComponent implements OnInit, OnDestroy {
 		}[this.activeOrder.type];
 
 		const label = {
-			[OrderTypeEnum.Reserve]: "Выбрать стол",
-			[OrderTypeEnum.Pickup]: "Выбрать блюда",
-			[OrderTypeEnum.Delivery]: "Выбрать блюда",
-			[OrderTypeEnum.InPlace]: "Выбрать блюда"
+			[OrderTypeEnum.Reserve]: "SELECT_TABLE",
+			[OrderTypeEnum.Pickup]: "SELECT_PRODUCTS",
+			[OrderTypeEnum.Delivery]: "SELECT_PRODUCTS",
+			[OrderTypeEnum.InPlace]: "SELECT_PRODUCTS"
 		}[this.activeOrder.type];
 
 		this._actionsService.setAction({

@@ -1,6 +1,6 @@
-<ng-container *transloco="let t; read: placesPage">
+<ng-container *transloco="let t">
 	<div class="places-page">
-		<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
+		<h1 appTypography theme="1" class="title">{{ t("PLACES.TITLE") }}</h1>
 
 		<ul class="places">
 			<li class="place" *ngFor="let place of places$ | async; trackBy: sharedService.trackByFn">

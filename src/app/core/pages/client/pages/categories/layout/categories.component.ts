@@ -7,8 +7,7 @@ import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
 import { map } from "rxjs";
 
-import { CATEGORIES_PAGE } from "../constants";
-import { CategoriesPageService } from "../services";
+import { CategoriesPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-categories",
@@ -17,24 +16,25 @@ import { CategoriesPageService } from "../services";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoriesComponent implements OnInit, OnDestroy {
-	readonly categoriesPage = CATEGORIES_PAGE;
-	categories$ = this._categoriesPageService.categoriesQuery.valueChanges.pipe(
-		map((result) => result.data.categories.data)
-	);
+	private readonly _categoriesPageQuery = this._categoriesPageGQL.watch();
+	readonly categories$ = this._categoriesPageQuery.valueChanges.pipe(map((result) => result.data.categories.data));
 
 	constructor(
 		readonly sharedService: SharedService,
-		private readonly _categoriesPageService: CategoriesPageService,
+		private readonly _categoriesPageGQL: CategoriesPageGQL,
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService
 	) {}
 
-	ngOnInit() {
+	async ngOnInit() {
+		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
+
+		await this._categoriesPageQuery.setVariables({
+			filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
+		});
+
 		this._breadcrumbsService.setBreadcrumb({
-			routerLink: CLIENT_ROUTES.CREATE_ORDER.absolutePath.replace(
-				PLACE_ID,
-				this._routerService.getParams(PLACE_ID.slice(1))
-			)
+			routerLink: CLIENT_ROUTES.CREATE_ORDER.absolutePath.replace(PLACE_ID, placeId)
 		});
 	}
 

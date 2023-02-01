@@ -2,7 +2,6 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 
-import { ALREADY_EXIST } from "../constants";
 import type { IAlreadyExistInput } from "../interfaces";
 
 @Component({
@@ -12,7 +11,6 @@ import type { IAlreadyExistInput } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AlreadyExistComponent<T extends IAlreadyExistInput> implements OnInit {
-	readonly alreadyExist = ALREADY_EXIST;
 	data!: IAlreadyExistInput;
 	constructor(private readonly _dialogRef: DialogRef<T>) {}
 

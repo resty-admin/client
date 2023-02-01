@@ -2,15 +2,13 @@ import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
-import { CLIENT_ROUTES, PLACE_ID } from "@shared/constants";
+import { CLIENT_ROUTES, HALL_ID, PLACE_ID } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
 import { map, of, switchMap } from "rxjs";
 
-import { TABLES_PAGE } from "../constants";
-import { TablesPageOrderGQL } from "../graphql";
-import { TablesPageService } from "../services";
+import { TablesPageGQL, TablesPageOrderGQL } from "../graphql";
 
 @Component({
 	selector: "app-tables",
@@ -19,9 +17,8 @@ import { TablesPageService } from "../services";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TablesComponent implements OnInit, OnDestroy {
-	readonly tablesPage = TABLES_PAGE;
-
-	readonly tables$ = this._tablesPageService.tablesPageQuery.valueChanges.pipe(
+	private readonly _tablesPageQuery = this._tablesPageGQL.watch();
+	readonly tables$ = this._tablesPageQuery.valueChanges.pipe(
 		map((result) => result.data.tables.data),
 		switchMap((tables) =>
 			this._ordersService.activeOrderId$.pipe(
@@ -37,7 +34,7 @@ export class TablesComponent implements OnInit, OnDestroy {
 
 	constructor(
 		readonly sharedService: SharedService,
-		private readonly _tablesPageService: TablesPageService,
+		private readonly _tablesPageGQL: TablesPageGQL,
 		private readonly _tablesPageOrderGQL: TablesPageOrderGQL,
 		private readonly _ordersService: OrdersService,
 		private readonly _routerService: RouterService,
@@ -45,9 +42,15 @@ export class TablesComponent implements OnInit, OnDestroy {
 		private readonly _actionsService: ActionsService
 	) {}
 
-	ngOnInit() {
+	async ngOnInit() {
+		const { placeId, hallId } = this._routerService.getParams();
+
+		await this._tablesPageQuery.setVariables({
+			filtersArgs: [{ key: "hall.id", operator: "=", value: hallId }]
+		});
+
 		this._breadcrumbsService.setBreadcrumb({
-			routerLink: CLIENT_ROUTES.HALLS.absolutePath.replace(PLACE_ID, this._routerService.getParams(PLACE_ID.slice(1)))
+			routerLink: CLIENT_ROUTES.HALL.absolutePath.replace(PLACE_ID, placeId).replace(HALL_ID, hallId)
 		});
 	}
 

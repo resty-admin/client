@@ -2,14 +2,18 @@ import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActionsService } from "@features/app";
 import { AuthService } from "@features/auth/services";
+import type { UserEntity } from "@graphql";
 import { FormBuilder } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { CLIENT_ROUTES, FORM } from "@shared/constants";
+import { CLIENT_ROUTES } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { from, switchMap, take } from "rxjs";
 
-import { PROFILE_PAGE } from "../constants";
-import type { IProfileForm } from "../interfaces";
+export interface IProfileForm {
+	name: UserEntity["name"];
+	tel: UserEntity["tel"];
+	email: UserEntity["email"];
+}
 
 @UntilDestroy()
 @Component({
@@ -19,8 +23,6 @@ import type { IProfileForm } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfileComponent implements OnInit, OnDestroy {
-	readonly form = FORM;
-	readonly profilePage = PROFILE_PAGE;
 	readonly user$ = this._authService.me$;
 
 	readonly formGroup = this._formBuilder.group<IProfileForm>({
@@ -47,7 +49,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
 		this._breadcrumbsService.setBreadcrumb({ routerLink: CLIENT_ROUTES.PLACES.absolutePath });
 		this._actionsService.setAction({
-			label: "Подтвердить",
+			label: "CONFIRM",
 			func: () =>
 				this._authService
 					.updateMe(this.formGroup.value)

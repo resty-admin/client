@@ -1,10 +1,12 @@
-<div class="already-exist" *transloco="let t; read: alreadyExist">
-	<h1 appTypography theme="2" class="title">{{ t("title") }}</h1>
+<div class="already-exist" *transloco="let t">
+	<h1 appTypography theme="2" class="title">{{ t("ALREADY_EXIST.TITLE") }}</h1>
 
 	<app-active-order class="active-order" [activeOrder]="data"></app-active-order>
 
 	<div class="actions">
-		<button appButton theme="1" class="cancel" (click)="closeDialog('navigate')">{{ t("navigate") }}</button>
-		<button appButton theme="4" class="submit" (click)="closeDialog('cancel')">{{ t("cancel") }}</button>
+		<button appButton theme="1" class="cancel" (click)="closeDialog('navigate')">
+			{{ t("ALREADY_EXIST.NAVIGATE") }}
+		</button>
+		<button appButton theme="4" class="submit" (click)="closeDialog('cancel')">{{ t("ALREADY_EXIST.CANCEL") }}</button>
 	</div>
 </div>

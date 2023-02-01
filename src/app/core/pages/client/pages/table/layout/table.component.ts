@@ -14,7 +14,6 @@ import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import { BehaviorSubject, catchError, filter, map, of, shareReplay, switchMap, take, tap } from "rxjs";
 
-import { TABLE_PAGE } from "../constants";
 import type { TablePageQuery } from "../graphql";
 import { IsTableAvailableForReserveGQL, TablePageOrderGQL } from "../graphql";
 
@@ -28,7 +27,6 @@ export type IValidationStatus = "invalid" | "loading" | "valid";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableComponent implements OnInit, OnDestroy {
-	readonly tablePage = TABLE_PAGE;
 	table: TablePageQuery["table"] | null = null;
 	private readonly _dateSubject = new BehaviorSubject<Dayjs | undefined>(undefined);
 	readonly date$ = this._dateSubject.asObservable().pipe(shareReplay({ refCount: true }));
@@ -122,7 +120,7 @@ export class TableComponent implements OnInit, OnDestroy {
 		}
 
 		this._actionsService.setAction({
-			label: "Подтвердить",
+			label: "CONFIRM",
 			disabled: !this._dateSubject.getValue() || this.validationStatus !== "valid",
 			func: async () => {
 				this._ordersService.activeOrderId$

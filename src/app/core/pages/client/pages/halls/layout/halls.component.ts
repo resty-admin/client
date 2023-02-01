@@ -6,8 +6,7 @@ import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
 import { map } from "rxjs";
 
-import { HALLS_PAGE } from "../constants";
-import { HallsPageService } from "../services";
+import { HallsPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-halls",
@@ -16,22 +15,22 @@ import { HallsPageService } from "../services";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HallsComponent implements OnInit, OnDestroy {
-	readonly hallsPage = HALLS_PAGE;
-	readonly halls$ = this._hallsPageService.hallsPageQuery.valueChanges.pipe(map((result) => result.data.halls.data));
+	private readonly _hallsPageQuery = this._hallsPageGQL.watch();
+	readonly halls$ = this._hallsPageQuery.valueChanges.pipe(map((result) => result.data.halls.data));
 
 	constructor(
 		readonly sharedService: SharedService,
-		private readonly _hallsPageService: HallsPageService,
+		private readonly _hallsPageGQL: HallsPageGQL,
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService
 	) {}
 
-	ngOnInit() {
+	async ngOnInit() {
+		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
+		await this._hallsPageQuery.setVariables({ filtersArgs: [{ key: "place.id", operator: "=", value: placeId }] });
+
 		this._breadcrumbsService.setBreadcrumb({
-			routerLink: CLIENT_ROUTES.CREATE_ORDER.absolutePath.replace(
-				PLACE_ID,
-				this._routerService.getParams(PLACE_ID.slice(1))
-			)
+			routerLink: CLIENT_ROUTES.CREATE_ORDER.absolutePath.replace(PLACE_ID, placeId)
 		});
 	}
 

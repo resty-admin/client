@@ -4,15 +4,14 @@ import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
 import type { IProductOutput } from "@features/products";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { PLACE_ID } from "@shared/constants";
+import { CATEGORY_ID, PLACE_ID } from "@shared/constants";
 import { CLIENT_ROUTES } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
-import { map, switchMap, tap } from "rxjs";
+import { map, switchMap } from "rxjs";
 
-import { PRODUCTS_PAGE } from "../constants";
-import { ProductsPageService } from "../services";
+import { ProductsPageGQL } from "../graphql";
 
 @UntilDestroy()
 @Component({
@@ -22,12 +21,9 @@ import { ProductsPageService } from "../services";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductsComponent implements OnInit, OnDestroy {
-	readonly productsPage = PRODUCTS_PAGE;
+	private readonly _productsPageQuery = this._productsPageGQL.watch();
 
-	readonly products$ = this._productsPageService.productsPageQuery.valueChanges.pipe(
-		tap(() => {
-			console.log("here");
-		}),
+	readonly products$ = this._productsPageQuery.valueChanges.pipe(
 		map((result) => result.data.products.data),
 		switchMap((products) =>
 			this._ordersService.productsToOrders$.pipe(
@@ -43,17 +39,23 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
 	constructor(
 		readonly sharedService: SharedService,
-		private readonly _productsPageService: ProductsPageService,
+		private readonly _productsPageGQL: ProductsPageGQL,
 		private readonly _ordersService: OrdersService,
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _actionsService: ActionsService
 	) {}
 
-	ngOnInit() {
+	async ngOnInit() {
+		const categoryId = this._routerService.getParams(CATEGORY_ID.slice(1));
+
+		await this._productsPageQuery.setVariables({
+			filtersArgs: [{ key: "category.id", operator: "=", value: categoryId }]
+		});
+
 		this._ordersService.productsToOrders$.pipe(untilDestroyed(this)).subscribe((productsToOrder) => {
 			this._actionsService.setAction({
-				label: "Подвтердить",
+				label: "CONFIRM",
 				disabled: productsToOrder.length === 0,
 				func: () =>
 					this._routerService.navigateByUrl(

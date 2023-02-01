@@ -10,7 +10,6 @@ import { TypographyModule } from "@shared/ui/typography";
 import { PAYMENT_STATUS_COMPONENTS } from "./components";
 import { PaymentStatusComponent } from "./layout/payment-status.component";
 import { PaymentStatusRoutingModule } from "./payment-status-routing.module";
-import { PAYMENT_STATUS_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [PaymentStatusComponent, ...PAYMENT_STATUS_COMPONENTS],
@@ -23,7 +22,6 @@ import { PAYMENT_STATUS_PROVIDERS } from "./providers";
 		ButtonModule,
 		I18nModule,
 		CloseConfirmationModule
-	],
-	providers: PAYMENT_STATUS_PROVIDERS
+	]
 })
 export class PaymentStatusModule {}

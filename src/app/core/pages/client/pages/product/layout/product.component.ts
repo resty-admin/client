@@ -5,13 +5,12 @@ import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { CATEGORY_ID, CLIENT_ROUTES, FORM, PLACE_ID } from "@shared/constants";
+import { CATEGORY_ID, CLIENT_ROUTES, PLACE_ID } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
 import { BehaviorSubject } from "rxjs";
 
-import { PRODUCT_PAGE } from "../constants";
 import type { ProductPageQuery } from "../graphql";
 import { ProductPageGQL } from "../graphql";
 
@@ -23,8 +22,6 @@ import { ProductPageGQL } from "../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductComponent implements OnInit, OnDestroy {
-	readonly productPage = PRODUCT_PAGE;
-	readonly form = FORM;
 	private readonly _productPageQuery = this._productsPageGQL.watch();
 	readonly attributesFormControl = new FormControl<string[]>();
 	readonly countSubject = new BehaviorSubject(0);
@@ -62,7 +59,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 			.pipe(untilDestroyed(this))
 			.subscribe((count) => {
 				this._actionsService.setAction({
-					label: "Подтвердить",
+					label: "CONFIRM",
 					disabled: !count,
 					func: async () => {
 						await this._ordersService.addProductToOrder({

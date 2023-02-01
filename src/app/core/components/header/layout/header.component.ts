@@ -4,20 +4,16 @@ import { CLIENT_ROUTES, ORDER_ID, PLACE_ID } from "@shared/constants";
 import type { ISimpleChanges } from "@shared/interfaces";
 import type { IAction } from "@shared/ui/actions";
 
-import { HEADER } from "../constants";
 import type { IHeaderActiveOrder, IHeaderUser } from "../interfaces";
-import { HEADER_PROVIDERS } from "../providers";
 
 @Component({
 	selector: "app-header",
 	templateUrl: "./header.component.html",
 	styleUrls: ["./header.component.scss"],
-	providers: HEADER_PROVIDERS,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent implements OnChanges {
 	readonly orderId = ORDER_ID;
-	readonly header = HEADER;
 	@Output() burgerClicked = new EventEmitter();
 	@Input() isAsideOpen?: boolean | null;
 	@Input() user?: IHeaderUser | null;

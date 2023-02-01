@@ -14,7 +14,6 @@ import { TypographyModule } from "@shared/ui/typography";
 import { PRODUCT_COMPONENTS } from "./components";
 import { ProductComponent } from "./layout/product.component";
 import { ProductRoutingModule } from "./product-routing.module";
-import { PRODUCT_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [ProductComponent, ...PRODUCT_COMPONENTS],
@@ -32,7 +31,6 @@ import { PRODUCT_PROVIDERS } from "./providers";
 		CounterModule,
 		SkeletonModule
 	],
-	exports: [ProductComponent],
-	providers: PRODUCT_PROVIDERS
+	exports: [ProductComponent]
 })
 export class ProductModule {}

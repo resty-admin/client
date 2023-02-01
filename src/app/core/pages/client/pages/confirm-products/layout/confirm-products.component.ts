@@ -10,8 +10,7 @@ import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
 import { filter, map, switchMap, take, tap } from "rxjs";
 
-import { CONFIRM_PRODUCTS_PAGE } from "../constants";
-import { ConfirmProductsPageService } from "../services";
+import { ConfirmProductsPageGQL } from "../graphql";
 //
 // map((productsToOrders) =>
 // 	(this.products || [])
@@ -29,32 +28,33 @@ import { ConfirmProductsPageService } from "../services";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConfirmProductsComponent implements OnInit, OnDestroy {
-	readonly confirmProductsPage = CONFIRM_PRODUCTS_PAGE;
-
-	readonly products$ = this._confirmProductsPageService.confirmProductsPageQuery.valueChanges.pipe(
+	private readonly _confirmProductsPageQuery = this._confirmProductsPageGQL.watch();
+	readonly products$ = this._confirmProductsPageQuery.valueChanges.pipe(
 		map((result) => result.data.products.data as any)
 	);
 
 	constructor(
 		readonly sharedService: SharedService,
-		private readonly _confirmProductsPageService: ConfirmProductsPageService,
+		private readonly _confirmProductsPageGQL: ConfirmProductsPageGQL,
 		private readonly _routerService: RouterService,
 		private readonly _actionsService: ActionsService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _ordersService: OrdersService
 	) {}
 
-	ngOnInit() {
+	async ngOnInit() {
+		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
+		await this._confirmProductsPageQuery.setVariables({
+			filtersArgs: [{ key: "category.place.id", operator: "=", value: placeId }]
+		});
+
 		this._breadcrumbsService.setBreadcrumb({
-			routerLink: CLIENT_ROUTES.CATEGORIES.absolutePath.replace(
-				PLACE_ID,
-				this._routerService.getParams(PLACE_ID.slice(1))
-			)
+			routerLink: CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, placeId)
 		});
 
 		this._ordersService.productsToOrders$.pipe(untilDestroyed(this)).subscribe((productsToOrder) => {
 			this._actionsService.setAction({
-				label: "Подтвердить",
+				label: "CONFRIM",
 				disabled: productsToOrder.length === 0,
 				func: () => {
 					this._ordersService.activeOrderId$

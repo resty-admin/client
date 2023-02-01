@@ -11,7 +11,6 @@ import { TypographyModule } from "@shared/ui/typography";
 import { HISTORY_ORDERS_COMPONENTS } from "./components";
 import { HistoryOrdersRoutingModule } from "./history-orders-routing.module";
 import { HistoryOrdersComponent } from "./layout/history-orders.component";
-import { HISTORY_ORDERS_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [HistoryOrdersComponent, ...HISTORY_ORDERS_COMPONENTS],
@@ -26,7 +25,6 @@ import { HISTORY_ORDERS_PROVIDERS } from "./providers";
 		PreviewOrderModule,
 		SkeletonModule,
 		PreviewOrderSkeletonModule
-	],
-	providers: HISTORY_ORDERS_PROVIDERS
+	]
 })
 export class HistoryOrdersModule {}

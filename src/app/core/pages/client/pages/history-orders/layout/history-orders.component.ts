@@ -1,14 +1,14 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActionsService } from "@features/app";
+import { AuthService } from "@features/auth";
 import { CLIENT_ROUTES } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
-import { map } from "rxjs";
+import { map, switchMap, take } from "rxjs";
 
-import { HISTORY_ORDERS_PAGE } from "../constants";
-import { HistoryOrdersPageService } from "../services";
+import { HistoryOrdersPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-history-orders",
@@ -17,25 +17,37 @@ import { HistoryOrdersPageService } from "../services";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HistoryOrdersComponent implements OnInit, OnDestroy {
-	readonly historyOrdersPage = HISTORY_ORDERS_PAGE;
-
-	historyOrders$ = this._historOrdersPageService.historyOrdersPageQuery.valueChanges.pipe(
+	private readonly _historyOrdersPageQuery = this._historyOrdersPageGQL.watch();
+	readonly historyOrders$ = this._historyOrdersPageQuery.valueChanges.pipe(
 		map((result) => result.data.historyOrders.data)
 	);
 
 	constructor(
 		readonly sharedService: SharedService,
-		private readonly _historOrdersPageService: HistoryOrdersPageService,
+		private readonly _historyOrdersPageGQL: HistoryOrdersPageGQL,
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _routerService: RouterService,
-		private readonly _actionsService: ActionsService
+		private readonly _actionsService: ActionsService,
+		private readonly _authService: AuthService
 	) {}
 
 	ngOnInit() {
+		this._authService.me$
+			.pipe(
+				take(1),
+				switchMap((user) =>
+					this._historyOrdersPageQuery.setVariables({
+						filtersArgs: [{ key: "users.id", operator: "=[]", value: user!.id }]
+					})
+				),
+				take(1)
+			)
+			.subscribe();
+
 		this._breadcrumbsService.setBreadcrumb({ routerLink: CLIENT_ROUTES.ACTIVE_ORDERS.absolutePath });
 
 		this._actionsService.setAction({
-			label: "Создать заказ",
+			label: "CREATE_ORDER",
 			func: async () => {
 				await this._routerService.navigateByUrl(CLIENT_ROUTES.PLACES.absolutePath);
 			}

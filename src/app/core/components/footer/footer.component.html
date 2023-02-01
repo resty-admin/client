@@ -1,4 +1,4 @@
-<footer class="footer">
+<footer class="footer" *transloco="let t">
 	<a class="back" *ngIf="breadcrumb$ | async as breadcrumb" [routerLink]="breadcrumb.routerLink">
 		<app-icon class="icon" name="back"></app-icon>
 		<span class="label" *ngIf="breadcrumb.label">{{ breadcrumb.label }}</span>
@@ -12,6 +12,6 @@
 		(click)="action.func()"
 		[disabled]="action.disabled"
 	>
-		{{ action.label }}
+		{{ t("FOOTER." + action.label) }}
 	</button>
 </footer>

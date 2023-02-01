@@ -83,7 +83,7 @@
 	}
 }
 @include dark() {
-	.sign-up .card .form .social-medias .label {
+	.sign-in .card .form .social-medias .label {
 		color: var(--light);
 	}
 }

@@ -11,7 +11,6 @@ import { TypographyModule } from "@shared/ui/typography";
 
 import { CreateOrderRoutingModule } from "./create-order-routing.module";
 import { CreateOrderComponent } from "./layout/create-order.component";
-import { CREATE_ORDER_PAGE_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [CreateOrderComponent],
@@ -26,7 +25,6 @@ import { CREATE_ORDER_PAGE_PROVIDERS } from "./providers";
 		TranslocoModule,
 		AlreadyExistModule,
 		SkeletonModule
-	],
-	providers: CREATE_ORDER_PAGE_PROVIDERS
+	]
 })
 export class CreateOrderModule {}

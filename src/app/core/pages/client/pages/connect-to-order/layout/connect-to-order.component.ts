@@ -10,8 +10,6 @@ import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { map, take } from "rxjs";
 
-import { CONNECT_TO_ORDER_PAGE } from "../constants";
-
 @UntilDestroy()
 @Component({
 	selector: "app-connect-to-order",
@@ -20,7 +18,6 @@ import { CONNECT_TO_ORDER_PAGE } from "../constants";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConnectToOrderComponent implements OnInit, OnDestroy {
-	readonly connectToOrderPage = CONNECT_TO_ORDER_PAGE;
 	codeControl = new FormControl<number>();
 
 	constructor(
@@ -37,7 +34,7 @@ export class ConnectToOrderComponent implements OnInit, OnDestroy {
 
 		this.codeControl.valueChanges.pipe(untilDestroyed(this)).subscribe((code) => {
 			this._actionsService.setAction({
-				label: "Подключиться",
+				label: "CONNECT_TO_ORDER",
 				disabled: code?.toString().length !== 4,
 				func: () => {
 					this._ordersService

@@ -13,7 +13,6 @@ import { TypographyModule } from "@shared/ui/typography";
 import { PAYMENT_TYPE_COMPONENTS } from "./components";
 import { PaymentTypeComponent } from "./layout/payment-type.component";
 import { PaymentTypeRoutingModule } from "./payment-type-routing.module";
-import { PAYMENT_TYPE_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [PaymentTypeComponent, ...PAYMENT_TYPE_COMPONENTS],
@@ -29,7 +28,6 @@ import { PAYMENT_TYPE_PROVIDERS } from "./providers";
 		I18nModule,
 		PipesModule,
 		SkeletonModule
-	],
-	providers: PAYMENT_TYPE_PROVIDERS
+	]
 })
 export class PaymentTypeModule {}

@@ -3,11 +3,9 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActionsService } from "@features/app";
 import { AuthService } from "@features/auth/services";
 import { FormControl } from "@ngneat/reactive-forms";
-import { CLIENT_ROUTES, FORM } from "@shared/constants";
+import { CLIENT_ROUTES } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
 import { take } from "rxjs";
-
-import { WELCOME_PAGE } from "../constants";
 
 @Component({
 	selector: "app-welcome",
@@ -16,8 +14,6 @@ import { WELCOME_PAGE } from "../constants";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WelcomeComponent implements OnInit, OnDestroy {
-	readonly welcomePage = WELCOME_PAGE;
-	readonly form = FORM;
 	readonly nameControl = new FormControl<string>();
 
 	constructor(
@@ -28,7 +24,7 @@ export class WelcomeComponent implements OnInit, OnDestroy {
 
 	ngOnInit() {
 		this._actionsService.setAction({
-			label: "Подтвердить",
+			label: "CONFIRM",
 			func: () =>
 				this._authService
 					.updateMe({ name: this.nameControl.value })

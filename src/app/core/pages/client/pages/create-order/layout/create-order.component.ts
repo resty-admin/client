@@ -6,16 +6,15 @@ import { OrdersService } from "@features/orders";
 import { AlreadyExistComponent } from "@features/orders/ui/already-exist";
 import { ORDER_ID, PLACE_ID } from "@shared/constants";
 import { CLIENT_ROUTES } from "@shared/constants";
+import { ORDER_TYPES } from "@shared/data";
+import type { IOrderType } from "@shared/interfaces";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
 import { DialogService } from "@shared/ui/dialog";
 import { filter, from, map, shareReplay, switchMap, take } from "rxjs";
 
-import { CREATE_ORDER_PAGE } from "../constants";
-import { ORDER_TYPES } from "../data";
 import { CreateOrderPageGQL } from "../graphql";
-import type { IOrderType } from "../intefaces";
 
 @Component({
 	selector: "app-create-order",
@@ -24,7 +23,6 @@ import type { IOrderType } from "../intefaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateOrderComponent implements OnInit, OnDestroy {
-	readonly createOrderPage = CREATE_ORDER_PAGE;
 	readonly orderTypes = ORDER_TYPES;
 
 	private readonly _createOrderPageQuery = this._createOrderPageGQL.watch();
@@ -61,7 +59,7 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 		this.menuRouterLink = CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, placeId);
 
 		this._actionsService.setAction({
-			label: "Подключиться к заказу",
+			label: "CONNECT_TO_ORDER",
 			func: () =>
 				this._routerService.navigateByUrl(CLIENT_ROUTES.CONNECT_TO_ORDER.absolutePath.replace(PLACE_ID, placeId))
 		});
