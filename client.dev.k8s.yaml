@@ -22,7 +22,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: client-service
+  name: dev-client-service
 spec:
   selector:
     app: dev-client-k8s
