@@ -7,13 +7,17 @@ import { CancelConfirmationComponent, OrdersService } from "@features/orders";
 import { CloseConfirmationComponent } from "@features/orders/ui";
 import type { ActiveOrderEntity } from "@graphql";
 import { ProductToOrderStatusEnum } from "@graphql";
-import { UntilDestroy } from "@ngneat/until-destroy";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { CLIENT_ROUTES, ORDER_ID, PLACE_ID } from "@shared/constants";
+import { OrdersEvents } from "@shared/enums";
 import type { DeepPartial } from "@shared/interfaces";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
+import { SocketIoService } from "@shared/modules/socket-io";
 import { SharedService } from "@shared/services";
 import { DialogService } from "@shared/ui/dialog";
+import { IosDatepickerDialogComponent } from "@shared/ui/ios-datepicker-dialog";
+import dayjs from "dayjs";
 import { filter, map, switchMap, take } from "rxjs";
 
 import type { ActiveOrderPageQuery } from "../graphql";
@@ -46,7 +50,8 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 		private readonly _ordersService: OrdersService,
 		private readonly _authService: AuthService,
 		private readonly _dialogService: DialogService,
-		private readonly _commandsService: CommandsService
+		private readonly _commandsService: CommandsService,
+		private readonly _socketIoService: SocketIoService
 	) {}
 
 	async ngOnInit() {
@@ -61,7 +66,7 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 
 		this.activeOrder$.pipe(take(1)).subscribe((activeOrder) => {
 			this._breadcrumbsService.setBreadcrumb({
-				label: "В меню",
+				label: "BACK_TO_MENU",
 				routerLink: CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, activeOrder!.place.id)
 			});
 		});
@@ -75,7 +80,32 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 			await this.setSelectedProductsToOrders(this.selectedProductsToOrders);
 		});
 
+		this._socketIoService
+			.fromEvents(Object.values(OrdersEvents))
+			.pipe(
+				untilDestroyed(this),
+				filter(({ order }: any) => order.id === orderId),
+				switchMap(() => this._activeOrderPageQuery.refetch())
+			)
+			.subscribe();
+
 		this.setAction();
+	}
+
+	openIosDatepicker(data: string) {
+		this._dialogService
+			.open(IosDatepickerDialogComponent, {
+				data: dayjs(data),
+				windowClass: "ios-datepicker-dialog"
+			})
+			.afterClosed$.pipe(take(1))
+			.subscribe((date) => {
+				if (!date) {
+					return;
+				}
+
+				console.log("newDate", date);
+			});
 	}
 
 	openCommandsDialog(order: ActiveOrderPageQuery["order"]) {

@@ -17,7 +17,8 @@
 			.icon {
 				width: rem(20);
 				height: rem(35);
-				&::ng-deep {
+
+				@include icon () {
 					svg {
 						stroke: var(--dark);
 					}
@@ -43,6 +44,15 @@
 	.footer {
 		.back {
 			background-color: var(--dark-grey);
+			.label {
+				color: var(--light);
+			}
+
+			@include icon () {
+				path {
+					stroke: var(--light);
+				}
+			}
 		}
 	}
 }

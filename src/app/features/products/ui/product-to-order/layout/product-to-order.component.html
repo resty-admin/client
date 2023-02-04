@@ -1,5 +1,12 @@
 <ng-container *transloco="let t">
 	<div class="product-to-order" [class.active]="isActive" *ngIf="productToOrder">
+		<app-image
+			class="image"
+			[remote]="true"
+			[name]="productToOrder.product.file?.url"
+			placeholder="product"
+		></app-image>
+
 		<p class="title">{{ productToOrder.product.name }}</p>
 
 		<div class="paid-status">

@@ -54,7 +54,7 @@ export class ConfirmProductsComponent implements OnInit, OnDestroy {
 
 		this._ordersService.productsToOrders$.pipe(untilDestroyed(this)).subscribe((productsToOrder) => {
 			this._actionsService.setAction({
-				label: "CONFRIM",
+				label: "CONFIRM",
 				disabled: productsToOrder.length === 0,
 				func: () => {
 					this._ordersService.activeOrderId$
@@ -75,7 +75,9 @@ export class ConfirmProductsComponent implements OnInit, OnDestroy {
 							switchMap((orderId) =>
 								this._ordersService.confirmProductsToOrders(
 									(productsToOrder || []).map((productToOrder) => ({
-										...productToOrder,
+										productId: productToOrder.productId,
+										attributesIds: productToOrder.attributesIds,
+										count: productToOrder.count,
 										orderId: orderId!
 									}))
 								)

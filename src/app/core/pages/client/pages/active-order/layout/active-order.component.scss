@@ -65,7 +65,18 @@
 	}
 }
 @include dark() {
-	.active-order .products .users-to-orders-by-type .user-to-order-by-type .status {
+	.active-order {
 		color: var(--light);
+
+		.close-order,
+		.cancel-order {
+			color: var(--light-grey);
+		}
+	}
+
+	.no-products-to-orders {
+		.title {
+			color: var(--light);
+		}
 	}
 }

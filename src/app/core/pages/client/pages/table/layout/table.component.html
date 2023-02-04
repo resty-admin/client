@@ -3,8 +3,8 @@
 		<app-image class="image" [remote]="true" [name]="table.file?.url" placeholder="table"></app-image>
 
 		<div class="content">
-			<p class="label">{{ t("code") }} {{ table.code }}</p>
-			<p [class]="'status' + ' ' + validationStatus">{{ validationStatus ? t(validationStatus) : "" }}</p>
+			<p class="label">{{ t("TABLE.CODE") }} {{ table.code }}</p>
+			<p [class]="'status' + ' ' + validationStatus">{{ validationStatus ? t("TABLES." + validationStatus) : "" }}</p>
 
 			<app-input
 				appStopPropagation

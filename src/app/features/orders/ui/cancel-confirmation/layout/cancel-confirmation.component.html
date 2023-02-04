@@ -1,12 +1,14 @@
 <div class="cancel-confirmation" *transloco="let t">
-	<h1 appTypography theme="2" class="title">{{ t("CANCEL_CONFIRMATION.TITLE") }}</h1>
+	<h1 appTypography theme="2" class="title">{{ t("CANCEL_CONFIRMATION_DIALOG.TITLE") }}</h1>
 
 	<app-active-order class="active-order" [activeOrder]="data"></app-active-order>
 
 	<div class="actions">
 		<button appButton theme="1" class="cancel" (click)="closeDialog(undefined)">
-			{{ t("CANCEL_CONFIRMATION.NO") }}
+			{{ t("CANCEL_CONFIRMATION_DIALOG.NO") }}
 		</button>
-		<button appButton theme="4" class="submit" (click)="closeDialog(data)">{{ t("CANCEL_CONFIRMATION.YES") }}</button>
+		<button appButton theme="4" class="submit" (click)="closeDialog(data)">
+			{{ t("CANCEL_CONFIRMATION_DIALOG.YES") }}
+		</button>
 	</div>
 </div>

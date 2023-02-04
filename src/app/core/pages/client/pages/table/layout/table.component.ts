@@ -17,7 +17,7 @@ import { BehaviorSubject, catchError, filter, map, of, shareReplay, switchMap, t
 import type { TablePageQuery } from "../graphql";
 import { IsTableAvailableForReserveGQL, TablePageOrderGQL } from "../graphql";
 
-export type IValidationStatus = "invalid" | "loading" | "valid";
+export type IValidationStatus = "INVALID" | "LOADING" | "VALID";
 
 @UntilDestroy()
 @Component({
@@ -37,7 +37,7 @@ export class TableComponent implements OnInit, OnDestroy {
 		map((result) => result.data.order)
 	);
 
-	validationStatus?: "invalid" | "loading" | "valid";
+	validationStatus?: "INVALID" | "LOADING" | "VALID";
 
 	startDate?: Dayjs;
 
@@ -66,7 +66,7 @@ export class TableComponent implements OnInit, OnDestroy {
 			.pipe(
 				filter((date) => Boolean(date) && !dayjs(date).isSame(this.startDate)),
 				tap(() => {
-					this.changeValidationStatus("loading");
+					this.changeValidationStatus("LOADING");
 				}),
 				switchMap((date) =>
 					this._isTableAvailableForReserveGQL.watch({ body: { date: date?.format(), tableId } }).valueChanges.pipe(
@@ -77,7 +77,7 @@ export class TableComponent implements OnInit, OnDestroy {
 				)
 			)
 			.subscribe((isValid) => {
-				this.changeValidationStatus(isValid ? "valid" : "invalid");
+				this.changeValidationStatus(isValid ? "VALID" : "INVALID");
 			});
 
 		this.setAction();
@@ -121,7 +121,7 @@ export class TableComponent implements OnInit, OnDestroy {
 
 		this._actionsService.setAction({
 			label: "CONFIRM",
-			disabled: !this._dateSubject.getValue() || this.validationStatus !== "valid",
+			disabled: !this._dateSubject.getValue() || this.validationStatus !== "VALID",
 			func: async () => {
 				this._ordersService.activeOrderId$
 					.pipe(take(1))

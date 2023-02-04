@@ -10,6 +10,7 @@ export interface IProductToOrderWithSelectedByStatus {
 	status: any;
 	productsToOrders: IProductToOrderWithSelected[];
 }
+
 @Component({
 	selector: "app-products-to-order-select",
 	templateUrl: "./products-to-order-select.component.html",

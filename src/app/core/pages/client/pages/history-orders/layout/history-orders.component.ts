@@ -2,7 +2,7 @@ import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActionsService } from "@features/app";
 import { AuthService } from "@features/auth";
-import { CLIENT_ROUTES } from "@shared/constants";
+import { CLIENT_ROUTES, PLACE_ID } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
@@ -37,6 +37,7 @@ export class HistoryOrdersComponent implements OnInit, OnDestroy {
 				take(1),
 				switchMap((user) =>
 					this._historyOrdersPageQuery.setVariables({
+						placeId: this._routerService.getParams(PLACE_ID.slice(1)),
 						filtersArgs: [{ key: "users.id", operator: "=[]", value: user!.id }]
 					})
 				),

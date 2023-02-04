@@ -3,8 +3,8 @@ import { Inject, Injectable } from "@angular/core";
 import type { Translation, TranslocoLoader } from "@ngneat/transloco";
 import { catchError } from "rxjs";
 
-import { I18N_CONFIG } from "../../injection-tokens";
-import { II18nConfig } from "../../interfaces";
+import { I18N_CONFIG } from "../injection-tokens";
+import { II18nConfig } from "../interfaces";
 
 @Injectable({ providedIn: "root" })
 export class TranslocoHttpLoader implements TranslocoLoader {

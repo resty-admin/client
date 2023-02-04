@@ -4,7 +4,7 @@
 			<app-icon class="icon" name="bell"></app-icon>
 		</button>
 
-		<app-order-info class="order-info" [order]="activeOrder"></app-order-info>
+		<app-order-info class="order-info" [order]="activeOrder" (dateClicked)="openIosDatepicker($event)"></app-order-info>
 
 		<div class="products">
 			<app-users-select

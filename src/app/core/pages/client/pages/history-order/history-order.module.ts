@@ -5,7 +5,7 @@ import { PreviewPlaceModule } from "@features/places";
 import { ProductToOrderModule } from "@features/products";
 import { PreviewTableModule } from "@features/tables";
 import { UsersSelectModule } from "@features/users";
-import { TranslocoModule } from "@shared/modules/i18n";
+import { I18nModule } from "@shared/modules/i18n";
 import { ButtonModule } from "@shared/ui/button";
 import { IconModule } from "@shared/ui/icon";
 import { ImageModule } from "@shared/ui/image";
@@ -23,7 +23,7 @@ import { HistoryOrderComponent } from "./layout/history-order.component";
 		TypographyModule,
 		ButtonModule,
 		IconModule,
-		TranslocoModule,
+		I18nModule,
 		ImageModule,
 		ReactiveFormsModule,
 		PreviewTableModule,

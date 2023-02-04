@@ -105,14 +105,24 @@
 				.icon {
 					width: rem(18);
 					height: rem(18);
+
+					@include icon () {
+						path {
+							fill: var(--light);
+						}
+					}
 				}
 
 				&.menu {
 					.icon {
+						@include icon () {
+							path {
+								fill: var(--primary-hover);
+							}
+						}
 					}
 					.label {
-						color: rgb(230 138 0);
-						//color: var(--primary);
+						color: var(--primary-hover);
 					}
 				}
 			}

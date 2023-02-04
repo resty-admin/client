@@ -8,7 +8,7 @@ import { ProductsToOrderSelectModule, ProductToOrderModule } from "@features/pro
 import { ProductsToOrderSelectSkeletonModule } from "@features/products/ui/products-to-order-select-skeleton";
 import { PreviewTableModule } from "@features/tables";
 import { UsersSelectModule, UsersSelectSkeletonModule } from "@features/users";
-import { TranslocoModule } from "@shared/modules/i18n";
+import { I18nModule } from "@shared/modules/i18n";
 import { ButtonModule } from "@shared/ui/button";
 import { IconModule } from "@shared/ui/icon";
 import { ImageModule } from "@shared/ui/image";
@@ -26,7 +26,7 @@ import { ActiveOrderComponent } from "./layout/active-order.component";
 		TypographyModule,
 		ButtonModule,
 		IconModule,
-		TranslocoModule,
+		I18nModule,
 		ReactiveFormsModule,
 		ProductToOrderModule,
 		UsersSelectModule,

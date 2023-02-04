@@ -16,6 +16,7 @@ export class HistoryOrdersPageResolver implements Resolve<unknown> {
 		return this._authService.me$.pipe(
 			switchMap((user) =>
 				this._historyOrdersPageGQL.fetch({
+					placeId: "",
 					filtersArgs: [{ key: "users.id", operator: "=[]", value: user!.id }]
 				})
 			)

@@ -18,7 +18,7 @@ export class AlreadyExistComponent<T extends IAlreadyExistInput> implements OnIn
 		this.data = this._dialogRef.data;
 	}
 
-	closeDialog(data: "cancel" | "navigate") {
+	closeDialog(data?: any) {
 		this._dialogRef.close(data);
 	}
 }

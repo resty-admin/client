@@ -9,6 +9,7 @@ import type {
 	UserEntity
 } from "@graphql";
 import { CLIENT_ROUTES } from "@shared/constants";
+import type { LanguagesEnum, ThemeEnum } from "@shared/enums";
 import { CryptoService } from "@shared/modules/crypto";
 import { JwtService } from "@shared/modules/jwt";
 import { RouterService } from "@shared/modules/router";
@@ -39,6 +40,10 @@ export class AuthService {
 		catchError(() => of(null))
 	);
 
+	readonly language$ = this._authRepository.language$;
+	readonly accessToken$ = this._authRepository.accessToken$;
+	readonly theme$ = this._authRepository.theme$;
+
 	constructor(
 		private readonly _getMeGQL: GetMeGQL,
 		private readonly _updateMeGQL: UpdateMeGQL,
@@ -67,6 +72,14 @@ export class AuthService {
 	async updateAccessToken(accessToken?: string) {
 		this._authRepository.updateAccessToken(accessToken);
 		await this.getMeQuery.resetLastResults();
+	}
+
+	updateTheme(theme: ThemeEnum) {
+		this._authRepository.updateTheme(theme);
+	}
+
+	updateLanguage(language: LanguagesEnum) {
+		this._authRepository.updateLanguage(language);
 	}
 
 	signIn(body: SignInInput) {
@@ -124,7 +137,7 @@ export class AuthService {
 	}
 
 	async signOut() {
-		this._authRepository.updateUser(undefined);
+		this._authRepository.updateAccessToken(undefined);
 		await this.updateAccessToken(undefined);
 		await this._routerService.navigateByUrl(CLIENT_ROUTES.SIGN_IN.absolutePath);
 	}

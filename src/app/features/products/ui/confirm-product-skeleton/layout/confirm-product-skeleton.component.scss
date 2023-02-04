@@ -55,6 +55,7 @@
 	}
 }
 @include dark() {
-	.confirm-product-skseleton {
+	.confirm-product-skeleton {
+		background-color: var(--dark-grey);
 	}
 }

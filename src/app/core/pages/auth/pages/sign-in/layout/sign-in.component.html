@@ -5,7 +5,11 @@
 		<app-image class="logo" name="logo"></app-image>
 
 		<form class="form" [formGroup]="formGroup" [ngSwitch]="typeControl.value" (ngSubmit)="signIn(formGroup.value)">
-			<app-radio-button class="radio-button" theme="1" [options]="types" [formControl]="typeControl"></app-radio-button>
+			<app-radio-button class="radio-button" theme="1" [options]="types" [formControl]="typeControl">
+				<ng-template #labelTemplate let-option>
+					{{ t("AUTH." + option.label) }}
+				</ng-template>
+			</app-radio-button>
 
 			<app-input
 				*ngSwitchCase="'email'"

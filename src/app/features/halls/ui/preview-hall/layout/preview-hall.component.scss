@@ -51,8 +51,8 @@
 @include dark() {
 	.preview-hall {
 		background-color: var(--dark-grey);
-		.label {
-			color: white;
+		.name {
+			color: var(--light);
 		}
 	}
 }

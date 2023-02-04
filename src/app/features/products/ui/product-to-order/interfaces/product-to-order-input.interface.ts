@@ -10,5 +10,6 @@ export interface IProductToOrderInput {
 	product: {
 		name: ProductEntity["name"];
 		price: ProductEntity["price"];
+		file?: ProductEntity["file"];
 	};
 }

@@ -110,10 +110,6 @@ export const CLIENT_ROUTES: Route[] = [
 				redirectTo: _SHARED_CLIENT_ROUTES.TABLES.path
 			},
 			{
-				..._SHARED_CLIENT_ROUTES.WELCOME,
-				loadChildren: () => import("./pages/welcome/welcome.module").then((m) => m.WelcomeModule)
-			},
-			{
 				path: "**",
 				redirectTo: _SHARED_CLIENT_ROUTES.PLACES.path
 			}

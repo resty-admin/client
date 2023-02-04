@@ -42,7 +42,7 @@
 @include dark() {
 	.preview-table {
 		background-color: var(--dark-grey);
-		.content .label {
+		.name {
 			color: var(--light);
 		}
 	}

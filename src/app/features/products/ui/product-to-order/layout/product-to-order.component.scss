@@ -4,18 +4,28 @@
 	.product-to-order {
 		display: grid;
 		grid-template-areas:
-			"title paid-status paid-status"
-			"user count price";
-		align-items: center;
+			"image title paid-status paid-status"
+			"image user count price";
+		align-items: start;
+		grid-template-columns: auto auto 1fr auto;
 		border: rem(1) solid transparent;
 		border-radius: rem(16);
 		padding: rem(8);
 		gap: rem(8);
-		grid-template-columns: 2fr 1fr auto;
 		background-color: var(--light-grey);
 
 		&.active {
 			border-color: var(--primary);
+		}
+
+		.image {
+			grid-area: image;
+			width: rem(56);
+			height: rem(56);
+
+			@include image () {
+				border-radius: rem(16);
+			}
 		}
 
 		.title {
@@ -25,7 +35,7 @@
 			line-height: rem(24);
 			color: var(--dark);
 
-			@include noWrap ();
+			@include noWrap();
 		}
 		.paid-status {
 			display: flex;
@@ -41,7 +51,7 @@
 				line-height: rem(24);
 				color: var(--dark);
 
-				@include noWrap ();
+				@include noWrap();
 			}
 			.icon {
 				width: rem(20);
@@ -75,7 +85,11 @@
 }
 @include dark() {
 	.product-to-order {
-		border-color: var(--light-b);
+		background-color: var(--dark-grey);
+
+		.paid-status .waiting {
+			color: var(--light);
+		}
 
 		.title {
 			color: var(--light);

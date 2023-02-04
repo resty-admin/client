@@ -1,11 +1,11 @@
 <ng-container *transloco="let t">
-	<div class="referral-link" *ngIf="activeOrder">
+	<div class="referral-link" *ngIf="order$ | async as order">
 		<h1 appTypography theme="1" class="title">{{ t("REFERRAL_LINK.TITLE") }}</h1>
 
 		<p class="description">{{ t("REFERRAL_LINK.DESCRIPTION") }}</p>
 
-		<app-input class="input" [value]="activeOrder.code" [readonly]="true">
-			<button appIconButton class="copy-button" (click)="copyCode(activeOrder.code)" icon>
+		<app-input class="input" [value]="order.code" [readonly]="true">
+			<button appIconButton class="copy-button" (click)="copyCode(order.code)" icon>
 				<app-icon class="icon" name="copy"></app-icon>
 			</button>
 		</app-input>

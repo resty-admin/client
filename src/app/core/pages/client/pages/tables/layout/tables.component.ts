@@ -2,7 +2,7 @@ import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
-import { CLIENT_ROUTES, HALL_ID, PLACE_ID } from "@shared/constants";
+import { CLIENT_ROUTES, PLACE_ID } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
@@ -50,7 +50,7 @@ export class TablesComponent implements OnInit, OnDestroy {
 		});
 
 		this._breadcrumbsService.setBreadcrumb({
-			routerLink: CLIENT_ROUTES.HALL.absolutePath.replace(PLACE_ID, placeId).replace(HALL_ID, hallId)
+			routerLink: CLIENT_ROUTES.HALLS.absolutePath.replace(PLACE_ID, placeId)
 		});
 	}
 

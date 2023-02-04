@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { AlreadyExistModule } from "@features/orders/ui/already-exist";
-import { TranslocoModule } from "@shared/modules/i18n";
+import { I18nModule } from "@shared/modules/i18n";
 import { ButtonModule } from "@shared/ui/button";
 import { DialogModule } from "@shared/ui/dialog";
 import { IconModule } from "@shared/ui/icon";
@@ -22,7 +22,7 @@ import { CreateOrderComponent } from "./layout/create-order.component";
 		ButtonModule,
 		IconModule,
 		DialogModule,
-		TranslocoModule,
+		I18nModule,
 		AlreadyExistModule,
 		SkeletonModule
 	]

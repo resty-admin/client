@@ -7,7 +7,9 @@ import { OrdersService } from "@features/orders";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { routerAnimation } from "@shared/animations";
 import { CLIENT_ROUTES } from "@shared/constants";
+import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
+import { ThemeService } from "@shared/modules/theme";
 import type { IAction } from "@shared/ui/actions";
 import { catchError, filter, map, of, shareReplay, startWith, switchMap, take, tap } from "rxjs";
 
@@ -81,7 +83,9 @@ export class CoreComponent implements OnInit {
 		private readonly _ordersService: OrdersService,
 		private readonly _changeDetectorRef: ChangeDetectorRef,
 		private readonly _router: Router,
-		private readonly _childrenOutletContexts: ChildrenOutletContexts
+		private readonly _childrenOutletContexts: ChildrenOutletContexts,
+		private readonly _i18nService: I18nService,
+		private readonly _themeService: ThemeService
 	) {}
 
 	getRouteAnimationData() {
@@ -94,7 +98,15 @@ export class CoreComponent implements OnInit {
 				return;
 			}
 
-			await this._routerService.navigateByUrl(CLIENT_ROUTES.WELCOME.absolutePath);
+			await this._routerService.navigateByUrl(CLIENT_ROUTES.PROFILE.absolutePath);
+		});
+
+		this._authService.language$.pipe(untilDestroyed(this)).subscribe((lang) => {
+			this._i18nService.setActiveLang(lang);
+		});
+
+		this._authService.theme$.pipe(untilDestroyed(this)).subscribe((theme) => {
+			this._themeService.setTheme(theme);
 		});
 	}
 

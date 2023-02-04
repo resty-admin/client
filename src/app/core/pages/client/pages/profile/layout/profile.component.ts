@@ -6,7 +6,12 @@ import type { UserEntity } from "@graphql";
 import { FormBuilder } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { CLIENT_ROUTES } from "@shared/constants";
+import type { LanguagesEnum } from "@shared/enums";
+import type { ThemeEnum } from "@shared/enums";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
+import { I18nService } from "@shared/modules/i18n";
+import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
+import { DialogService } from "@shared/ui/dialog";
 import { from, switchMap, take } from "rxjs";
 
 export interface IProfileForm {
@@ -24,18 +29,22 @@ export interface IProfileForm {
 })
 export class ProfileComponent implements OnInit, OnDestroy {
 	readonly user$ = this._authService.me$;
-
 	readonly formGroup = this._formBuilder.group<IProfileForm>({
 		name: "",
 		tel: "",
 		email: ""
 	});
 
+	readonly language$ = this._authService.language$;
+	readonly theme$ = this._authService.theme$;
+
 	constructor(
 		private readonly _formBuilder: FormBuilder,
 		private readonly _authService: AuthService,
 		private readonly _actionsService: ActionsService,
-		private readonly _breadcrumbsService: BreadcrumbsService
+		private readonly _breadcrumbsService: BreadcrumbsService,
+		private readonly _dialogService: DialogService,
+		private readonly _i18nService: I18nService
 	) {}
 
 	ngOnInit() {
@@ -61,8 +70,21 @@ export class ProfileComponent implements OnInit, OnDestroy {
 		});
 	}
 
+	changeLanguage(language: LanguagesEnum) {
+		this._authService.updateLanguage(language);
+	}
+
+	changeTheme(theme: ThemeEnum) {
+		this._authService.updateTheme(theme);
+	}
+
 	deleteMe() {
-		this._authService.deleteMe().pipe(take(1)).subscribe();
+		this._dialogService
+			.open(ConfirmationDialogComponent, {
+				data: { title: this._i18nService.translate("USERS.CONFIRM"), value: {} }
+			})
+			.afterClosed$.pipe(switchMap(() => this._authService.deleteMe()))
+			.subscribe();
 	}
 
 	ngOnDestroy() {

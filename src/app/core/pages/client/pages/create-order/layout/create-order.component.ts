@@ -4,15 +4,15 @@ import { ActionsService } from "@features/app";
 import { AuthService } from "@features/auth/services";
 import { OrdersService } from "@features/orders";
 import { AlreadyExistComponent } from "@features/orders/ui/already-exist";
-import { ORDER_ID, PLACE_ID } from "@shared/constants";
-import { CLIENT_ROUTES } from "@shared/constants";
+import { OrderTypeEnum } from "@graphql";
+import { CLIENT_ROUTES, ORDER_ID, PLACE_ID } from "@shared/constants";
 import { ORDER_TYPES } from "@shared/data";
 import type { IOrderType } from "@shared/interfaces";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
 import { DialogService } from "@shared/ui/dialog";
-import { filter, from, map, shareReplay, switchMap, take } from "rxjs";
+import { filter, map, of, shareReplay, switchMap, take } from "rxjs";
 
 import { CreateOrderPageGQL } from "../graphql";
 
@@ -93,44 +93,50 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 	}
 
 	createOrder({ type, routerLink }: IOrderType) {
-		const activeOrderUrl = CLIENT_ROUTES.ACTIVE_ORDER.absolutePath;
-
 		this.order$
 			.pipe(
 				take(1),
 				switchMap((order) =>
-					this._dialogService.open(AlreadyExistComponent, { data: order }).afterClosed$.pipe(
-						take(1),
-						filter((result) => Boolean(result)),
-						switchMap((result) =>
-							result === "navigate"
-								? from(this._routerService.navigateByUrl(activeOrderUrl.replace(ORDER_ID, order!.id)))
-								: result === "navigate"
-								? this._ordersService.cancelOrder(order!.id).pipe(map((result) => result.data?.cancelOrder))
-								: this._ordersService.productsToOrders$.pipe(
-										take(1),
-										switchMap((productsToOrder) =>
-											this._ordersService
-												.createOrder({
-													type,
-													place: this._routerService.getParams(PLACE_ID.slice(1)),
-													productsToOrder: productsToOrder.map((productToOrder) => ({
-														productId: productToOrder.productId,
-														count: productToOrder.count,
-														attributesIds: productToOrder.attributesIds
-													}))
-												})
-												.pipe(map((result) => result.data?.createOrder))
-										)
-								  )
-						),
-						take(1)
-					)
+					order
+						? this._dialogService.open(AlreadyExistComponent, { data: order }).afterClosed$.pipe(
+								take(1),
+								filter((result) => Boolean(result)),
+								switchMap((order) =>
+									this._ordersService.cancelOrder(order.id).pipe(map((result) => result.data?.cancelOrder))
+								)
+						  )
+						: type === OrderTypeEnum.InPlace
+						? of(type)
+						: this._ordersService.productsToOrders$.pipe(
+								take(1),
+								switchMap((productsToOrder) =>
+									this._ordersService
+										.createOrder({
+											type,
+											place: this._routerService.getParams(PLACE_ID.slice(1)),
+											productsToOrder: productsToOrder.map((productToOrder) => ({
+												productId: productToOrder.productId,
+												count: productToOrder.count,
+												attributesIds: productToOrder.attributesIds
+											}))
+										})
+										.pipe(map((result) => result.data?.createOrder))
+								)
+						  )
 				),
 				take(1)
 			)
 			.subscribe(async (result) => {
-				if (!result || typeof result === "boolean" || typeof result === "string") {
+				if (result === OrderTypeEnum.InPlace) {
+					await this._routerService.navigateByUrl(
+						routerLink.replace(PLACE_ID, this._routerService.getParams(PLACE_ID.slice(1)))
+					);
+					return;
+				}
+
+				if (typeof result === "string" || !result?.id) {
+					this._ordersService.setActiveOrderId(undefined);
+					this._ordersService.setProductsToOrders([]);
 					return;
 				}
 

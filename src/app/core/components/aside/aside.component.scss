@@ -181,6 +181,11 @@
 			.sign-out {
 				background-color: var(--dark);
 				.icon {
+					@include icon () {
+						path {
+							fill: var(--light);
+						}
+					}
 				}
 			}
 		}
@@ -191,6 +196,11 @@
 					color: var(--light);
 				}
 				.icon {
+					@include icon () {
+						path {
+							fill: var(--light);
+						}
+					}
 				}
 				&.disabled {
 					span {
