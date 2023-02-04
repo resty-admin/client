@@ -7,15 +7,20 @@
 			align-items: center;
 			background-color: var(--light);
 			border-radius: rem(50);
-
 			&.add {
 				background-color: var(--primary);
+				.icon {
+					@include icon () {
+						path {
+							stroke: var(--dark);
+						}
+					}
+				}
 				.count,
 				.minus {
 					display: none;
 				}
 			}
-
 			.count,
 			.button {
 				display: flex;
@@ -44,7 +49,6 @@
 			align-items: center;
 			background-color: var(--light-grey);
 			border-radius: rem(50);
-
 			&.add {
 				background-color: var(--primary);
 				.count,
@@ -52,7 +56,6 @@
 					display: none;
 				}
 			}
-
 			.count,
 			.button {
 				display: flex;
@@ -80,5 +83,49 @@
 }
 @include dark() {
 	.app-counter.theme-1 {
+		background-color: var(--dark);
+		&.add {
+			background-color: var(--primary);
+			.button .icon {
+				@include icon () {
+					path {
+						stroke: var(--dark);
+					}
+				}
+			}
+		}
+		.count {
+			color: var(--light);
+		}
+		.button .icon {
+			@include icon () {
+				path {
+					stroke: var(--light);
+				}
+			}
+		}
+	}
+	.app-counter.theme-2 {
+		background-color: var(--dark-grey);
+		&.add {
+			background-color: var(--primary);
+			.button .icon {
+				@include icon () {
+					path {
+						stroke: var(--dark);
+					}
+				}
+			}
+		}
+		.count {
+			color: var(--light);
+		}
+		.button .icon {
+			@include icon () {
+				path {
+					stroke: var(--light);
+				}
+			}
+		}
 	}
 }

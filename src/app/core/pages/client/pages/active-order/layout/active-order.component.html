@@ -1,10 +1,10 @@
-<ng-container *transloco="let t; read: activeOrderPage">
+<ng-container *transloco="let t">
 	<div class="active-order" *ngIf="activeOrder$ | async as activeOrder">
 		<button *ngIf="activeOrder.type === 'IN_PLACE'" class="bell" (click)="openCommandsDialog(activeOrder)">
 			<app-icon class="icon" name="bell"></app-icon>
 		</button>
 
-		<app-order-info class="order-info" [order]="activeOrder"></app-order-info>
+		<app-order-info class="order-info" [order]="activeOrder" (dateClicked)="openIosDatepicker($event)"></app-order-info>
 
 		<div class="products">
 			<app-users-select
@@ -27,14 +27,14 @@
 			class="close-order"
 			(click)="isAllPaid ? openCloseConfirmation(activeOrder) : openCancelConfirmation(activeOrder)"
 		>
-			{{ isAllPaid ? "Закрыть заказ" : "Отменить заказ" }}
+			{{ isAllPaid ? t("ACTIVE_ORDER.CLOSE_ORDER") : t("ACTIVE_ORDER.CANCEL_ORDER") }}
 		</button>
 	</div>
-</ng-container>
 
-<ng-template #noProductsToOrders>
-	<div class="no-products-to-orders">
-		<app-image class="image" name="active-order"></app-image>
-		<p class="title">В этом заказе еще нет добавленных блюд</p>
-	</div>
-</ng-template>
+	<ng-template #noProductsToOrders>
+		<div class="no-products-to-orders">
+			<app-image class="image" name="active-order"></app-image>
+			<p class="title">{{ t("ACTIVE_ORDER.NOT_ORDERS") }}</p>
+		</div>
+	</ng-template>
+</ng-container>

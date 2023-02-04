@@ -8,7 +8,6 @@ import { TypographyModule } from "@shared/ui/typography";
 
 import { TABLES_COMPONENTS } from "./components";
 import { TablesComponent } from "./layout/tables.component";
-import { TABLES_PROVIDERS } from "./providers";
 import { TablesRoutingModule } from "./tables-routing.module";
 
 @NgModule({
@@ -21,7 +20,6 @@ import { TablesRoutingModule } from "./tables-routing.module";
 		PreviewTableModule,
 		PreviewTableSkeletonModule,
 		SkeletonModule
-	],
-	providers: TABLES_PROVIDERS
+	]
 })
 export class TablesModule {}

@@ -1,14 +1,14 @@
-<div class="order-info" *transloco="let t; read: orderInfo">
-	<p class="table-status" *ngIf="tableStatus">{{ t(tableStatus) }}</p>
+<div class="order-info" *transloco="let t">
+	<p class="table-status" *ngIf="tableStatus">{{ t("ORDER_INFO." + tableStatus) }}</p>
 
 	<ul class="links">
 		<li class="table" *ngIf="tableInfo">
-			<span class="name">{{ t("table") }} </span>
+			<span class="name">{{ t("ORDER_INFO.TABLE") }} </span>
 			<a class="link" [routerLink]="tableLink">{{ tableInfo }}</a>
 		</li>
 		<li class="date" *ngIf="dateInfo">
-			<span class="name">{{ t("date") }} </span>
-			<a class="link" [routerLink]="tableLink">{{ dateInfo }}</a>
+			<span class="name">{{ t("ORDER_INFO.DATE") }} </span>
+			<button class="link" (click)="emitDateClicked(dateInfo)">{{ dateInfo }}</button>
 		</li>
 	</ul>
 </div>

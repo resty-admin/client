@@ -1,23 +1,20 @@
 import { Injectable } from "@angular/core";
-import type { Resolve } from "@angular/router";
-import { OrdersService } from "@features/orders";
-import { filter, map, switchMap } from "rxjs";
+import type { ActivatedRouteSnapshot, Resolve } from "@angular/router";
+import { ORDER_ID } from "@shared/constants";
 
-import type { ReferralLinkPageQuery } from "../../graphql";
 import { ReferralLinkPageGQL } from "../../graphql";
 
 @Injectable({ providedIn: "root" })
-export class ReferralLinkPageResolver implements Resolve<ReferralLinkPageQuery["order"]> {
-	constructor(
-		private readonly _referralLinkPageGQL: ReferralLinkPageGQL,
-		private readonly _ordersService: OrdersService
-	) {}
+export class ReferralLinkPageResolver implements Resolve<unknown> {
+	constructor(private readonly _referralLinkPageGQL: ReferralLinkPageGQL) {}
 
-	resolve() {
-		return this._ordersService.activeOrderId$.pipe(
-			filter((orderId) => Boolean(orderId)),
-			switchMap((orderId) => this._referralLinkPageGQL.fetch({ orderId: orderId! })),
-			map((result) => result.data.order)
-		);
+	resolve(activatedRouteSnapshot: ActivatedRouteSnapshot) {
+		const orderId = activatedRouteSnapshot.paramMap.get(ORDER_ID.slice(1));
+
+		if (!orderId) {
+			return;
+		}
+
+		return this._referralLinkPageGQL.fetch({ orderId });
 	}
 }

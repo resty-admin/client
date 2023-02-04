@@ -10,17 +10,8 @@ import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
 import { filter, map, switchMap, take, tap } from "rxjs";
 
-import { CONFIRM_PRODUCTS_PAGE } from "../constants";
-import { ConfirmProductsPageService } from "../services";
-//
-// map((productsToOrders) =>
-// 	(this.products || [])
-// 		.map((product) => ({
-// 			...product,
-// 			productsToOrders: productsToOrders.filter((productToOrder) => productToOrder.productId === product.id)
-// 		}))
-// 		.filter((product) => product.productsToOrders.length)
-// )
+import { ConfirmProductsPageGQL } from "../graphql";
+
 @UntilDestroy()
 @Component({
 	selector: "app-confirm-products",
@@ -29,32 +20,43 @@ import { ConfirmProductsPageService } from "../services";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConfirmProductsComponent implements OnInit, OnDestroy {
-	readonly confirmProductsPage = CONFIRM_PRODUCTS_PAGE;
-
-	readonly products$ = this._confirmProductsPageService.confirmProductsPageQuery.valueChanges.pipe(
-		map((result) => result.data.products.data as any)
+	private readonly _confirmProductsPageQuery = this._confirmProductsPageGQL.watch();
+	readonly products$ = this._confirmProductsPageQuery.valueChanges.pipe(
+		map((result) => result.data.products.data),
+		switchMap((products) =>
+			this._ordersService.productsToOrders$.pipe(
+				map((productsToOrders) =>
+					(products || []).map((product: any) => ({
+						...product,
+						productsToOrders: productsToOrders.filter((productToOrder) => productToOrder.productId === product.id)
+					}))
+				)
+			)
+		)
 	);
 
 	constructor(
 		readonly sharedService: SharedService,
-		private readonly _confirmProductsPageService: ConfirmProductsPageService,
+		private readonly _confirmProductsPageGQL: ConfirmProductsPageGQL,
 		private readonly _routerService: RouterService,
 		private readonly _actionsService: ActionsService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _ordersService: OrdersService
 	) {}
 
-	ngOnInit() {
+	async ngOnInit() {
+		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
+		await this._confirmProductsPageQuery.setVariables({
+			filtersArgs: [{ key: "category.place.id", operator: "=", value: placeId }]
+		});
+
 		this._breadcrumbsService.setBreadcrumb({
-			routerLink: CLIENT_ROUTES.CATEGORIES.absolutePath.replace(
-				PLACE_ID,
-				this._routerService.getParams(PLACE_ID.slice(1))
-			)
+			routerLink: CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, placeId)
 		});
 
 		this._ordersService.productsToOrders$.pipe(untilDestroyed(this)).subscribe((productsToOrder) => {
 			this._actionsService.setAction({
-				label: "Подтвердить",
+				label: "CONFIRM",
 				disabled: productsToOrder.length === 0,
 				func: () => {
 					this._ordersService.activeOrderId$
@@ -75,7 +77,9 @@ export class ConfirmProductsComponent implements OnInit, OnDestroy {
 							switchMap((orderId) =>
 								this._ordersService.confirmProductsToOrders(
 									(productsToOrder || []).map((productToOrder) => ({
-										...productToOrder,
+										productId: productToOrder.productId,
+										attributesIds: productToOrder.attributesIds,
+										count: productToOrder.count,
 										orderId: orderId!
 									}))
 								)

@@ -3,7 +3,6 @@ import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
 import { CLIENT_ROUTES as _SHARED_CLIENT_ROUTES } from "@shared/constants";
 
-import { CLIENT_PAGE } from "./constants";
 import { ClientComponent } from "./layout/client.component";
 
 export const CLIENT_ROUTES: Route[] = [
@@ -11,7 +10,7 @@ export const CLIENT_ROUTES: Route[] = [
 		path: "",
 		component: ClientComponent,
 		data: {
-			animation: CLIENT_PAGE
+			animation: "clientPage"
 		},
 		children: [
 			{
@@ -109,10 +108,6 @@ export const CLIENT_ROUTES: Route[] = [
 			{
 				..._SHARED_CLIENT_ROUTES.HALL,
 				redirectTo: _SHARED_CLIENT_ROUTES.TABLES.path
-			},
-			{
-				..._SHARED_CLIENT_ROUTES.WELCOME,
-				loadChildren: () => import("./pages/welcome/welcome.module").then((m) => m.WelcomeModule)
 			},
 			{
 				path: "**",

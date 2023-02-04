@@ -10,7 +10,6 @@ import { CLIENT_ROUTES } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { SharedService } from "@shared/services";
 
-import { HISTORY_ORDER_PAGE } from "../constants";
 import type { HistoryOrderPageQuery } from "../graphql";
 
 //
@@ -25,7 +24,6 @@ import type { HistoryOrderPageQuery } from "../graphql";
 export class HistoryOrderComponent implements OnInit, OnDestroy {
 	readonly displayStatuses = [ProductToOrderStatusEnum.WaitingForApprove, ProductToOrderStatusEnum.Approved];
 	readonly placeId = PLACE_ID;
-	readonly historyOrderPage = HISTORY_ORDER_PAGE;
 	readonly clientRoutes = CLIENT_ROUTES;
 	readonly usersControl = new FormControl([]);
 	order: HistoryOrderPageQuery["order"] | null = null;

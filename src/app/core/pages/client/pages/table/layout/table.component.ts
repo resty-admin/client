@@ -14,11 +14,10 @@ import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import { BehaviorSubject, catchError, filter, map, of, shareReplay, switchMap, take, tap } from "rxjs";
 
-import { TABLE_PAGE } from "../constants";
 import type { TablePageQuery } from "../graphql";
 import { IsTableAvailableForReserveGQL, TablePageOrderGQL } from "../graphql";
 
-export type IValidationStatus = "invalid" | "loading" | "valid";
+export type IValidationStatus = "INVALID" | "LOADING" | "VALID";
 
 @UntilDestroy()
 @Component({
@@ -28,7 +27,6 @@ export type IValidationStatus = "invalid" | "loading" | "valid";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableComponent implements OnInit, OnDestroy {
-	readonly tablePage = TABLE_PAGE;
 	table: TablePageQuery["table"] | null = null;
 	private readonly _dateSubject = new BehaviorSubject<Dayjs | undefined>(undefined);
 	readonly date$ = this._dateSubject.asObservable().pipe(shareReplay({ refCount: true }));
@@ -39,7 +37,7 @@ export class TableComponent implements OnInit, OnDestroy {
 		map((result) => result.data.order)
 	);
 
-	validationStatus?: "invalid" | "loading" | "valid";
+	validationStatus?: "INVALID" | "LOADING" | "VALID";
 
 	startDate?: Dayjs;
 
@@ -68,7 +66,7 @@ export class TableComponent implements OnInit, OnDestroy {
 			.pipe(
 				filter((date) => Boolean(date) && !dayjs(date).isSame(this.startDate)),
 				tap(() => {
-					this.changeValidationStatus("loading");
+					this.changeValidationStatus("LOADING");
 				}),
 				switchMap((date) =>
 					this._isTableAvailableForReserveGQL.watch({ body: { date: date?.format(), tableId } }).valueChanges.pipe(
@@ -79,7 +77,7 @@ export class TableComponent implements OnInit, OnDestroy {
 				)
 			)
 			.subscribe((isValid) => {
-				this.changeValidationStatus(isValid ? "valid" : "invalid");
+				this.changeValidationStatus(isValid ? "VALID" : "INVALID");
 			});
 
 		this.setAction();
@@ -122,8 +120,8 @@ export class TableComponent implements OnInit, OnDestroy {
 		}
 
 		this._actionsService.setAction({
-			label: "Подтвердить",
-			disabled: !this._dateSubject.getValue() || this.validationStatus !== "valid",
+			label: "CONFIRM",
+			disabled: !this._dateSubject.getValue() || this.validationStatus !== "VALID",
 			func: async () => {
 				this._ordersService.activeOrderId$
 					.pipe(take(1))

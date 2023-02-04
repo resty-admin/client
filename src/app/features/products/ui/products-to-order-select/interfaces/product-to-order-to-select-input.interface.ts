@@ -12,5 +12,6 @@ export interface IProductToOrderToSelectInput {
 	product: {
 		name: ProductEntity["name"];
 		price: ProductEntity["price"];
+		file?: ProductEntity["file"];
 	};
 }

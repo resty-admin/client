@@ -10,7 +10,6 @@ import { TypographyModule } from "@shared/ui/typography";
 
 import { REFERRAL_LINK_COMPONENTS } from "./components";
 import { ReferralLinkComponent } from "./layout/referral-link.component";
-import { REFERRAL_LINK_PROVIDERS } from "./providers";
 import { ReferralLinkRoutingModule } from "./referral-link-routing.module";
 
 @NgModule({
@@ -25,7 +24,6 @@ import { ReferralLinkRoutingModule } from "./referral-link-routing.module";
 		ButtonModule,
 		ClipboardModule,
 		I18nModule
-	],
-	providers: REFERRAL_LINK_PROVIDERS
+	]
 })
 export class ReferralLinkModule {}

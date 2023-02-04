@@ -1,5 +1,5 @@
-<div class="create-order" *transloco="let t; read: createOrderPage">
-	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
+<div class="create-order" *transloco="let t">
+	<h1 appTypography theme="1" class="title">{{ t("CREATE_ORDER.TITLE") }}</h1>
 
 	<ul class="order-types">
 		<li
@@ -8,7 +8,7 @@
 		>
 			<button class="link" (click)="createOrder(orderType)" [disabled]="orderType.disabled">
 				<app-image class="image" [name]="orderType.image"></app-image>
-				<span class="label">{{ t(orderType.label) }}</span>
+				<span class="label">{{ t("CREATE_ORDER." + orderType.label) }}</span>
 			</button>
 		</li>
 	</ul>
@@ -17,12 +17,12 @@
 		<a class="link schema" [routerLink]="schemaRouterLink">
 			<app-image class="image" name="schema-decoration"></app-image>
 			<app-icon class="icon" name="home-smile"></app-icon>
-			<span class="label">{{ t("schema") }}</span>
+			<span class="label">{{ t("CREATE_ORDER.SCHEMA") }}</span>
 		</a>
 		<a class="link menu" [routerLink]="menuRouterLink">
 			<app-image class="image" name="menu-decoration"></app-image>
 			<app-icon class="icon" name="menu"></app-icon>
-			<span class="label">{{ t("menu") }}</span>
+			<span class="label">{{ t("CREATE_ORDER.MENU") }}</span>
 		</a>
 	</div>
 </div>

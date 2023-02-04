@@ -1,5 +1,5 @@
-<div class="all-orders-page" *transloco="let t; read: historyOrdersPage">
-	<h1 appTypography theme="1" class="title">{{ t("history") }}</h1>
+<div class="all-orders-page" *transloco="let t">
+	<h1 appTypography theme="1" class="title">{{ t("HISTORY_ORDERS.TITLE") }}</h1>
 
 	<ng-container *ngIf="historyOrders$ | async as historyOrders; else noOrders">
 		<ul class="history-orders" *ngIf="historyOrders.length; else noOrders">
@@ -10,11 +10,11 @@
 			</li>
 		</ul>
 	</ng-container>
-</div>
 
-<ng-template #noOrders>
-	<div class="not-orders">
-		<app-image name="active-orders" class="image"></app-image>
-		<p class="text">У вас пока нет завершенных заказов</p>
-	</div>
-</ng-template>
+	<ng-template #noOrders>
+		<div class="not-orders">
+			<app-image name="active-orders" class="image"></app-image>
+			<p class="text">{{ t("HISTORY_ORDERS.NOT_ORDERS") }}</p>
+		</div>
+	</ng-template>
+</div>

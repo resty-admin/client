@@ -7,11 +7,11 @@ import { ImageModule } from "@shared/ui/image";
 import { InputModule } from "@shared/ui/input";
 import { LanguageSelectModule } from "@shared/ui/language-select";
 import { LinkModule } from "@shared/ui/link";
+import { ThemeToggleModule } from "@shared/ui/theme-toggle";
 import { TypographyModule } from "@shared/ui/typography";
 
 import { ProfileComponent } from "./layout/profile.component";
 import { ProfileRoutingModule } from "./profile-routing.module";
-import { PROFILE_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [ProfileComponent],
@@ -25,8 +25,8 @@ import { PROFILE_PROVIDERS } from "./providers";
 		I18nModule,
 		LanguageSelectModule,
 		ThemeModule,
-		ReactiveFormsModule
-	],
-	providers: PROFILE_PROVIDERS
+		ReactiveFormsModule,
+		ThemeToggleModule
+	]
 })
 export class ProfileModule {}

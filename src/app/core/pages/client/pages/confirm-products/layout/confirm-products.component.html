@@ -1,5 +1,5 @@
-<div class="products-page" *transloco="let t; read: confirmProductsPage">
-	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
+<div class="products-page" *transloco="let t">
+	<h1 appTypography theme="1" class="title">{{ t("CONFIRM_PRODUCTS.TITLE") }}</h1>
 	<ul class="products">
 		<li class="product" *ngFor="let product of products$ | async; trackBy: sharedService.trackByFn">
 			<app-confirm-product

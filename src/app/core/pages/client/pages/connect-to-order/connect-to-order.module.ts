@@ -10,7 +10,6 @@ import { TypographyModule } from "@shared/ui/typography";
 
 import { ConnectToOrderRoutingModule } from "./connect-to-order-routing.module";
 import { ConnectToOrderComponent } from "./layout/connect-to-order.component";
-import { CONNECT_TO_ORDER_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [ConnectToOrderComponent],
@@ -24,7 +23,6 @@ import { CONNECT_TO_ORDER_PROVIDERS } from "./providers";
 		ReactiveFormsModule,
 		I18nModule,
 		CodeInputModule
-	],
-	providers: CONNECT_TO_ORDER_PROVIDERS
+	]
 })
 export class ConnectToOrderModule {}

@@ -1,16 +1,16 @@
-<ng-container *transloco="let t; read: tablePage">
+<ng-container *transloco="let t">
 	<div class="table" *ngIf="table">
 		<app-image class="image" [remote]="true" [name]="table.file?.url" placeholder="table"></app-image>
 
 		<div class="content">
-			<p class="label">{{ t("code") }} {{ table.code }}</p>
-			<p [class]="'status' + ' ' + validationStatus">{{ validationStatus ? t(validationStatus) : "" }}</p>
+			<p class="label">{{ t("TABLE.CODE") }} {{ table.code }}</p>
+			<p [class]="'status' + ' ' + validationStatus">{{ validationStatus ? t("TABLES." + validationStatus) : "" }}</p>
 
 			<app-input
 				appStopPropagation
 				class="datepicker"
-				label="Дата"
-				placeholder="Кликните что бы выбрать"
+				[label]="t('FORM.DATE_LABEL')"
+				[placeholder]="t('FORM.DATE_PLACEHOLDER')"
 				[value]="(date$ | async)?.format()"
 				[readonly]="true"
 				(click)="openIosDatepicker()"

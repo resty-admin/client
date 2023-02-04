@@ -8,7 +8,7 @@ import { ProductsToOrderSelectModule, ProductToOrderModule } from "@features/pro
 import { ProductsToOrderSelectSkeletonModule } from "@features/products/ui/products-to-order-select-skeleton";
 import { PreviewTableModule } from "@features/tables";
 import { UsersSelectModule, UsersSelectSkeletonModule } from "@features/users";
-import { TranslocoModule } from "@shared/modules/i18n";
+import { I18nModule } from "@shared/modules/i18n";
 import { ButtonModule } from "@shared/ui/button";
 import { IconModule } from "@shared/ui/icon";
 import { ImageModule } from "@shared/ui/image";
@@ -17,7 +17,6 @@ import { TypographyModule } from "@shared/ui/typography";
 import { ActiveOrderRoutingModule } from "./active-order-routing.module";
 import { ACTIVE_ORDER_COMPONENTS } from "./components";
 import { ActiveOrderComponent } from "./layout/active-order.component";
-import { ACTIVE_ORDER_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [ActiveOrderComponent, ...ACTIVE_ORDER_COMPONENTS],
@@ -27,7 +26,7 @@ import { ACTIVE_ORDER_PROVIDERS } from "./providers";
 		TypographyModule,
 		ButtonModule,
 		IconModule,
-		TranslocoModule,
+		I18nModule,
 		ReactiveFormsModule,
 		ProductToOrderModule,
 		UsersSelectModule,
@@ -42,7 +41,6 @@ import { ACTIVE_ORDER_PROVIDERS } from "./providers";
 		UsersSelectSkeletonModule,
 		ProductsToOrderSelectSkeletonModule
 	],
-	exports: [ActiveOrderComponent],
-	providers: ACTIVE_ORDER_PROVIDERS
+	exports: [ActiveOrderComponent]
 })
 export class ActiveOrderModule {}

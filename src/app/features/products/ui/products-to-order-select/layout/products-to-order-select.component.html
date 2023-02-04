@@ -1,4 +1,4 @@
-<ul class="products-to-order-select" *transloco="let t; read: productsToOrderSelect">
+<ul class="products-to-order-select" *transloco="let t">
 	<li
 		class="products-to-orders-by-status"
 		*ngFor="
@@ -6,7 +6,7 @@
 			trackBy: sharedService.trackByFn
 		"
 	>
-		<p class="status">{{ t(productToOrderWithSelectedByStatus.status) }}</p>
+		<p class="status">{{ t("ORDER." + productToOrderWithSelectedByStatus.status) }}</p>
 		<ul class="products-to-orders">
 			<li
 				class="product-to-order"

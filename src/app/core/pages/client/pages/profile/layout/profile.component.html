@@ -1,11 +1,15 @@
-<ng-container *transloco="let t; read: profilePage">
+<ng-container *transloco="let t">
 	<div class="profile-page" *ngIf="user$ | async as user">
 		<div class="header">
-			<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
+			<h1 appTypography theme="1" class="title">{{ t("PROFILE.TITLE") }}</h1>
 
 			<div class="tools">
-				<app-language-select class="language"></app-language-select>
-				<app-theme class="theme"></app-theme>
+				<app-language-select
+					class="language"
+					[value]="language$ | async"
+					(valueChange)="changeLanguage($event)"
+				></app-language-select>
+				<app-theme-toggle class="theme" [value]="theme$ | async" (valueChange)="changeTheme($event)"></app-theme-toggle>
 			</div>
 		</div>
 		<div class="info">
@@ -13,32 +17,32 @@
 			<p class="role">{{ user.role }}</p>
 		</div>
 
-		<form *transloco="let f; read: form" class="form" [formGroup]="formGroup">
+		<form class="form" [formGroup]="formGroup">
 			<app-input
 				class="input name"
 				theme="2"
 				formControlName="name"
-				[label]="f('name_label')"
-				[placeholder]="f('name_placeholder')"
+				[label]="t('FORM.NAME_LABEL')"
+				[placeholder]="t('FORM.NAME_PLACEHOLDER')"
 			></app-input>
 			<app-input
 				class="input tel"
 				theme="2"
 				formControlName="tel"
-				[label]="f('tel_label')"
-				[placeholder]="f('tel_placeholder')"
+				[label]="t('FORM.TEL_LABEL')"
+				[placeholder]="t('FORM.TEL_PLACEHOLDER')"
 			></app-input>
 			<app-input
 				class="input email"
 				theme="2"
 				formControlName="email"
-				[label]="f('email_label')"
-				[placeholder]="f('email_placeholder')"
+				[label]="t('FORM.EMAIL_LABEL')"
+				[placeholder]="t('FORM.EMAIL_PLACEHOLDER')"
 			></app-input>
 
 			<app-image class="image" name="manager"></app-image>
 		</form>
 
-		<button class="delete" (click)="deleteMe()">{{ t("delete_profile") }}</button>
+		<button class="delete" (click)="deleteMe()">{{ t("PROFILE.DELETE_ORDER") }}</button>
 	</div>
 </ng-container>

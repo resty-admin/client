@@ -1,5 +1,5 @@
-query HistoryOrdersPage($skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) {
-	historyOrders(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
+query HistoryOrdersPage($placeId: String!, $skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) {
+	historyOrders(placeId: $placeId, skip: $skip, take: $take, filtersArgs: $filtersArgs) {
 		data {
 			id
 			totalPrice

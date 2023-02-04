@@ -75,16 +75,14 @@
 @include dark() {
 	.preview-product {
 		background-color: var(--dark-grey);
-		.content {
-			.description {
-				color: var(--light-t);
-			}
-			.name {
-				color: var(--light);
-			}
-			.cal {
-				color: var(--light-t);
-			}
+		.description {
+			color: var(--light-t);
+		}
+		.name {
+			color: var(--light);
+		}
+		.cal {
+			color: var(--light-t);
 		}
 	}
 }

@@ -2,7 +2,6 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 
-import { CLOSE_CONFIRMATION } from "../constants";
 import type { ICloseConfirmationInput } from "../interfaces";
 
 @Component({
@@ -12,7 +11,6 @@ import type { ICloseConfirmationInput } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CloseConfirmationComponent<T extends ICloseConfirmationInput> implements OnInit {
-	readonly closeConfirmation = CLOSE_CONFIRMATION;
 	data!: ICloseConfirmationInput;
 	constructor(private readonly _dialogRef: DialogRef<T>) {}
 

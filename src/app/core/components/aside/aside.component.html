@@ -1,0 +1,37 @@
+<aside class="aside" *transloco="let t">
+	<a class="user" [routerLink]="clientRoutes.PROFILE.absolutePath" (click)="emitCloseClick()" *ngIf="user">
+		<div class="image">{{ user.name | initials }}</div>
+		<p class="name">{{ user.name }}</p>
+		<p class="description">{{ t("PROFILE.DESCRIPTION") }}</p>
+
+		<button appStopPropagation class="sign-out" (click)="emitSignOutClick()">
+			<app-icon class="icon" name="exit"></app-icon>
+		</button>
+	</a>
+
+	<app-active-order class="active-order" [activeOrder]="activeOrder"></app-active-order>
+
+	<nav class="nav">
+		<ul class="pages">
+			<li class="page" *ngFor="let page of pages; trackBy: sharedService.trackByFn">
+				<a
+					appLink
+					routerLinkActive="active"
+					theme="0"
+					class="link"
+					(click)="emitCloseClick()"
+					[routerLink]="page.routerLink"
+				>
+					<app-icon class="icon" [name]="page.icon"></app-icon>
+					<span class="label">{{ t("ASIDE." + page.label) }}</span>
+				</a>
+			</li>
+		</ul>
+	</nav>
+
+	<div class="support">
+		<app-icon class="icon" name="support"></app-icon>
+		<p class="label">{{ t("ASIDE.SUPPORT") }}</p>
+		<p class="tel">+38 095 748 98 45</p>
+	</div>
+</aside>

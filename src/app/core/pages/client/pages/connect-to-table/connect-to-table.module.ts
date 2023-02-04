@@ -10,7 +10,6 @@ import { TypographyModule } from "@shared/ui/typography";
 
 import { ConnectToTableRoutingModule } from "./connect-to-table-routing.module";
 import { ConnectToTableComponent } from "./layout/connect-to-table.component";
-import { CONNECT_TO_TABLE_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [ConnectToTableComponent],
@@ -24,7 +23,6 @@ import { CONNECT_TO_TABLE_PROVIDERS } from "./providers";
 		ReactiveFormsModule,
 		I18nModule,
 		CodeInputModule
-	],
-	providers: CONNECT_TO_TABLE_PROVIDERS
+	]
 })
 export class ConnectToTableModule {}

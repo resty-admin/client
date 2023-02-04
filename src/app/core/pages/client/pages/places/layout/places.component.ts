@@ -7,8 +7,7 @@ import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
 import { map } from "rxjs";
 
-import { PLACES_PAGE } from "../constants";
-import { PlacesPageService } from "../services";
+import { PlacesPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-places",
@@ -17,22 +16,20 @@ import { PlacesPageService } from "../services";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlacesComponent implements OnInit, OnDestroy {
-	readonly placesPage = PLACES_PAGE;
-	readonly places$ = this._placesPageService.placesPageQuery.valueChanges.pipe(
-		map((result) => result.data.places.data)
-	);
+	private readonly _placesPageQuery = this._placesPageGQL.watch();
+	readonly places$ = this._placesPageQuery.valueChanges.pipe(map((result) => result.data.places.data));
 
 	constructor(
 		readonly sharedService: SharedService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _actionsService: ActionsService,
 		private readonly _routerService: RouterService,
-		private readonly _placesPageService: PlacesPageService
+		private readonly _placesPageGQL: PlacesPageGQL
 	) {}
 
 	ngOnInit() {
 		this._actionsService.setAction({
-			label: "Подключиться к заказу",
+			label: "CONNECT_TO_ORDER",
 			func: () => this._routerService.navigateByUrl(CLIENT_ROUTES.CONNECT_TO_ORDER.absolutePath)
 		});
 

@@ -32,13 +32,13 @@
 				font-size: rem(14);
 				line-height: rem(24);
 				text-align: right;
-				&.valid {
+				&.VALID {
 					color: var(--success);
 				}
-				&.invalid {
+				&.INVALID {
 					color: var(--danger);
 				}
-				&.loading {
+				&.LOADING {
 					color: var(--primary);
 				}
 			}
@@ -80,7 +80,7 @@
 	}
 }
 @include dark() {
-	.table-page .content {
+	.table .content {
 		.description,
 		.code,
 		.label {

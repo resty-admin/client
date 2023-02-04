@@ -9,8 +9,7 @@ import { RouterService } from "@shared/modules/router";
 import { DialogService } from "@shared/ui/dialog";
 import { filter, map, switchMap, take } from "rxjs";
 
-import { PAYMENT_STATUS_PAGE } from "../constants";
-import { PaymentStatusPageService } from "../services";
+import { PaymentStatusPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-payment-status",
@@ -19,31 +18,31 @@ import { PaymentStatusPageService } from "../services";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaymentStatusComponent implements OnInit, OnDestroy {
-	readonly paymentStatusPage = PAYMENT_STATUS_PAGE;
 	paymentStatus: PaymentStatus = PaymentStatus.SUCCESS;
-	order$ = this._paymentStatusPageService.paymentStatusPageQuery.valueChanges.pipe(map((result) => result.data.order));
+
+	private readonly _paymentStatusPageQuery = this._paymentStatusPageGQL.watch();
+	order$ = this._paymentStatusPageQuery.valueChanges.pipe(map((result) => result.data.order));
 
 	isAllPaid = false;
 
 	constructor(
-		private readonly _paymentStatusPageService: PaymentStatusPageService,
+		private readonly _paymentStatusPageGQL: PaymentStatusPageGQL,
 		private readonly _ordersService: OrdersService,
 		private readonly _routerService: RouterService,
 		private readonly _actionsService: ActionsService,
 		private readonly _dialogService: DialogService
 	) {}
 
-	ngOnInit() {
+	async ngOnInit() {
+		const orderId = this._routerService.getParams(ORDER_ID.slice(1));
+		await this._paymentStatusPageQuery.setVariables({ orderId });
 		// this.isAllPaid = (this.order?.productsToOrders || []).every(
 		// 	(productToOrder) => productToOrder.paidStatus === ProductToOrderPaidStatusEnum.Paid
 		// );
 
 		this._actionsService.setAction({
-			label: "Вернуться в заказ",
-			func: () =>
-				this._routerService.navigateByUrl(
-					CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, this._routerService.getParams(ORDER_ID.slice(1)))
-				)
+			label: "BACK_TO_ORDER",
+			func: () => this._routerService.navigateByUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, orderId))
 		});
 	}
 

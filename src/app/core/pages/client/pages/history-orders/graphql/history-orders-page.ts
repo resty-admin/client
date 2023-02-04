@@ -4,6 +4,7 @@ import * as Apollo from "apollo-angular";
 
 import type * as Types from "../../../../../../../graphql";
 export type HistoryOrdersPageQueryVariables = Types.Exact<{
+	placeId: Types.Scalars["String"];
 	skip?: Types.InputMaybe<Types.Scalars["Int"]>;
 	take?: Types.InputMaybe<Types.Scalars["Int"]>;
 	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
@@ -29,8 +30,8 @@ export interface HistoryOrdersPageQuery {
 }
 
 export const HistoryOrdersPageDocument = gql`
-	query HistoryOrdersPage($skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) {
-		historyOrders(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
+	query HistoryOrdersPage($placeId: String!, $skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) {
+		historyOrders(placeId: $placeId, skip: $skip, take: $take, filtersArgs: $filtersArgs) {
 			data {
 				id
 				totalPrice

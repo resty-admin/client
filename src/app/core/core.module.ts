@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { JwtModule } from "@auth0/angular-jwt";
+import { AUTH_PROVIDERS } from "@features/auth";
 import { ActiveOrderModule } from "@features/orders";
 import { BasketModule } from "@features/orders/ui/basket";
 import { ApiModule } from "@shared/modules/api";
@@ -43,13 +44,13 @@ import {
 	IMAGE_CONFIG,
 	JWT_CONFIG,
 	SELECT_CONFIG,
+	SKELETON_LOADER,
 	SOCKET_IO_CONFIG,
 	THEME_CONFIG,
 	TOASTR_CONFIG
 } from "./configs";
 import { CoreRoutingModule } from "./core-routing.module";
 import { CoreComponent } from "./layout/core.component";
-import { CORE_PAGE_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [CoreComponent, ...CORE_COMPONENTS],
@@ -70,7 +71,7 @@ import { CORE_PAGE_PROVIDERS } from "./providers";
 		CryptoModule.forRoot(CRYPTO_CONFIG),
 		ToastrModule.forRoot(TOASTR_CONFIG),
 		ErrorsModule.forRoot(ERRORS_CONFIG),
-		NgxSkeletonLoaderModule.forRoot({ animation: "progress" }),
+		NgxSkeletonLoaderModule.forRoot(SKELETON_LOADER),
 		SelectModule.forRoot(SELECT_CONFIG),
 		TooltipModule.forRoot(),
 		CodeInputModule.forRoot(CODE_INPUT_CONFIG),
@@ -85,7 +86,7 @@ import { CORE_PAGE_PROVIDERS } from "./providers";
 		ActionsModule,
 		BasketModule
 	],
-	providers: CORE_PAGE_PROVIDERS,
+	providers: AUTH_PROVIDERS,
 	exports: [CoreComponent]
 })
 export class CoreModule {}

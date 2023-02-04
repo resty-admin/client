@@ -38,4 +38,18 @@
 	}
 }
 @include dark() {
+	.order-info {
+		.table-status {
+			color: var(--light);
+		}
+		.links {
+			.date,
+			.table {
+				background-color: var(--dark);
+				.name {
+					color: var(--light);
+				}
+			}
+		}
+	}
 }

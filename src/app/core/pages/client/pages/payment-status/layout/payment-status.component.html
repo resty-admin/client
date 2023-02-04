@@ -1,10 +1,10 @@
-<div class="payment-status" *transloco="let t; read: paymentStatusPage">
+<div class="payment-status" *transloco="let t">
 	<app-image class="image" [name]="'payment-' + paymentStatus"></app-image>
 
-	<h1 [class]="'title' + ' ' + paymentStatus">{{ t(paymentStatus + "_title") }}</h1>
-	<h1 class="subtitle">{{ t(paymentStatus + "_subtitle") }}</h1>
+	<h1 [class]="'title' + ' ' + paymentStatus">{{ t("PAYMENT_STATUS." + paymentStatus + "_TITLE") }}</h1>
+	<h1 class="subtitle">{{ t("PAYMENT_STATUS." + paymentStatus + "_SUBTITLE") }}</h1>
 
 	<button class="close-order" appButton theme="2" *ngIf="isAllPaid" (click)="openCloseConfirmation()">
-		Закрыть заказ
+		{{ t("PAYMENT_STATUS.TITLE") }}
 	</button>
 </div>
