@@ -106,16 +106,16 @@
 					width: rem(18);
 					height: rem(18);
 
-					@include icon () {
+					@include icon() {
 						path {
-							fill: var(--light);
+							fill: var(--dark);
 						}
 					}
 				}
 
 				&.menu {
 					.icon {
-						@include icon () {
+						@include icon() {
 							path {
 								fill: var(--primary-hover);
 							}
@@ -137,6 +137,11 @@
 				color: var(--light);
 			}
 			.icon {
+				@include icon() {
+					path {
+						fill: var(--light);
+					}
+				}
 			}
 		}
 	}

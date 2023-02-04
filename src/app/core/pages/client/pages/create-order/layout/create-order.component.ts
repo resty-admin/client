@@ -12,7 +12,7 @@ import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
 import { DialogService } from "@shared/ui/dialog";
-import { filter, map, of, shareReplay, switchMap, take } from "rxjs";
+import { filter, map, shareReplay, switchMap, take } from "rxjs";
 
 import { CreateOrderPageGQL } from "../graphql";
 
@@ -92,51 +92,54 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	createOrder({ type, routerLink }: IOrderType) {
-		this.order$
-			.pipe(
-				take(1),
-				switchMap((order) =>
-					order
-						? this._dialogService.open(AlreadyExistComponent, { data: order }).afterClosed$.pipe(
-								take(1),
-								filter((result) => Boolean(result)),
-								switchMap((order) =>
-									this._ordersService.cancelOrder(order.id).pipe(map((result) => result.data?.cancelOrder))
-								)
-						  )
-						: type === OrderTypeEnum.InPlace
-						? of(type)
-						: this._ordersService.productsToOrders$.pipe(
-								take(1),
-								switchMap((productsToOrder) =>
-									this._ordersService
-										.createOrder({
-											type,
-											place: this._routerService.getParams(PLACE_ID.slice(1)),
-											productsToOrder: productsToOrder.map((productToOrder) => ({
-												productId: productToOrder.productId,
-												count: productToOrder.count,
-												attributesIds: productToOrder.attributesIds
-											}))
-										})
-										.pipe(map((result) => result.data?.createOrder))
-								)
-						  )
-				),
-				take(1)
-			)
-			.subscribe(async (result) => {
-				if (result === OrderTypeEnum.InPlace) {
-					await this._routerService.navigateByUrl(
-						routerLink.replace(PLACE_ID, this._routerService.getParams(PLACE_ID.slice(1)))
-					);
-					return;
-				}
+	async createOrder({ type, routerLink }: IOrderType) {
+		const result = this._createOrderPageQuery.getLastResult();
 
-				if (typeof result === "string" || !result?.id) {
+		if (result?.data.order) {
+			this._dialogService
+				.open(AlreadyExistComponent, { data: result.data.order })
+				.afterClosed$.pipe(
+					take(1),
+					filter((result) => Boolean(result)),
+					switchMap((order) =>
+						this._ordersService.cancelOrder(order.id).pipe(map((result) => result.data?.cancelOrder))
+					)
+				)
+				.subscribe(() => {
+					this._createOrderPageQuery.resetLastResults();
 					this._ordersService.setActiveOrderId(undefined);
 					this._ordersService.setProductsToOrders([]);
+				});
+
+			return;
+		}
+
+		if (type === OrderTypeEnum.InPlace) {
+			await this._routerService.navigateByUrl(
+				routerLink.replace(PLACE_ID, this._routerService.getParams(PLACE_ID.slice(1)))
+			);
+
+			return;
+		}
+
+		this._ordersService.productsToOrders$
+			.pipe(
+				take(1),
+				switchMap((productsToOrder) =>
+					this._ordersService.createOrder({
+						type,
+						place: this._routerService.getParams(PLACE_ID.slice(1)),
+						productsToOrder: productsToOrder.map((productToOrder) => ({
+							productId: productToOrder.productId,
+							count: productToOrder.count,
+							attributesIds: productToOrder.attributesIds
+						}))
+					})
+				),
+				map((result) => result.data?.createOrder)
+			)
+			.subscribe(async (result) => {
+				if (!result) {
 					return;
 				}
 

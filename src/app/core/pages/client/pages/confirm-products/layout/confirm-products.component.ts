@@ -11,15 +11,7 @@ import { SharedService } from "@shared/services";
 import { filter, map, switchMap, take, tap } from "rxjs";
 
 import { ConfirmProductsPageGQL } from "../graphql";
-//
-// map((productsToOrders) =>
-// 	(this.products || [])
-// 		.map((product) => ({
-// 			...product,
-// 			productsToOrders: productsToOrders.filter((productToOrder) => productToOrder.productId === product.id)
-// 		}))
-// 		.filter((product) => product.productsToOrders.length)
-// )
+
 @UntilDestroy()
 @Component({
 	selector: "app-confirm-products",
@@ -30,7 +22,17 @@ import { ConfirmProductsPageGQL } from "../graphql";
 export class ConfirmProductsComponent implements OnInit, OnDestroy {
 	private readonly _confirmProductsPageQuery = this._confirmProductsPageGQL.watch();
 	readonly products$ = this._confirmProductsPageQuery.valueChanges.pipe(
-		map((result) => result.data.products.data as any)
+		map((result) => result.data.products.data),
+		switchMap((products) =>
+			this._ordersService.productsToOrders$.pipe(
+				map((productsToOrders) =>
+					(products || []).map((product: any) => ({
+						...product,
+						productsToOrders: productsToOrders.filter((productToOrder) => productToOrder.productId === product.id)
+					}))
+				)
+			)
+		)
 	);
 
 	constructor(

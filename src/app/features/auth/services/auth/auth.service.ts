@@ -13,6 +13,7 @@ import type { LanguagesEnum, ThemeEnum } from "@shared/enums";
 import { CryptoService } from "@shared/modules/crypto";
 import { JwtService } from "@shared/modules/jwt";
 import { RouterService } from "@shared/modules/router";
+import { resetStores } from "@shared/modules/store";
 import type { Observable } from "rxjs";
 import { catchError, map, of, tap } from "rxjs";
 
@@ -137,8 +138,7 @@ export class AuthService {
 	}
 
 	async signOut() {
-		this._authRepository.updateAccessToken(undefined);
-		await this.updateAccessToken(undefined);
 		await this._routerService.navigateByUrl(CLIENT_ROUTES.SIGN_IN.absolutePath);
+		resetStores();
 	}
 }

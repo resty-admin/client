@@ -18,10 +18,8 @@
 				width: rem(20);
 				height: rem(35);
 
-				@include icon () {
-					svg {
-						stroke: var(--dark);
-					}
+				@include icon() {
+					stroke: var(--dark);
 				}
 			}
 			.label {
@@ -48,7 +46,7 @@
 				color: var(--light);
 			}
 
-			@include icon () {
+			@include icon() {
 				path {
 					stroke: var(--light);
 				}

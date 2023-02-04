@@ -73,10 +73,10 @@
 @include dark() {
 	.ios-datepicker {
 		.list .list-item .button {
-			color: var(--light);
+			color: var(--dark-grey);
 		}
 		.time-splitter {
-			color: var(--light);
+			color: var(--dark-grey);
 		}
 	}
 }

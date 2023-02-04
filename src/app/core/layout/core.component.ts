@@ -110,6 +110,11 @@ export class CoreComponent implements OnInit {
 		});
 	}
 
+	async signOut() {
+		await this._authService.signOut();
+		await this._routerService.navigateByUrl(CLIENT_ROUTES.SIGN_IN.absolutePath);
+	}
+
 	toggleAside() {
 		this._asideService.toggleAside();
 	}

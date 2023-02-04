@@ -98,11 +98,30 @@
 						padding: rem(11);
 						border-radius: rem(8);
 						background-color: transparent;
-						&:hover {
-							background-color: var(--primary-t);
+						&:hover:not(.active) {
+							.label {
+								color: var(--primary);
+							}
+							.icon {
+								@include icon () {
+									path {
+										fill: var(--primary);
+									}
+								}
+							}
 						}
 						&.active {
 							background-color: var(--primary);
+							.icon {
+								@include icon () {
+									path {
+										fill: var(--dark);
+									}
+								}
+							}
+							.label {
+								color: var(--dark);
+							}
 						}
 						&.disabled {
 							@include disableLink();
@@ -181,7 +200,7 @@
 			.sign-out {
 				background-color: var(--dark);
 				.icon {
-					@include icon () {
+					@include icon() {
 						path {
 							fill: var(--light);
 						}
@@ -196,10 +215,36 @@
 					color: var(--light);
 				}
 				.icon {
-					@include icon () {
+					@include icon() {
 						path {
 							fill: var(--light);
 						}
+					}
+				}
+
+				&:hover:not(.active) {
+					.label {
+						color: var(--primary);
+					}
+					.icon {
+						@include icon () {
+							path {
+								fill: var(--primary);
+							}
+						}
+					}
+				}
+				&.active {
+					background-color: var(--primary);
+					.icon {
+						@include icon () {
+							path {
+								fill: var(--dark);
+							}
+						}
+					}
+					.label {
+						color: var(--dark);
 					}
 				}
 				&.disabled {

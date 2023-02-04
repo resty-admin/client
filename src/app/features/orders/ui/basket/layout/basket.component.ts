@@ -19,8 +19,6 @@ export class BasketComponent implements OnChanges {
 			return;
 		}
 
-		console.log(changes.productsToOrders.currentValue);
-
 		this.count = (changes.productsToOrders.currentValue || []).reduce(
 			(count, productToOrder) => count + productToOrder.count,
 			0

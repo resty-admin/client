@@ -23,6 +23,7 @@
 			[activeOrder]="activeOrder$ | async"
 			[class.open]="isAsideOpen$ | async"
 			(closeClicked)="toggleAside()"
+			(signOutClicked)="signOut()"
 		></app-aside>
 
 		<app-navigation-skeleton class="navigation-skeleton">
