@@ -9,6 +9,11 @@
 		.products {
 			display: grid;
 			grid-gap: rem(12);
+			.product {
+				.button {
+					width: 100%;
+				}
+			}
 
 			@include desktop() {
 				grid-template-columns: 1fr 1fr;

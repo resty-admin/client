@@ -3,11 +3,13 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
 import type { IProductOutput } from "@features/products";
+import { ProductDialogComponent } from "@features/products";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { CLIENT_ROUTES, ORDER_ID, PLACE_ID } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
+import { DialogService } from "@shared/ui/dialog";
 import { filter, map, switchMap, take, tap } from "rxjs";
 
 import { ConfirmProductsPageGQL } from "../graphql";
@@ -26,10 +28,12 @@ export class ConfirmProductsComponent implements OnInit, OnDestroy {
 		switchMap((products) =>
 			this._ordersService.productsToOrders$.pipe(
 				map((productsToOrders) =>
-					(products || []).map((product: any) => ({
-						...product,
-						productsToOrders: productsToOrders.filter((productToOrder) => productToOrder.productId === product.id)
-					}))
+					(products || [])
+						.map((product: any) => ({
+							...product,
+							productsToOrders: productsToOrders.filter((productToOrder) => productToOrder.productId === product.id)
+						}))
+						.filter((product) => product.productsToOrders.length)
 				)
 			)
 		)
@@ -41,7 +45,8 @@ export class ConfirmProductsComponent implements OnInit, OnDestroy {
 		private readonly _routerService: RouterService,
 		private readonly _actionsService: ActionsService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
-		private readonly _ordersService: OrdersService
+		private readonly _ordersService: OrdersService,
+		private readonly _dialogService: DialogService
 	) {}
 
 	async ngOnInit() {
@@ -98,6 +103,23 @@ export class ConfirmProductsComponent implements OnInit, OnDestroy {
 				}
 			});
 		});
+	}
+
+	openProductDialog(product: any) {
+		this._dialogService
+			.open(ProductDialogComponent, { data: { product, productsToOrders: product.productsToOrders } })
+			.afterClosed$.pipe(
+				take(1),
+				filter((result) => Boolean(result))
+			)
+			.subscribe((data: any) => {
+				this._ordersService.updateProductToOrder(data.id, {
+					productId: data.id,
+					attributesIds: data.attributesIds,
+					count: data.count,
+					placeId: this._routerService.getParams(PLACE_ID.slice(1)) || ""
+				});
+			});
 	}
 
 	removeProductFromOrder(productOutput: IProductOutput) {
