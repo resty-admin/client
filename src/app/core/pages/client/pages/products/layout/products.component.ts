@@ -3,13 +3,15 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
 import type { IProductOutput } from "@features/products";
+import { ProductDialogComponent } from "@features/products";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { CATEGORY_ID, PLACE_ID } from "@shared/constants";
 import { CLIENT_ROUTES } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
-import { map, switchMap } from "rxjs";
+import { DialogService } from "@shared/ui/dialog";
+import { filter, map, switchMap, take } from "rxjs";
 
 import { ProductsPageGQL } from "../graphql";
 
@@ -43,7 +45,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
 		private readonly _ordersService: OrdersService,
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
-		private readonly _actionsService: ActionsService
+		private readonly _actionsService: ActionsService,
+		private readonly _dialogService: DialogService
 	) {}
 
 	async ngOnInit() {
@@ -73,6 +76,23 @@ export class ProductsComponent implements OnInit, OnDestroy {
 				this._routerService.getParams(PLACE_ID.slice(1))
 			)
 		});
+	}
+
+	openProductDialog(product: any) {
+		this._dialogService
+			.open(ProductDialogComponent, { data: { product } })
+			.afterClosed$.pipe(
+				take(1),
+				filter((result) => Boolean(result))
+			)
+			.subscribe((data: any) => {
+				this._ordersService.addProductToOrder({
+					productId: data.id,
+					attributesIds: data.attributesIds,
+					count: data.count,
+					placeId: this._routerService.getParams(PLACE_ID.slice(1)) || ""
+				});
+			});
 	}
 
 	removeProductFromOrder(productOutput: IProductOutput) {

@@ -8,6 +8,9 @@
 		.products {
 			display: grid;
 			row-gap: rem(12);
+			.product .button {
+				width: 100%;
+			}
 		}
 
 		@include pagePadding();

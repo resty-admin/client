@@ -54,6 +54,10 @@ export class OrdersService {
 		this._ordersRepository.addProductToOrder(productToOrder);
 	}
 
+	updateProductToOrder(productId: string, productToOrder: IStoreProductToOrder) {
+		this._ordersRepository.updateProductToOrder(productId, productToOrder);
+	}
+
 	removeProductFromOrder(productToOrder: IStoreProductToOrder) {
 		this._ordersRepository.removeProductToOrder(productToOrder);
 	}

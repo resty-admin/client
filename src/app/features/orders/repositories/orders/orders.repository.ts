@@ -59,6 +59,31 @@ export class OrdersRepository {
 		);
 	}
 
+	updateProductToOrder(productId: string, productOutput: IStoreProductToOrder) {
+		const { productsToOrders } = this._store.getValue();
+
+		const productToUpdate = productsToOrders.find((productToOrder) => productToOrder.productId === productId);
+
+		if (productOutput.count > 0) {
+			this._store.update(
+				setProp(
+					"productsToOrders",
+					productsToOrders.map((storeProductToOrder) => ({
+						...storeProductToOrder,
+						count: storeProductToOrder === productToUpdate ? productOutput.count : storeProductToOrder.count
+					}))
+				)
+			);
+		} else {
+			this._store.update(
+				setProp(
+					"productsToOrders",
+					productsToOrders.filter((storeProductToOrder) => storeProductToOrder !== productToUpdate)
+				)
+			);
+		}
+	}
+
 	removeProductToOrder({ productId }: IProductOutput) {
 		const { productsToOrders } = this._store.getValue();
 

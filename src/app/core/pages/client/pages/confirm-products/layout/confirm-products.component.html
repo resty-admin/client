@@ -2,11 +2,13 @@
 	<h1 appTypography theme="1" class="title">{{ t("CONFIRM_PRODUCTS.TITLE") }}</h1>
 	<ul class="products">
 		<li class="product" *ngFor="let product of products$ | async; trackBy: sharedService.trackByFn">
-			<app-confirm-product
-				[product]="product"
-				(minusClicked)="removeProductFromOrder($event)"
-				(plusClicked)="addProductToOrder($event)"
-			></app-confirm-product>
+			<button class="button" (click)="openProductDialog(product)">
+				<app-confirm-product
+					[product]="product"
+					(minusClicked)="removeProductFromOrder($event)"
+					(plusClicked)="addProductToOrder($event)"
+				></app-confirm-product>
+			</button>
 		</li>
 	</ul>
 </div>

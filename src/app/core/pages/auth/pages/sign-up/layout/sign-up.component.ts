@@ -37,7 +37,7 @@ export class SignUpComponent implements OnInit {
 		email: "",
 		tel: "",
 		password: "",
-		role: UserRoleEnum.Admin
+		role: UserRoleEnum.Client
 	});
 
 	constructor(

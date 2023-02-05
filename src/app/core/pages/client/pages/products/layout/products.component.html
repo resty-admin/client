@@ -3,14 +3,14 @@
 
 	<ul class="products">
 		<li class="product" *ngFor="let product of products$ | async; trackBy: sharedService.trackByFn">
-			<a class="link" [routerLink]="product.id">
+			<button class="button" (click)="openProductDialog(product)">
 				<app-preview-product
 					class="preview-product"
 					[product]="product"
 					(plusClicked)="addProductToOrder($event)"
 					(minusClicked)="removeProductFromOrder($event)"
 				></app-preview-product>
-			</a>
+			</button>
 		</li>
 	</ul>
 </div>

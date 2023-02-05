@@ -1,0 +1,99 @@
+@import "/src/assets/scss/abstractions/index";
+
+@include component() {
+	height: 100%;
+	.product-dialog {
+		height: 100%;
+		display: grid;
+		grid-template-rows: auto 1fr auto;
+		.image {
+			height: rem(200);
+		}
+		.content {
+			display: grid;
+			align-self: start;
+			grid-template-areas:
+				"name name price"
+				"description description counter"
+				"attrGroups attrGroups attrGroups";
+			gap: rem(12);
+			grid-template-columns: 1fr auto auto;
+
+			@include pagePadding();
+			.name {
+				grid-area: name;
+				font-weight: 600;
+				font-size: rem(20);
+				line-height: rem(32);
+				color: var(--dark);
+			}
+			.description {
+				grid-area: description;
+				font-weight: 400;
+				font-size: rem(14);
+				line-height: rem(24);
+				color: var(--dark-t);
+			}
+			.price {
+				grid-area: price;
+				font-weight: 600;
+				font-size: rem(20);
+				line-height: rem(32);
+				color: var(--primary);
+				justify-self: end;
+			}
+			.counter {
+				grid-area: counter;
+				justify-self: end;
+			}
+			//.cal {
+			//	justify-self: start;
+			//	grid-area: cal;
+			//	font-weight: 400;
+			//	font-size: rem(14);
+			//	line-height: rem(24);
+			//	color: var(--dark-t);
+			//}
+			.attrGroups {
+				grid-area: attrGroups;
+				display: grid;
+				row-gap: rem(15);
+				.attrGroup {
+					display: grid;
+					row-gap: rem(10);
+					.label {
+						font-weight: 500;
+						font-size: rem(16);
+						line-height: rem(24);
+						color: var(--dark);
+					}
+				}
+			}
+			//.textarea {
+			//	grid-area: textarea;
+			//}
+		}
+
+		.footer {
+			padding: rem(15);
+			.submit {
+				width: 100%;
+			}
+		}
+	}
+}
+@include dark() {
+	.product-dailog .content {
+		.name,
+		.description,
+		.cal,
+		.modifications,
+		.remove {
+			color: var(--light);
+		}
+
+		.attrGroups .attrGroup .label {
+			color: var(--light);
+		}
+	}
+}
