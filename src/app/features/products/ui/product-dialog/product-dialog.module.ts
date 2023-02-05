@@ -5,13 +5,23 @@ import { I18nModule } from "@shared/modules/i18n";
 import { ButtonModule } from "@shared/ui/button";
 import { CounterModule } from "@shared/ui/counter";
 import { ImageModule } from "@shared/ui/image";
+import { MultipleCheckboxModule } from "@shared/ui/multiple-checkbox";
 import { RadioButtonModule } from "@shared/ui/radio-button";
 
 import { ProductDialogComponent } from "./layout/product-dialog.component";
 
 @NgModule({
 	declarations: [ProductDialogComponent],
-	imports: [CommonModule, ImageModule, CounterModule, I18nModule, RadioButtonModule, ReactiveFormsModule, ButtonModule],
+	imports: [
+		CommonModule,
+		ImageModule,
+		CounterModule,
+		I18nModule,
+		RadioButtonModule,
+		ReactiveFormsModule,
+		ButtonModule,
+		MultipleCheckboxModule
+	],
 	exports: [ProductDialogComponent]
 })
 export class ProductDialogModule {}

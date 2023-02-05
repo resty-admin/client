@@ -1,6 +1,13 @@
 <ul [class]="className">
 	<li class="option" *ngFor="let option of options; let i = index; trackBy: sharedService.trackByFn">
-		<input class="input" type="radio" [formControl]="formControl" [value]="option[bindValue]" [id]="id + i" />
+		<input
+			class="input"
+			type="radio"
+			[formControl]="formControl"
+			[value]="option[bindValue]"
+			[id]="id + i"
+			[name]="id"
+		/>
 		<div class="decoration"></div>
 		<label class="label" [for]="id + i">
 			<ng-container *ngIf="labelTemplate; else defaultLable">

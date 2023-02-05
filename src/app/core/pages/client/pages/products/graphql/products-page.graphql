@@ -9,6 +9,17 @@ query ProductsPage($skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) {
 				id
 				url
 			}
+			attrsGroups {
+				id
+				name
+				type
+				maxItemsForPick
+				attributes {
+					id
+					name
+					price
+				}
+			}
 		}
 		page
 		totalCount

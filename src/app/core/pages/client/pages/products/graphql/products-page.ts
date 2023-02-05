@@ -23,6 +23,16 @@ export interface ProductsPageQuery {
 					description?: string | null;
 					price: number;
 					file?: { __typename?: "FileEntity"; id: string; url: string } | null;
+					attrsGroups?:
+						| {
+								__typename?: "AttributesGroupEntity";
+								id: string;
+								name: string;
+								type: Types.AttributeGroupTypeEnum;
+								maxItemsForPick: number;
+								attributes?: { __typename?: "AttributesEntity"; id: string; name: string; price: number }[] | null;
+						  }[]
+						| null;
 			  }[]
 			| null;
 	};
@@ -39,6 +49,17 @@ export const ProductsPageDocument = gql`
 				file {
 					id
 					url
+				}
+				attrsGroups {
+					id
+					name
+					type
+					maxItemsForPick
+					attributes {
+						id
+						name
+						price
+					}
 				}
 			}
 			page

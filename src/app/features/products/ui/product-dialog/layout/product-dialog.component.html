@@ -17,18 +17,32 @@
 			></app-counter>
 			<!--			<p class="cal">250 гр</p>-->
 
-			<div class="attrGroups">
-				<div class="attrGroup" *ngFor="let attrGroup of product.attrsGroups; trackBy: sharedService.trackByFn">
+			<div class="attrGroups" [formGroup]="formGroup">
+				<div
+					class="attrGroup"
+					*ngFor="let attrGroup of product.attrsGroups; trackBy: sharedService.trackByFn; let i = index"
+				>
 					<p class="label">{{ attrGroup.name }}</p>
-
 					<app-radio-button
+						*ngIf="attrGroup.maxItemsForPick === 1; else multipleCheckbox"
 						theme="2"
 						class="radio"
 						bindValue="id"
 						bindLabel="name"
 						[options]="attrGroup.attributes"
-						[formControl]="attributesFormControl"
+						[formControlName]="attrGroup.name"
 					></app-radio-button>
+
+					<ng-template #multipleCheckbox>
+						<app-multiple-checkbox
+							class="radio"
+							bindValue="id"
+							bindLabel="name"
+							[options]="attrGroup.attributes"
+							[formControlName]="attrGroup.name"
+						>
+						</app-multiple-checkbox>
+					</ng-template>
 				</div>
 			</div>
 
