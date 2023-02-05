@@ -21,7 +21,13 @@ export interface PaymentStatusPageQuery {
 					paidStatus: Types.ProductToOrderPaidStatusEnum;
 					count: number;
 					product: { __typename?: "ProductEntity"; id: string; price: number };
-					attributes?: { __typename?: "AttributesEntity"; id: string; price: number }[] | null;
+					attributesToProduct?:
+						| {
+								__typename?: "AttributeToProductEntity";
+								id: string;
+								attribute: { __typename?: "AttributesEntity"; id: string; price: number };
+						  }[]
+						| null;
 			  }[]
 			| null;
 	} | null;
@@ -40,9 +46,12 @@ export const PaymentStatusPageDocument = gql`
 					id
 					price
 				}
-				attributes {
+				attributesToProduct {
 					id
-					price
+					attribute {
+						id
+						price
+					}
 				}
 				count
 			}

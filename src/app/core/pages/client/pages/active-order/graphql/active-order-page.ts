@@ -39,12 +39,16 @@ export interface ActiveOrderPageQuery {
 					count: number;
 					status: Types.ProductToOrderStatusEnum;
 					paidStatus: Types.ProductToOrderPaidStatusEnum;
-					attributes?:
+					attributesToProduct?:
 						| {
-								__typename?: "AttributesEntity";
+								__typename?: "AttributeToProductEntity";
 								id: string;
-								name: string;
-								attributesGroup?: { __typename?: "AttributesGroupEntity"; id: string; name: string }[] | null;
+								attribute: {
+									__typename?: "AttributesEntity";
+									id: string;
+									name: string;
+									attributesGroup?: { __typename?: "AttributesGroupEntity"; id: string; name: string }[] | null;
+								};
 						  }[]
 						| null;
 					user: { __typename?: "UserEntity"; id: string; name: string };
@@ -110,12 +114,15 @@ export const ActiveOrderPageDocument = gql`
 				count
 				status
 				paidStatus
-				attributes {
+				attributesToProduct {
 					id
-					name
-					attributesGroup {
+					attribute {
 						id
 						name
+						attributesGroup {
+							id
+							name
+						}
 					}
 				}
 				user {

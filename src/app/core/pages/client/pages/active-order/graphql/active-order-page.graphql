@@ -36,12 +36,15 @@ query ActiveOrderPage($orderId: String!) {
 			count
 			status
 			paidStatus
-			attributes {
+			attributesToProduct {
 				id
-				name
-				attributesGroup {
+				attribute {
 					id
 					name
+					attributesGroup {
+						id
+						name
+					}
 				}
 			}
 			user {
