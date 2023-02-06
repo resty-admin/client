@@ -138,7 +138,6 @@ export class ConfirmProductsComponent implements OnInit, OnDestroy {
 	}
 
 	addProductToOrder(productOutput: IProductOutput) {
-		console.log(productOutput);
 		this._ordersService.addProductToOrder({
 			...productOutput,
 			placeId: this._routerService.getParams(PLACE_ID.slice(1)) || ""
