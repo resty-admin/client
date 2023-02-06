@@ -11,7 +11,7 @@ import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
 import { ThemeService } from "@shared/modules/theme";
 import type { IAction } from "@shared/ui/actions";
-import { catchError, filter, map, of, shareReplay, startWith, switchMap, take, tap } from "rxjs";
+import { catchError, filter, map, of, shareReplay, startWith, switchMap, tap } from "rxjs";
 
 import { CorePageGQL } from "../graphql";
 
@@ -93,7 +93,7 @@ export class CoreComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.user$.pipe(take(1)).subscribe(async (user) => {
+		this.user$.pipe(untilDestroyed(this)).subscribe(async (user) => {
 			if (!user || user.name) {
 				return;
 			}
