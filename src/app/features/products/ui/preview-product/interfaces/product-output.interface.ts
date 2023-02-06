@@ -1,5 +1,5 @@
 export interface IProductOutput {
 	productId: string;
-	attributesIds: string[];
+	attributesIds: Record<string, string[] | string>;
 	count: number;
 }

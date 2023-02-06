@@ -86,10 +86,6 @@ export const CLIENT_ROUTES: Route[] = [
 				loadChildren: () => import("./pages/products/products.module").then((m) => m.ProductsModule)
 			},
 			{
-				..._SHARED_CLIENT_ROUTES.PRODUCT,
-				loadChildren: () => import("./pages/product/product.module").then((m) => m.ProductModule)
-			},
-			{
 				..._SHARED_CLIENT_ROUTES.CATEGORY,
 				redirectTo: _SHARED_CLIENT_ROUTES.PRODUCTS.path
 			},

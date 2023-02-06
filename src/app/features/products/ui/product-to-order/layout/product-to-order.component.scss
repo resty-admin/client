@@ -4,14 +4,16 @@
 	.product-to-order {
 		display: grid;
 		grid-template-areas:
-			"image title paid-status paid-status"
-			"image user count price";
+			"image title paid-status"
+			"image attributes attributes"
+			"divider divider divider"
+			"user count price";
 		align-items: start;
-		grid-template-columns: auto auto 1fr auto;
+		grid-template-columns: auto 1fr auto;
 		border: rem(1) solid transparent;
 		border-radius: rem(16);
 		padding: rem(8);
-		gap: rem(8);
+		column-gap: rem(8);
 		background-color: var(--light-grey);
 
 		&.active {
@@ -23,11 +25,24 @@
 			width: rem(56);
 			height: rem(56);
 
-			@include image () {
+			@include image() {
 				border-radius: rem(16);
 			}
 		}
-
+		.divider {
+			grid-area: divider;
+			height: rem(1);
+			background-color: var(--dark-b);
+			margin: rem(8) 0 rem(12);
+		}
+		.attributes {
+			align-self: start;
+			grid-area: attributes;
+			font-weight: 400;
+			font-size: rem(12);
+			line-height: rem(16);
+			color: var(--dark-t);
+		}
 		.title {
 			grid-area: title;
 			font-weight: 600;

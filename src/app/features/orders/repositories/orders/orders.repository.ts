@@ -1,10 +1,11 @@
 import { Injectable } from "@angular/core";
 import type { IStoreProductToOrder } from "@features/products";
-import type { IProductOutput } from "@features/products";
 import { createStore, select, setProp, withProps } from "@ngneat/elf";
 import { persistState } from "@ngneat/elf-persist-state";
 import { LocalforageService } from "@shared/modules/localforage";
 import { includeKeys } from "elf-sync-state";
+import { isEqual } from "lodash";
+import { v4 } from "uuid";
 
 export interface IOrdersState {
 	activeOrderId?: string;
@@ -41,71 +42,59 @@ export class OrdersRepository {
 		this._store.update(setProp("productsToOrders", productsToOrders));
 	}
 
-	addProductToOrder(productOutput: IStoreProductToOrder) {
+	addProductToOrder(productOutput: Omit<IStoreProductToOrder, "id">) {
 		const { productsToOrders } = this._store.getValue();
 
 		const findedProductToOrder = productsToOrders.find(
-			(productToOrder) => productToOrder.productId === productOutput.productId
+			(productToOrder) =>
+				productToOrder.productId === productOutput.productId &&
+				isEqual(productToOrder.attributesIds, productOutput.attributesIds)
 		);
 
 		this._store.update(
-			setProp("productsToOrders", [
-				...productsToOrders.filter((productToOrder) => productToOrder !== findedProductToOrder),
-				{
-					...(findedProductToOrder || productOutput),
-					count: (findedProductToOrder?.count || 0) + (productOutput?.count || 1)
-				}
-			])
+			setProp(
+				"productsToOrders",
+				findedProductToOrder
+					? productsToOrders.map((productToOrder) =>
+							productToOrder.id === findedProductToOrder.id
+								? {
+										...productToOrder,
+										count: productToOrder.count + productOutput.count
+								  }
+								: productToOrder
+					  )
+					: [...productsToOrders, { id: v4(), ...productOutput, count: productOutput?.count || 1 }]
+			)
 		);
 	}
 
-	updateProductToOrder(productId: string, productOutput: IStoreProductToOrder) {
-		const { productsToOrders } = this._store.getValue();
-
-		const productToUpdate = productsToOrders.find((productToOrder) => productToOrder.productId === productId);
-
-		if (productOutput.count > 0) {
-			this._store.update(
-				setProp(
-					"productsToOrders",
-					productsToOrders.map((storeProductToOrder) => ({
+	updateProductToOrder(id: string, productOutput: Omit<IStoreProductToOrder, "id">) {
+		this._store.update(
+			setProp(
+				"productsToOrders",
+				this._store
+					.getValue()
+					.productsToOrders.map((storeProductToOrder) => ({
 						...storeProductToOrder,
-						count: storeProductToOrder === productToUpdate ? productOutput.count : storeProductToOrder.count
+						...(storeProductToOrder.id === id ? productOutput : {})
 					}))
-				)
-			);
-		} else {
-			this._store.update(
-				setProp(
-					"productsToOrders",
-					productsToOrders.filter((storeProductToOrder) => storeProductToOrder !== productToUpdate)
-				)
-			);
-		}
+					.filter((storeProductToOrder) => storeProductToOrder.count)
+			)
+		);
 	}
 
-	removeProductToOrder({ productId }: IProductOutput) {
-		const { productsToOrders } = this._store.getValue();
-
-		const productToRemove = productsToOrders.find((productToOrder) => productToOrder.productId === productId);
-
-		if ((productToRemove?.count || 0) > 1) {
-			this._store.update(
-				setProp(
-					"productsToOrders",
-					productsToOrders.map((storeProductToOrder) => ({
+	removeProductToOrder(id: string) {
+		this._store.update(
+			setProp(
+				"productsToOrders",
+				this._store
+					.getValue()
+					.productsToOrders.map((storeProductToOrder) => ({
 						...storeProductToOrder,
-						count: storeProductToOrder === productToRemove ? storeProductToOrder.count - 1 : storeProductToOrder.count
+						count: storeProductToOrder.id === id ? storeProductToOrder.count - 1 : storeProductToOrder.count
 					}))
-				)
-			);
-		} else {
-			this._store.update(
-				setProp(
-					"productsToOrders",
-					productsToOrders.filter((storeProductToOrder) => storeProductToOrder !== productToRemove)
-				)
-			);
-		}
+					.filter((storeProductToOrder) => storeProductToOrder.count)
+			)
+		);
 	}
 }

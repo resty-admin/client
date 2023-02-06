@@ -2,7 +2,7 @@ import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
-import type { IProductOutput } from "@features/products";
+import type { IProductInput, IProductOutput, IStoreProductToOrder } from "@features/products";
 import { ProductDialogComponent } from "@features/products";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { CLIENT_ROUTES, ORDER_ID, PLACE_ID } from "@shared/constants";
@@ -13,6 +13,11 @@ import { DialogService } from "@shared/ui/dialog";
 import { filter, map, switchMap, take, tap } from "rxjs";
 
 import { ConfirmProductsPageGQL } from "../graphql";
+
+interface IProductClicked {
+	product: IProductInput;
+	productToOrder?: IStoreProductToOrder;
+}
 
 @UntilDestroy()
 @Component({
@@ -83,7 +88,7 @@ export class ConfirmProductsComponent implements OnInit, OnDestroy {
 								this._ordersService.confirmProductsToOrders(
 									(productsToOrder || []).map((productToOrder) => ({
 										productId: productToOrder.productId,
-										attributesIds: productToOrder.attributesIds,
+										attributesIds: Object.values(productToOrder.attributesIds).flat(),
 										count: productToOrder.count,
 										orderId: orderId!
 									}))
@@ -105,31 +110,35 @@ export class ConfirmProductsComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	openProductDialog(product: any) {
+	openProductDialog(data: IProductClicked) {
 		this._dialogService
-			.open(ProductDialogComponent, { data: { product, productsToOrders: product.productsToOrders } })
+			.open(ProductDialogComponent, { data })
 			.afterClosed$.pipe(
 				take(1),
 				filter((result) => Boolean(result))
 			)
-			.subscribe((data: any) => {
-				this._ordersService.updateProductToOrder(data.id, {
-					productId: data.id,
-					attributesIds: data.attributesIds,
-					count: data.count,
+			.subscribe((product) => {
+				const updateBody = {
+					productId: product.id,
+					attributesIds: product.attributesIds,
+					count: product.count,
 					placeId: this._routerService.getParams(PLACE_ID.slice(1)) || ""
-				});
+				};
+
+				if (data.productToOrder) {
+					this._ordersService.updateProductToOrder(data.productToOrder.id, updateBody);
+				} else {
+					this._ordersService.addProductToOrder(updateBody);
+				}
 			});
 	}
 
-	removeProductFromOrder(productOutput: IProductOutput) {
-		this._ordersService.removeProductFromOrder({
-			...productOutput,
-			placeId: this._routerService.getParams(PLACE_ID.slice(1)) || ""
-		});
+	removeProductFromOrder(productToOrder: IStoreProductToOrder) {
+		this._ordersService.removeProductFromOrder(productToOrder.id);
 	}
 
 	addProductToOrder(productOutput: IProductOutput) {
+		console.log(productOutput);
 		this._ordersService.addProductToOrder({
 			...productOutput,
 			placeId: this._routerService.getParams(PLACE_ID.slice(1)) || ""

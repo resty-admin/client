@@ -1,0 +1,42 @@
+@import "/src/assets/scss/abstractions/index";
+
+@include component() {
+	.product-with-attributes {
+		width: 100%;
+		display: grid;
+		grid-template-areas:
+			"name price"
+			"attributes counter";
+		text-align: left;
+
+		.name {
+			grid-area: name;
+			font-weight: 600;
+			font-size: rem(14);
+			line-height: rem(24);
+			color: var(--dark);
+		}
+		.price {
+			grid-area: price;
+			font-weight: 600;
+			font-size: rem(12);
+			line-height: rem(16);
+			color: var(--primary);
+			justify-self: end;
+		}
+		.attributes {
+			grid-area: attributes;
+			font-weight: 400;
+			font-size: rem(12);
+			line-height: rem(16);
+			color: var(--dark);
+		}
+		.counter {
+			grid-area: counter;
+			justify-self: end;
+			align-self: end;
+		}
+	}
+}
+@include dark() {
+}

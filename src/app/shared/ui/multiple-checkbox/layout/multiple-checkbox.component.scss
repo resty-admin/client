@@ -20,8 +20,10 @@
 					height: 100%;
 					opacity: 0%;
 					&:checked ~ .decoration {
-						border-width: rem(8);
 						background-color: #ffc100;
+						.icon {
+							opacity: 100%;
+						}
 					}
 				}
 				.decoration {
@@ -29,6 +31,14 @@
 					height: rem(24);
 					border-radius: 50%;
 					background-color: var(--light);
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					.icon {
+						opacity: 0%;
+						width: rem(12);
+						height: rem(12);
+					}
 				}
 				.label {
 					flex: 1;

@@ -8,7 +8,6 @@
 			[id]="id + i"
 			[name]="id"
 		/>
-		<div class="decoration"></div>
 		<label class="label" [for]="id + i">
 			<ng-container *ngIf="labelTemplate; else defaultLable">
 				<ng-container *ngTemplateOutlet="labelTemplate; context: { $implicit: option }"></ng-container>
@@ -18,5 +17,8 @@
 				{{ option[bindLabel] }}
 			</ng-template>
 		</label>
+		<div class="decoration">
+			<app-icon class="icon" name="add"></app-icon>
+		</div>
 	</li>
 </ul>

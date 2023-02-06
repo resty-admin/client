@@ -60,4 +60,13 @@ export class MultipleCheckboxComponent extends ControlValueAccessor<string[]> im
 
 		super.ngOnChanges(changes);
 	}
+
+	override writeValue(value: string[]) {
+		this.formGroup.patchValue(
+			(value || []).reduce((pre, curr) => ({ ...pre, [curr]: true }), {}),
+			{ emitEvent: false }
+		);
+
+		super.writeValue(value);
+	}
 }

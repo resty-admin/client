@@ -1,0 +1,20 @@
+<ng-container *transloco="let t">
+	<button
+		class="product-with-attributes"
+		*ngIf="product && productToOrder"
+		(click)="emitProductClick(product, productToOrder)"
+	>
+		<p class="name">{{ product.name }}</p>
+		<p class="price">{{ product.price }} {{ t("FORM.CURRENCY") }}</p>
+		<p class="attributes">{{ attributes }}</p>
+
+		<app-counter
+			theme="2"
+			class="counter"
+			[value]="productToOrder.count"
+			(minusClicked)="emitMinusClick(productToOrder)"
+			(plusClicked)="emitPlusClick(product)"
+		>
+		</app-counter>
+	</button>
+</ng-container>

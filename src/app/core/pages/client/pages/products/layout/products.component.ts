@@ -2,7 +2,7 @@ import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
-import type { IProductOutput } from "@features/products";
+import type { IProductInput, IProductOutput, IStoreProductToOrder } from "@features/products";
 import { ProductDialogComponent } from "@features/products";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { CATEGORY_ID, PLACE_ID } from "@shared/constants";
@@ -15,6 +15,10 @@ import { filter, map, switchMap, take } from "rxjs";
 
 import { ProductsPageGQL } from "../graphql";
 
+interface IProductClicked {
+	product: IProductInput;
+	productToOrder?: IStoreProductToOrder;
+}
 @UntilDestroy()
 @Component({
 	selector: "app-products",
@@ -78,28 +82,31 @@ export class ProductsComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	openProductDialog(product: any) {
+	openProductDialog(data: IProductClicked) {
 		this._dialogService
-			.open(ProductDialogComponent, { data: { product } })
+			.open(ProductDialogComponent, { data })
 			.afterClosed$.pipe(
 				take(1),
 				filter((result) => Boolean(result))
 			)
-			.subscribe((data: any) => {
-				this._ordersService.addProductToOrder({
-					productId: data.id,
-					attributesIds: data.attributesIds,
-					count: data.count,
+			.subscribe((product) => {
+				const updateBody = {
+					productId: product.id,
+					attributesIds: product.attributesIds,
+					count: product.count,
 					placeId: this._routerService.getParams(PLACE_ID.slice(1)) || ""
-				});
+				};
+
+				if (data.productToOrder) {
+					this._ordersService.updateProductToOrder(data.productToOrder.id, updateBody);
+				} else {
+					this._ordersService.addProductToOrder(updateBody);
+				}
 			});
 	}
 
-	removeProductFromOrder(productOutput: IProductOutput) {
-		this._ordersService.removeProductFromOrder({
-			...productOutput,
-			placeId: this._routerService.getParams(PLACE_ID.slice(1)) || ""
-		});
+	removeProductFromOrder(productToOrder: IStoreProductToOrder) {
+		this._ordersService.removeProductFromOrder(productToOrder.id);
 	}
 
 	addProductToOrder(productOutput: IProductOutput) {

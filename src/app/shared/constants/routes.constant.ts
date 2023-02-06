@@ -1,4 +1,4 @@
-import { CATEGORY_ID, DYNAMIC_TOKEN, HALL_ID, ORDER_ID, PLACE_ID, PRODUCT_ID, TABLE_ID } from "./index";
+import { CATEGORY_ID, DYNAMIC_TOKEN, HALL_ID, ORDER_ID, PLACE_ID, TABLE_ID } from "./index";
 
 export const CLIENT_ROUTES = {
 	AUTH: {
@@ -104,10 +104,6 @@ export const CLIENT_ROUTES = {
 	PRODUCTS: {
 		path: `places/${PLACE_ID}/categories/${CATEGORY_ID}/products`,
 		absolutePath: `/places/${PLACE_ID}/categories/${CATEGORY_ID}/products`
-	},
-	PRODUCT: {
-		path: `places/${PLACE_ID}/categories/${CATEGORY_ID}/products/${PRODUCT_ID}`,
-		absolutePath: `/places/${PLACE_ID}/categories/${CATEGORY_ID}/products/${PRODUCT_ID}`
 	},
 	CONFIRM_PRODUCTS: {
 		path: `places/${PLACE_ID}/confirm-products`,

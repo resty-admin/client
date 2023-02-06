@@ -6,6 +6,7 @@ export interface IProductInput {
 	name: ProductEntity["name"];
 	description?: ProductEntity["description"];
 	price: ProductEntity["price"];
+	attrsGroups: ProductEntity["attrsGroups"];
 	productsToOrders: {
 		attributesIds: string[];
 		count: number;

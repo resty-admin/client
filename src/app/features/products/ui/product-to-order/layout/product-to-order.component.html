@@ -8,6 +8,7 @@
 		></app-image>
 
 		<p class="title">{{ productToOrder.product.name }}</p>
+		<p class="attributes">{{ productToOrder.product.description + " " + attributes }}</p>
 
 		<div class="paid-status">
 			<p class="waiting" *ngIf="productToOrder.paidStatus === productToOrderPaidStatus.Waiting">
@@ -18,6 +19,8 @@
 				[name]="productToOrder.paidStatus === productToOrderPaidStatus.Paid ? 'paid' : 'not-paid'"
 			></app-icon>
 		</div>
+
+		<div class="divider"></div>
 
 		<p class="user">{{ productToOrder.user.name }}</p>
 		<p class="count">{{ productToOrder.count }}x</p>

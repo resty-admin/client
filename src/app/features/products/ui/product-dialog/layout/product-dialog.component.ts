@@ -22,21 +22,20 @@ export class ProductDialogComponent implements OnInit {
 	constructor(readonly sharedService: SharedService, private readonly _dialogRef: DialogRef) {}
 
 	ngOnInit() {
-		const { product, productsToOrders } = this._dialogRef.data || {};
-
-		if (productsToOrders) {
-			this.isEdit = true;
-		}
+		const { product, productToOrder } = this._dialogRef.data || {};
 
 		this.product = product;
-		this.count = (productsToOrders || []).reduce(
-			(count: number, productToOrder: { count: number }) => count + productToOrder.count,
-			0
-		);
 
-		for (const attrsGroup of product.attrsGroups) {
-			this.formGroup.addControl(attrsGroup.name, new FormControl(""));
+		for (const attrsGroup of product?.attrsGroups || []) {
+			this.formGroup.addControl(attrsGroup.name, new FormControl(productToOrder?.attributesIds[attrsGroup.name]));
 		}
+
+		if (!productToOrder) {
+			return;
+		}
+
+		this.isEdit = true;
+		this.count = productToOrder.count;
 	}
 
 	removeProductFromOrder() {
@@ -51,7 +50,7 @@ export class ProductDialogComponent implements OnInit {
 		this._dialogRef.close({
 			...this.product,
 			count: this.count,
-			attributesIds: Object.values(this.formGroup.value).flat()
+			attributesIds: Object.fromEntries(Object.entries(this.formGroup.value).filter(([_, val]) => Boolean(val)))
 		});
 	}
 }

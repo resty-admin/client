@@ -98,11 +98,13 @@ export interface AttributeToProductEntity {
 	attribute: AttributesEntity;
 	count: Scalars["Int"];
 	id: Scalars["String"];
+	productToOrder: ProductToOrderEntity;
 }
 
 export interface AttributeToProductEntityInput {
 	attribute: AttributesEntityInput;
 	count: Scalars["Int"];
+	productToOrder: ProductToOrderEntityInput;
 }
 
 export interface AttributesEntity {

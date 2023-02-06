@@ -36,4 +36,8 @@ export class RadioButtonComponent extends ControlValueAccessor<boolean> implemen
 
 		super.ngOnChanges(changes);
 	}
+
+	override writeValue(value: boolean) {
+		super.writeValue(value);
+	}
 }

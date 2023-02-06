@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { ConfirmProductModule } from "@features/products";
+import { ConfirmProductModule, PreviewProductModule } from "@features/products";
 import { ConfirmProductSkeletonModule } from "@features/products/ui/confirm-product-skeleton";
 import { I18nModule } from "@shared/modules/i18n";
 import { SkeletonModule } from "@shared/ui/skeleton";
@@ -19,7 +19,8 @@ import { ConfirmProductsComponent } from "./layout/confirm-products.component";
 		I18nModule,
 		ConfirmProductModule,
 		SkeletonModule,
-		ConfirmProductSkeletonModule
+		ConfirmProductSkeletonModule,
+		PreviewProductModule
 	]
 })
 export class ConfirmProductsModule {}
