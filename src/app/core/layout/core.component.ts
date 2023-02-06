@@ -11,7 +11,7 @@ import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
 import { ThemeService } from "@shared/modules/theme";
 import type { IAction } from "@shared/ui/actions";
-import { catchError, filter, map, of, shareReplay, startWith, switchMap, tap } from "rxjs";
+import { catchError, filter, map, of, shareReplay, startWith, switchMap, take, tap } from "rxjs";
 
 import { CorePageGQL } from "../graphql";
 
@@ -26,6 +26,9 @@ import { CorePageGQL } from "../graphql";
 export class CoreComponent implements OnInit {
 	readonly isAsideOpen$ = this._asideService.isOpen$;
 	readonly user$ = this._authService.me$.pipe(
+		tap((user) => {
+			console.log(user);
+		}),
 		filter((user) => Boolean(user)),
 		shareReplay({ refCount: true })
 	);
@@ -63,7 +66,7 @@ export class CoreComponent implements OnInit {
 		{
 			label: "Выйти",
 			icon: "exit",
-			func: () => this._authService.signOut()
+			func: () => this.signOut()
 		}
 	];
 
@@ -93,7 +96,7 @@ export class CoreComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.user$.pipe(untilDestroyed(this)).subscribe(async (user) => {
+		this.user$.pipe(take(1)).subscribe(async (user) => {
 			if (!user || user.name) {
 				return;
 			}
@@ -111,7 +114,7 @@ export class CoreComponent implements OnInit {
 	}
 
 	async signOut() {
-		await this._authService.signOut();
+		this._authService.signOut();
 		await this._routerService.navigateByUrl(CLIENT_ROUTES.SIGN_IN.absolutePath);
 	}
 

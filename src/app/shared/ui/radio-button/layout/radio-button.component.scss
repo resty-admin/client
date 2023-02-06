@@ -23,7 +23,9 @@
 						border-bottom-color: var(--primary);
 					}
 				}
-
+				.decoration {
+					display: none;
+				}
 				.label {
 					display: block;
 					font-weight: 500;
