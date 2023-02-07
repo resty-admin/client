@@ -50,16 +50,16 @@ export class OrdersService {
 		this._ordersRepository.setProductsToOrders(productsToOrders);
 	}
 
-	addProductToOrder(productToOrder: IStoreProductToOrder) {
+	addProductToOrder(productToOrder: Omit<IStoreProductToOrder, "id">) {
 		this._ordersRepository.addProductToOrder(productToOrder);
 	}
 
-	updateProductToOrder(productId: string, productToOrder: IStoreProductToOrder) {
-		this._ordersRepository.updateProductToOrder(productId, productToOrder);
+	updateProductToOrder(id: string, productToOrder: Omit<IStoreProductToOrder, "id">) {
+		this._ordersRepository.updateProductToOrder(id, productToOrder);
 	}
 
-	removeProductFromOrder(productToOrder: IStoreProductToOrder) {
-		this._ordersRepository.removeProductToOrder(productToOrder);
+	removeProductFromOrder(id: string) {
+		this._ordersRepository.removeProductToOrder(id);
 	}
 
 	createOrder(order: CreateOrderInput) {

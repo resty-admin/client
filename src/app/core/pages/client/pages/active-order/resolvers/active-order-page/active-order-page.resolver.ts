@@ -16,6 +16,6 @@ export class ActiveOrderPageResolver implements Resolve<unknown> {
 			return;
 		}
 
-		return this._activeOrderPageGQL.fetch({ orderId });
+		return this._activeOrderPageGQL.fetch({ orderId }, { fetchPolicy: "network-only" });
 	}
 }

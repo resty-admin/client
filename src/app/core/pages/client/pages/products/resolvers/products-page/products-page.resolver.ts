@@ -16,8 +16,11 @@ export class ProductsPageResolver implements Resolve<unknown> {
 			return;
 		}
 
-		return this._productsPageGQL.fetch({
-			filtersArgs: [{ key: "category.id", operator: "=", value: categoryId }]
-		});
+		return this._productsPageGQL.fetch(
+			{
+				filtersArgs: [{ key: "category.id", operator: "=", value: categoryId }]
+			},
+			{ fetchPolicy: "network-only" }
+		);
 	}
 }

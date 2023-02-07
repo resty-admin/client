@@ -1,7 +1,13 @@
 <ul [class]="className">
 	<li class="option" *ngFor="let option of options; let i = index; trackBy: sharedService.trackByFn">
-		<input class="input" type="radio" [formControl]="formControl" [value]="option[bindValue]" [id]="id + i" />
-		<div class="decoration"></div>
+		<input
+			class="input"
+			type="radio"
+			[formControl]="formControl"
+			[value]="option[bindValue]"
+			[id]="id + i"
+			[name]="id"
+		/>
 		<label class="label" [for]="id + i">
 			<ng-container *ngIf="labelTemplate; else defaultLable">
 				<ng-container *ngTemplateOutlet="labelTemplate; context: { $implicit: option }"></ng-container>
@@ -11,5 +17,8 @@
 				{{ option[bindLabel] }}
 			</ng-template>
 		</label>
+		<div class="decoration">
+			<app-icon class="icon" name="add"></app-icon>
+		</div>
 	</li>
 </ul>

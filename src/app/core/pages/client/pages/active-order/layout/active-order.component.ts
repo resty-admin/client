@@ -6,7 +6,7 @@ import { CommandsDialogComponent, CommandsService } from "@features/commands";
 import { CancelConfirmationComponent, OrdersService } from "@features/orders";
 import { CloseConfirmationComponent } from "@features/orders/ui";
 import type { ActiveOrderEntity } from "@graphql";
-import { ProductToOrderStatusEnum } from "@graphql";
+import { ProductToOrderPaidStatusEnum, ProductToOrderStatusEnum } from "@graphql";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { CLIENT_ROUTES, ORDER_ID, PLACE_ID } from "@shared/constants";
 import { OrdersEvents } from "@shared/enums";
@@ -58,9 +58,12 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 		const orderId = this._routerService.getParams(ORDER_ID.slice(1));
 		await this._activeOrderPageQuery.setVariables({ orderId });
 
-		// this.isAllPaid = (this.activeOrder?.productsToOrders || []).every(
-		// 	(productToOrder) => productToOrder.paidStatus === ProductToOrderPaidStatusEnum.Paid
-		// );
+		this.activeOrder$.pipe(untilDestroyed(this)).subscribe((result) => {
+			this.isAllPaid =
+				(result?.productsToOrders || []).filter(
+					(productToOrder) => productToOrder.paidStatus !== ProductToOrderPaidStatusEnum.Paid
+				).length === 0;
+		});
 
 		this._ordersService.setActiveOrderId(orderId);
 
@@ -99,13 +102,7 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 				windowClass: "ios-datepicker-dialog"
 			})
 			.afterClosed$.pipe(take(1))
-			.subscribe((date) => {
-				if (!date) {
-					return;
-				}
-
-				console.log("newDate", date);
-			});
+			.subscribe();
 	}
 
 	openCommandsDialog(order: ActiveOrderPageQuery["order"]) {
@@ -166,13 +163,34 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		this._actionsService.setAction({
-			label: "SELECT_PAYMENT_TYPE",
-			disabled: this.selectedProductsToOrders.length === 0,
-			func: () =>
-				this._routerService.navigate([CLIENT_ROUTES.PAYMENT_TYPE.absolutePath.replace(ORDER_ID, orderId)], {
-					queryParams: { products: JSON.stringify(this.selectedProductsToOrders) }
-				})
+		this.activeOrder$.pipe(take(1)).subscribe((activeOrder) => {
+			if (!activeOrder) {
+				return;
+			}
+
+			const price = (activeOrder.productsToOrders || [])
+				.filter(
+					(productToOrder) =>
+						this.selectedProductsToOrders.includes(productToOrder.id) &&
+						productToOrder.paidStatus === ProductToOrderPaidStatusEnum.NotPaid
+				)
+				.reduce(
+					(pre, curr) =>
+						pre +
+						curr.product.price * curr.count +
+						(curr.attributesToProduct || [])?.reduce((_pre, _curr) => _pre + _curr.attribute.price * _curr.count, 0),
+					0
+				);
+
+			this._actionsService.setAction({
+				original: true,
+				label: `К оплате: ${price}`,
+				disabled: this.selectedProductsToOrders.length === 0,
+				func: () =>
+					this._routerService.navigate([CLIENT_ROUTES.PAYMENT_TYPE.absolutePath.replace(ORDER_ID, orderId)], {
+						queryParams: { products: JSON.stringify(this.selectedProductsToOrders) }
+					})
+			});
 		});
 	}
 

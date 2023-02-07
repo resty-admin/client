@@ -12,6 +12,6 @@
 		(click)="action.func()"
 		[disabled]="action.disabled"
 	>
-		{{ t("FOOTER." + action.label) }}
+		{{ action.original ? action.label : t("FOOTER." + action.label) }}
 	</button>
 </footer>

@@ -8,11 +8,9 @@ import type {
 	UpdateMeInput,
 	UserEntity
 } from "@graphql";
-import { CLIENT_ROUTES } from "@shared/constants";
 import type { LanguagesEnum, ThemeEnum } from "@shared/enums";
 import { CryptoService } from "@shared/modules/crypto";
 import { JwtService } from "@shared/modules/jwt";
-import { RouterService } from "@shared/modules/router";
 import { resetStores } from "@shared/modules/store";
 import type { Observable } from "rxjs";
 import { catchError, map, of, tap } from "rxjs";
@@ -58,8 +56,7 @@ export class AuthService {
 		private readonly _googleGQL: GoogleGQL,
 		private readonly _cryptoService: CryptoService,
 		private readonly _authRepository: AuthRepository,
-		private readonly _jwtService: JwtService,
-		private readonly _routerService: RouterService
+		private readonly _jwtService: JwtService
 	) {}
 
 	private _getBodyWithEncryptedPassword<T extends { password: string }>(body: T) {
@@ -72,7 +69,12 @@ export class AuthService {
 
 	async updateAccessToken(accessToken?: string) {
 		this._authRepository.updateAccessToken(accessToken);
-		await this.getMeQuery.resetLastResults();
+
+		if (this.getMeQuery.getLastResult().errors) {
+			this.getMeQuery.resetLastResults();
+		} else {
+			await this.getMeQuery.refetch();
+		}
 	}
 
 	updateTheme(theme: ThemeEnum) {
@@ -137,8 +139,7 @@ export class AuthService {
 		return this._deleteMeGQL.mutate();
 	}
 
-	async signOut() {
-		await this._routerService.navigateByUrl(CLIENT_ROUTES.SIGN_IN.absolutePath);
+	signOut() {
 		resetStores();
 	}
 }

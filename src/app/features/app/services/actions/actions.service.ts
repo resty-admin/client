@@ -4,6 +4,7 @@ import { BehaviorSubject } from "rxjs";
 export interface IAction {
 	label: string;
 	disabled?: boolean;
+	original?: boolean;
 	func: () => unknown;
 }
 @Injectable({ providedIn: "root" })

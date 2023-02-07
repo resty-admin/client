@@ -1,9 +1,15 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+import type { IStoreProductToOrder } from "@features/products";
 import type { ISimpleChanges } from "@shared/interfaces";
 import { SharedService } from "@shared/services";
 
 import type { IProductInput, IProductOutput } from "../interfaces";
+
+interface IProductClicked {
+	product: IProductInput;
+	productToOrder?: IStoreProductToOrder;
+}
 @Component({
 	selector: "app-preview-product",
 	templateUrl: "./preview-product.component.html",
@@ -11,30 +17,40 @@ import type { IProductInput, IProductOutput } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PreviewProductComponent implements OnChanges {
-	@Output() minusClicked = new EventEmitter<IProductOutput>();
+	@Output() minusClicked = new EventEmitter<IStoreProductToOrder>();
 	@Output() plusClicked = new EventEmitter<IProductOutput>();
+	@Output() productClicked = new EventEmitter<IProductClicked>();
 	@Input() product?: IProductInput | null;
-
-	count = 0;
+	productsWithAttributes: any[] = [];
+	productWithoutAttributes: any;
 
 	constructor(readonly sharedService: SharedService) {}
 
 	ngOnChanges(changes: ISimpleChanges<PreviewProductComponent>) {
-		if (!changes.product || !changes.product.currentValue) {
+		if (!changes.product) {
 			return;
 		}
 
-		this.count = (this.product?.productsToOrders || []).reduce(
-			(count, productToOrder) => count + productToOrder.count,
-			0
+		const { currentValue: product } = changes.product;
+
+		this.productWithoutAttributes = (product?.productsToOrders || []).find(
+			(productToOrder) => Object.keys(productToOrder.attributesIds).length === 0
+		);
+
+		this.productsWithAttributes = (product?.productsToOrders || []).filter(
+			(productToOrder) => Object.keys(productToOrder.attributesIds).length
 		);
 	}
 
-	emitMinusClick(productId: string) {
-		this.minusClicked.emit({ productId, attributesIds: [], count: 1 });
+	emitMinusClick(productToOrder: IStoreProductToOrder) {
+		this.minusClicked.emit(productToOrder);
 	}
 
-	emitPlusClick(productId: string) {
-		this.plusClicked.emit({ productId, attributesIds: [], count: 1 });
+	emitPlusClick(product: IProductInput, attributesIds: IStoreProductToOrder["attributesIds"] = {}) {
+		this.plusClicked.emit({ productId: product.id, attributesIds, count: 1 });
+	}
+
+	emitProductClicked(data: IProductClicked) {
+		this.productClicked.emit(data);
 	}
 }

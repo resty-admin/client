@@ -63,7 +63,7 @@ export class CoreComponent implements OnInit {
 		{
 			label: "Выйти",
 			icon: "exit",
-			func: () => this._authService.signOut()
+			func: () => this.signOut()
 		}
 	];
 
@@ -111,7 +111,7 @@ export class CoreComponent implements OnInit {
 	}
 
 	async signOut() {
-		await this._authService.signOut();
+		this._authService.signOut();
 		await this._routerService.navigateByUrl(CLIENT_ROUTES.SIGN_IN.absolutePath);
 	}
 

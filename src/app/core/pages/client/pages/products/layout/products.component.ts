@@ -2,8 +2,9 @@ import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
-import type { IProductOutput } from "@features/products";
+import type { IProductInput, IProductOutput, IStoreProductToOrder } from "@features/products";
 import { ProductDialogComponent } from "@features/products";
+import type { AttributesEntity } from "@graphql";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { CATEGORY_ID, PLACE_ID } from "@shared/constants";
 import { CLIENT_ROUTES } from "@shared/constants";
@@ -15,6 +16,10 @@ import { filter, map, switchMap, take } from "rxjs";
 
 import { ProductsPageGQL } from "../graphql";
 
+interface IProductClicked {
+	product: IProductInput;
+	productToOrder?: IStoreProductToOrder;
+}
 @UntilDestroy()
 @Component({
 	selector: "app-products",
@@ -30,7 +35,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 		switchMap((products) =>
 			this._ordersService.productsToOrders$.pipe(
 				map((productsToOrders) =>
-					(products || []).map((product: any) => ({
+					(products || []).map((product) => ({
 						...product,
 						productsToOrders: productsToOrders.filter((productToOrder) => productToOrder.productId === product.id)
 					}))
@@ -56,19 +61,58 @@ export class ProductsComponent implements OnInit, OnDestroy {
 			filtersArgs: [{ key: "category.id", operator: "=", value: categoryId }]
 		});
 
-		this._ordersService.productsToOrders$.pipe(untilDestroyed(this)).subscribe((productsToOrder) => {
-			this._actionsService.setAction({
-				label: "CONFIRM",
-				disabled: productsToOrder.length === 0,
-				func: () =>
-					this._routerService.navigateByUrl(
-						CLIENT_ROUTES.CONFIRM_PRODUCTS.absolutePath.replace(
-							PLACE_ID,
-							this._routerService.getParams(PLACE_ID.slice(1))
+		this.products$
+			.pipe(
+				switchMap((products) => {
+					const productsAttributes = products.reduce<AttributesEntity[]>(
+						(attributes, product) => [
+							...attributes,
+							...((product?.attrsGroups || []).reduce<AttributesEntity[]>(
+								(attrGroups, attrGroup) => [...attrGroups, ...(attrGroup.attributes || [])],
+								[]
+							) || [])
+						],
+						[]
+					);
+
+					return this._ordersService.productsToOrders$.pipe(
+						map((productsToOrders) =>
+							productsToOrders.map((productToOrder) => {
+								const attributesPrice = Object.values(productToOrder.attributesIds)
+									.flat()
+									.map((id) => productsAttributes.find((attr) => attr.id === id)!)
+									.reduce((price, attribute) => price + attribute.price, 0);
+
+								return {
+									...productToOrder,
+									price:
+										(products.find((product) => product.id === productToOrder.productId)?.price || 0) + attributesPrice
+								};
+							})
 						)
-					)
+					);
+				}),
+				untilDestroyed(this)
+			)
+			.subscribe((productsToOrder) => {
+				const price = productsToOrder.reduce(
+					(_price, productToOrder) => _price + (productToOrder?.price || 0) * productToOrder.count,
+					0
+				);
+
+				this._actionsService.setAction({
+					original: true,
+					label: `Добавить на ${price}грн`,
+					disabled: productsToOrder.length === 0,
+					func: () =>
+						this._routerService.navigateByUrl(
+							CLIENT_ROUTES.CONFIRM_PRODUCTS.absolutePath.replace(
+								PLACE_ID,
+								this._routerService.getParams(PLACE_ID.slice(1))
+							)
+						)
+				});
 			});
-		});
 
 		this._breadcrumbsService.setBreadcrumb({
 			routerLink: CLIENT_ROUTES.CATEGORIES.absolutePath.replace(
@@ -78,28 +122,31 @@ export class ProductsComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	openProductDialog(product: any) {
+	openProductDialog(data: IProductClicked) {
 		this._dialogService
-			.open(ProductDialogComponent, { data: { product } })
+			.open(ProductDialogComponent, { data })
 			.afterClosed$.pipe(
 				take(1),
 				filter((result) => Boolean(result))
 			)
-			.subscribe((data: any) => {
-				this._ordersService.addProductToOrder({
-					productId: data.id,
-					attributesIds: data.attributesIds,
-					count: data.count,
+			.subscribe((product) => {
+				const updateBody = {
+					productId: product.id,
+					attributesIds: product.attributesIds,
+					count: product.count,
 					placeId: this._routerService.getParams(PLACE_ID.slice(1)) || ""
-				});
+				};
+
+				if (data.productToOrder) {
+					this._ordersService.updateProductToOrder(data.productToOrder.id, updateBody);
+				} else {
+					this._ordersService.addProductToOrder(updateBody);
+				}
 			});
 	}
 
-	removeProductFromOrder(productOutput: IProductOutput) {
-		this._ordersService.removeProductFromOrder({
-			...productOutput,
-			placeId: this._routerService.getParams(PLACE_ID.slice(1)) || ""
-		});
+	removeProductFromOrder(productToOrder: IStoreProductToOrder) {
+		this._ordersService.removeProductFromOrder(productToOrder.id);
 	}
 
 	addProductToOrder(productOutput: IProductOutput) {

@@ -132,7 +132,7 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 						productsToOrder: productsToOrder.map((productToOrder) => ({
 							productId: productToOrder.productId,
 							count: productToOrder.count,
-							attributesIds: productToOrder.attributesIds
+							attributesIds: Object.values(productToOrder.attributesIds).flat()
 						}))
 					})
 				),

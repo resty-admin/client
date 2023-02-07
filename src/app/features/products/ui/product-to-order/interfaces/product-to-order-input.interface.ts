@@ -1,4 +1,4 @@
-import type { ProductEntity, ProductToOrderEntity, UserEntity } from "@graphql";
+import type { AttributesEntity, ProductEntity, ProductToOrderEntity, Scalars, UserEntity } from "@graphql";
 
 export interface IProductToOrderInput {
 	id: ProductToOrderEntity["id"];
@@ -9,7 +9,13 @@ export interface IProductToOrderInput {
 	count: ProductToOrderEntity["count"];
 	product: {
 		name: ProductEntity["name"];
+		description?: ProductEntity["description"];
 		price: ProductEntity["price"];
 		file?: ProductEntity["file"];
 	};
+	attributesToProduct?: {
+		attribute: AttributesEntity;
+		count: Scalars["Int"];
+		id: Scalars["String"];
+	}[];
 }

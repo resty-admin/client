@@ -1,0 +1,21 @@
+<ng-container *transloco="let t">
+	<button class="product-without-attributes" *ngIf="product" (click)="emitProductClick(product, productToOrder)">
+		<app-image class="image" [remote]="true" [name]="product.file?.url" placeholder="product"></app-image>
+
+		<p class="name">{{ product.name }}</p>
+		<p class="description">{{ product.description }}</p>
+
+		<p class="price">{{ product.price }} {{ t("FORM.CURRENCY") }}</p>
+		<!--		<p class="cal"></p>-->
+
+		<div class="divider"></div>
+
+		<app-counter
+			theme="1"
+			class="counter"
+			[value]="productToOrder?.count"
+			(minusClicked)="emitMinusClick(productToOrder)"
+			(plusClicked)="emitPlusClick(product)"
+		></app-counter>
+	</button>
+</ng-container>
