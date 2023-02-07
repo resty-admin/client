@@ -1,5 +1,6 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
 import { FormControl } from "@ngneat/reactive-forms";
@@ -36,24 +37,31 @@ export class PaymentTypeComponent implements OnInit, OnDestroy {
 		private readonly _ordersService: OrdersService,
 		private readonly _routerService: RouterService,
 		private readonly _actionsService: ActionsService,
-		private readonly _breadcrumbsService: BreadcrumbsService
+		private readonly _breadcrumbsService: BreadcrumbsService,
+		private readonly _activatedRoute: ActivatedRoute
 	) {}
 
 	async ngOnInit() {
 		const orderId = this._routerService.getParams(ORDER_ID.slice(1));
 		await this._paymentTypePageQuery.setVariables({ orderId });
-		// this.totalPrice = (this.order?.productsToOrders || [])
-		// 	.filter((productToOrder) =>
-		// 		JSON.parse(this._activatedRoute.snapshot.queryParamMap.get("products") || "").includes(productToOrder.id)
-		// 	)
-		// 	.reduce(
-		// 		(sum, productToOrder) =>
-		// 			sum +
-		// 			(productToOrder.product.price +
-		// 				(productToOrder.attributes || []).reduce((_sum, attribute) => _sum + attribute.price, 0)) *
-		// 				productToOrder.count,
-		// 		0
-		// 	);
+
+		this.order$.pipe(take(1)).subscribe((order) => {
+			this.totalPrice = (order?.productsToOrders || [])
+				.filter((productToOrder) =>
+					JSON.parse(this._activatedRoute.snapshot.queryParamMap.get("products") || "").includes(productToOrder.id)
+				)
+				.reduce(
+					(sum, productToOrder) =>
+						sum +
+						(productToOrder.product.price +
+							(productToOrder.attributesToProduct || []).reduce(
+								(_sum, attributeToProduct) => _sum + attributeToProduct.attribute.price * attributeToProduct.count,
+								0
+							)) *
+							productToOrder.count,
+					0
+				);
+		});
 
 		this._breadcrumbsService.setBreadcrumb({
 			routerLink: CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, orderId)

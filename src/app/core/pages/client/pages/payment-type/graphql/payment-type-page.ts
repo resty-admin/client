@@ -22,6 +22,7 @@ export interface PaymentTypePageQuery {
 						| {
 								__typename?: "AttributeToProductEntity";
 								id: string;
+								count: number;
 								attribute: { __typename?: "AttributesEntity"; id: string; price: number };
 						  }[]
 						| null;
@@ -42,6 +43,7 @@ export const PaymentTypePageDocument = gql`
 				}
 				attributesToProduct {
 					id
+					count
 					attribute {
 						id
 						price
