@@ -84,8 +84,8 @@ export class ConfirmProductsComponent implements OnInit, OnDestroy {
 							productsToOrders.map((productToOrder) => {
 								const attributesPrice = Object.values(productToOrder.attributesIds)
 									.flat()
-									.map((id) => productsAttributes.find((attr) => attr.id === id)!)
-									.reduce((price, attribute) => price + attribute.price, 0);
+									.map((id) => productsAttributes.find((attr) => attr.id === id))
+									.reduce((price, attribute) => price + (attribute?.price || 0), 0);
 
 								return {
 									...productToOrder,
@@ -117,10 +117,10 @@ export class ConfirmProductsComponent implements OnInit, OnDestroy {
 										return;
 									}
 									await this._routerService.navigateByUrl(
-										CLIENT_ROUTES.CREATE_ORDER.absolutePath.replace(
+										`${CLIENT_ROUTES.CREATE_ORDER.absolutePath.replace(
 											PLACE_ID,
 											this._routerService.getParams(PLACE_ID.slice(1))
-										)
+										)}?from=confirm`
 									);
 								}),
 								filter((orderId) => Boolean(orderId)),

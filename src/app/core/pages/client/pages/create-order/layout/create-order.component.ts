@@ -32,6 +32,8 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 	schemaRouterLink = "";
 	menuRouterLink = "";
 
+	isConfirm = false;
+
 	readonly withData$ = this._ordersService.productsToOrders$.pipe(
 		map((productsToOrders) => productsToOrders.length > 0),
 		shareReplay({ refCount: true })
@@ -49,6 +51,8 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 	) {}
 
 	ngOnInit() {
+		this.isConfirm = this._routerService.getQueryParams("from");
+
 		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
 
 		if (!placeId) {

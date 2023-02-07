@@ -8,7 +8,7 @@ import { ORDER_ID } from "@shared/constants";
 import { CLIENT_ROUTES } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
-import { map, take } from "rxjs";
+import { filter, map, switchMap, take } from "rxjs";
 
 @UntilDestroy()
 @Component({
@@ -39,15 +39,32 @@ export class ConnectToOrderComponent implements OnInit, OnDestroy {
 				func: () => {
 					this._ordersService
 						.addUserToOrder(Number.parseInt(`${code}`))
-						.pipe(map((result) => result.data?.addUserToOrder))
-						.pipe(take(1))
+						.pipe(
+							take(1),
+							map((result) => result.data?.addUserToOrder),
+							filter((result) => Boolean(result)),
+							switchMap((order) =>
+								this._ordersService.productsToOrders$.pipe(
+									switchMap((productsToOrder) =>
+										this._ordersService.confirmProductsToOrders(
+											productsToOrder.map((productToOrder) => ({
+												productId: productToOrder.productId,
+												count: productToOrder.count,
+												attributesIds: Object.values(productToOrder.attributesIds).flat(),
+												orderId: order!.id
+											}))
+										)
+									),
+									map(() => order)
+								)
+							)
+						)
 						.subscribe(async (order) => {
-							if (!order) {
-								return;
-							}
+							await this._ordersService.setActiveOrderId(order!.id);
+							this._ordersService.setProductsToOrders([]);
 
 							await this._routerService.navigateByUrl(
-								CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, order.id)
+								CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, order!.id)
 							);
 						});
 				}
