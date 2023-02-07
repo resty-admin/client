@@ -6,7 +6,7 @@ import { OrderTypeEnum } from "@graphql";
 import { DialogService } from "@ngneat/dialog";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { CLIENT_ROUTES, PLACE_ID } from "@shared/constants";
+import { CLIENT_ROUTES, ORDER_ID, PLACE_ID } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { filter, switchMap, take } from "rxjs";
@@ -63,11 +63,20 @@ export class ConnectToTableComponent implements OnInit, OnDestroy {
 				take(1),
 				filter((tableResult: any) => Boolean(tableResult.data)),
 				switchMap((tableResult) =>
-					this._ordersService.createOrder({
-						table: tableResult.data.getTableByCode.id,
-						type: OrderTypeEnum.InPlace,
-						place: placeId
-					})
+					this._ordersService.productsToOrders$.pipe(
+						switchMap((productsToOrders) =>
+							this._ordersService.createOrder({
+								table: tableResult.data.getTableByCode.id,
+								type: OrderTypeEnum.InPlace,
+								place: placeId,
+								productsToOrder: productsToOrders.map((productToOrder) => ({
+									productId: productToOrder.productId,
+									count: productToOrder.count,
+									attributesIds: Object.values(productToOrder.attributesIds).flat()
+								}))
+							})
+						)
+					)
 				),
 				take(1)
 			)
@@ -80,12 +89,11 @@ export class ConnectToTableComponent implements OnInit, OnDestroy {
 					const order = orderResult.data.createOrder;
 
 					await this._ordersService.setActiveOrderId(order.id);
+					this._ordersService.setProductsToOrders([]);
 
-					await this._routerService.navigateByUrl(CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, placeId));
+					await this._routerService.navigateByUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, order.id));
 				},
 				(error) => {
-					console.log(error.message);
-					console.log(error.message === "1024");
 					if (error.message === "1024") {
 						this._dialogService
 							.open(RedirectConfirmationComponent)

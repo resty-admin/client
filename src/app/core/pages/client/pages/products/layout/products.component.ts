@@ -80,13 +80,14 @@ export class ProductsComponent implements OnInit, OnDestroy {
 							productsToOrders.map((productToOrder) => {
 								const attributesPrice = Object.values(productToOrder.attributesIds)
 									.flat()
-									.map((id) => productsAttributes.find((attr) => attr.id === id)!)
-									.reduce((price, attribute) => price + attribute.price, 0);
+									.map((id) => productsAttributes.find((attr) => attr.id === id))
+									.reduce((price, attribute) => price + (attribute?.price || 0), 0);
+
+								const findedProduct = products.find((product) => product.id === productToOrder.productId);
 
 								return {
 									...productToOrder,
-									price:
-										(products.find((product) => product.id === productToOrder.productId)?.price || 0) + attributesPrice
+									price: findedProduct ? findedProduct.price + attributesPrice : 0
 								};
 							})
 						)

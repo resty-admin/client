@@ -13,7 +13,7 @@
 		</li>
 	</ul>
 
-	<div class="links">
+	<div class="links" *ngIf="!isConfirm">
 		<a class="link schema" [routerLink]="schemaRouterLink">
 			<app-image class="image" name="schema-decoration"></app-image>
 			<app-icon class="icon" name="home-smile"></app-icon>
