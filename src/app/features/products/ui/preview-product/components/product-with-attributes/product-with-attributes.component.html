@@ -5,8 +5,8 @@
 		(click)="emitProductClick(product, productToOrder)"
 	>
 		<p class="name">{{ product.name }}</p>
-		<p class="price">{{ product.price }} {{ t("FORM.CURRENCY") }}</p>
-		<p class="attributes">{{ attributes }}</p>
+		<p class="price">{{ product.price + attributesPrice }} {{ t("FORM.CURRENCY") }}</p>
+		<p class="attributes">{{ attributesName }}</p>
 
 		<app-counter
 			theme="2"

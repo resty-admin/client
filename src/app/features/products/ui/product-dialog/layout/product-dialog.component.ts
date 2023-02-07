@@ -2,8 +2,9 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import type { ProductEntity } from "@graphql";
+import type { AttributesEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
-import { UntilDestroy } from "@ngneat/until-destroy";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { SharedService } from "@shared/services";
 
 @UntilDestroy()
@@ -18,6 +19,8 @@ export class ProductDialogComponent implements OnInit {
 	count = 0;
 
 	isEdit = false;
+
+	totalPrice = 0;
 	readonly formGroup = new FormGroup({});
 	constructor(readonly sharedService: SharedService, private readonly _dialogRef: DialogRef) {}
 
@@ -30,20 +33,38 @@ export class ProductDialogComponent implements OnInit {
 			this.formGroup.addControl(attrsGroup.name, new FormControl(productToOrder?.attributesIds[attrsGroup.name]));
 		}
 
-		if (!productToOrder) {
-			return;
-		}
+		this.formGroup.valueChanges.pipe(untilDestroyed(this)).subscribe(() => {
+			this.calculatePrice();
+		});
 
-		this.isEdit = true;
-		this.count = productToOrder.count;
+		this.count = productToOrder?.count || 0;
+
+		this.calculatePrice();
+
+		this.isEdit = Boolean(productToOrder);
+	}
+
+	calculatePrice() {
+		const productAttributes = (this.product?.attrsGroups || []).reduce<AttributesEntity[]>(
+			(_attributes, attrGroup) => [..._attributes, ...(attrGroup?.attributes || [])],
+			[]
+		);
+		const attributesPrice = Object.values(this.formGroup.value)
+			.flat()
+			.map((id) => productAttributes.find((attr) => attr.id === id))
+			.reduce((pre, curr) => pre + (curr?.price || 0), 0);
+
+		this.totalPrice = this.count * (this.product?.price || 0) + attributesPrice;
 	}
 
 	removeProductFromOrder() {
 		this.count -= 1;
+		this.calculatePrice();
 	}
 
 	addProductToOrder() {
 		this.count += 1;
+		this.calculatePrice();
 	}
 
 	closeDialog() {

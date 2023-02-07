@@ -26,9 +26,6 @@ import { CorePageGQL } from "../graphql";
 export class CoreComponent implements OnInit {
 	readonly isAsideOpen$ = this._asideService.isOpen$;
 	readonly user$ = this._authService.me$.pipe(
-		tap((user) => {
-			console.log(user);
-		}),
 		filter((user) => Boolean(user)),
 		shareReplay({ refCount: true })
 	);

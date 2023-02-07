@@ -17,6 +17,7 @@ export class ProductToOrderComponent implements OnChanges {
 
 	attributes = "";
 
+	price = 0;
 	readonly productToOrderPaidStatus = ProductToOrderPaidStatusEnum;
 
 	ngOnChanges(changes: ISimpleChanges<ProductToOrderComponent>) {
@@ -24,7 +25,13 @@ export class ProductToOrderComponent implements OnChanges {
 			return;
 		}
 
-		this.attributes = (changes.productToOrder.currentValue?.attributesToProduct || []).reduce(
+		const productToOrder = changes.productToOrder.currentValue;
+
+		this.price =
+			(productToOrder?.attributesToProduct || []).reduce((pre, curr) => pre + curr.attribute.price * curr.count, 0) +
+			(productToOrder?.count || 0) * (productToOrder?.product.price || 0);
+
+		this.attributes = (productToOrder?.attributesToProduct || []).reduce(
 			(str, attribute) => `${str} ${attribute.attribute.name}`,
 			""
 		);

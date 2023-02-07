@@ -7,16 +7,18 @@
 		background-color: var(--light-grey);
 		border-radius: rem(12);
 		align-items: center;
-		gap: rem(10);
+		column-gap: rem(8);
 		padding: rem(8) rem(8) rem(15);
 		grid-template-areas:
-			"image image image"
-			"name name price"
-			"description description counter";
+			"image name"
+			"image description"
+			"divider divider"
+			"price counter";
 		grid-template-columns: auto 1fr auto;
 		.image {
 			grid-area: image;
-			height: rem(150);
+			width: rem(56);
+			height: rem(56);
 
 			@include image() {
 				border-radius: rem(12);
@@ -31,6 +33,12 @@
 			grid-area: price;
 			height: rem(24);
 			width: rem(50);
+		}
+		.divider {
+			grid-area: divider;
+			height: rem(1);
+			background-color: var(--dark-b);
+			margin: rem(8) 0;
 		}
 		.cal {
 			grid-area: cal;

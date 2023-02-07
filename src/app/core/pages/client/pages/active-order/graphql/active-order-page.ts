@@ -43,12 +43,8 @@ export interface ActiveOrderPageQuery {
 						| {
 								__typename?: "AttributeToProductEntity";
 								id: string;
-								attribute: {
-									__typename?: "AttributesEntity";
-									id: string;
-									name: string;
-									attributesGroup?: { __typename?: "AttributesGroupEntity"; id: string; name: string }[] | null;
-								};
+								count: number;
+								attribute: { __typename?: "AttributesEntity"; id: string; name: string; price: number };
 						  }[]
 						| null;
 					user: { __typename?: "UserEntity"; id: string; name: string };
@@ -116,13 +112,11 @@ export const ActiveOrderPageDocument = gql`
 				paidStatus
 				attributesToProduct {
 					id
+					count
 					attribute {
 						id
 						name
-						attributesGroup {
-							id
-							name
-						}
+						price
 					}
 				}
 				user {

@@ -20,24 +20,30 @@ export class ProductWithAttributesComponent implements OnChanges {
 
 	@Output() productCLicked = new EventEmitter<{ product: IProductInput; productToOrder: IStoreProductToOrder }>();
 
-	count = 0;
-	attributes = "";
+	attributesName = "";
+	attributesPrice = 0;
 
 	ngOnChanges(changes: ISimpleChanges<ProductWithAttributesComponent>) {
 		if (!changes.productToOrder || !changes.product) {
 			return;
 		}
 
-		const attributes: any = (this.product?.attrsGroups || [])
-			.reduce<AttributesEntity[]>((_attributes, attrGroup) => [..._attributes, ...(attrGroup?.attributes || [])], [])
-			.reduce((attributesMap, attribute) => ({ ...attributesMap, [attribute.id]: attribute.name }), {});
+		const productAttributes = (this.product?.attrsGroups || []).reduce<AttributesEntity[]>(
+			(_attributes, attrGroup) => [..._attributes, ...(attrGroup?.attributes || [])],
+			[]
+		);
 
-		this.attributes = attributes.length;
-
-		this.attributes = Object.values(this.productToOrder?.attributesIds || {})
+		const selectedAttributes = Object.values(this.productToOrder?.attributesIds || {})
 			.flat()
-			.reduce((str, id) => `${str} ${attributes[id]},`, "")
-			.slice(0, -1);
+			.map((id) => productAttributes.find((attr) => attr.id === id)!);
+
+		this.attributesName = "";
+		this.attributesPrice = 0;
+
+		for (const { name, price } of selectedAttributes) {
+			this.attributesName += `${name} (${price}грн) `;
+			this.attributesPrice += price;
+		}
 	}
 
 	emitMinusClick(productToOrder: IStoreProductToOrder) {

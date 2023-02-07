@@ -62,7 +62,7 @@
 
 		<footer class="footer">
 			<button appButton theme="1" class="submit" (click)="closeDialog()">
-				{{ isEdit ? "Редактировать" : "Добавить" }}
+				{{ (isEdit ? "Редактировать" : "Добавить") + " на: " + totalPrice + "грн" }}
 			</button>
 		</footer>
 	</div>

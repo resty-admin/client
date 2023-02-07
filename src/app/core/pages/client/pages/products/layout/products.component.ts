@@ -4,6 +4,7 @@ import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
 import type { IProductInput, IProductOutput, IStoreProductToOrder } from "@features/products";
 import { ProductDialogComponent } from "@features/products";
+import type { AttributesEntity } from "@graphql";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { CATEGORY_ID, PLACE_ID } from "@shared/constants";
 import { CLIENT_ROUTES } from "@shared/constants";
@@ -62,16 +63,35 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
 		this.products$
 			.pipe(
-				switchMap((products) =>
-					this._ordersService.productsToOrders$.pipe(
+				switchMap((products) => {
+					const productsAttributes = products.reduce<AttributesEntity[]>(
+						(attributes, product) => [
+							...attributes,
+							...((product?.attrsGroups || []).reduce<AttributesEntity[]>(
+								(attrGroups, attrGroup) => [...attrGroups, ...(attrGroup.attributes || [])],
+								[]
+							) || [])
+						],
+						[]
+					);
+
+					return this._ordersService.productsToOrders$.pipe(
 						map((productsToOrders) =>
-							productsToOrders.map((productToOrder) => ({
-								...productToOrder,
-								price: products.find((product) => product.id === productToOrder.productId)?.price
-							}))
+							productsToOrders.map((productToOrder) => {
+								const attributesPrice = Object.values(productToOrder.attributesIds)
+									.flat()
+									.map((id) => productsAttributes.find((attr) => attr.id === id)!)
+									.reduce((price, attribute) => price + attribute.price, 0);
+
+								return {
+									...productToOrder,
+									price:
+										(products.find((product) => product.id === productToOrder.productId)?.price || 0) + attributesPrice
+								};
+							})
 						)
-					)
-				),
+					);
+				}),
 				untilDestroyed(this)
 			)
 			.subscribe((productsToOrder) => {
