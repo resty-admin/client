@@ -1,5 +1,5 @@
 import type { OnChanges, OnInit } from "@angular/core";
-import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, ContentChild, Input, TemplateRef } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { untilDestroyed } from "@ngneat/until-destroy";
 import { ControlValueAccessor } from "@shared/classes";
@@ -18,6 +18,8 @@ import { IMultipleCheckboxTheme } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MultipleCheckboxComponent extends ControlValueAccessor<string[]> implements OnChanges, OnInit {
+	@ContentChild("labelTemplate", { static: true }) labelTemplate?: TemplateRef<unknown>;
+
 	@Input() label = "";
 	@Input() theme: IMultipleCheckboxTheme = "1";
 	@Input() options?: any[] | null = [];

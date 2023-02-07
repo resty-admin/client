@@ -34,7 +34,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 		switchMap((products) =>
 			this._ordersService.productsToOrders$.pipe(
 				map((productsToOrders) =>
-					(products || []).map((product: any) => ({
+					(products || []).map((product) => ({
 						...product,
 						productsToOrders: productsToOrders.filter((productToOrder) => productToOrder.productId === product.id)
 					}))
@@ -60,19 +60,39 @@ export class ProductsComponent implements OnInit, OnDestroy {
 			filtersArgs: [{ key: "category.id", operator: "=", value: categoryId }]
 		});
 
-		this._ordersService.productsToOrders$.pipe(untilDestroyed(this)).subscribe((productsToOrder) => {
-			this._actionsService.setAction({
-				label: "CONFIRM",
-				disabled: productsToOrder.length === 0,
-				func: () =>
-					this._routerService.navigateByUrl(
-						CLIENT_ROUTES.CONFIRM_PRODUCTS.absolutePath.replace(
-							PLACE_ID,
-							this._routerService.getParams(PLACE_ID.slice(1))
+		this.products$
+			.pipe(
+				switchMap((products) =>
+					this._ordersService.productsToOrders$.pipe(
+						map((productsToOrders) =>
+							productsToOrders.map((productToOrder) => ({
+								...productToOrder,
+								price: products.find((product) => product.id === productToOrder.productId)?.price
+							}))
 						)
 					)
+				),
+				untilDestroyed(this)
+			)
+			.subscribe((productsToOrder) => {
+				const price = productsToOrder.reduce(
+					(_price, productToOrder) => _price + (productToOrder?.price || 0) * productToOrder.count,
+					0
+				);
+
+				this._actionsService.setAction({
+					original: true,
+					label: `Добавить на ${price}грн`,
+					disabled: productsToOrder.length === 0,
+					func: () =>
+						this._routerService.navigateByUrl(
+							CLIENT_ROUTES.CONFIRM_PRODUCTS.absolutePath.replace(
+								PLACE_ID,
+								this._routerService.getParams(PLACE_ID.slice(1))
+							)
+						)
+				});
 			});
-		});
 
 		this._breadcrumbsService.setBreadcrumb({
 			routerLink: CLIENT_ROUTES.CATEGORIES.absolutePath.replace(

@@ -31,7 +31,11 @@
 						bindLabel="name"
 						[options]="attrGroup.attributes"
 						[formControlName]="attrGroup.name"
-					></app-radio-button>
+					>
+						<ng-template #labelTemplate let-value>
+							{{ value.name + " " + value.price + t("FORM.CURRENCY") }}
+						</ng-template>
+					</app-radio-button>
 
 					<ng-template #multipleCheckbox>
 						<app-multiple-checkbox
@@ -41,6 +45,9 @@
 							[options]="attrGroup.attributes"
 							[formControlName]="attrGroup.name"
 						>
+							<ng-template #labelTemplate let-value>
+								{{ value.name + " " + value.price + t("FORM.CURRENCY") }}
+							</ng-template>
 						</app-multiple-checkbox>
 					</ng-template>
 				</div>

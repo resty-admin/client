@@ -11,13 +11,7 @@
 		<p class="attributes">{{ productToOrder.product.description + " " + attributes }}</p>
 
 		<div class="paid-status">
-			<p class="waiting" *ngIf="productToOrder.paidStatus === productToOrderPaidStatus.Waiting">
-				{{ t("PRODUCT.WAITING_FOR_PAY") }}
-			</p>
-			<app-icon
-				class="icon"
-				[name]="productToOrder.paidStatus === productToOrderPaidStatus.Paid ? 'paid' : 'not-paid'"
-			></app-icon>
+			<app-icon [class]="'icon' + ' ' + productToOrder.paidStatus" name="paid"></app-icon>
 		</div>
 
 		<div class="divider"></div>

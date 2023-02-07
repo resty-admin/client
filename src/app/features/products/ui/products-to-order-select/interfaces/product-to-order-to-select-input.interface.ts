@@ -12,7 +12,7 @@ export interface IProductToOrderToSelectInput {
 	product: {
 		name: ProductEntity["name"];
 		price: ProductEntity["price"];
-		description: ProductEntity["description"];
+		description?: ProductEntity["description"];
 		file?: ProductEntity["file"];
 	};
 }

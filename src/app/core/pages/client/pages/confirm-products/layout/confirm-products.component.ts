@@ -64,50 +64,70 @@ export class ConfirmProductsComponent implements OnInit, OnDestroy {
 			routerLink: CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, placeId)
 		});
 
-		this._ordersService.productsToOrders$.pipe(untilDestroyed(this)).subscribe((productsToOrder) => {
-			this._actionsService.setAction({
-				label: "CONFIRM",
-				disabled: productsToOrder.length === 0,
-				func: () => {
-					this._ordersService.activeOrderId$
-						.pipe(
-							take(1),
-							tap(async (orderId) => {
-								if (orderId) {
-									return;
-								}
-								await this._routerService.navigateByUrl(
-									CLIENT_ROUTES.CREATE_ORDER.absolutePath.replace(
-										PLACE_ID,
-										this._routerService.getParams(PLACE_ID.slice(1))
+		this.products$
+			.pipe(
+				switchMap((products) =>
+					this._ordersService.productsToOrders$.pipe(
+						map((productsToOrders) =>
+							productsToOrders.map((productToOrder) => ({
+								...productToOrder,
+								price: products.find((product) => product.id === productToOrder.productId)?.price
+							}))
+						)
+					)
+				),
+				untilDestroyed(this)
+			)
+			.subscribe((productsToOrder) => {
+				const price = productsToOrder.reduce(
+					(_price, productToOrder) => _price + (productToOrder?.price || 0) * productToOrder.count,
+					0
+				);
+
+				this._actionsService.setAction({
+					original: true,
+					label: `Подтвердить на ${price}грн`,
+					disabled: productsToOrder.length === 0,
+					func: () => {
+						this._ordersService.activeOrderId$
+							.pipe(
+								take(1),
+								tap(async (orderId) => {
+									if (orderId) {
+										return;
+									}
+									await this._routerService.navigateByUrl(
+										CLIENT_ROUTES.CREATE_ORDER.absolutePath.replace(
+											PLACE_ID,
+											this._routerService.getParams(PLACE_ID.slice(1))
+										)
+									);
+								}),
+								filter((orderId) => Boolean(orderId)),
+								switchMap((orderId) =>
+									this._ordersService.confirmProductsToOrders(
+										(productsToOrder || []).map((productToOrder) => ({
+											productId: productToOrder.productId,
+											attributesIds: Object.values(productToOrder.attributesIds).flat(),
+											count: productToOrder.count,
+											orderId: orderId!
+										}))
 									)
-								);
-							}),
-							filter((orderId) => Boolean(orderId)),
-							switchMap((orderId) =>
-								this._ordersService.confirmProductsToOrders(
-									(productsToOrder || []).map((productToOrder) => ({
-										productId: productToOrder.productId,
-										attributesIds: Object.values(productToOrder.attributesIds).flat(),
-										count: productToOrder.count,
-										orderId: orderId!
-									}))
 								)
 							)
-						)
-						.subscribe(async (result) => {
-							if (!result.data?.confirmProductsToOrders) {
-								return;
-							}
+							.subscribe(async (result) => {
+								if (!result.data?.confirmProductsToOrders) {
+									return;
+								}
 
-							this._ordersService.setProductsToOrders([]);
-							await this._routerService.navigateByUrl(
-								CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, result.data.confirmProductsToOrders.id)
-							);
-						});
-				}
+								this._ordersService.setProductsToOrders([]);
+								await this._routerService.navigateByUrl(
+									CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, result.data.confirmProductsToOrders.id)
+								);
+							});
+					}
+				});
 			});
-		});
 	}
 
 	openProductDialog(data: IProductClicked) {

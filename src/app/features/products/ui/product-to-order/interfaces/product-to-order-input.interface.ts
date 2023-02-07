@@ -9,7 +9,7 @@ export interface IProductToOrderInput {
 	count: ProductToOrderEntity["count"];
 	product: {
 		name: ProductEntity["name"];
-		description: ProductEntity["description"];
+		description?: ProductEntity["description"];
 		price: ProductEntity["price"];
 		file?: ProductEntity["file"];
 	};

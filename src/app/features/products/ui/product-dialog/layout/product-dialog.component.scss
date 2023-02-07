@@ -2,6 +2,7 @@
 
 @include component() {
 	height: 100%;
+	overflow: auto;
 	.product-dialog {
 		height: 100%;
 		display: grid;
@@ -75,6 +76,9 @@
 		}
 
 		.footer {
+			bottom: 0;
+			width: 100%;
+			position: fixed;
 			padding: rem(15);
 			.submit {
 				width: 100%;
