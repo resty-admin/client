@@ -1,0 +1,32 @@
+@import "/src/assets/scss/abstractions/index";
+
+@include component() {
+	.redirect-confirmation {
+		display: grid;
+		padding: rem(57) rem(32);
+		row-gap: rem(32);
+
+		.title {
+			width: 100%;
+			white-space: pre-wrap;
+
+			@include desktop() {
+				width: rem(400);
+			}
+		}
+
+		.active-order {
+			justify-self: start;
+		}
+
+		.actions {
+			display: grid;
+			row-gap: rem(24);
+		}
+	}
+}
+@include dark() {
+	.cancel-confirmation .value {
+		color: var(--light);
+	}
+}
