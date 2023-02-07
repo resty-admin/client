@@ -2,7 +2,7 @@
 	<div class="preview-place" *ngIf="place">
 		<app-image class="image" [remote]="true" [name]="place.file?.url" placeholder="place"></app-image>
 		<span class="label">{{ place.name }}</span>
-		<span class="status">{{ t("PLACE." + place.status) }}</span>
+		<span class="status">{{ t("PLACE.OPENED") }}</span>
 		<div class="address">
 			<app-icon class="icon" name="location"></app-icon>
 			<span class="text">{{ place.address }}</span>

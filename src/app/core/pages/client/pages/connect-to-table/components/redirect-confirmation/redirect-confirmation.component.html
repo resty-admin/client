@@ -1,0 +1,12 @@
+<div class="redirect-confirmation" *transloco="let t">
+	<h1 appTypography theme="2" class="title">{{ t("REDIRECT_CONFIRMATION.TITLE") }}</h1>
+
+	<div class="actions">
+		<button appButton theme="1" class="cancel" (click)="closeDialog(false)">
+			{{ t("REDIRECT_CONFIRMATION.STAY") }}
+		</button>
+		<button appButton theme="4" class="submit" (click)="closeDialog(true)">
+			{{ t("REDIRECT_CONFIRMATION.REDIRECT") }}
+		</button>
+	</div>
+</div>

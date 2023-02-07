@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
 import { OrderTypeEnum } from "@graphql";
+import { DialogService } from "@ngneat/dialog";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { CLIENT_ROUTES, PLACE_ID } from "@shared/constants";
@@ -10,6 +11,7 @@ import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { filter, switchMap, take } from "rxjs";
 
+import { RedirectConfirmationComponent } from "../components";
 import { ConnectToTablePageGQL } from "../graphql";
 
 @UntilDestroy()
@@ -27,7 +29,8 @@ export class ConnectToTableComponent implements OnInit, OnDestroy {
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _actionsService: ActionsService,
-		private readonly _ordersService: OrdersService
+		private readonly _ordersService: OrdersService,
+		private readonly _dialogService: DialogService
 	) {}
 
 	ngOnInit() {
@@ -68,17 +71,36 @@ export class ConnectToTableComponent implements OnInit, OnDestroy {
 				),
 				take(1)
 			)
-			.subscribe(async (orderResult) => {
-				if (!orderResult.data) {
-					return;
+			.subscribe(
+				async (orderResult) => {
+					if (!orderResult.data) {
+						return;
+					}
+
+					const order = orderResult.data.createOrder;
+
+					await this._ordersService.setActiveOrderId(order.id);
+
+					await this._routerService.navigateByUrl(CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, placeId));
+				},
+				(error) => {
+					console.log(error.message);
+					console.log(error.message === "1024");
+					if (error.message === "1024") {
+						this._dialogService
+							.open(RedirectConfirmationComponent)
+							.afterClosed$.pipe(
+								take(1),
+								filter((result) => Boolean(result))
+							)
+							.subscribe(async () => {
+								await this._routerService.navigateByUrl(
+									CLIENT_ROUTES.CONNECT_TO_ORDER.absolutePath.replace(PLACE_ID, placeId)
+								);
+							});
+					}
 				}
-
-				const order = orderResult.data.createOrder;
-
-				await this._ordersService.setActiveOrderId(order.id);
-
-				await this._routerService.navigateByUrl(CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, placeId));
-			});
+			);
 	}
 
 	ngOnDestroy() {
