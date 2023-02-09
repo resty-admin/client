@@ -9,6 +9,7 @@ query PaymentTypePage($orderId: String!) {
 			}
 			attributesToProduct {
 				id
+				count
 				attribute {
 					id
 					price
