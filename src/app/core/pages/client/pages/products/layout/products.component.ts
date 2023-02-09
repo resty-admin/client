@@ -103,7 +103,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
 				this._actionsService.setAction({
 					original: true,
-					label: `Добавить на ${price}грн`,
+					label: `Додати на ${price}грн`,
 					disabled: productsToOrder.length === 0,
 					func: () =>
 						this._routerService.navigateByUrl(

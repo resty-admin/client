@@ -106,7 +106,7 @@ export class ConfirmProductsComponent implements OnInit, OnDestroy {
 
 				this._actionsService.setAction({
 					original: true,
-					label: `Подтвердить на ${price}грн`,
+					label: `Підтвердити на ${price}грн`,
 					disabled: productsToOrder.length === 0,
 					func: () => {
 						this._ordersService.activeOrderId$

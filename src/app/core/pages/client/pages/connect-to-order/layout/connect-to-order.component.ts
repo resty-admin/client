@@ -8,7 +8,7 @@ import { ORDER_ID } from "@shared/constants";
 import { CLIENT_ROUTES } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
-import { filter, map, switchMap, take } from "rxjs";
+import { filter, map, of, switchMap, take } from "rxjs";
 
 @UntilDestroy()
 @Component({
@@ -45,15 +45,18 @@ export class ConnectToOrderComponent implements OnInit, OnDestroy {
 							filter((result) => Boolean(result)),
 							switchMap((order) =>
 								this._ordersService.productsToOrders$.pipe(
+									take(1),
 									switchMap((productsToOrder) =>
-										this._ordersService.confirmProductsToOrders(
-											productsToOrder.map((productToOrder) => ({
-												productId: productToOrder.productId,
-												count: productToOrder.count,
-												attributesIds: Object.values(productToOrder.attributesIds).flat(),
-												orderId: order!.id
-											}))
-										)
+										productsToOrder.length > 0
+											? this._ordersService.confirmProductsToOrders(
+													productsToOrder.map((productToOrder) => ({
+														productId: productToOrder.productId,
+														count: productToOrder.count,
+														attributesIds: Object.values(productToOrder.attributesIds).flat(),
+														orderId: order!.id
+													}))
+											  )
+											: of(null)
 									),
 									map(() => order)
 								)

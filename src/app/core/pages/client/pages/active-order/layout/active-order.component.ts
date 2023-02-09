@@ -184,7 +184,7 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 
 			this._actionsService.setAction({
 				original: true,
-				label: `К оплате: ${price}`,
+				label: `До сплати: ${price}грн`,
 				disabled: this.selectedProductsToOrders.length === 0,
 				func: () =>
 					this._routerService.navigate([CLIENT_ROUTES.PAYMENT_TYPE.absolutePath.replace(ORDER_ID, orderId)], {
