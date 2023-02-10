@@ -63,6 +63,16 @@ export class MultipleCheckboxComponent extends ControlValueAccessor<string[]> im
 		super.ngOnChanges(changes);
 	}
 
+	override setDisabledState(isDisabled: boolean) {
+		super.setDisabledState(isDisabled);
+
+		if (isDisabled) {
+			this.formGroup.disable();
+		} else {
+			this.formGroup.enable();
+		}
+	}
+
 	override writeValue(value: string[]) {
 		this.formGroup.patchValue(
 			(value || []).reduce((pre, curr) => ({ ...pre, [curr]: true }), {}),

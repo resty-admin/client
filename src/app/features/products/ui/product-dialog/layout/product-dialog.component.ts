@@ -40,6 +40,7 @@ export class ProductDialogComponent implements OnInit {
 		this.count = productToOrder?.count || 0;
 
 		this.calculatePrice();
+		this.refreshDisableStatus();
 
 		this.isEdit = Boolean(productToOrder);
 	}
@@ -57,14 +58,24 @@ export class ProductDialogComponent implements OnInit {
 		this.totalPrice = this.count * (this.product?.price || 0) + attributesPrice;
 	}
 
+	refreshDisableStatus() {
+		if (this.count) {
+			this.formGroup.enable();
+		} else {
+			this.formGroup.disable();
+		}
+	}
+
 	removeProductFromOrder() {
 		this.count -= 1;
 		this.calculatePrice();
+		this.refreshDisableStatus();
 	}
 
 	addProductToOrder() {
 		this.count += 1;
 		this.calculatePrice();
+		this.refreshDisableStatus();
 	}
 
 	closeDialog() {

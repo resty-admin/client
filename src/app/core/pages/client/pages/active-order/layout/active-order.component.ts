@@ -125,9 +125,12 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 		this.activeOrder$.pipe(take(1)).subscribe((activeOrder) => {
 			this.selectedProductsToOrders = (activeOrder?.productsToOrders || [])
 				.filter(
-					(productToOrder: any) => usersIds.includes(productToOrder.user.id) && productToOrder.paidStatus !== "PAID"
+					(productToOrder) =>
+						usersIds.includes(productToOrder.user.id) &&
+						productToOrder.paidStatus !== ProductToOrderPaidStatusEnum.Paid &&
+						productToOrder.status !== ProductToOrderStatusEnum.WaitingForApprove
 				)
-				.map((productToOrder: any) => productToOrder.id);
+				.map((productToOrder) => productToOrder.id);
 
 			this.setAction();
 		});
@@ -136,13 +139,15 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 	setSelectedProductsToOrders(productsToOrdersIds: string[]) {
 		this.activeOrder$.pipe(take(1)).subscribe((activeOrder) => {
 			const productsByUser = (activeOrder?.users || []).reduce(
-				(usersMap: any, user: any) => ({
+				(usersMap, user) => ({
 					...usersMap,
 					[user.id]: (activeOrder?.productsToOrders || [])
 						.filter((productToOrder: any) => productToOrder.user.id === user.id)
 						.every(
-							(productToOrder: any) =>
-								productsToOrdersIds.includes(productToOrder.id) && productToOrder.paidStatus === "NOT_PAID"
+							(productToOrder) =>
+								productsToOrdersIds.includes(productToOrder.id) &&
+								productToOrder.paidStatus === ProductToOrderPaidStatusEnum.NotPaid &&
+								productToOrder.status !== ProductToOrderStatusEnum.WaitingForApprove
 						)
 				}),
 				{}

@@ -8,7 +8,7 @@
 		(productCLicked)="emitProductClicked($event)"
 	></app-product-without-attributes>
 
-	<ul class="products-with-attributes">
+	<ul class="products-with-attributes" *ngIf="productsWithAttributes.length">
 		<li class="product-with-attributes" *ngFor="let productWithAttributes of productsWithAttributes">
 			<app-product-with-attributes
 				[product]="product"
