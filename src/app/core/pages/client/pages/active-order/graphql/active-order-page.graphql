@@ -5,7 +5,6 @@ query ActiveOrderPage($orderId: String!) {
 		type
 		status
 		totalPrice
-		tableStatus
 		startDate
 		users {
 			id

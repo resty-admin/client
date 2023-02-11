@@ -15,5 +15,5 @@ export interface IOrderInfo {
 		};
 	} | null;
 	startDate: ActiveOrderEntity["startDate"];
-	tableStatus: ActiveOrderEntity["tableStatus"];
+	status: ActiveOrderEntity["status"];
 }

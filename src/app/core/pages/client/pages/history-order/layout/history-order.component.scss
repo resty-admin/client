@@ -2,6 +2,7 @@
 
 @include page() {
 	.history-order {
+		@include pagePadding();
 		.image {
 			height: rem(200);
 		}

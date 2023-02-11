@@ -6,10 +6,9 @@ import { CommandsDialogComponent, CommandsService } from "@features/commands";
 import { CancelConfirmationComponent, OrdersService } from "@features/orders";
 import { CloseConfirmationComponent } from "@features/orders/ui";
 import type { ActiveOrderEntity } from "@graphql";
-import { ProductToOrderPaidStatusEnum, ProductToOrderStatusEnum } from "@graphql";
+import { OrdersEvents, ProductToOrderPaidStatusEnum, ProductToOrderStatusEnum } from "@graphql";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { CLIENT_ROUTES, ORDER_ID, PLACE_ID } from "@shared/constants";
-import { OrdersEvents } from "@shared/enums";
 import type { DeepPartial } from "@shared/interfaces";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
@@ -101,7 +100,16 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 				data: dayjs(data),
 				windowClass: "ios-datepicker-dialog"
 			})
-			.afterClosed$.pipe(take(1))
+			.afterClosed$.pipe(
+				take(1),
+				filter((date) => Boolean(date)),
+				switchMap((startDate) =>
+					this._ordersService.updateOrder({
+						id: this._routerService.getParams(ORDER_ID.slice(1)),
+						startDate
+					})
+				)
+			)
 			.subscribe();
 	}
 

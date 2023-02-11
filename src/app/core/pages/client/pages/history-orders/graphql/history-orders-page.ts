@@ -4,7 +4,6 @@ import * as Apollo from "apollo-angular";
 
 import type * as Types from "../../../../../../../graphql";
 export type HistoryOrdersPageQueryVariables = Types.Exact<{
-	placeId: Types.Scalars["String"];
 	skip?: Types.InputMaybe<Types.Scalars["Int"]>;
 	take?: Types.InputMaybe<Types.Scalars["Int"]>;
 	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
@@ -12,10 +11,8 @@ export type HistoryOrdersPageQueryVariables = Types.Exact<{
 
 export interface HistoryOrdersPageQuery {
 	__typename?: "Query";
-	historyOrders: {
+	clientHistoryOrders: {
 		__typename?: "PaginatedHistoryOrder";
-		page: number;
-		totalCount: number;
 		data?:
 			| {
 					__typename?: "HistoryOrderEntity";
@@ -30,8 +27,8 @@ export interface HistoryOrdersPageQuery {
 }
 
 export const HistoryOrdersPageDocument = gql`
-	query HistoryOrdersPage($placeId: String!, $skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) {
-		historyOrders(placeId: $placeId, skip: $skip, take: $take, filtersArgs: $filtersArgs) {
+	query HistoryOrdersPage($skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) {
+		clientHistoryOrders(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
 			data {
 				id
 				totalPrice
@@ -42,8 +39,6 @@ export const HistoryOrdersPageDocument = gql`
 					name
 				}
 			}
-			page
-			totalCount
 		}
 	}
 `;

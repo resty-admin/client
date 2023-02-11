@@ -1,7 +1,7 @@
 <ng-container *transloco="let t">
 	<div class="preview-order" [class.active]="isActive" *ngIf="order">
 		<span class="name">{{ t("PREVIEW_ORDER.ORDER") }} {{ order.code || order.orderNumber }}</span>
-		<span class="sum">{{ order.totalPrice }}</span>
+		<span class="sum">{{ order.totalPrice | price }}{{ t("FORM.CURRENCY") }}</span>
 		<div class="type">
 			<app-icon class="icon" name="to-go"></app-icon>
 			<span class="text">{{ t("CREATE_ORDER." + order.type) }}</span>
