@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
 import { CloseConfirmationComponent } from "@features/orders";
+import { ProductToOrderPaidStatusEnum } from "@graphql";
 import { CLIENT_ROUTES, ORDER_ID } from "@shared/constants";
 import { PaymentStatus } from "@shared/enums";
 import { RouterService } from "@shared/modules/router";
@@ -21,9 +22,14 @@ export class PaymentStatusComponent implements OnInit, OnDestroy {
 	paymentStatus: PaymentStatus = PaymentStatus.SUCCESS;
 
 	private readonly _paymentStatusPageQuery = this._paymentStatusPageGQL.watch();
-	order$ = this._paymentStatusPageQuery.valueChanges.pipe(map((result) => result.data.order));
-
-	isAllPaid = false;
+	isAllPaid$ = this._paymentStatusPageQuery.valueChanges.pipe(
+		map((result) => result.data.order),
+		map((result) =>
+			(result?.productsToOrders || []).every(
+				(productToOrder) => productToOrder.paidStatus === ProductToOrderPaidStatusEnum.Paid
+			)
+		)
+	);
 
 	constructor(
 		private readonly _paymentStatusPageGQL: PaymentStatusPageGQL,
@@ -36,9 +42,6 @@ export class PaymentStatusComponent implements OnInit, OnDestroy {
 	async ngOnInit() {
 		const orderId = this._routerService.getParams(ORDER_ID.slice(1));
 		await this._paymentStatusPageQuery.setVariables({ orderId });
-		// this.isAllPaid = (this.order?.productsToOrders || []).every(
-		// 	(productToOrder) => productToOrder.paidStatus === ProductToOrderPaidStatusEnum.Paid
-		// );
 
 		this._actionsService.setAction({
 			label: "BACK_TO_ORDER",
