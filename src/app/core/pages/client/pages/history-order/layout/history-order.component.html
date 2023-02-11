@@ -1,32 +1,26 @@
 <ng-container *transloco="let t">
-	<div class="active-order" *ngIf="order">
-		<app-preview-place class="place" [place]="order.place"></app-preview-place>
+	<div class="history-order" *ngIf="historyOrder$ | async as historyOrder">
+		<app-preview-place class="place" [place]="historyOrder.place"></app-preview-place>
 
 		<a>
-			<app-preview-table class="table" [table]="order.table"></app-preview-table>
+			<app-preview-table class="table" [table]="historyOrder.table"></app-preview-table>
 		</a>
 
 		<div class="products">
-			<app-users-select [users]="order.users" [formControl]="usersControl"></app-users-select>
+			<app-users-select [users]="historyOrder.users" [formControl]="usersControl"></app-users-select>
 
-			<ul class="users-to-orders-by-type">
-				<li
-					class="user-to-order-by-type"
-					*ngFor="let productToOrderByType of productsToOrdersByType; trackBy: sharedService.trackByFn"
-				>
-					<ng-container *ngIf="productToOrderByType.productsToOrders?.length">
-						<p class="status">{{ productToOrderByType.status }}</p>
-						<ul class="users-to-orders">
-							<li
-								class="user-to-order"
-								*ngFor="let productToOrder of productToOrderByType.productsToOrders; trackBy: sharedService.trackByFn"
-							>
-								<app-product-to-order [productToOrder]="productToOrder"></app-product-to-order>
-							</li>
-						</ul>
-					</ng-container>
-				</li>
-			</ul>
+			<app-products-to-order-select
+				*ngIf="historyOrder.productsToOrders?.length; else noProductsToOrders"
+				class="products-select"
+				[productsToOrders]="historyOrder.productsToOrders"
+			></app-products-to-order-select>
 		</div>
+
+		<ng-template #noProductsToOrders>
+			<div class="no-products-to-orders">
+				<app-image class="image" name="active-order"></app-image>
+				<p class="title">{{ t("ACTIVE_ORDER.NOT_ORDERS") }}</p>
+			</div>
+		</ng-template>
 	</div>
 </ng-container>

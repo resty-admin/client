@@ -17,7 +17,7 @@ export class OrderInfoComponent implements OnChanges {
 	@Output() dateClicked = new EventEmitter<string>();
 	@Input() order?: IOrderInfo | null;
 
-	tableStatus = "";
+	status = "";
 	tableInfo = "";
 	tableLink = "";
 	dateInfo = "";
@@ -27,7 +27,7 @@ export class OrderInfoComponent implements OnChanges {
 			return;
 		}
 
-		const { table, startDate, tableStatus, type, place } = changes.order.currentValue;
+		const { table, startDate, status, type, place } = changes.order.currentValue;
 
 		const dateStatuses = [OrderTypeEnum.Pickup, OrderTypeEnum.Reserve, OrderTypeEnum.Delivery];
 		const tableStauses = new Set([OrderTypeEnum.InPlace, OrderTypeEnum.Reserve]);
@@ -37,7 +37,7 @@ export class OrderInfoComponent implements OnChanges {
 
 		this.tableInfo = tableStauses.has(type) ? tableName || "Выберите стол" : "";
 		this.dateInfo = dateStatuses.includes(type) ? dateName || "Выберите время" : "";
-		this.tableStatus = tableStauses.has(type) ? tableStatus : "";
+		this.status = tableStauses.has(type) ? status : "";
 
 		this.tableLink = table
 			? CLIENT_ROUTES.TABLE.absolutePath
