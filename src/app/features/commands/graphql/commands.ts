@@ -5,7 +5,7 @@ import * as Apollo from "apollo-angular";
 import type * as Types from "../../../../graphql";
 export type EmitCommandMutationVariables = Types.Exact<{
 	commandId: Types.Scalars["String"];
-	tableId: Types.Scalars["String"];
+	orderId: Types.Scalars["String"];
 }>;
 
 export interface EmitCommandMutation {
@@ -14,8 +14,8 @@ export interface EmitCommandMutation {
 }
 
 export const EmitCommandDocument = gql`
-	mutation EmitCommand($commandId: String!, $tableId: String!) {
-		emitCommand(commandId: $commandId, tableId: $tableId)
+	mutation EmitCommand($commandId: String!, $orderId: String!) {
+		emitCommand(commandId: $commandId, orderId: $orderId)
 	}
 `;
 

@@ -5418,7 +5418,7 @@
 								"deprecationReason": null
 							},
 							{
-								"name": "tableId",
+								"name": "orderId",
 								"description": null,
 								"type": {
 									"kind": "NON_NULL",

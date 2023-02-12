@@ -5,7 +5,7 @@ import { EmitCommandGQL } from "@features/commands/graphql";
 export class CommandsService {
 	constructor(private readonly _emitCommandGQL: EmitCommandGQL) {}
 
-	emitCommand(commandId: string, tableId: string) {
-		return this._emitCommandGQL.mutate({ commandId, tableId });
+	emitCommand(commandId: string, orderId: string) {
+		return this._emitCommandGQL.mutate({ commandId, orderId });
 	}
 }

@@ -647,7 +647,7 @@ export interface MutationDeleteUserArgs {
 
 export interface MutationEmitCommandArgs {
 	commandId: Scalars["String"];
-	tableId: Scalars["String"];
+	orderId: Scalars["String"];
 }
 
 export interface MutationForgotPasswordArgs {
