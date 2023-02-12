@@ -30,7 +30,7 @@ export class OrderInfoComponent implements OnChanges {
 		const { table, startDate, status, type, place } = changes.order.currentValue;
 
 		const dateStatuses = [OrderTypeEnum.Pickup, OrderTypeEnum.Reserve, OrderTypeEnum.Delivery];
-		const tableStauses = new Set([OrderTypeEnum.InPlace, OrderTypeEnum.Reserve]);
+		const tableStauses = new Set([OrderTypeEnum.Reserve]);
 
 		const tableName = table ? `${table.hall.name}, ${table.name}` : "";
 		const dateName = startDate ? dayjs(startDate).format("MM.DD.YYYY, HH:mm") : "";
