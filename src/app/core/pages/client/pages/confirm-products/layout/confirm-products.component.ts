@@ -57,8 +57,20 @@ export class ConfirmProductsComponent implements OnInit, OnDestroy {
 
 	async ngOnInit() {
 		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
-		await this._confirmProductsPageQuery.setVariables({
-			filtersArgs: [{ key: "category.place.id", operator: "=", value: placeId }]
+
+		this._ordersService.productsToOrders$.pipe(take(1)).subscribe(async (productsToOrders) => {
+			await this._confirmProductsPageQuery.setVariables({
+				filtersArgs: [
+					{
+						key: "id",
+						operator: "=[]",
+						value: (productsToOrders || [])
+							.reduce((pre, productToOrder) => `${pre}${productToOrder.productId}.`, "")
+							.slice(0, -1)
+					}
+				],
+				take: productsToOrders.length
+			});
 		});
 
 		this._breadcrumbsService.setBreadcrumb({
