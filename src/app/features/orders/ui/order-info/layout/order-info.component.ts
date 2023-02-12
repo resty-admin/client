@@ -1,7 +1,7 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import { OrderTypeEnum } from "@graphql";
-import { CLIENT_ROUTES, HALL_ID, PLACE_ID, TABLE_ID } from "@shared/constants";
+import { CLIENT_ROUTES, DAYJS_DISPLAY_FORMAT, HALL_ID, PLACE_ID, TABLE_ID } from "@shared/constants";
 import type { ISimpleChanges } from "@shared/interfaces";
 import dayjs from "dayjs";
 
@@ -30,10 +30,10 @@ export class OrderInfoComponent implements OnChanges {
 		const { table, startDate, status, type, place } = changes.order.currentValue;
 
 		const dateStatuses = [OrderTypeEnum.Pickup, OrderTypeEnum.Reserve, OrderTypeEnum.Delivery];
-		const tableStauses = new Set([OrderTypeEnum.InPlace, OrderTypeEnum.Reserve]);
+		const tableStauses = new Set([OrderTypeEnum.Reserve]);
 
 		const tableName = table ? `${table.hall.name}, ${table.name}` : "";
-		const dateName = startDate ? dayjs(startDate).format("MM.DD.YYYY, HH:mm") : "";
+		const dateName = startDate ? dayjs(startDate).format(DAYJS_DISPLAY_FORMAT) : "";
 
 		this.tableInfo = tableStauses.has(type) ? tableName || "Выберите стол" : "";
 		this.dateInfo = dateStatuses.includes(type) ? dateName || "Выберите время" : "";

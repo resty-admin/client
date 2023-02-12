@@ -52,7 +52,7 @@ export class HistoryOrderComponent implements OnInit, OnDestroy {
 		});
 
 		this._breadcrumbsService.setBreadcrumb({
-			routerLink: CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, orderId)
+			routerLink: CLIENT_ROUTES.HISTORY_ORDERS.absolutePath
 		});
 	}
 

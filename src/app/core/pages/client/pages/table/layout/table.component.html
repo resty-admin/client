@@ -11,7 +11,7 @@
 				class="datepicker"
 				[label]="t('FORM.DATE_LABEL')"
 				[placeholder]="t('FORM.DATE_PLACEHOLDER')"
-				[value]="(date$ | async)?.format()"
+				[value]="(date$ | async)?.format(dayjsDisplayFormat)"
 				[readonly]="true"
 				(click)="openIosDatepicker()"
 			></app-input>

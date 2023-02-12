@@ -22,8 +22,10 @@ export class PaymentStatusComponent implements OnInit, OnDestroy {
 	paymentStatus: PaymentStatus = PaymentStatus.SUCCESS;
 
 	private readonly _paymentStatusPageQuery = this._paymentStatusPageGQL.watch();
-	isAllPaid$ = this._paymentStatusPageQuery.valueChanges.pipe(
-		map((result) => result.data.order),
+
+	readonly order$ = this._paymentStatusPageQuery.valueChanges.pipe(map((result) => result.data.order));
+
+	isAllPaid$ = this.order$.pipe(
 		map((result) =>
 			(result?.productsToOrders || []).every(
 				(productToOrder) => productToOrder.paidStatus === ProductToOrderPaidStatusEnum.Paid
@@ -50,9 +52,10 @@ export class PaymentStatusComponent implements OnInit, OnDestroy {
 	}
 
 	openCloseConfirmation() {
-		this._dialogService
-			.open(CloseConfirmationComponent, { data: this._routerService.getParams(ORDER_ID.slice(1)) })
-			.afterClosed$.pipe(
+		this.order$
+			.pipe(
+				take(1),
+				switchMap((data) => this._dialogService.open(CloseConfirmationComponent, { data }).afterClosed$),
 				take(1),
 				filter((result) => Boolean(result)),
 				switchMap((result) => this._ordersService.closeOrder(result.id))
