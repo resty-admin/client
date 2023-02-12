@@ -195,8 +195,6 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 					0
 				);
 
-			console.log(this.selectedProductsToOrders);
-
 			this._actionsService.setAction({
 				original: true,
 				label: `До сплати: ${price}грн`,
