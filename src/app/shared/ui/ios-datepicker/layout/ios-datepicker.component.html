@@ -17,7 +17,7 @@
 			[ngStyle]="listItemStyle"
 			*ngFor="let month of months; let index = index; trackBy: sharedService.trackByFn"
 		>
-			<button class="button" (click)="scrollTo(monthsContainer, index)">{{ month }}</button>
+			<button class="button" (click)="scrollTo(monthsContainer, index)">{{ month | titlecase }}</button>
 		</li>
 	</ul>
 

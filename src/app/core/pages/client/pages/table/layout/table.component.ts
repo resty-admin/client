@@ -12,7 +12,7 @@ import { DialogService } from "@shared/ui/dialog";
 import { IosDatepickerDialogComponent } from "@shared/ui/ios-datepicker-dialog";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
-import { BehaviorSubject, catchError, filter, map, of, shareReplay, switchMap, take, tap } from "rxjs";
+import { BehaviorSubject, catchError, filter, map, of, shareReplay, startWith, switchMap, take, tap } from "rxjs";
 
 import type { TablePageQuery } from "../graphql";
 import { IsTableAvailableForReserveGQL, TablePageOrderGQL } from "../graphql";
@@ -68,6 +68,7 @@ export class TableComponent implements OnInit, OnDestroy {
 				tap(() => {
 					this.changeValidationStatus("LOADING");
 				}),
+				startWith(dayjs()),
 				switchMap((date) =>
 					this._isTableAvailableForReserveGQL.watch({ body: { date: date?.format(), tableId } }).valueChanges.pipe(
 						take(1),
