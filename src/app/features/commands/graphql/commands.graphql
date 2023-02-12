@@ -1,0 +1,3 @@
+mutation EmitCommand($commandId: String!, $tableId: String!) {
+	emitCommand(commandId: $commandId, tableId: $tableId)
+}
