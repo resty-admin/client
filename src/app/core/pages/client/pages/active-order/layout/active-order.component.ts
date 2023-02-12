@@ -135,7 +135,7 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 				.filter(
 					(productToOrder) =>
 						usersIds.includes(productToOrder.user.id) &&
-						productToOrder.paidStatus !== ProductToOrderPaidStatusEnum.Paid &&
+						productToOrder.paidStatus === ProductToOrderPaidStatusEnum.NotPaid &&
 						productToOrder.status !== ProductToOrderStatusEnum.WaitingForApprove
 				)
 				.map((productToOrder) => productToOrder.id);
@@ -194,6 +194,8 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 						(curr.attributesToProduct || [])?.reduce((_pre, _curr) => _pre + _curr.attribute.price * _curr.count, 0),
 					0
 				);
+
+			console.log(this.selectedProductsToOrders);
 
 			this._actionsService.setAction({
 				original: true,
