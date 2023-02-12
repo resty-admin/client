@@ -12,7 +12,7 @@ import { DialogService } from "@shared/ui/dialog";
 import { IosDatepickerDialogComponent } from "@shared/ui/ios-datepicker-dialog";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
-import { BehaviorSubject, catchError, filter, map, of, shareReplay, startWith, switchMap, take, tap } from "rxjs";
+import { BehaviorSubject, catchError, filter, map, of, shareReplay, switchMap, take, tap } from "rxjs";
 
 import type { TablePageQuery } from "../graphql";
 import { IsTableAvailableForReserveGQL, TablePageOrderGQL } from "../graphql";
@@ -28,7 +28,7 @@ export type IValidationStatus = "INVALID" | "LOADING" | "VALID";
 })
 export class TableComponent implements OnInit, OnDestroy {
 	table: TablePageQuery["table"] | null = null;
-	private readonly _dateSubject = new BehaviorSubject<Dayjs | undefined>(undefined);
+	private readonly _dateSubject = new BehaviorSubject<Dayjs | undefined>(dayjs());
 	readonly date$ = this._dateSubject.asObservable().pipe(shareReplay({ refCount: true }));
 
 	readonly activeOrder$ = this._ordersService.activeOrderId$.pipe(
@@ -64,11 +64,10 @@ export class TableComponent implements OnInit, OnDestroy {
 
 		this.date$
 			.pipe(
-				filter((date) => Boolean(date) && !dayjs(date).isSame(this.startDate)),
+				filter((date) => !this.startDate || (Boolean(date) && !dayjs(date).isSame(this.startDate))),
 				tap(() => {
 					this.changeValidationStatus("LOADING");
 				}),
-				startWith(dayjs()),
 				switchMap((date) =>
 					this._isTableAvailableForReserveGQL.watch({ body: { date: date?.format(), tableId } }).valueChanges.pipe(
 						take(1),
@@ -82,6 +81,7 @@ export class TableComponent implements OnInit, OnDestroy {
 			});
 
 		this.setAction();
+
 		this._breadcrumbsService.setBreadcrumb({
 			routerLink: CLIENT_ROUTES.HALL.absolutePath.replace(PLACE_ID, placeId).replace(HALL_ID, hallId)
 		});
