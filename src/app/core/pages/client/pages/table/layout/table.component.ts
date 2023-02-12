@@ -5,7 +5,7 @@ import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
 import { OrderTypeEnum } from "@graphql";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { CLIENT_ROUTES, HALL_ID, ORDER_ID, PLACE_ID, TABLE_ID } from "@shared/constants";
+import { CLIENT_ROUTES, DAYJS_DISPLAY_FORMAT, HALL_ID, ORDER_ID, PLACE_ID, TABLE_ID } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { DialogService } from "@shared/ui/dialog";
@@ -27,6 +27,7 @@ export type IValidationStatus = "INVALID" | "LOADING" | "VALID";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableComponent implements OnInit, OnDestroy {
+	readonly dayjsDisplayFormat = DAYJS_DISPLAY_FORMAT;
 	table: TablePageQuery["table"] | null = null;
 	private readonly _dateSubject = new BehaviorSubject<Dayjs | undefined>(dayjs());
 	readonly date$ = this._dateSubject.asObservable().pipe(shareReplay({ refCount: true }));

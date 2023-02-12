@@ -8,7 +8,7 @@ import { CloseConfirmationComponent } from "@features/orders/ui";
 import type { ActiveOrderEntity } from "@graphql";
 import { OrdersEvents, ProductToOrderPaidStatusEnum, ProductToOrderStatusEnum } from "@graphql";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { CLIENT_ROUTES, ORDER_ID, PLACE_ID } from "@shared/constants";
+import { CLIENT_ROUTES, DAYJS_DISPLAY_FORMAT, ORDER_ID, PLACE_ID } from "@shared/constants";
 import type { DeepPartial } from "@shared/interfaces";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
@@ -94,10 +94,10 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 		this.setAction();
 	}
 
-	openIosDatepicker(data: string) {
+	openIosDatepicker(date: string) {
 		this._dialogService
 			.open(IosDatepickerDialogComponent, {
-				data: dayjs(data),
+				data: dayjs(date, DAYJS_DISPLAY_FORMAT),
 				windowClass: "ios-datepicker-dialog"
 			})
 			.afterClosed$.pipe(
