@@ -121,7 +121,7 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 			.afterClosed$.pipe(
 				take(1),
 				filter((commandId) => Boolean(commandId)),
-				switchMap((commandId) => this._commandsService.emitCommand(commandId, order?.table?.id || ""))
+				switchMap((commandId) => this._commandsService.emitCommand(commandId, order?.id || ""))
 			)
 			.subscribe();
 	}
