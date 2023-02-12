@@ -4,12 +4,12 @@
 	.product-to-order {
 		display: grid;
 		grid-template-areas:
-			"image title title paid-status"
-			"image attributes attributes attributes"
-			"divider divider divider divider"
-			"user count count price";
+			"image title title title paid-status"
+			"image attributes attributes attributes attributes"
+			"divider divider divider divider divider"
+			"user user count count price";
 		align-items: start;
-		grid-template-columns: auto auto 1fr auto;
+		grid-template-columns: auto auto auto 1fr auto;
 		border: rem(1) solid transparent;
 		border-radius: rem(16);
 		padding: rem(8);

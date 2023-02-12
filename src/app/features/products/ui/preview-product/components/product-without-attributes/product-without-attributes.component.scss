@@ -14,7 +14,7 @@
 			"image name name"
 			"image description description"
 			"divider divider divider"
-			"price . counter";
+			"price price counter";
 		grid-template-columns: auto 1fr auto;
 
 		.image {
@@ -42,7 +42,7 @@
 			font-size: rem(16);
 			line-height: rem(24);
 			color: var(--primary);
-			justify-self: end;
+			justify-self: start;
 		}
 		.divider {
 			grid-area: divider;

@@ -17,12 +17,12 @@ export class CommandsDialogComponent implements OnInit {
 
 	constructor(private readonly _commandsDialogGQL: CommandsDialogGQL, private readonly _dialogRef: DialogRef) {}
 
-	ngOnInit() {
+	async ngOnInit() {
 		if (!this._dialogRef.data || !this._dialogRef.data.placeId) {
 			return;
 		}
 
-		this._commandsQuery.setVariables({
+		await this._commandsQuery.setVariables({
 			filtersArgs: [
 				{
 					key: "place.id",
