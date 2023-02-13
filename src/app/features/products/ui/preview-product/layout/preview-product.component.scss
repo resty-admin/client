@@ -15,5 +15,8 @@
 }
 @include dark() {
 	.preview-product {
+		.products-with-attributes {
+			border-color: var(--light-b);
+		}
 	}
 }

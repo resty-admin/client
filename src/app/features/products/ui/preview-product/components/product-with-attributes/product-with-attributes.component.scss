@@ -29,7 +29,7 @@
 			font-weight: 400;
 			font-size: rem(12);
 			line-height: rem(16);
-			color: var(--dark);
+			color: var(--dark-t);
 		}
 		.counter {
 			grid-area: counter;
@@ -39,4 +39,12 @@
 	}
 }
 @include dark() {
+	.product-with-attributes {
+		.name {
+			color: var(--light);
+		}
+		.attributes {
+			color: var(--light-t);
+		}
+	}
 }
