@@ -61,8 +61,16 @@
 	}
 }
 @include dark() {
-	.app-multiple-checkbox.theme-1 {
-		.option {
+	.app-multiple-checkbox.theme-1 .option {
+		.input {
+			&:disabled ~ .field {
+				background-color: rgb(255 255 255 / 2%);
+				.label {
+					color: var(--light-d);
+				}
+			}
+		}
+		.field {
 			background-color: var(--dark-grey);
 			.label {
 				color: var(--light);

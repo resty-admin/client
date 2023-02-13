@@ -16,9 +16,11 @@ import { SocketIoService } from "@shared/modules/socket-io";
 import { SharedService } from "@shared/services";
 import { DialogService } from "@shared/ui/dialog";
 import { IosDatepickerDialogComponent } from "@shared/ui/ios-datepicker-dialog";
+import { ToastrService } from "@shared/ui/toastr";
 import dayjs from "dayjs";
 import { filter, map, switchMap, take } from "rxjs";
 
+import { WaitingForConfirmComponent } from "../components";
 import type { ActiveOrderPageQuery } from "../graphql";
 import { ActiveOrderPageGQL } from "../graphql";
 
@@ -50,7 +52,8 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 		private readonly _authService: AuthService,
 		private readonly _dialogService: DialogService,
 		private readonly _commandsService: CommandsService,
-		private readonly _socketIoService: SocketIoService
+		private readonly _socketIoService: SocketIoService,
+		private readonly _toastrService: ToastrService
 	) {}
 
 	async ngOnInit() {
@@ -62,6 +65,17 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 				(result?.productsToOrders || []).filter(
 					(productToOrder) => productToOrder.paidStatus !== ProductToOrderPaidStatusEnum.Paid
 				).length === 0;
+
+			const isWaitingForConfirm = localStorage.getItem("waitingForConfirm");
+
+			if (!isWaitingForConfirm && (result?.productsToOrders || []).length > 0) {
+				this._dialogService
+					.open(WaitingForConfirmComponent)
+					.afterClosed$.pipe(take(1))
+					.subscribe(() => {
+						localStorage.setItem("waitingForConfirm", "true");
+					});
+			}
 		});
 
 		this._ordersService.setActiveOrderId(orderId);
@@ -123,7 +137,9 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 				filter((commandId) => Boolean(commandId)),
 				switchMap((commandId) => this._commandsService.emitCommand(commandId, order?.id || ""))
 			)
-			.subscribe();
+			.subscribe(() => {
+				this._toastrService.success(undefined, { data: { title: "Запит відправлено" } });
+			});
 	}
 
 	setSelectedUsers(usersIds: string[]) {

@@ -1,0 +1,13 @@
+<div class="waiting-for-confirm" *transloco="let t">
+	<h1 appTypography theme="1" class="title">{{ t("WAITING_FOR_CONFIRM.TITLE") }}</h1>
+
+	<div class="time">
+		<app-icon class="icon" name="time"></app-icon>
+	</div>
+
+	<p appTypography theme="1" class="subtitle">{{ t("WAITING_FOR_CONFIRM.SUBTITLE") }}</p>
+
+	<button class="close" appButton theme="1" (click)="closeDialog(false)">
+		{{ t("WAITING_FOR_CONFIRM.CLOSE") }}
+	</button>
+</div>

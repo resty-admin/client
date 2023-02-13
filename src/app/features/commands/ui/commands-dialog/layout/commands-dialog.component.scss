@@ -36,4 +36,10 @@
 	}
 }
 @include dark() {
+	.commands-dialog .commands .command .button {
+		background-color: var(--dark-grey);
+		.name {
+			color: var(--light);
+		}
+	}
 }

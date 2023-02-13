@@ -1,0 +1,66 @@
+@import "/src/assets/scss/abstractions/index";
+
+@include component() {
+	height: 100%;
+	.waiting-for-confirm {
+		height: 100%;
+		display: grid;
+		grid-template-rows: auto auto 1fr auto;
+		padding: rem(57) rem(32) rem(15);
+		row-gap: rem(32);
+
+		.title {
+			text-align: center;
+			width: 100%;
+			white-space: pre-wrap;
+
+			@include desktop() {
+				width: rem(400);
+			}
+		}
+
+		.time {
+			justify-self: center;
+			width: rem(150);
+			height: rem(150);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border-radius: 50%;
+			background-color: var(--light-grey);
+			.icon {
+				width: rem(75);
+				height: rem(75);
+			}
+		}
+
+		.subtitle {
+			font-weight: 400;
+			font-size: rem(20);
+			line-height: rem(32);
+			text-align: center;
+			color: rgb(0 0 0 / 70%);
+		}
+
+		.close {
+			width: 100%;
+		}
+	}
+}
+@include dark() {
+	.waiting-for-confirm {
+		.subtitle {
+			color: rgb(255 255 255 / 70%);
+		}
+		.time {
+			background-color: var(--dark-grey);
+			.icon {
+				@include icon () {
+					path {
+						fill: var(--light);
+					}
+				}
+			}
+		}
+	}
+}
