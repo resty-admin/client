@@ -1,0 +1,90 @@
+@import "/src/assets/scss/abstractions/index";
+
+@include component() {
+	height: 100%;
+	.demo {
+		position: relative;
+		height: 100%;
+		overflow: auto;
+		display: grid;
+		grid-template-rows: auto auto auto auto auto auto auto 1fr auto;
+		padding: rem(57) rem(32) rem(15);
+
+		.title {
+			width: 100%;
+			white-space: pre-wrap;
+
+			@include desktop() {
+				width: rem(400);
+			}
+		}
+
+		.subtitle {
+			font-weight: 500;
+			font-size: rem(16);
+			line-height: rem(24);
+			color: var(--dark);
+			margin-top: rem(16);
+		}
+
+		.last {
+			margin-top: rem(24);
+			font-weight: 400;
+			font-size: rem(20);
+			line-height: rem(32);
+			text-align: center;
+			color: rgb(0 0 0 / 70%);
+		}
+
+		.button {
+			text-align: left;
+			width: 100%;
+			background: var(--light-grey);
+			border-radius: 12px;
+			padding: rem(11) rem(16);
+			background: var(--light-grey);
+			color: var(--dark);
+			font-size: rem(16);
+			line-height: rem(24);
+			&.number {
+				grid-area: number;
+			}
+			&.date {
+				grid-area: date;
+			}
+			&.code {
+				grid-area: code;
+			}
+		}
+
+		.codes {
+			margin-top: rem(8);
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			column-gap: rem(12);
+		}
+
+		.card {
+			align-self: start;
+			margin-top: rem(8);
+			width: 100%;
+			display: grid;
+			grid-template-areas:
+				"number number"
+				"date code";
+			grid-template-columns: auto 1fr;
+			column-gap: rem(12);
+			row-gap: rem(6);
+		}
+
+		.close {
+			width: 100%;
+		}
+	}
+}
+@include dark() {
+	.cancel-confirmation .value {
+		color: var(--light);
+	}
+}

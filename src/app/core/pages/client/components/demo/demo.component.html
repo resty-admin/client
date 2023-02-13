@@ -1,0 +1,22 @@
+<div class="demo" *transloco="let t">
+	<h1 appTypography theme="1" class="title">{{ t("DEMO.TITLE") }}</h1>
+	<p appTypography class="subtitle">{{ t("DEMO.SUBTITLE_1") }}</p>
+	<p appTypography class="subtitle">{{ t("DEMO.SUBTITLE_2") }}</p>
+	<p appTypography class="subtitle">{{ t("DEMO.SUBTITLE_3") }}</p>
+	<p appTypography class="codes">
+		<button class="button" (click)="copy(1001)">1001</button>
+		-
+		<button class="button" (click)="copy(1020)">1020</button>
+	</p>
+	<p appTypography class="subtitle">{{ t("DEMO.SUBTITLE_4") }}</p>
+	<div class="card">
+		<button class="button number" (click)="copy(cardNumber)">{{ cardNumber }}</button>
+		<button class="button date">Будь-яка дата</button>
+		<button class="button code">Будь-який код</button>
+	</div>
+	<p appTypography class="last">{{ t("DEMO.SUBTITLE_5") }}</p>
+
+	<button class="close" appButton theme="1" (click)="closeDialog(false)">
+		{{ t("DEMO.CLOSE") }}
+	</button>
+</div>
