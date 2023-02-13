@@ -8,7 +8,7 @@
 		></app-image>
 
 		<p class="title">{{ productToOrder.product.name }}</p>
-		<p class="attributes">{{ productToOrder.product.description + " " + attributes }}</p>
+		<p class="description">{{ productToOrder.product.description + " " + attributes }}</p>
 
 		<div class="paid-status">
 			<app-icon [class]="'icon' + ' ' + productToOrder.paidStatus" name="paid"></app-icon>

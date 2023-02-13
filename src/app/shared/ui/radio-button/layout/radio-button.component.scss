@@ -112,20 +112,34 @@
 		&.theme-1 {
 			border-color: var(--light-t);
 			.option {
-				.label {
-					border-color: var(--light-b);
-					color: var(--light);
+				.input {
+				}
+				.field {
+					.label {
+						border-color: var(--light-b);
+						color: var(--light);
+					}
 				}
 			}
 		}
 		&.theme-2 {
 			.option {
-				background-color: var(--dark-grey);
-				.label {
-					color: var(--light);
+				.input {
+					&:disabled ~ .field {
+						background-color: rgb(255 255 255 / 2%);
+						.label {
+							color: var(--light-d);
+						}
+					}
 				}
-				.decoration {
-					border-color: var(--light-t);
+				.field {
+					background-color: var(--dark-grey);
+					.label {
+						color: var(--light);
+					}
+					.decoration {
+						background-color: var(--dark);
+					}
 				}
 			}
 		}

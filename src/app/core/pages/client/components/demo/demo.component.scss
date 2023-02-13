@@ -39,10 +39,9 @@
 		.button {
 			text-align: left;
 			width: 100%;
-			background: var(--light-grey);
 			border-radius: 12px;
 			padding: rem(11) rem(16);
-			background: var(--light-grey);
+			background-color: var(--light-grey);
 			color: var(--dark);
 			font-size: rem(16);
 			line-height: rem(24);
@@ -84,7 +83,19 @@
 	}
 }
 @include dark() {
-	.cancel-confirmation .value {
-		color: var(--light);
+	.demo {
+		.title,
+		.subtitle,
+		.button {
+			color: var(--light);
+		}
+
+		.last {
+			color: rgb(255 255 255 / 70%);
+		}
+
+		.button {
+			background-color: var(--dark-grey);
+		}
 	}
 }
