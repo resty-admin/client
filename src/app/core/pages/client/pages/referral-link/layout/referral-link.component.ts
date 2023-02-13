@@ -72,7 +72,7 @@ export class ReferralLinkComponent implements OnInit, OnDestroy {
 	copyCode(code: number) {
 		this._clipboard.copy(code.toString());
 
-		this._toastrService.success(undefined, { data: { title: "COPIED" } });
+		this._toastrService.success(undefined, { data: { title: "Скопійовано" } });
 	}
 
 	ngOnDestroy() {

@@ -8,6 +8,7 @@ import { ORDER_ID } from "@shared/constants";
 import { CLIENT_ROUTES } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
+import { ToastrService } from "@shared/ui/toastr";
 import { filter, map, of, switchMap, take } from "rxjs";
 
 @UntilDestroy()
@@ -24,7 +25,8 @@ export class ConnectToOrderComponent implements OnInit, OnDestroy {
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _actionsService: ActionsService,
-		private readonly _ordersService: OrdersService
+		private readonly _ordersService: OrdersService,
+		private readonly _toastrService: ToastrService
 	) {}
 
 	ngOnInit() {
@@ -62,14 +64,21 @@ export class ConnectToOrderComponent implements OnInit, OnDestroy {
 								)
 							)
 						)
-						.subscribe(async (order) => {
-							await this._ordersService.setActiveOrderId(order!.id);
-							this._ordersService.setProductsToOrders([]);
+						.subscribe(
+							async (order) => {
+								await this._ordersService.setActiveOrderId(order!.id);
+								this._ordersService.setProductsToOrders([]);
 
-							await this._routerService.navigateByUrl(
-								CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, order!.id)
-							);
-						});
+								await this._routerService.navigateByUrl(
+									CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, order!.id)
+								);
+							},
+							() => {
+								this._toastrService.error(undefined, {
+									data: { title: "Замовлення з таким кодом відсутнє" }
+								});
+							}
+						);
 				}
 			});
 		});

@@ -9,6 +9,7 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { CLIENT_ROUTES, ORDER_ID, PLACE_ID } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
+import { ToastrService } from "@shared/ui/toastr";
 import { filter, switchMap, take } from "rxjs";
 
 import { RedirectConfirmationComponent } from "../components";
@@ -30,7 +31,8 @@ export class ConnectToTableComponent implements OnInit, OnDestroy {
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _actionsService: ActionsService,
 		private readonly _ordersService: OrdersService,
-		private readonly _dialogService: DialogService
+		private readonly _dialogService: DialogService,
+		private readonly _toastrService: ToastrService
 	) {}
 
 	ngOnInit() {
@@ -106,6 +108,10 @@ export class ConnectToTableComponent implements OnInit, OnDestroy {
 									CLIENT_ROUTES.CONNECT_TO_ORDER.absolutePath.replace(PLACE_ID, placeId)
 								);
 							});
+					} else {
+						this._toastrService.error(undefined, {
+							data: { title: "Стіл с таким кодом відсутній" }
+						});
 					}
 				}
 			);

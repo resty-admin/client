@@ -1,6 +1,6 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
-import { OrderTypeEnum } from "@graphql";
+import { OrderStatusEnum, OrderTypeEnum } from "@graphql";
 import { CLIENT_ROUTES, DAYJS_DISPLAY_FORMAT, HALL_ID, PLACE_ID, TABLE_ID } from "@shared/constants";
 import type { ISimpleChanges } from "@shared/interfaces";
 import dayjs from "dayjs";
@@ -30,14 +30,14 @@ export class OrderInfoComponent implements OnChanges {
 		const { table, startDate, status, type, place } = changes.order.currentValue;
 
 		const dateStatuses = [OrderTypeEnum.Pickup, OrderTypeEnum.Reserve, OrderTypeEnum.Delivery];
-		const tableStauses = new Set([OrderTypeEnum.Reserve]);
+		const tableStauses = new Set([OrderTypeEnum.Reserve, OrderTypeEnum.InPlace]);
 
 		const tableName = table ? `${table.hall.name}, ${table.name}` : "";
 		const dateName = startDate ? dayjs(startDate).format(DAYJS_DISPLAY_FORMAT) : "";
 
 		this.tableInfo = tableStauses.has(type) ? tableName || "Выберите стол" : "";
 		this.dateInfo = dateStatuses.includes(type) ? dateName || "Выберите время" : "";
-		this.status = tableStauses.has(type) ? status : "";
+		this.status = type !== OrderTypeEnum.InPlace && status !== OrderStatusEnum.Created ? status : "";
 
 		this.tableLink = table
 			? CLIENT_ROUTES.TABLE.absolutePath
