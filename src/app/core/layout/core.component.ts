@@ -90,6 +90,12 @@ export class CoreComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		this._router.events.subscribe((event) => {
+			if (event instanceof NavigationStart) {
+				window.strum("routeChange", event.url);
+			}
+		});
+
 		this.user$.pipe(take(1)).subscribe(async (user) => {
 			if (!user || user.name) {
 				return;
