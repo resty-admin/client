@@ -4,7 +4,7 @@
 	<ul class="order-types">
 		<li
 			[class]="'order-type ' + orderType.image"
-			*ngFor="let orderType of orderTypes; trackBy: sharedService.trackByFn"
+			*ngFor="let orderType of orderTypes$ | async; trackBy: sharedService.trackByFn"
 		>
 			<button class="link" (click)="createOrder(orderType)" [disabled]="orderType.disabled">
 				<app-image class="image" [name]="orderType.image"></app-image>

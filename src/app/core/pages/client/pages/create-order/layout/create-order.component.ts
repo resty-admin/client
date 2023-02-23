@@ -14,7 +14,7 @@ import { SharedService } from "@shared/services";
 import { DialogService } from "@shared/ui/dialog";
 import { filter, map, shareReplay, switchMap, take } from "rxjs";
 
-import { CreateOrderPageGQL } from "../graphql";
+import { CreateOrderPageGQL, CreateOrderPagePlaceGQL } from "../graphql";
 
 @Component({
 	selector: "app-create-order",
@@ -23,9 +23,8 @@ import { CreateOrderPageGQL } from "../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateOrderComponent implements OnInit, OnDestroy {
-	readonly orderTypes = ORDER_TYPES;
-
 	private readonly _createOrderPageQuery = this._createOrderPageGQL.watch();
+	private readonly _createOrderPagePlaceQuery = this._createOrderPagePlaceGQL.watch();
 
 	readonly order$ = this._createOrderPageQuery.valueChanges.pipe(map((result) => result.data.order));
 
@@ -39,6 +38,16 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 		shareReplay({ refCount: true })
 	);
 
+	readonly orderTypes$ = this._createOrderPagePlaceQuery.valueChanges.pipe(
+		map((result) => result.data.place),
+		map((place) =>
+			ORDER_TYPES.map((orderType) => ({
+				...orderType,
+				disabled: !place.a11y[orderType.a11y]
+			}))
+		)
+	);
+
 	constructor(
 		readonly sharedService: SharedService,
 		private readonly _routerService: RouterService,
@@ -47,10 +56,11 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 		private readonly _authService: AuthService,
 		private readonly _actionsService: ActionsService,
 		private readonly _dialogService: DialogService,
-		private readonly _createOrderPageGQL: CreateOrderPageGQL
+		private readonly _createOrderPageGQL: CreateOrderPageGQL,
+		private readonly _createOrderPagePlaceGQL: CreateOrderPagePlaceGQL
 	) {}
 
-	ngOnInit() {
+	async ngOnInit() {
 		this.isConfirm = this._routerService.getQueryParams("from");
 
 		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
@@ -94,6 +104,8 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 
 			this._ordersService.setActiveOrderId(order.data.order?.id);
 		});
+
+		await this._createOrderPagePlaceQuery.setVariables({ placeId });
 	}
 
 	async createOrder({ type, routerLink }: IOrderType) {

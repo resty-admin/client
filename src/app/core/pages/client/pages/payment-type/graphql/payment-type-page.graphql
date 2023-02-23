@@ -17,5 +17,10 @@ query PaymentTypePage($orderId: String!) {
 			}
 			count
 		}
+		place {
+			paymentSystems {
+				id
+			}
+		}
 	}
 }

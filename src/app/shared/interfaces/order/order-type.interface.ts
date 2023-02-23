@@ -6,4 +6,5 @@ export interface IOrderType {
 	image: string;
 	routerLink: string;
 	disabled: boolean;
+	a11y: "booking" | "delivery" | "order" | "takeaway";
 }

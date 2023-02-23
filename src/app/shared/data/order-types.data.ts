@@ -9,27 +9,31 @@ export const ORDER_TYPES: IOrderType[] = [
 		type: OrderTypeEnum.InPlace,
 		image: "in-place",
 		routerLink: CLIENT_ROUTES.CONNECT_TO_TABLE.absolutePath,
-		disabled: false
+		disabled: false,
+		a11y: "order"
 	},
 	{
 		label: "PICKUP",
 		type: OrderTypeEnum.Pickup,
 		image: "to-go",
 		routerLink: CLIENT_ROUTES.REFERRAL_LINK.absolutePath,
-		disabled: false
+		disabled: false,
+		a11y: "takeaway"
 	},
 	{
 		label: "DELIVERY",
 		type: OrderTypeEnum.Delivery,
 		image: "delivery",
 		routerLink: CLIENT_ROUTES.REFERRAL_LINK.absolutePath,
-		disabled: true
+		disabled: false,
+		a11y: "delivery"
 	},
 	{
 		label: "RESERVE",
 		type: OrderTypeEnum.Reserve,
 		image: "booking",
 		routerLink: CLIENT_ROUTES.REFERRAL_LINK.absolutePath,
-		disabled: false
+		disabled: false,
+		a11y: "booking"
 	}
 ];

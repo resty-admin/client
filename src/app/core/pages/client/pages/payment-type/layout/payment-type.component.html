@@ -5,7 +5,12 @@
 
 		<p class="subtitle">{{ t("PAYMENT_TYPE.SUBTITLE") }}</p>
 
-		<app-radio-button class="radio-button" theme="2" [options]="paymentTypes" [formControl]="paymentTypeControl">
+		<app-radio-button
+			class="radio-button"
+			theme="2"
+			[options]="paymentTypes$ | async"
+			[formControl]="paymentTypeControl"
+		>
 			<ng-template #labelTemplate let-option>
 				{{ t("PAYMENT_TYPE." + option.label) }}
 			</ng-template>
