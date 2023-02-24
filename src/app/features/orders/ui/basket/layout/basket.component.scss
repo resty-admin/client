@@ -32,3 +32,13 @@
 		}
 	}
 }
+@include dark() {
+	.basket {
+		.divider {
+			background-color: var(--light-b);
+		}
+		.name {
+			color: var(--light);
+		}
+	}
+}

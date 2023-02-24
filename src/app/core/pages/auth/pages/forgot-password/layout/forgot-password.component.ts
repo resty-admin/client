@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { Validators } from "@angular/forms";
 import type { IAuthType } from "@features/auth/interfaces";
 import { AuthService } from "@features/auth/services";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
@@ -23,8 +24,8 @@ export class ForgotPasswordComponent {
 
 	readonly typeControl = new FormControl<IAuthType>("email");
 	readonly formGroup = this._formBuilder.group<IForgotPassword>({
-		email: "",
-		tel: ""
+		email: ["", Validators.required] as any,
+		tel: ["", Validators.required] as any
 	});
 
 	readonly types: IRadioButtonOption[] = AUTH_TYPES;

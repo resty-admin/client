@@ -13,7 +13,7 @@
 					{{ t("didnt-come") }} <button class="resend">{{ t("AUTH.SEND_AGAIN") }}</button>
 				</p>
 
-				<button appButton theme="1" class="submit">{{ t("AUTH.SEND") }}</button>
+				<button appButton theme="1" class="submit" [disabled]="formGroup.invalid">{{ t("AUTH.SEND") }}</button>
 			</form>
 		</div>
 	</app-card>
