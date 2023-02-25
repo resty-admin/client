@@ -339,8 +339,8 @@ export interface FondyLink {
 }
 
 export interface ForgotPasswordInput {
-	email: Scalars["String"];
-	tel: Scalars["String"];
+	email?: InputMaybe<Scalars["String"]>;
+	tel?: InputMaybe<Scalars["String"]>;
 }
 
 export interface HallEntity {
@@ -374,11 +374,6 @@ export interface HistoryOrderEntity {
 	totalPrice?: Maybe<Scalars["Int"]>;
 	type: OrderTypeEnum;
 	users: Scalars["JSONObject"][];
-}
-
-export interface IsTableAvailableInput {
-	date: Scalars["DateTime"];
-	tableId: Scalars["String"];
 }
 
 export interface LanguageEntity {
@@ -446,6 +441,7 @@ export interface Mutation {
 	rejectProductsInOrder: ProductToOrderEntity[];
 	removeTableFromOrder: ActiveOrderEntity;
 	resetPassword: AccessToken;
+	sendAgain: Scalars["String"];
 	setManualPayForProductsInOrder: ProductToOrderEntity[];
 	setPaidStatusForProductsInOrder: ProductToOrderEntity[];
 	signIn: AccessToken;
@@ -1226,7 +1222,8 @@ export interface QueryHistoryOrdersArgs {
 }
 
 export interface QueryIsTableAvailableForReserveArgs {
-	body: IsTableAvailableInput;
+	date: Scalars["DateTime"];
+	tableId: Scalars["String"];
 }
 
 export interface QueryIsTimeAvailableArgs {

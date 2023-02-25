@@ -3355,13 +3355,9 @@
 						"name": "email",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "String",
-								"ofType": null
-							}
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -3371,13 +3367,9 @@
 						"name": "tel",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "String",
-								"ofType": null
-							}
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -3789,49 +3781,6 @@
 				"description": "The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.",
 				"fields": null,
 				"inputFields": null,
-				"interfaces": null,
-				"enumValues": null,
-				"possibleTypes": null
-			},
-			{
-				"kind": "INPUT_OBJECT",
-				"name": "IsTableAvailableInput",
-				"description": null,
-				"fields": null,
-				"inputFields": [
-					{
-						"name": "date",
-						"description": null,
-						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "DateTime",
-								"ofType": null
-							}
-						},
-						"defaultValue": null,
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
-					{
-						"name": "tableId",
-						"description": null,
-						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "String",
-								"ofType": null
-							}
-						},
-						"defaultValue": null,
-						"isDeprecated": false,
-						"deprecationReason": null
-					}
-				],
 				"interfaces": null,
 				"enumValues": null,
 				"possibleTypes": null
@@ -5693,6 +5642,22 @@
 							"ofType": {
 								"kind": "OBJECT",
 								"name": "AccessToken",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "sendAgain",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
 								"ofType": null
 							}
 						},
@@ -10493,14 +10458,30 @@
 						"description": null,
 						"args": [
 							{
-								"name": "body",
+								"name": "date",
 								"description": null,
 								"type": {
 									"kind": "NON_NULL",
 									"name": null,
 									"ofType": {
-										"kind": "INPUT_OBJECT",
-										"name": "IsTableAvailableInput",
+										"kind": "SCALAR",
+										"name": "DateTime",
+										"ofType": null
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
+								"name": "tableId",
+								"description": null,
+								"type": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "SCALAR",
+										"name": "String",
 										"ofType": null
 									}
 								},

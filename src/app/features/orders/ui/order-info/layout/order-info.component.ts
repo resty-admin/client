@@ -14,13 +14,15 @@ import type { IOrderInfo } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderInfoComponent implements OnChanges {
-	@Output() dateClicked = new EventEmitter<string>();
+	@Output() dateClicked = new EventEmitter<IOrderInfo>();
 	@Input() order?: IOrderInfo | null;
 
 	status = "";
 	tableInfo = "";
 	tableLink = "";
 	dateInfo = "";
+
+	validationStatus?: "INVALID" | "LOADING" | "VALID";
 
 	ngOnChanges(changes: ISimpleChanges<OrderInfoComponent>) {
 		if (!changes.order || !changes.order.currentValue) {
@@ -47,7 +49,11 @@ export class OrderInfoComponent implements OnChanges {
 			: CLIENT_ROUTES.HALLS.absolutePath.replace(PLACE_ID, place.id);
 	}
 
-	emitDateClicked(dateInfo: string) {
-		this.dateClicked.emit(dateInfo);
+	emitDateClicked(order?: IOrderInfo | null) {
+		if (!order) {
+			return;
+		}
+
+		this.dateClicked.emit(order);
 	}
 }

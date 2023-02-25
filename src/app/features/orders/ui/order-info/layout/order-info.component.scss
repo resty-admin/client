@@ -17,10 +17,14 @@
 			.date,
 			.table {
 				display: flex;
+				justify-content: space-between;
+				align-items: flex-end;
 				column-gap: rem(5);
 				background-color: var(--light);
 				overflow: hidden;
 				.link {
+					flex: 1;
+					text-align: left;
 					font-weight: 600;
 					font-size: rem(16);
 					line-height: rem(24);
@@ -28,7 +32,7 @@
 					text-underline-offset: rem(5);
 					color: var(--primary);
 
-					@include noWrap ();
+					@include noWrap();
 				}
 				.name {
 					font-weight: 500;

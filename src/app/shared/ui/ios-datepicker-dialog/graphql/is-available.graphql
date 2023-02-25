@@ -1,0 +1,9 @@
+query isTimeAvailable($date: DateTime!, $placeId: String!) {
+	isTimeAvailable(date: $date, placeId: $placeId)
+}
+
+query IsTableAvailableForReserve($tableId: String!, $date: DateTime!) {
+	isTableAvailableForReserve(tableId: $tableId, date: $date) {
+		id
+	}
+}

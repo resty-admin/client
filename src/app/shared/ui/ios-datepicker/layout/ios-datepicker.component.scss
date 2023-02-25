@@ -19,8 +19,16 @@
 		.active-item {
 			position: absolute;
 			width: 100%;
-			background-color: var(--primary);
 			border-radius: rem(12);
+			&.VALID {
+				background-color: var(--success);
+			}
+			&.INVALID {
+				background-color: var(--danger);
+			}
+			&.LOADING {
+				background-color: var(--primary);
+			}
 		}
 
 		.container {

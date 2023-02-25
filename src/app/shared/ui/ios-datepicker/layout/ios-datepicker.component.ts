@@ -1,5 +1,5 @@
 import type { AfterViewInit } from "@angular/core";
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, ViewChild } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, ViewChild } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { ControlValueAccessor } from "@shared/classes";
@@ -25,6 +25,8 @@ export class IosDatepickerComponent extends ControlValueAccessor<Dayjs> implemen
 	@ViewChild("datesContainer") datesContainer!: ElementRef;
 	@ViewChild("hoursContainer") hoursContainer!: ElementRef;
 	@ViewChild("minutesContainer") minutesContainer!: ElementRef;
+
+	@Input() validationStatus: "INVALID" | "LOADING" | "VALID" = "LOADING";
 
 	isDropdownOpen = false;
 
