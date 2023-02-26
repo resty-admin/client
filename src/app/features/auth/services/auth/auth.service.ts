@@ -8,9 +8,11 @@ import type {
 	UpdateMeInput,
 	UserEntity
 } from "@graphql";
+import { CLIENT_ROUTES } from "@shared/constants";
 import type { LanguagesEnum, ThemeEnum } from "@shared/enums";
 import { CryptoService } from "@shared/modules/crypto";
 import { JwtService } from "@shared/modules/jwt";
+import { RouterService } from "@shared/modules/router";
 import { resetStores } from "@shared/modules/store";
 import type { Observable } from "rxjs";
 import { catchError, map, of, tap } from "rxjs";
@@ -56,8 +58,12 @@ export class AuthService {
 		private readonly _googleGQL: GoogleGQL,
 		private readonly _cryptoService: CryptoService,
 		private readonly _authRepository: AuthRepository,
-		private readonly _jwtService: JwtService
-	) {}
+		private readonly _jwtService: JwtService,
+		private readonly _routerService: RouterService
+	) {
+		// @ts-expect-error
+		window["loginViaTelegram"] = (loginData) => this.loginViaTelegram(loginData);
+	}
 
 	private _getBodyWithEncryptedPassword<T extends { password: string }>(body: T) {
 		return { body: { ...body, password: this._cryptoService.encrypt(body.password) } };
@@ -65,6 +71,12 @@ export class AuthService {
 
 	private _updateAccessToken(): (source$: Observable<string | undefined>) => Observable<string | undefined> {
 		return (source$) => source$.pipe(tap((accessToken) => this.updateAccessToken(accessToken)));
+	}
+
+	private async loginViaTelegram(telegramUser: any) {
+		await this._routerService.navigateByUrl(
+			`${CLIENT_ROUTES.TELEGRAM.absolutePath}#user=${JSON.stringify(telegramUser)}`
+		);
 	}
 
 	async updateAccessToken(accessToken?: string) {
