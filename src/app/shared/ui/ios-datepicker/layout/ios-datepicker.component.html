@@ -1,5 +1,5 @@
 <div class="ios-datepicker" [ngStyle]="wrapperStyle">
-	<div class="active-item" [ngStyle]="activeItemStyle"></div>
+	<div [class]="'active-item' + ' ' + validationStatus" [ngStyle]="activeItemStyle"></div>
 
 	<ul class="list dates" [ngStyle]="listStyle" #datesContainer>
 		<li

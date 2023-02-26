@@ -5,3 +5,10 @@ query CreateOrderPage($orderId: String, $filtersArgs: [FiltersArgsDto!]) {
 		type
 	}
 }
+
+query CreateOrderPagePlace($placeId: String!) {
+	place(id: $placeId) {
+		id
+		a11y
+	}
+}

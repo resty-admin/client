@@ -70,7 +70,7 @@ export class AuthService {
 	async updateAccessToken(accessToken?: string) {
 		this._authRepository.updateAccessToken(accessToken);
 
-		if (this.getMeQuery.getLastResult().errors) {
+		if (this.getMeQuery.getLastError()) {
 			this.getMeQuery.resetLastResults();
 		} else {
 			await this.getMeQuery.refetch();

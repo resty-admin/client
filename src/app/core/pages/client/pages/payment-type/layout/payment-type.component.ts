@@ -22,11 +22,16 @@ import { PaymentTypePageGQL } from "../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaymentTypeComponent implements OnInit, OnDestroy {
-	readonly paymentTypes = PAYMENT_TYPES;
-
 	private readonly _paymentTypePageQuery = this._paymentTypePageGQL.watch();
 
 	readonly order$ = this._paymentTypePageQuery.valueChanges.pipe(map((result) => result.data.order));
+
+	readonly paymentTypes$ = this.order$.pipe(
+		map((result) => [
+			...PAYMENT_TYPES,
+			...((result?.place.paymentSystems || []).length > 0 ? [{ value: PaymentType.CARD, label: `CARD` }] : [])
+		])
+	);
 
 	totalPrice: number = 0;
 

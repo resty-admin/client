@@ -1,5 +1,17 @@
 <div class="ios-datepicker-dialog">
-	<app-ios-datepicker class="ios-datepicker" [formControl]="formControl"></app-ios-datepicker>
+	<app-ios-datepicker
+		class="ios-datepicker"
+		[formControl]="formControl"
+		[validationStatus]="validationStatus"
+	></app-ios-datepicker>
 
-	<button class="button" appButton theme="1" (click)="closeDialog(formControl.value)">Підтвердити</button>
+	<button
+		appButton
+		class="button"
+		theme="1"
+		(click)="closeDialog(formControl.value)"
+		[disabled]="validationStatus !== 'VALID'"
+	>
+		Підтвердити
+	</button>
 </div>

@@ -28,6 +28,10 @@ export interface PaymentTypePageQuery {
 						| null;
 			  }[]
 			| null;
+		place: {
+			__typename?: "PlaceEntity";
+			paymentSystems?: { __typename?: "PlaceToPaymentSystemEntity"; id: string }[] | null;
+		};
 	} | null;
 }
 
@@ -50,6 +54,11 @@ export const PaymentTypePageDocument = gql`
 					}
 				}
 				count
+			}
+			place {
+				paymentSystems {
+					id
+				}
 			}
 		}
 	}

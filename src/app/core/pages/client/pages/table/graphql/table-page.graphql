@@ -15,9 +15,3 @@ query TablePageOrder($orderId: String) {
 		startDate
 	}
 }
-
-query IsTableAvailableForReserve($body: IsTableAvailableInput!) {
-	isTableAvailableForReserve(body: $body) {
-		id
-	}
-}

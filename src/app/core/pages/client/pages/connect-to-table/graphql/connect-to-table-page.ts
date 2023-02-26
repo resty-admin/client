@@ -4,7 +4,7 @@ import * as Apollo from "apollo-angular";
 
 import type * as Types from "../../../../../../../graphql";
 export type ConnectToTablePageMutationVariables = Types.Exact<{
-	code: Types.Scalars["String"];
+	code: Types.Scalars["Float"];
 	placeId: Types.Scalars["String"];
 }>;
 
@@ -14,7 +14,7 @@ export interface ConnectToTablePageMutation {
 }
 
 export const ConnectToTablePageDocument = gql`
-	mutation ConnectToTablePage($code: String!, $placeId: String!) {
+	mutation ConnectToTablePage($code: Float!, $placeId: String!) {
 		getTableByCode(code: $code, placeId: $placeId) {
 			id
 		}

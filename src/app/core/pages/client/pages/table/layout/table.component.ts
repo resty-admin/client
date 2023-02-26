@@ -1,5 +1,5 @@
 import type { OnDestroy, OnInit } from "@angular/core";
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
@@ -12,10 +12,10 @@ import { DialogService } from "@shared/ui/dialog";
 import { IosDatepickerDialogComponent } from "@shared/ui/ios-datepicker-dialog";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
-import { BehaviorSubject, catchError, filter, map, of, shareReplay, switchMap, take, tap } from "rxjs";
+import { BehaviorSubject, filter, map, of, shareReplay, switchMap, take } from "rxjs";
 
 import type { TablePageQuery } from "../graphql";
-import { IsTableAvailableForReserveGQL, TablePageOrderGQL } from "../graphql";
+import { TablePageOrderGQL } from "../graphql";
 
 export type IValidationStatus = "INVALID" | "LOADING" | "VALID";
 
@@ -38,8 +38,6 @@ export class TableComponent implements OnInit, OnDestroy {
 		map((result) => result.data.order)
 	);
 
-	validationStatus?: "INVALID" | "LOADING" | "VALID";
-
 	startDate?: Dayjs;
 
 	constructor(
@@ -49,8 +47,6 @@ export class TableComponent implements OnInit, OnDestroy {
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _ordersService: OrdersService,
 		private readonly _actionsService: ActionsService,
-		private readonly _isTableAvailableForReserveGQL: IsTableAvailableForReserveGQL,
-		private readonly _changeDetectorRef: ChangeDetectorRef,
 		private readonly _dialogService: DialogService
 	) {}
 
@@ -62,24 +58,6 @@ export class TableComponent implements OnInit, OnDestroy {
 		if (!tableId) {
 			return;
 		}
-
-		this.date$
-			.pipe(
-				filter((date) => !this.startDate || (Boolean(date) && !dayjs(date).isSame(this.startDate))),
-				tap(() => {
-					this.changeValidationStatus("LOADING");
-				}),
-				switchMap((date) =>
-					this._isTableAvailableForReserveGQL.watch({ body: { date: date?.format(), tableId } }).valueChanges.pipe(
-						take(1),
-						map(() => true),
-						catchError(() => of(false))
-					)
-				)
-			)
-			.subscribe((isValid) => {
-				this.changeValidationStatus(isValid ? "VALID" : "INVALID");
-			});
 
 		this.setAction();
 
@@ -101,7 +79,7 @@ export class TableComponent implements OnInit, OnDestroy {
 	openIosDatepicker() {
 		this._dialogService
 			.open(IosDatepickerDialogComponent, {
-				data: this._dateSubject.value,
+				data: { place: { id: this._routerService.getParams(PLACE_ID.slice(1)) }, table: this.table },
 				windowClass: "ios-datepicker-dialog"
 			})
 			.afterClosed$.pipe(take(1))
@@ -123,7 +101,7 @@ export class TableComponent implements OnInit, OnDestroy {
 
 		this._actionsService.setAction({
 			label: "CONFIRM",
-			disabled: !this._dateSubject.getValue() || this.validationStatus !== "VALID",
+			disabled: !this._dateSubject.getValue(),
 			func: async () => {
 				this._ordersService.activeOrderId$
 					.pipe(take(1))
@@ -155,12 +133,6 @@ export class TableComponent implements OnInit, OnDestroy {
 					});
 			}
 		});
-	}
-
-	changeValidationStatus(validatinStatus: IValidationStatus) {
-		this.validationStatus = validatinStatus;
-		this.setAction();
-		this._changeDetectorRef.detectChanges();
 	}
 
 	ngOnDestroy() {

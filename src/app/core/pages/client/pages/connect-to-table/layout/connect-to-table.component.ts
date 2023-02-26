@@ -50,15 +50,14 @@ export class ConnectToTableComponent implements OnInit, OnDestroy {
 			this._actionsService.setAction({
 				label: "CONNECT_TO_TABLE",
 				disabled: code?.toString().length !== 4,
-				func: () =>
-					this.connectToTable(this.codeControl.value.toString(), this._routerService.getParams(PLACE_ID.slice(1)))
+				func: () => this.connectToTable(this.codeControl.value, this._routerService.getParams(PLACE_ID.slice(1)))
 			});
 		});
 
 		this.codeControl.setValue(this._routerService.getQueryParams("code"));
 	}
 
-	connectToTable(code: string, placeId: string) {
+	connectToTable(code: number, placeId: string) {
 		this._connectToTablePageGQL
 			.mutate({ code, placeId })
 			.pipe(

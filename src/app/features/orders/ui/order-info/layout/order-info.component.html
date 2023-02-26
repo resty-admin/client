@@ -8,7 +8,7 @@
 		</li>
 		<li class="date" *ngIf="dateInfo">
 			<span class="name">{{ t("ORDER_INFO.DATE") }} </span>
-			<button class="link" (click)="emitDateClicked(dateInfo)">{{ dateInfo }}</button>
+			<button class="link" (click)="emitDateClicked(order)">{{ dateInfo }}</button>
 		</li>
 	</ul>
 </div>
