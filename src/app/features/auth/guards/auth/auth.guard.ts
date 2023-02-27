@@ -18,7 +18,6 @@ export class AuthGuard implements CanActivate {
 
 		return this._authService.me$.pipe(
 			map((user) => {
-				console.log(user);
 				if (user && user.status === UserStatusEnum.Verified) {
 					return true;
 				}
