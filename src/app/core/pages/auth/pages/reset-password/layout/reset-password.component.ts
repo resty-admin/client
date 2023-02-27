@@ -1,9 +1,11 @@
+import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { Validators } from "@angular/forms";
 import type { IAuthType } from "@features/auth/interfaces";
 import { AuthService } from "@features/auth/services";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
-import { CLIENT_ROUTES } from "@shared/constants";
+import { CLIENT_ROUTES, DYNAMIC_TOKEN } from "@shared/constants";
+import { RouterService } from "@shared/modules/router";
 import { take } from "rxjs";
 
 export interface IResetPassword {
@@ -16,7 +18,7 @@ export interface IResetPassword {
 	styleUrls: ["./reset-password.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ResetPasswordComponent {
+export class ResetPasswordComponent implements OnInit {
 	readonly clientRoutes = CLIENT_ROUTES;
 
 	readonly typeControl = new FormControl<IAuthType>("email");
@@ -24,9 +26,24 @@ export class ResetPasswordComponent {
 		password: ["", Validators.required] as any
 	});
 
-	constructor(private readonly _formBuilder: FormBuilder, private readonly _authService: AuthService) {}
+	constructor(
+		private readonly _formBuilder: FormBuilder,
+		private readonly _authService: AuthService,
+		private readonly _routerService: RouterService
+	) {}
+
+	async ngOnInit() {
+		const accessToken = this._routerService.getParams(DYNAMIC_TOKEN.slice(1));
+
+		await this._authService.updateAccessToken(accessToken);
+	}
 
 	resetPassword(body: IResetPassword) {
-		this._authService.resetPassword(body).pipe(take(1)).subscribe();
+		this._authService
+			.resetPassword(body)
+			.pipe(take(1))
+			.subscribe(async () => {
+				await this._routerService.navigateByUrl(CLIENT_ROUTES.SIGN_IN.absolutePath);
+			});
 	}
 }

@@ -15,7 +15,7 @@ import { JwtService } from "@shared/modules/jwt";
 import { RouterService } from "@shared/modules/router";
 import { resetStores } from "@shared/modules/store";
 import type { Observable } from "rxjs";
-import { catchError, map, of, tap } from "rxjs";
+import { catchError, map, of, switchMap } from "rxjs";
 
 import {
 	DeleteMeGQL,
@@ -23,6 +23,7 @@ import {
 	GetMeGQL,
 	GoogleGQL,
 	ResetPasswordGQL,
+	SendAgainGQL,
 	SignInGQL,
 	SignUpGQL,
 	TelegramGQL,
@@ -59,7 +60,8 @@ export class AuthService {
 		private readonly _cryptoService: CryptoService,
 		private readonly _authRepository: AuthRepository,
 		private readonly _jwtService: JwtService,
-		private readonly _routerService: RouterService
+		private readonly _routerService: RouterService,
+		private readonly _sendAgainGQL: SendAgainGQL
 	) {
 		// @ts-expect-error
 		window["loginViaTelegram"] = (loginData) => this.loginViaTelegram(loginData);
@@ -70,7 +72,11 @@ export class AuthService {
 	}
 
 	private _updateAccessToken(): (source$: Observable<string | undefined>) => Observable<string | undefined> {
-		return (source$) => source$.pipe(tap((accessToken) => this.updateAccessToken(accessToken)));
+		return (source$) =>
+			source$.pipe(
+				switchMap((accessToken) => this.updateAccessToken(accessToken)),
+				map((result) => result.data.getMe.accessToken)
+			);
 	}
 
 	private async loginViaTelegram(telegramUser: any) {
@@ -79,14 +85,13 @@ export class AuthService {
 		);
 	}
 
-	async updateAccessToken(accessToken?: string) {
+	updateAccessToken(accessToken?: string) {
 		this._authRepository.updateAccessToken(accessToken);
 
 		if (this.getMeQuery.getLastError()) {
 			this.getMeQuery.resetLastResults();
-		} else {
-			await this.getMeQuery.refetch();
 		}
+		return this.getMeQuery.refetch();
 	}
 
 	updateTheme(theme: ThemeEnum) {
@@ -112,7 +117,7 @@ export class AuthService {
 	}
 
 	resetPassword(body: ResetPasswordInput) {
-		return this._resetPasswordGQL.mutate({ body }).pipe(
+		return this._resetPasswordGQL.mutate(this._getBodyWithEncryptedPassword(body)).pipe(
 			map((result) => result.data?.resetPassword.accessToken),
 			this._updateAccessToken()
 		);
@@ -149,6 +154,10 @@ export class AuthService {
 
 	deleteMe() {
 		return this._deleteMeGQL.mutate();
+	}
+
+	sendAgain() {
+		return this._sendAgainGQL.mutate();
 	}
 
 	signOut() {

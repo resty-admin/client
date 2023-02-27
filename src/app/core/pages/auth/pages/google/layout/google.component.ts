@@ -1,9 +1,8 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { AuthService } from "@features/auth/services";
-import { CLIENT_ROUTES } from "@shared/constants";
+import { ACCESS_TOKEN, CLIENT_ROUTES } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
-import { take } from "rxjs";
 
 @Component({
 	selector: "app-google",
@@ -14,14 +13,11 @@ import { take } from "rxjs";
 export class GoogleComponent implements OnInit {
 	constructor(private readonly _routerService: RouterService, private readonly _authService: AuthService) {}
 
-	ngOnInit() {
-		const googleUser = this._routerService.getParams();
+	async ngOnInit() {
+		const accessToken = this._routerService.getParams(ACCESS_TOKEN);
 
-		this._authService
-			.google(googleUser)
-			.pipe(take(1))
-			.subscribe(async () => {
-				await this._routerService.navigateByUrl(CLIENT_ROUTES.CLIENT.absolutePath);
-			});
+		await this._authService.updateAccessToken(accessToken);
+
+		await this._routerService.navigateByUrl(CLIENT_ROUTES.CLIENT.absolutePath);
 	}
 }
