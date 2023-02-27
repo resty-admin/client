@@ -28,7 +28,17 @@ export class TelegramComponent implements OnInit {
 		const telegramUser = JSON.parse(new URLSearchParams(value).get("user") || "");
 
 		this._authService
-			.telegram({ ...telegramUser, role: UserRoleEnum.Client })
+			.telegram({
+				added_to_attachment_menu: telegramUser.added_to_attachment_menu,
+				first_name: telegramUser.first_name,
+				id: telegramUser.id,
+				is_bot: telegramUser.is_bot,
+				is_premium: telegramUser.is_premium,
+				language_code: telegramUser.language_code,
+				last_name: telegramUser.last_name,
+				username: telegramUser.username,
+				role: UserRoleEnum.Client
+			})
 			.pipe(take(1))
 			.subscribe(async () => {
 				await this._routerService.navigateByUrl(CLIENT_ROUTES.CLIENT.absolutePath);

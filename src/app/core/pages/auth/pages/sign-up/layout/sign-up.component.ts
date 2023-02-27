@@ -1,6 +1,7 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { Validators } from "@angular/forms";
+import { environment } from "@env/environment";
 import type { IAuthType } from "@features/auth/interfaces";
 import { AuthService } from "@features/auth/services";
 import { UserRoleEnum } from "@graphql";
@@ -41,6 +42,8 @@ export class SignUpComponent implements OnInit {
 		password: ["", Validators.required] as any,
 		role: UserRoleEnum.Client
 	});
+
+	readonly googleUrl = `${environment.apiUrl}/auth/google`;
 
 	constructor(
 		private readonly _formBuilder: FormBuilder,

@@ -6,10 +6,6 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { routerAnimation } from "@shared/animations";
 import { PLACE_ID } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
-import { DialogService } from "@shared/ui/dialog";
-import { take } from "rxjs";
-
-import { DemoComponent } from "../components";
 
 @UntilDestroy()
 @Component({
@@ -23,8 +19,7 @@ export class ClientComponent implements OnInit {
 	constructor(
 		private readonly _childrenOutletContexts: ChildrenOutletContexts,
 		private readonly _routerService: RouterService,
-		private readonly _ordersService: OrdersService,
-		private readonly _dialogService: DialogService
+		private readonly _ordersService: OrdersService
 	) {}
 
 	getRouteAnimationData() {
@@ -39,17 +34,17 @@ export class ClientComponent implements OnInit {
 				this._ordersService.setActivePlaceId(placeId);
 			});
 
-		const isDemoAlreadyShown = localStorage.getItem("demo");
-
-		if (isDemoAlreadyShown) {
-			return;
-		}
-
-		this._dialogService
-			.open(DemoComponent)
-			.afterClosed$.pipe(take(1))
-			.subscribe(() => {
-				localStorage.setItem("demo", "true");
-			});
+		// const isDemoAlreadyShown = localStorage.getItem("demo");
+		//
+		// if (isDemoAlreadyShown) {
+		// 	return;
+		// }
+		//
+		// this._dialogService
+		// 	.open(DemoComponent)
+		// 	.afterClosed$.pipe(take(1))
+		// 	.subscribe(() => {
+		// 		localStorage.setItem("demo", "true");
+		// 	});
 	}
 }

@@ -32,7 +32,17 @@ export class VerificationCodeComponent implements OnInit {
 	async ngOnInit() {
 		const dynamicToken = this._routerService.getParams(DYNAMIC_TOKEN.slice(1));
 
+		console.log(dynamicToken);
+
+		if (!dynamicToken) {
+			return;
+		}
+
 		await this._authService.updateAccessToken(dynamicToken);
+	}
+
+	sendAgain() {
+		this._authService.sendAgain().pipe(take(1)).subscribe();
 	}
 
 	verifyCode({ verificationCode }: IVerificationCode) {

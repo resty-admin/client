@@ -1437,6 +1437,7 @@ export interface UpdateHallInput {
 export interface UpdateMeInput {
 	email?: InputMaybe<Scalars["String"]>;
 	name?: InputMaybe<Scalars["String"]>;
+	role?: InputMaybe<UserRoleEnum>;
 	tel?: InputMaybe<Scalars["String"]>;
 }
 
