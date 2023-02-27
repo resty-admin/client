@@ -32,8 +32,6 @@ export class VerificationCodeComponent implements OnInit {
 	async ngOnInit() {
 		const dynamicToken = this._routerService.getParams(DYNAMIC_TOKEN.slice(1));
 
-		console.log(dynamicToken);
-
 		if (!dynamicToken) {
 			return;
 		}
