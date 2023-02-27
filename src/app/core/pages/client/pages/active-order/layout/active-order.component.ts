@@ -151,7 +151,7 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 					(productToOrder) =>
 						usersIds.includes(productToOrder.user.id) &&
 						productToOrder.paidStatus === ProductToOrderPaidStatusEnum.NotPaid &&
-						productToOrder.status !== ProductToOrderStatusEnum.WaitingForApprove
+						productToOrder.status === ProductToOrderStatusEnum.Approved
 				)
 				.map((productToOrder) => productToOrder.id);
 
