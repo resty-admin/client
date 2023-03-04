@@ -143,6 +143,7 @@ export interface CategoryEntity {
 	id: Scalars["String"];
 	isHide: Scalars["Boolean"];
 	name: Scalars["String"];
+	orderNumber: Scalars["Int"];
 	place: PlaceEntity;
 	products?: Maybe<ProductEntity[]>;
 }
@@ -152,6 +153,7 @@ export interface CategoryEntityInput {
 	file?: InputMaybe<FileEntityInput>;
 	isHide: Scalars["Boolean"];
 	name: Scalars["String"];
+	orderNumber: Scalars["Int"];
 	place: PlaceEntityInput;
 	products?: InputMaybe<ProductEntityInput[]>;
 }
@@ -244,7 +246,7 @@ export interface CreateCategoryInput {
 }
 
 export interface CreateCommandInput {
-	description: Scalars["String"];
+	description?: InputMaybe<Scalars["String"]>;
 	name: Scalars["String"];
 	place: Scalars["String"];
 }
@@ -264,6 +266,7 @@ export interface CreateOrderInput {
 	comments?: InputMaybe<Scalars["String"]>;
 	place: Scalars["String"];
 	productsToOrder?: InputMaybe<CreateProductToOrderInput[]>;
+	startDate?: InputMaybe<Scalars["DateTime"]>;
 	table?: InputMaybe<Scalars["String"]>;
 	type: OrderTypeEnum;
 }
@@ -350,6 +353,7 @@ export interface HallEntity {
 	id: Scalars["String"];
 	isHide: Scalars["Boolean"];
 	name: Scalars["String"];
+	orderNumber: Scalars["Int"];
 	place: PlaceEntity;
 	tables?: Maybe<TableEntity[]>;
 }
@@ -359,6 +363,7 @@ export interface HallEntityInput {
 	file?: InputMaybe<FileEntityInput>;
 	isHide: Scalars["Boolean"];
 	name: Scalars["String"];
+	orderNumber: Scalars["Int"];
 	place: PlaceEntityInput;
 	tables?: InputMaybe<TableEntityInput[]>;
 }
@@ -1038,6 +1043,7 @@ export interface ProductEntity {
 	id: Scalars["String"];
 	isHide: Scalars["Boolean"];
 	name: Scalars["String"];
+	orderNumber: Scalars["Int"];
 	price: Scalars["Int"];
 }
 
@@ -1049,6 +1055,7 @@ export interface ProductEntityInput {
 	file?: InputMaybe<FileEntityInput>;
 	isHide: Scalars["Boolean"];
 	name: Scalars["String"];
+	orderNumber: Scalars["Int"];
 	price: Scalars["Int"];
 }
 
@@ -1356,6 +1363,7 @@ export interface TableEntity {
 	id: Scalars["String"];
 	isHide: Scalars["Boolean"];
 	name: Scalars["String"];
+	orderNumber: Scalars["Int"];
 	orders?: Maybe<ActiveOrderEntity[]>;
 }
 
@@ -1366,6 +1374,7 @@ export interface TableEntityInput {
 	hall: HallEntityInput;
 	isHide: Scalars["Boolean"];
 	name: Scalars["String"];
+	orderNumber: Scalars["Int"];
 	orders?: InputMaybe<ActiveOrderEntityInput[]>;
 }
 

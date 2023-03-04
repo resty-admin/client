@@ -12,7 +12,8 @@ import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
 import { DialogService } from "@shared/ui/dialog";
-import { filter, map, shareReplay, switchMap, take } from "rxjs";
+import { IosDatepickerDialogComponent } from "@shared/ui/ios-datepicker-dialog";
+import { filter, lastValueFrom, map, shareReplay, switchMap, take } from "rxjs";
 
 import { CreateOrderPageGQL, CreateOrderPagePlaceGQL } from "../graphql";
 
@@ -110,6 +111,7 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 
 	async createOrder({ type, routerLink }: IOrderType) {
 		const result = this._createOrderPageQuery.getLastResult();
+		let startDate = "";
 
 		if (result?.data.order) {
 			this._dialogService
@@ -138,12 +140,28 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 			return;
 		}
 
+		if (type === OrderTypeEnum.Pickup || type === OrderTypeEnum.Delivery) {
+			startDate = await lastValueFrom(
+				this._dialogService
+					.open(IosDatepickerDialogComponent, {
+						data: { place: { id: this._routerService.getParams(PLACE_ID.slice(1)) } },
+						windowClass: "ios-datepicker-dialog"
+					})
+					.afterClosed$.pipe(map((result) => (result ? result.format() : null)))
+			);
+
+			if (!startDate) {
+				return;
+			}
+		}
+
 		this._ordersService.productsToOrders$
 			.pipe(
 				take(1),
 				switchMap((productsToOrder) =>
 					this._ordersService.createOrder({
 						type,
+						startDate,
 						place: this._routerService.getParams(PLACE_ID.slice(1)),
 						productsToOrder: productsToOrder.map((productToOrder) => ({
 							productId: productToOrder.productId,

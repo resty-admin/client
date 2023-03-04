@@ -90,6 +90,8 @@ export class CoreComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		console.log("NEW");
+
 		this._router.events.subscribe((event) => {
 			if (event instanceof NavigationStart) {
 				window.strum("routeChange", event.url);
