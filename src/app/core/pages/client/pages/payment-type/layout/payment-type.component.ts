@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
+import type { ManualPaymentEnum } from "@graphql";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { CLIENT_ROUTES, ORDER_ID } from "@shared/constants";
@@ -35,7 +36,7 @@ export class PaymentTypeComponent implements OnInit, OnDestroy {
 
 	totalPrice: number = 0;
 
-	readonly paymentTypeControl = new FormControl();
+	readonly paymentTypeControl = new FormControl<ManualPaymentEnum | PaymentType>();
 
 	constructor(
 		private readonly _paymentTypePageGQL: PaymentTypePageGQL,
@@ -93,7 +94,7 @@ export class PaymentTypeComponent implements OnInit, OnDestroy {
 							});
 					} else {
 						this._ordersService
-							.setManualPayForProductsInOrderGQL(products)
+							.setManualPayForProductsInOrderGQL(products, type)
 							.pipe(take(1))
 							.subscribe(async () => {
 								await this._routerService.navigateByUrl(

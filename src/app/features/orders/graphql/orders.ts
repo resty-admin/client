@@ -78,6 +78,7 @@ export interface ConfirmProductsToOrdersMutation {
 
 export type SetManualPayForProductsInOrderMutationVariables = Types.Exact<{
 	productToOrderIds: Types.Scalars["String"] | Types.Scalars["String"][];
+	manualPaymentType: Types.ManualPaymentEnum;
 }>;
 
 export interface SetManualPayForProductsInOrderMutation {
@@ -250,8 +251,8 @@ export class ConfirmProductsToOrdersGQL extends Apollo.Mutation<
 	}
 }
 export const SetManualPayForProductsInOrderDocument = gql`
-	mutation SetManualPayForProductsInOrder($productToOrderIds: [String!]!) {
-		setManualPayForProductsInOrder(productToOrderIds: $productToOrderIds) {
+	mutation SetManualPayForProductsInOrder($productToOrderIds: [String!]!, $manualPaymentType: ManualPaymentEnum!) {
+		setManualPayForProductsInOrder(productToOrderIds: $productToOrderIds, manualPaymentType: $manualPaymentType) {
 			id
 		}
 	}

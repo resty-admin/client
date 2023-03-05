@@ -28,7 +28,9 @@ export class OrdersRepository {
 
 	readonly activeOrderId$ = this.store$.pipe(select((state) => state.activeOrderId));
 	readonly activePlaceId$ = this.store$.pipe(select((state) => state.activePlaceId));
-	readonly productsToOrders$ = this.store$.pipe(select((state) => state.productsToOrders));
+	readonly productsToOrders$ = this.store$.pipe(
+		select((state) => state.productsToOrders.filter((productToOrder) => productToOrder.placeId === state.activePlaceId))
+	);
 
 	setActivePlaceId(activePlaceId?: string) {
 		return this._store.update(setProp("activePlaceId", activePlaceId));

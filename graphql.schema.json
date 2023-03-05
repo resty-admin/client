@@ -2758,6 +2758,18 @@
 				"fields": null,
 				"inputFields": [
 					{
+						"name": "a11y",
+						"description": null,
+						"type": {
+							"kind": "SCALAR",
+							"name": "JSONObject",
+							"ofType": null
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "address",
 						"description": null,
 						"type": {
@@ -2830,7 +2842,7 @@
 						"description": null,
 						"type": {
 							"kind": "INPUT_OBJECT",
-							"name": "WorkingHoursInput",
+							"name": "WorkingHoursDto",
 							"ofType": null
 						},
 						"defaultValue": null,
@@ -2842,7 +2854,7 @@
 						"description": null,
 						"type": {
 							"kind": "INPUT_OBJECT",
-							"name": "WorkingHoursInput",
+							"name": "WorkingHoursDto",
 							"ofType": null
 						},
 						"defaultValue": null,
@@ -3752,6 +3764,18 @@
 						"deprecationReason": null
 					},
 					{
+						"name": "startDate",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "SCALAR",
+							"name": "DateTime",
+							"ofType": null
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "status",
 						"description": null,
 						"args": [],
@@ -3951,6 +3975,29 @@
 				"inputFields": null,
 				"interfaces": [],
 				"enumValues": null,
+				"possibleTypes": null
+			},
+			{
+				"kind": "ENUM",
+				"name": "ManualPaymentEnum",
+				"description": null,
+				"fields": null,
+				"inputFields": null,
+				"interfaces": null,
+				"enumValues": [
+					{
+						"name": "CASH",
+						"description": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "TERMINAL",
+						"description": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					}
+				],
 				"possibleTypes": null
 			},
 			{
@@ -5740,6 +5787,22 @@
 						"name": "setManualPayForProductsInOrder",
 						"description": null,
 						"args": [
+							{
+								"name": "manualPaymentType",
+								"description": null,
+								"type": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "ENUM",
+										"name": "ManualPaymentEnum",
+										"ofType": null
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
 							{
 								"name": "productToOrderIds",
 								"description": null,
@@ -8961,6 +9024,12 @@
 						"description": null,
 						"isDeprecated": false,
 						"deprecationReason": null
+					},
+					{
+						"name": "WAITING_FOR_APPROVE",
+						"description": null,
+						"isDeprecated": false,
+						"deprecationReason": null
 					}
 				],
 				"possibleTypes": null
@@ -10481,6 +10550,39 @@
 						"deprecationReason": null
 					},
 					{
+						"name": "historyOrder",
+						"description": null,
+						"args": [
+							{
+								"name": "id",
+								"description": null,
+								"type": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "SCALAR",
+										"name": "String",
+										"ofType": null
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							}
+						],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "OBJECT",
+								"name": "HistoryOrderEntity",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "historyOrders",
 						"description": null,
 						"args": [
@@ -11761,7 +11863,7 @@
 							"name": null,
 							"ofType": {
 								"kind": "SCALAR",
-								"name": "Int",
+								"name": "Float",
 								"ofType": null
 							}
 						},
@@ -11777,7 +11879,7 @@
 							"name": null,
 							"ofType": {
 								"kind": "SCALAR",
-								"name": "Int",
+								"name": "Float",
 								"ofType": null
 							}
 						},
@@ -12873,6 +12975,18 @@
 				"fields": null,
 				"inputFields": [
 					{
+						"name": "a11y",
+						"description": null,
+						"type": {
+							"kind": "SCALAR",
+							"name": "JSONObject",
+							"ofType": null
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "address",
 						"description": null,
 						"type": {
@@ -12941,7 +13055,7 @@
 						"description": null,
 						"type": {
 							"kind": "INPUT_OBJECT",
-							"name": "WorkingHoursInput",
+							"name": "WorkingHoursDto",
 							"ofType": null
 						},
 						"defaultValue": null,
@@ -12953,7 +13067,7 @@
 						"description": null,
 						"type": {
 							"kind": "INPUT_OBJECT",
-							"name": "WorkingHoursInput",
+							"name": "WorkingHoursDto",
 							"ofType": null
 						},
 						"defaultValue": null,
@@ -13930,6 +14044,49 @@
 							"ofType": {
 								"kind": "SCALAR",
 								"name": "String",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					}
+				],
+				"interfaces": null,
+				"enumValues": null,
+				"possibleTypes": null
+			},
+			{
+				"kind": "INPUT_OBJECT",
+				"name": "WorkingHoursDto",
+				"description": null,
+				"fields": null,
+				"inputFields": [
+					{
+						"name": "end",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "Int",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "start",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "Int",
 								"ofType": null
 							}
 						},
