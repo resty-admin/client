@@ -21,13 +21,13 @@
 			width: 100%;
 			border-radius: rem(12);
 			&.VALID {
-				background-color: var(--success);
+				background-color: var(--success-t);
 			}
 			&.INVALID {
-				background-color: var(--danger);
+				background-color: var(--danger-t);
 			}
 			&.LOADING {
-				background-color: var(--primary);
+				background-color: var(--primary-t);
 			}
 		}
 
