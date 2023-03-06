@@ -54,7 +54,7 @@ export class ConnectToTableComponent implements OnInit, OnDestroy {
 			});
 		});
 
-		this.codeControl.setValue(this._routerService.getQueryParams("code"));
+		this.codeControl.setValue(Number.parseInt(this._routerService.getQueryParams("code")));
 	}
 
 	connectToTable(code: number, placeId: string) {
