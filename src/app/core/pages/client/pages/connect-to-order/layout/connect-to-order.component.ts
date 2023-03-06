@@ -83,7 +83,7 @@ export class ConnectToOrderComponent implements OnInit, OnDestroy {
 			});
 		});
 
-		this.codeControl.setValue(this._routerService.getQueryParams("code"));
+		this.codeControl.setValue(Number.parseInt(this._routerService.getQueryParams("code")));
 	}
 
 	ngOnDestroy() {
