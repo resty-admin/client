@@ -29,6 +29,7 @@ kind: Service
 metadata:
   name: prod-client-service
 spec:
+  sessionAffinity: ClientIP
   selector:
     app: prod-client-k8s
   ports:
