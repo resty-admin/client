@@ -65,6 +65,7 @@ export class ConnectToTableComponent implements OnInit, OnDestroy {
 				filter((tableResult: any) => Boolean(tableResult.data)),
 				switchMap((tableResult) =>
 					this._ordersService.productsToOrders$.pipe(
+						take(1),
 						switchMap((productsToOrders) =>
 							this._ordersService.createOrder({
 								table: tableResult.data.getTableByCode.id,
