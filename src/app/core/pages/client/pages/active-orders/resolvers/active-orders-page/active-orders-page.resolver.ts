@@ -12,9 +12,12 @@ export class ActiveOrdersPageResolver implements Resolve<unknown> {
 	resolve() {
 		return this._authService.me$.pipe(
 			switchMap((user) =>
-				this._activeOrdersPageGQL.fetch({
-					filtersArgs: [{ key: "users.id", operator: "=[]", value: user!.id }]
-				})
+				this._activeOrdersPageGQL.fetch(
+					{
+						filtersArgs: [{ key: "users.id", operator: "=[]", value: user!.id }]
+					},
+					{ fetchPolicy: "network-only" }
+				)
 			)
 		);
 	}

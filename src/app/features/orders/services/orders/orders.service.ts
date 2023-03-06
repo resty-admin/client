@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import type { IStoreProductToOrder } from "@features/products";
 import type { ConfirmProductToOrderInput, CreateOrderInput, UpdateOrderInput } from "@graphql";
+import type { ManualPaymentEnum } from "@graphql";
 
 import {
 	AddTableToOrderGQL,
@@ -94,8 +95,8 @@ export class OrdersService {
 		return this._confirmProductsToOrders.mutate({ productsToOrders });
 	}
 
-	setManualPayForProductsInOrderGQL(productToOrderIds: string[]) {
-		return this._setManualPayForProductsInOrderGQL.mutate({ productToOrderIds });
+	setManualPayForProductsInOrderGQL(productToOrderIds: string[], manualPaymentType: ManualPaymentEnum) {
+		return this._setManualPayForProductsInOrderGQL.mutate({ productToOrderIds, manualPaymentType });
 	}
 
 	createPaymentOrderLink(productsToOrders: string[]) {

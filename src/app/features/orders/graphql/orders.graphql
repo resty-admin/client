@@ -42,8 +42,8 @@ mutation ConfirmProductsToOrders($productsToOrders: [ConfirmProductToOrderInput!
 	}
 }
 
-mutation SetManualPayForProductsInOrder($productToOrderIds: [String!]!) {
-	setManualPayForProductsInOrder(productToOrderIds: $productToOrderIds) {
+mutation SetManualPayForProductsInOrder($productToOrderIds: [String!]!, $manualPaymentType: ManualPaymentEnum!) {
+	setManualPayForProductsInOrder(productToOrderIds: $productToOrderIds, manualPaymentType: $manualPaymentType) {
 		id
 	}
 }

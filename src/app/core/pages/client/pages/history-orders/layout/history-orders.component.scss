@@ -28,6 +28,7 @@
 		justify-content: center;
 		align-items: center;
 		.text {
+			text-align: center;
 			font-weight: 400;
 			font-size: rem(20);
 			line-height: rem(32);
@@ -55,6 +56,12 @@
 			.text {
 				color: var(--light);
 			}
+		}
+	}
+
+	.not-orders {
+		.text {
+			color: var(--light-t);
 		}
 	}
 }
