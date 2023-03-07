@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import type { CanActivate } from "@angular/router";
+import type { RouterStateSnapshot } from "@angular/router";
 import type { UserRoleEnum } from "@graphql";
 import { UserStatusEnum } from "@graphql";
 import { CLIENT_ROUTES } from "@shared/constants";
@@ -13,7 +14,7 @@ import { AuthService } from "../../services";
 export class AuthGuard implements CanActivate {
 	constructor(private readonly _authService: AuthService, private readonly _routerService: RouterService) {}
 
-	canActivate(activatedRouteSnapshot: IActivatedRouteSnapshot<{ roles: UserRoleEnum[] }>) {
+	canActivate(activatedRouteSnapshot: IActivatedRouteSnapshot<{ roles: UserRoleEnum[] }>, state: RouterStateSnapshot) {
 		const { fragment, queryParamMap } = activatedRouteSnapshot;
 
 		return this._authService.me$.pipe(
@@ -27,7 +28,14 @@ export class AuthGuard implements CanActivate {
 						? CLIENT_ROUTES.TELEGRAM.absolutePath
 						: CLIENT_ROUTES.SIGN_IN.absolutePath;
 
-				this._routerService.navigate([url], { ...(fragment ? { fragment } : {}) }).then();
+				const redirect = /.*?#/.exec(state.url);
+
+				this._routerService
+					.navigate([url], {
+						...(redirect ? { queryParams: { redirect } } : {}),
+						...(fragment ? { fragment } : {})
+					})
+					.then();
 
 				return false;
 			})

@@ -19,6 +19,9 @@ export class TelegramComponent implements OnInit {
 
 	async ngOnInit() {
 		const value = this._routerService.getFragment();
+		const [redirect] = this._routerService.getQueryParams("redirect") || [];
+
+		console.log(redirect);
 
 		if (!value) {
 			await this._routerService.navigate([CLIENT_ROUTES.SIGN_UP.absolutePath], { queryParamsHandling: "merge" });
@@ -41,7 +44,7 @@ export class TelegramComponent implements OnInit {
 			})
 			.pipe(take(1))
 			.subscribe(async () => {
-				await this._routerService.navigateByUrl(CLIENT_ROUTES.CLIENT.absolutePath);
+				await this._routerService.navigateByUrl(redirect || CLIENT_ROUTES.CLIENT.absolutePath);
 			});
 	}
 }
