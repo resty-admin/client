@@ -25,6 +25,8 @@ import { ConnectToTablePageGQL, GetOrderByIdGQL } from "../graphql";
 export class ConnectToTableComponent implements OnInit, OnDestroy {
 	readonly codeControl = new FormControl<number>();
 
+	menuRouterLink = "";
+
 	constructor(
 		private readonly _connectToTablePageGQL: ConnectToTablePageGQL,
 		private readonly _routerService: RouterService,
@@ -42,6 +44,8 @@ export class ConnectToTableComponent implements OnInit, OnDestroy {
 		if (!placeId) {
 			return;
 		}
+
+		this.menuRouterLink = CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, placeId);
 
 		this._breadcrumbsService.setBreadcrumb({
 			routerLink: CLIENT_ROUTES.CREATE_ORDER.absolutePath.replace(PLACE_ID, placeId)

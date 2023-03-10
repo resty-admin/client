@@ -17,7 +17,7 @@ export class PreviewPlaceComponent implements OnChanges {
 	isOpen: boolean = false;
 
 	ngOnChanges(changes: ISimpleChanges<PreviewPlaceComponent>) {
-		if (!changes.place || !changes.place.currentValue) {
+		if (!changes.place || !changes.place.currentValue || !changes.place.currentValue.weekDays) {
 			return;
 		}
 

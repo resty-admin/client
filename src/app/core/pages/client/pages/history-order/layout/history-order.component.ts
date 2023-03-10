@@ -13,8 +13,6 @@ import { map } from "rxjs";
 
 import { HistoryOrderPageGQL } from "../graphql";
 
-//
-
 @UntilDestroy()
 @Component({
 	selector: "app-history-order",

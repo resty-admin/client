@@ -7,7 +7,7 @@
 		</a>
 
 		<div class="products">
-			<app-users-select [users]="historyOrder.users" [formControl]="usersControl"></app-users-select>
+			<app-users-select [users]="historyOrder.users"></app-users-select>
 
 			<app-products-to-order-select
 				*ngIf="historyOrder.productsToOrders?.length; else noProductsToOrders"
