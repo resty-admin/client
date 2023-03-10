@@ -21,8 +21,6 @@ export class TelegramComponent implements OnInit {
 		const value = this._routerService.getFragment();
 		const [redirect] = this._routerService.getQueryParams("redirect") || [];
 
-		console.log(redirect);
-
 		if (!value) {
 			await this._routerService.navigate([CLIENT_ROUTES.SIGN_UP.absolutePath], { queryParamsHandling: "merge" });
 			return;

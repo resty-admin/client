@@ -22,6 +22,7 @@ export interface ActiveOrdersPageQuery {
 					code: number;
 					totalPrice?: number | null;
 					type: Types.OrderTypeEnum;
+					startDate: any;
 					place: { __typename?: "PlaceEntity"; id: string; name: string };
 			  }[]
 			| null;
@@ -36,6 +37,7 @@ export const ActiveOrdersPageDocument = gql`
 				code
 				totalPrice
 				type
+				startDate
 				place {
 					id
 					name

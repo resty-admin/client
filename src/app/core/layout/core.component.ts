@@ -1,3 +1,5 @@
+import { registerLocaleData } from "@angular/common";
+import localeUk from "@angular/common/locales/uk";
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from "@angular/core";
 import { ChildrenOutletContexts, NavigationStart, Router } from "@angular/router";
@@ -83,7 +85,9 @@ export class CoreComponent implements OnInit {
 		private readonly _childrenOutletContexts: ChildrenOutletContexts,
 		private readonly _i18nService: I18nService,
 		private readonly _themeService: ThemeService
-	) {}
+	) {
+		registerLocaleData(localeUk);
+	}
 
 	getRouteAnimationData() {
 		return this._childrenOutletContexts.getContext("primary")?.route?.snapshot?.data?.["animation"];

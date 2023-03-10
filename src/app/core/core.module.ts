@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { LOCALE_ID, NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { JwtModule } from "@auth0/angular-jwt";
 import { AUTH_PROVIDERS } from "@features/auth";
@@ -86,7 +86,7 @@ import { CoreComponent } from "./layout/core.component";
 		ActionsModule,
 		BasketModule
 	],
-	providers: AUTH_PROVIDERS,
+	providers: [...AUTH_PROVIDERS, { provide: LOCALE_ID, useValue: "uk" }],
 	exports: [CoreComponent]
 })
 export class CoreModule {}

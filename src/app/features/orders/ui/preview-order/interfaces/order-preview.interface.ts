@@ -5,6 +5,8 @@ export interface IOrderPreview {
 	orderNumber?: ActiveOrderEntity["orderNumber"];
 	totalPrice?: ActiveOrderEntity["totalPrice"];
 	type: ActiveOrderEntity["type"];
+
+	startDate?: ActiveOrderEntity["startDate"];
 	place: {
 		id: PlaceEntity["id"];
 		name: PlaceEntity["name"];

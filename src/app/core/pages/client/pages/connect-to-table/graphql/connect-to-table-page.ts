@@ -13,6 +13,19 @@ export interface ConnectToTablePageMutation {
 	getTableByCode: { __typename?: "TableEntity"; id: string };
 }
 
+export type GetOrderByIdQueryVariables = Types.Exact<{
+	id: Types.Scalars["String"];
+}>;
+
+export interface GetOrderByIdQuery {
+	__typename?: "Query";
+	order?: {
+		__typename?: "ActiveOrderEntity";
+		id: string;
+		table?: { __typename?: "TableEntity"; code: number } | null;
+	} | null;
+}
+
 export const ConnectToTablePageDocument = gql`
 	mutation ConnectToTablePage($code: Float!, $placeId: String!) {
 		getTableByCode(code: $code, placeId: $placeId) {
@@ -29,6 +42,27 @@ export class ConnectToTablePageGQL extends Apollo.Mutation<
 	ConnectToTablePageMutationVariables
 > {
 	override document = ConnectToTablePageDocument;
+
+	constructor(apollo: Apollo.Apollo) {
+		super(apollo);
+	}
+}
+export const GetOrderByIdDocument = gql`
+	query getOrderById($id: String!) {
+		order(id: $id) {
+			id
+			table {
+				code
+			}
+		}
+	}
+`;
+
+@Injectable({
+	providedIn: "root"
+})
+export class GetOrderByIdGQL extends Apollo.Query<GetOrderByIdQuery, GetOrderByIdQueryVariables> {
+	override document = GetOrderByIdDocument;
 
 	constructor(apollo: Apollo.Apollo) {
 		super(apollo);

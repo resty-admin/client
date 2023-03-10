@@ -5,6 +5,7 @@ query ActiveOrdersPage($skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) 
 			code
 			totalPrice
 			type
+			startDate
 			place {
 				id
 				name
