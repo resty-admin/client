@@ -63,7 +63,7 @@ export class ConnectToTableComponent implements OnInit, OnDestroy {
 
 		this._ordersService.activeOrderId$
 			.pipe(
-				take(1),
+				untilDestroyed(this),
 				filter((id) => Boolean(id)),
 				switchMap((id) => this._getOrderById.fetch({ id: id! })),
 				take(1)
