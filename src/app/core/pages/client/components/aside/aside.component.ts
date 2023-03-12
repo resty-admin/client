@@ -6,7 +6,7 @@ import { SharedService } from "@shared/services";
 import { DialogService } from "@shared/ui/dialog";
 import { take } from "rxjs";
 
-import { DemoComponent } from "../../pages/client/components";
+import { DemoComponent } from "../demo/demo.component";
 
 @Component({
 	selector: "app-aside",

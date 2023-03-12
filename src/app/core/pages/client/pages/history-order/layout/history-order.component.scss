@@ -3,53 +3,54 @@
 @include page() {
 	.history-order {
 		@include pagePadding();
+		display: grid;
+		row-gap: rem(12);
 		.image {
 			height: rem(200);
 		}
-		.content {
-			display: grid;
-			row-gap: rem(24);
 
-			@include pagePadding();
-			.price {
-				font-size: rem(20);
-				line-height: rem(32);
-				color: var(--primary);
-				justify-self: end;
-			}
-			.place {
-				display: grid;
-				row-gap: rem(12);
-			}
-			.table {
-				display: grid;
-				row-gap: rem(12);
-			}
-			.products {
-				display: grid;
-				row-gap: rem(12);
-				.users-list {
-					display: flex;
-					.user {
-						.button {
-							border: rem(1) solid transparent;
-							padding: rem(5) rem(24);
-							border-radius: rem(12);
-							color: var(--dark);
-							font-weight: 600;
-							font-size: rem(14);
-							line-height: rem(24);
-							&.selected {
-								border-color: var(--primary);
-								color: var(--primary);
-							}
+		.products {
+			display: grid;
+			row-gap: rem(12);
+			.users-list {
+				display: flex;
+				.user {
+					.button {
+						border: rem(1) solid transparent;
+						padding: rem(5) rem(24);
+						border-radius: rem(12);
+						color: var(--dark);
+						font-weight: 600;
+						font-size: rem(14);
+						line-height: rem(24);
+						&.selected {
+							border-color: var(--primary);
+							color: var(--primary);
 						}
 					}
 				}
-				.products-list {
-					display: grid;
-					row-gap: rem(12);
-				}
+			}
+			.products-list {
+				display: grid;
+				row-gap: rem(12);
+			}
+		}
+		.no-products-to-orders {
+			display: grid;
+			justify-content: center;
+			row-gap: rem(12);
+			.image {
+				width: rem(233);
+				height: rem(195);
+				justify-self: center;
+			}
+
+			.title {
+				font-weight: 400;
+				font-size: rem(20);
+				line-height: rem(32);
+				color: var(--dark-t);
+				text-align: center;
 			}
 		}
 	}
