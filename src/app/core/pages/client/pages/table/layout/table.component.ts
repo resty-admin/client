@@ -135,7 +135,9 @@ export class TableComponent implements OnInit, OnDestroy {
 								: this._ordersService
 										.createOrder({
 											place: this._routerService.getParams(PLACE_ID.slice(1)),
-											type: OrderTypeEnum.Reserve
+											type: OrderTypeEnum.Reserve,
+											table: this._routerService.getParams(TABLE_ID.slice(1)),
+											startDate: this._dateSubject.getValue()
 										})
 										.pipe(map((result) => result.data?.createOrder.id))
 						),
