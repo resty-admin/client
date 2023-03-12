@@ -2,12 +2,10 @@
 	<div class="history-order" *ngIf="historyOrder$ | async as historyOrder">
 		<app-preview-place class="place" [place]="historyOrder.place"></app-preview-place>
 
-		<a>
-			<app-preview-table class="table" [table]="historyOrder.table"></app-preview-table>
-		</a>
+		<app-preview-table class="table" [table]="historyOrder.table"></app-preview-table>
 
 		<div class="products">
-			<app-users-select [users]="historyOrder.users"></app-users-select>
+			<app-users-select class="users-select" [users]="historyOrder.users"></app-users-select>
 
 			<app-products-to-order-select
 				*ngIf="historyOrder.productsToOrders?.length; else noProductsToOrders"

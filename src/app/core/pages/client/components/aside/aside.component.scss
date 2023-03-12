@@ -103,7 +103,7 @@
 								color: var(--primary);
 							}
 							.icon {
-								@include icon () {
+								@include icon() {
 									path {
 										fill: var(--primary);
 									}
@@ -113,7 +113,7 @@
 						&.active {
 							background-color: var(--primary);
 							.icon {
-								@include icon () {
+								@include icon() {
 									path {
 										fill: var(--dark);
 									}
@@ -227,7 +227,7 @@
 						color: var(--primary);
 					}
 					.icon {
-						@include icon () {
+						@include icon() {
 							path {
 								fill: var(--primary);
 							}
@@ -237,7 +237,7 @@
 				&.active {
 					background-color: var(--primary);
 					.icon {
-						@include icon () {
+						@include icon() {
 							path {
 								fill: var(--dark);
 							}

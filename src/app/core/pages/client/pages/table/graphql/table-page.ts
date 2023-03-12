@@ -27,6 +27,16 @@ export interface TablePageOrderQuery {
 	order?: { __typename?: "ActiveOrderEntity"; startDate: any } | null;
 }
 
+export type IsTableAvailableForReserveQueryVariables = Types.Exact<{
+	tableId: Types.Scalars["String"];
+	date: Types.Scalars["DateTime"];
+}>;
+
+export interface IsTableAvailableForReserveQuery {
+	__typename?: "Query";
+	isTableAvailableForReserve: { __typename?: "TableEntity"; id: string };
+}
+
 export const TablePageDocument = gql`
 	query TablePage($tableId: String!) {
 		table(id: $tableId) {
@@ -64,6 +74,27 @@ export const TablePageOrderDocument = gql`
 })
 export class TablePageOrderGQL extends Apollo.Query<TablePageOrderQuery, TablePageOrderQueryVariables> {
 	override document = TablePageOrderDocument;
+
+	constructor(apollo: Apollo.Apollo) {
+		super(apollo);
+	}
+}
+export const IsTableAvailableForReserveDocument = gql`
+	query IsTableAvailableForReserve($tableId: String!, $date: DateTime!) {
+		isTableAvailableForReserve(tableId: $tableId, date: $date) {
+			id
+		}
+	}
+`;
+
+@Injectable({
+	providedIn: "root"
+})
+export class IsTableAvailableForReserveGQL extends Apollo.Query<
+	IsTableAvailableForReserveQuery,
+	IsTableAvailableForReserveQueryVariables
+> {
+	override document = IsTableAvailableForReserveDocument;
 
 	constructor(apollo: Apollo.Apollo) {
 		super(apollo);

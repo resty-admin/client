@@ -2,7 +2,7 @@ import type { ActiveOrderEntity, HallEntity, PlaceEntity, TableEntity } from "@g
 
 export interface IOrderPreview {
 	code?: ActiveOrderEntity["code"];
-	orderNumber?: ActiveOrderEntity["orderNumber"];
+	orderNumber?: ActiveOrderEntity["orderNumber"] | null;
 	totalPrice?: ActiveOrderEntity["totalPrice"];
 	type: ActiveOrderEntity["type"];
 

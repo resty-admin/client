@@ -12,7 +12,7 @@ export interface HistoryOrderPageQuery {
 	clientHistoryOrder: {
 		__typename?: "HistoryOrderEntity";
 		id: string;
-		orderNumber: number;
+		orderNumber?: number | null;
 		type: Types.OrderTypeEnum;
 		status: Types.OrderStatusEnum;
 		totalPrice?: number | null;

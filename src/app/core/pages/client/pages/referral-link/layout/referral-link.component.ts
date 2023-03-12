@@ -52,14 +52,16 @@ export class ReferralLinkComponent implements OnInit, OnDestroy {
 				[OrderTypeEnum.Reserve]: CLIENT_ROUTES.HALLS.absolutePath,
 				[OrderTypeEnum.Pickup]: CLIENT_ROUTES.CATEGORIES.absolutePath,
 				[OrderTypeEnum.Delivery]: CLIENT_ROUTES.CATEGORIES.absolutePath,
-				[OrderTypeEnum.InPlace]: CLIENT_ROUTES.CATEGORIES.absolutePath
+				[OrderTypeEnum.InPlace]: CLIENT_ROUTES.CATEGORIES.absolutePath,
+				[OrderTypeEnum.OutOfPlace]: CLIENT_ROUTES.CATEGORIES.absolutePath
 			}[order.type];
 
 			const label = {
 				[OrderTypeEnum.Reserve]: "SELECT_TABLE",
 				[OrderTypeEnum.Pickup]: "SELECT_PRODUCTS",
 				[OrderTypeEnum.Delivery]: "SELECT_PRODUCTS",
-				[OrderTypeEnum.InPlace]: "SELECT_PRODUCTS"
+				[OrderTypeEnum.InPlace]: "SELECT_PRODUCTS",
+				[OrderTypeEnum.OutOfPlace]: "SELECT_PRODUCTS"
 			}[order.type];
 
 			this._actionsService.setAction({
