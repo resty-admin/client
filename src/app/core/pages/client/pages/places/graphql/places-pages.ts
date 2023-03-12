@@ -22,6 +22,7 @@ export interface PlacesPageQuery {
 					name: string;
 					status: Types.PlaceStatusEnum;
 					address?: string | null;
+					weekDays: any;
 					file?: { __typename?: "FileEntity"; id: string; url: string } | null;
 			  }[]
 			| null;
@@ -38,6 +39,7 @@ export const PlacesPageDocument = gql`
 				name
 				status
 				address
+				weekDays
 				file {
 					id
 					url

@@ -3,3 +3,12 @@ mutation ConnectToTablePage($code: Float!, $placeId: String!) {
 		id
 	}
 }
+
+query getOrderById($id: String!) {
+	order(id: $id) {
+		id
+		table {
+			code
+		}
+	}
+}

@@ -19,7 +19,8 @@ export interface HistoryOrdersPageQuery {
 					id: string;
 					totalPrice?: number | null;
 					type: Types.OrderTypeEnum;
-					orderNumber: number;
+					orderNumber?: number | null;
+					startDate?: any | null;
 					place: { __typename?: "PlaceEntity"; id: string; name: string };
 			  }[]
 			| null;
@@ -34,6 +35,7 @@ export const HistoryOrdersPageDocument = gql`
 				totalPrice
 				type
 				orderNumber
+				startDate
 				place {
 					id
 					name

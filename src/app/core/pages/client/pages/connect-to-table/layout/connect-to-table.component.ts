@@ -13,7 +13,7 @@ import { ToastrService } from "@shared/ui/toastr";
 import { filter, switchMap, take } from "rxjs";
 
 import { RedirectConfirmationComponent } from "../components";
-import { ConnectToTablePageGQL } from "../graphql";
+import { ConnectToTablePageGQL, GetOrderByIdGQL } from "../graphql";
 
 @UntilDestroy()
 @Component({
@@ -25,6 +25,8 @@ import { ConnectToTablePageGQL } from "../graphql";
 export class ConnectToTableComponent implements OnInit, OnDestroy {
 	readonly codeControl = new FormControl<number>();
 
+	menuRouterLink = "";
+
 	constructor(
 		private readonly _connectToTablePageGQL: ConnectToTablePageGQL,
 		private readonly _routerService: RouterService,
@@ -32,7 +34,8 @@ export class ConnectToTableComponent implements OnInit, OnDestroy {
 		private readonly _actionsService: ActionsService,
 		private readonly _ordersService: OrdersService,
 		private readonly _dialogService: DialogService,
-		private readonly _toastrService: ToastrService
+		private readonly _toastrService: ToastrService,
+		private readonly _getOrderById: GetOrderByIdGQL
 	) {}
 
 	ngOnInit() {
@@ -41,6 +44,8 @@ export class ConnectToTableComponent implements OnInit, OnDestroy {
 		if (!placeId) {
 			return;
 		}
+
+		this.menuRouterLink = CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, placeId);
 
 		this._breadcrumbsService.setBreadcrumb({
 			routerLink: CLIENT_ROUTES.CREATE_ORDER.absolutePath.replace(PLACE_ID, placeId)
@@ -55,6 +60,21 @@ export class ConnectToTableComponent implements OnInit, OnDestroy {
 		});
 
 		this.codeControl.setValue(Number.parseInt(this._routerService.getQueryParams("code")));
+
+		this._ordersService.activeOrderId$
+			.pipe(
+				take(1),
+				filter((id) => Boolean(id)),
+				switchMap((id) => this._getOrderById.fetch({ id: id! })),
+				take(1)
+			)
+			.subscribe(async (result) => {
+				if (result.data.order?.table?.code === this.codeControl.value) {
+					await this._routerService.navigateByUrl(
+						CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, result.data.order.id)
+					);
+				}
+			});
 	}
 
 	connectToTable(code: number, placeId: string) {
@@ -93,7 +113,9 @@ export class ConnectToTableComponent implements OnInit, OnDestroy {
 					await this._ordersService.setActiveOrderId(order.id);
 					this._ordersService.setProductsToOrders([]);
 
-					await this._routerService.navigateByUrl(CLIENT_ROUTES.ACTIVE_ORDER.absolutePath.replace(ORDER_ID, order.id));
+					await this._routerService.navigateByUrl(
+						CLIENT_ROUTES.CATEGORIES.absolutePath.replace(PLACE_ID, this._routerService.getParams(PLACE_ID.slice(1)))
+					);
 				},
 				(error) => {
 					if (error.message === "1024") {

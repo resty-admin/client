@@ -15,3 +15,9 @@ query TablePageOrder($orderId: String) {
 		startDate
 	}
 }
+
+query IsTableAvailableForReserve($tableId: String!, $date: DateTime!) {
+	isTableAvailableForReserve(tableId: $tableId, date: $date) {
+		id
+	}
+}

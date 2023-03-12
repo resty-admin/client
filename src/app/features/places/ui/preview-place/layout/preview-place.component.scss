@@ -37,7 +37,12 @@
 			font-size: rem(12);
 			line-height: rem(16);
 			text-align: right;
-			color: #009007;
+			&.opened {
+				color: var(--success);
+			}
+			&.closed {
+				color: var(--danger);
+			}
 		}
 		.time,
 		.address {

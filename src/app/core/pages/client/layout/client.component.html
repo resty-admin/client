@@ -1,3 +1,30 @@
 <div class="client" [@routeAnimations]="getRouteAnimationData()">
-	<router-outlet></router-outlet>
+	<app-header
+		[user]="user$ | async"
+		[activeOrder]="activeOrder$ | async"
+		[actions]="profileActions"
+		[isAsideOpen]="isAsideOpen$ | async"
+		[productsToOrders]="productsToOrders$ | async"
+		[activePlaceId]="activePlaceId$ | async"
+		(burgerClicked)="toggleAside()"
+	></app-header>
+
+	<main class="main">
+		<app-aside
+			class="aside"
+			[user]="user$ | async"
+			[activeOrder]="activeOrder$ | async"
+			[class.open]="isAsideOpen$ | async"
+			(closeClicked)="toggleAside()"
+			(signOutClicked)="signOut()"
+		></app-aside>
+
+		<app-navigation-skeleton class="navigation-skeleton">
+			<div class="pages" [@routeAnimations]="getRouteAnimationData()">
+				<router-outlet></router-outlet>
+			</div>
+
+			<app-footer class="footer"></app-footer>
+		</app-navigation-skeleton>
+	</main>
 </div>

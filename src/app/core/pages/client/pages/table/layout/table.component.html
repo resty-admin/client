@@ -5,6 +5,8 @@
 		<div class="content">
 			<p class="label">{{ t("TABLE.CODE") }} {{ table.code }}</p>
 
+			<p class="status" [ngClass]="validationStatus">{{ t("TABLES." + validationStatus) }}</p>
+
 			<app-input
 				appStopPropagation
 				class="datepicker"

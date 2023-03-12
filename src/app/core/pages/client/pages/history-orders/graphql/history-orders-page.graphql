@@ -5,6 +5,7 @@ query HistoryOrdersPage($skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!])
 			totalPrice
 			type
 			orderNumber
+			startDate
 			place {
 				id
 				name

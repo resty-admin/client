@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { LOCALE_ID, NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { JwtModule } from "@auth0/angular-jwt";
 import { AUTH_PROVIDERS } from "@features/auth";
@@ -30,7 +30,6 @@ import { ToastrModule } from "@shared/ui/toastr";
 import { TooltipModule } from "@shared/ui/tooltip";
 import { NgxSkeletonLoaderModule } from "ngx-skeleton-loader";
 
-import { CORE_COMPONENTS } from "./components";
 import {
 	API_CONFIG,
 	APOLLO_CONFIG,
@@ -53,7 +52,7 @@ import { CoreRoutingModule } from "./core-routing.module";
 import { CoreComponent } from "./layout/core.component";
 
 @NgModule({
-	declarations: [CoreComponent, ...CORE_COMPONENTS],
+	declarations: [CoreComponent],
 	imports: [
 		BrowserModule.withServerTransition(BROWSER_MODULE_CONFIG),
 		CoreRoutingModule,
@@ -86,7 +85,7 @@ import { CoreComponent } from "./layout/core.component";
 		ActionsModule,
 		BasketModule
 	],
-	providers: AUTH_PROVIDERS,
+	providers: [...AUTH_PROVIDERS, { provide: LOCALE_ID, useValue: "uk" }],
 	exports: [CoreComponent]
 })
 export class CoreModule {}

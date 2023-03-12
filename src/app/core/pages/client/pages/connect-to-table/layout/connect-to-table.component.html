@@ -5,4 +5,10 @@
 	<app-code-input class="code-input" [formControl]="codeControl"></app-code-input>
 
 	<app-image class="image" name="connect-to-table"></app-image>
+
+	<a class="link menu" [routerLink]="menuRouterLink">
+		<app-image class="image" name="menu-decoration"></app-image>
+		<app-icon class="icon" name="menu"></app-icon>
+		<span class="label">{{ t("CREATE_ORDER.MENU") }}</span>
+	</a>
 </div>
