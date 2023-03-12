@@ -85,14 +85,21 @@ export class TableComponent implements OnInit, OnDestroy {
 				switchMap(() =>
 					this._isTableAvailableForReserveGQL.fetch({
 						tableId: this._routerService.getParams(TABLE_ID.slice(1)),
-						date: this._dateSubject.getValue()
+						date: this._dateSubject.getValue()?.utcOffset(0).format()
 					})
 				)
 			)
-			.subscribe((result) => {
-				this.validationStatus = result.data.isTableAvailableForReserve ? "VALID" : "INVALID";
-				this._changeDetectorRef.detectChanges();
-				this.setAction();
+			.subscribe({
+				next: () => {
+					this.validationStatus = "VALID";
+					this._changeDetectorRef.detectChanges();
+					this.setAction();
+				},
+				error: () => {
+					this.validationStatus = "INVALID";
+					this._changeDetectorRef.detectChanges();
+					this.setAction();
+				}
 			});
 	}
 
@@ -135,7 +142,9 @@ export class TableComponent implements OnInit, OnDestroy {
 								: this._ordersService
 										.createOrder({
 											place: this._routerService.getParams(PLACE_ID.slice(1)),
-											type: OrderTypeEnum.Reserve
+											type: OrderTypeEnum.Reserve,
+											table: this._routerService.getParams(TABLE_ID.slice(1)),
+											startDate: this._dateSubject.getValue()
 										})
 										.pipe(map((result) => result.data?.createOrder.id))
 						),

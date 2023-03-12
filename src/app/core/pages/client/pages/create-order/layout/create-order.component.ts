@@ -146,7 +146,7 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 					data: { place: { id: this._routerService.getParams(PLACE_ID.slice(1)) } },
 					windowClass: "ios-datepicker-dialog"
 				})
-				.afterClosed$.pipe(map((result) => (result ? result.format() : null)))
+				.afterClosed$.pipe(map((result) => (result ? result.utcOffset(0).format() : null)))
 		);
 
 		if (!startDate) {
