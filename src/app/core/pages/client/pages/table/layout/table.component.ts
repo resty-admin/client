@@ -89,16 +89,18 @@ export class TableComponent implements OnInit, OnDestroy {
 					})
 				)
 			)
-			.subscribe(
-				() => {
+			.subscribe({
+				next: () => {
 					this.validationStatus = "VALID";
 					this._changeDetectorRef.detectChanges();
 					this.setAction();
 				},
-				() => {
+				error: () => {
 					this.validationStatus = "INVALID";
+					this._changeDetectorRef.detectChanges();
+					this.setAction();
 				}
-			);
+			});
 	}
 
 	openIosDatepicker() {
