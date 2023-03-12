@@ -85,15 +85,20 @@ export class TableComponent implements OnInit, OnDestroy {
 				switchMap(() =>
 					this._isTableAvailableForReserveGQL.fetch({
 						tableId: this._routerService.getParams(TABLE_ID.slice(1)),
-						date: this._dateSubject.getValue()
+						date: this._dateSubject.getValue()?.utcOffset(0).format()
 					})
 				)
 			)
-			.subscribe((result) => {
-				this.validationStatus = result.data.isTableAvailableForReserve ? "VALID" : "INVALID";
-				this._changeDetectorRef.detectChanges();
-				this.setAction();
-			});
+			.subscribe(
+				() => {
+					this.validationStatus = "VALID";
+					this._changeDetectorRef.detectChanges();
+					this.setAction();
+				},
+				() => {
+					this.validationStatus = "INVALID";
+				}
+			);
 	}
 
 	openIosDatepicker() {

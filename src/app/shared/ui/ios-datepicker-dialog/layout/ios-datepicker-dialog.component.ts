@@ -48,7 +48,7 @@ export class IosDatepickerDialogComponent implements OnInit {
 				filter((date) => Boolean(date)),
 				debounceTime(500),
 				distinctUntilChanged(),
-				map((date) => date.format()),
+				map((date) => date.utcOffset(0).format()),
 				switchMap((date) =>
 					order.table
 						? this._isTableAvailableForReserveGQL

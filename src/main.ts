@@ -6,10 +6,14 @@ import { enableElfProdMode } from "@ngneat/elf";
 import { devTools } from "@ngneat/elf-devtools";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import utc from "dayjs/plugin/utc";
 
 import { AppModule } from "./app/app.module";
 import { environment } from "./environments/environment";
 
+dayjs.extend(utc);
+
+dayjs().utcOffset(0);
 dayjs.locale("uk"); // use locale globally
 dayjs.extend(customParseFormat);
 
